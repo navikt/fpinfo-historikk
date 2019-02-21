@@ -1,8 +1,3 @@
-no.nav.security.oidc:
-    issuers: selvbetjening
-    issuer.selvbetjening:
-      discoveryurl: <Set from FASIT>
-      accepted_audience: <Set from FASIT>
 
 http.proxy : http://webproxy-nais.nav.no:8088
 
