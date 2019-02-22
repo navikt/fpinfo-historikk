@@ -1,12 +1,14 @@
 package no.nav.foreldrepenger.historikk;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
 @SpringBootApplication
+@SpringBootConfiguration
 public class FPInfoApplication {
 
     public static void main(String[] args) {
