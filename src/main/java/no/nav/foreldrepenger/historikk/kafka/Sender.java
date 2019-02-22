@@ -1,4 +1,4 @@
-package no.nav.bris.kafka;
+package no.nav.foreldrepenger.historikk.kafka;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

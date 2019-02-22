@@ -12,8 +12,8 @@ import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import no.nav.bris.kafka.Receiver;
-import no.nav.bris.kafka.Sender;
+import no.nav.foreldrepenger.historikk.kafka.Receiver;
+import no.nav.foreldrepenger.historikk.kafka.Sender;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

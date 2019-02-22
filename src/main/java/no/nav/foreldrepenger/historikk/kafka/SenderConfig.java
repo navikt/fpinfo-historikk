@@ -1,4 +1,4 @@
-package no.nav.bris.kafka;
+package no.nav.foreldrepenger.historikk.kafka;
 
 import java.util.HashMap;
 import java.util.Map;

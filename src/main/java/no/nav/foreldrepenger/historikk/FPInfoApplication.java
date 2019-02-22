@@ -1,4 +1,4 @@
-package no.nav.bris;
+package no.nav.foreldrepenger.historikk;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
