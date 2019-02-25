@@ -9,9 +9,9 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
 @SpringBootApplication
 @SpringBootConfiguration
-public class FPInfoApplication {
+public class FPInfoHistorikkApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FPInfoApplication.class, args);
+        SpringApplication.run(FPInfoHistorikkApplication.class, args);
     }
 }
