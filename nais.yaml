@@ -1,6 +1,6 @@
 name: fpinfo-historikk
 secrets: true
-team: foreldrepenger
+team: teamforeldrepenger
 image: repo.adeo.no:5443/fpinfo-historikk
 replicas:
     min: 2
