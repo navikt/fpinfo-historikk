@@ -1,5 +1,6 @@
 name: fpinfo-historikk
-team: bris
+secrets: true
+team: foreldrepenger
 image: repo.adeo.no:5443/fpinfo-historikk
 replicas:
     min: 2
