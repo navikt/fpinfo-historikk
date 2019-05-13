@@ -23,8 +23,8 @@
     </turboFilter>
  </springProfile>
      <springProfile name="dev,preprod">
-        <logger name="no.nav.security.spring.oidc" level="trace"/>
         <logger name="no.nav.foreldrepenger" level="trace" />
+        <logger name="org.springframework" level="trace" />       
     </springProfile>
 </configuration>
 
