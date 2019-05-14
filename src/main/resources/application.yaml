@@ -15,17 +15,17 @@ management:
 server :
     servlet.context-path :  /api
     use-forward-headers: true
-
-spring :
-    application.name : fpinfo-historikk
-    jackson :
-      default-property-inclusion :  non-absent
-      mapper :
+spring:    
+   application.name : fpinfo-historikk
+   jackson :
+       default-property-inclusion :  non-absent
+       mapper :
          accept-case-insensitive-properties: true
-      deserialization :
+       deserialization :
          accept-single-value-as-array: true
          fail-on-unknown-properties: true
-      serialization :
+       serialization :
          write-empty-json-arrays: false
          fail-on-empty-beans: false
-    main.banner-mode : 'off'
+   main.banner-mode : 'off'
+ 
