@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
@@ -22,10 +23,15 @@ public class VaultConfig implements InitializingBean {
     private HikariDataSource hikariDataSource;
     @Autowired
     private VaultDatabaseProperties properties;
+    @Value("${spring.datasource.username:USER}")
+    private String username;
+    @Value("${spring.datasource.password:PW}")
+    private String password;
     private static final Logger LOG = LoggerFactory.getLogger(VaultConfig.class);
 
     @Override
     public void afterPropertiesSet() {
+        LOG.info("Credentials : {} {}", username, password);
         RequestedSecret secret = RequestedSecret.rotating(properties.getBackend() + "/creds/" + properties.getRole());
         container.addLeaseListener(leaseEvent -> {
             LOG.info("Vault: Lease Event: {}", leaseEvent);
