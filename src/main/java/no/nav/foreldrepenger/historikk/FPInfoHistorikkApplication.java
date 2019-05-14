@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import no.nav.foreldrepenger.historikk.oppslag.VaultUtils;
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
@@ -21,7 +20,7 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 public class FPInfoHistorikkApplication {
     public static void main(String[] args) throws IOException {
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
-                .properties("spring.cloud.vault.token=" + VaultUtils.getToken())
+                // .properties("spring.cloud.vault.token=" + VaultUtils.getToken())
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
     }
