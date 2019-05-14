@@ -1,9 +1,13 @@
 spring :
    cloud.vault:
-       database:
+      host: vault.adeo.no
+      port: 8200
+      scheme: https
+      uri: https://vault.adeo.no:8200
+      database:
            enabled: true
            role: fpinfo-historikk-preprod-admin
            backend: postgresql/preprod-fss
            username-property: spring.datasource.username
            password-property: spring.datasource.password
-       authentication: TOKEN   
+      authentication: TOKEN   
