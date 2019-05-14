@@ -33,7 +33,8 @@ public class OppslagController {
     @GetMapping("/ping")
     @Unprotected
     public String ping(@RequestParam(name = "navn", defaultValue = "jordboer") String navn) throws IOException {
-        LOG.info("Jeg ble pinget");
+        LOG.info("Jeg ble pinget {} {}", System.getenv().getOrDefault("VAULT_TOKEN", "intet token"),
+                System.getenv().getOrDefault("VAULT_TOKEN_PATH", "ingen token path"));
         String token = getToken();
         VaultConfig vaultConfig = null;
         try {
