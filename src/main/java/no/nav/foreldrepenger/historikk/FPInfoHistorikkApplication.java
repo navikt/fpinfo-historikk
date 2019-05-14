@@ -3,6 +3,8 @@ package no.nav.foreldrepenger.historikk;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,9 +21,13 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 @SpringBootApplication
 @SpringBootConfiguration
 public class FPInfoHistorikkApplication {
+    private static final Logger LOG = LoggerFactory.getLogger(FPInfoHistorikkApplication.class);
+
     public static void main(String[] args) throws IOException {
+        String token = VaultUtils.getToken();
+        LOG.info("Token er " + token);
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
-                .properties("spring.cloud.vault.token=" + VaultUtils.getToken())
+                .properties("spring.cloud.vault.token=" + token)
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
     }
