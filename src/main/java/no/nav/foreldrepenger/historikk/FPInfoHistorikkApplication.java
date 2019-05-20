@@ -24,12 +24,15 @@ public class FPInfoHistorikkApplication {
     }
 
     @Bean
-    public HikariDataSource ds(@Value("${spring.datasource.url}") String url) {
-        return new HikariDataSource(hikariConfig(url));
+    public HikariDataSource ds(@Value("${spring.datasource.url}") String url,
+            @Value("${spring.datasource.passwors}") String pw, @Value("${spring.datasource.username}") String un) {
+        return new HikariDataSource(hikariConfig(url, un, pw));
     }
 
-    private HikariConfig hikariConfig(String url) {
+    private HikariConfig hikariConfig(String url, String username, String password) {
         HikariConfig config = new HikariConfig();
+        config.setUsername(username);
+        config.setPassword(password);
         config.setJdbcUrl(url);
         config.setConnectionTimeout(1000);
         config.setMinimumIdle(1);
