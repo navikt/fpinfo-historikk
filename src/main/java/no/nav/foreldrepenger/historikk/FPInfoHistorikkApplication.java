@@ -3,31 +3,24 @@ package no.nav.foreldrepenger.historikk;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import no.nav.foreldrepenger.historikk.oppslag.VaultUtils;
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
 @SpringBootApplication
 @SpringBootConfiguration
 public class FPInfoHistorikkApplication {
-    private static final Logger LOG = LoggerFactory.getLogger(FPInfoHistorikkApplication.class);
-
     public static void main(String[] args) throws IOException {
-        String token = VaultUtils.getToken();
-        LOG.info("Token er " + token);
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
-                .properties("spring.cloud.vault.token=" + token)
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
     }
@@ -35,6 +28,11 @@ public class FPInfoHistorikkApplication {
     @Bean
     public HikariDataSource ds(@Value("${spring.datasource.url}") String url) {
         return new HikariDataSource(hikariConfig(url));
+    }
+
+    @Bean
+    public JdbcTemplate template(HikariDataSource ds) {
+        return new JdbcTemplate(ds);
     }
 
     private HikariConfig hikariConfig(String url) {
