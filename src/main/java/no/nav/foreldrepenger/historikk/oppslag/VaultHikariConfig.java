@@ -24,6 +24,8 @@ public class VaultHikariConfig implements InitializingBean {
     private String vaultPostgresRole;
     private final SecretLeaseContainer container;
     private final HikariDataSource hikariDataSource;
+    @Value("${spring.database.username}")
+    private String username;
 
     public VaultHikariConfig(SecretLeaseContainer container, HikariDataSource hikariDataSource) {
         this.container = container;
