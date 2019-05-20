@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +19,6 @@ import com.zaxxer.hikari.HikariDataSource;
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
 public class VaultHikariConfig implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultConfig.class.getName());
-    @Value("${spring.cloud.vault.database.backend}")
-    private String vaultPostgresBackend;
-    @Value("${spring.cloud.vault.database.role}")
-    private String vaultPostgresRole;
     private final SecretLeaseContainer container;
     private final HikariDataSource hikariDataSource;
     @Autowired
@@ -36,6 +31,8 @@ public class VaultHikariConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        LOGGER.info("Username property {}", properties.getUsernameProperty());
+        LOGGER.info("password property {}", properties.getPasswordProperty());
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
         RequestedSecret secret = RequestedSecret
                 .rotating(properties.getBackend() + "/creds/" + properties.getRole());
