@@ -38,6 +38,7 @@ public class VaultConfig implements InitializingBean {
                 SecretLeaseCreatedEvent slce = (SecretLeaseCreatedEvent) leaseEvent;
                 String username = slce.getSecrets().get("username").toString();
                 String password = slce.getSecrets().get("password").toString();
+                LOGGER.info("Creds are {} {}", username, password);
                 hikariDataSource.setUsername(username);
                 hikariDataSource.setPassword(password);
                 hikariDataSource.getHikariConfigMXBean().setUsername(username);
