@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,8 +13,6 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 @SpringBootApplication
 @RestController
 public class FPInfoHistorikkApplication {
-    @Value("${vault.secret}")
-    private String vaultSecret;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -29,10 +26,5 @@ public class FPInfoHistorikkApplication {
     public String ready() {
         jdbcTemplate.execute("SELECT 1 ");
         return "OK";
-    }
-
-    @GetMapping("/secret")
-    public String secret() {
-        return vaultSecret;
     }
 }
