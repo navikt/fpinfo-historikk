@@ -3,7 +3,7 @@ spring :
       uri: https://vault.adeo.no
       database:
            enabled: true
-           role: fpinfo-historikk-preprod_admin
+           role: fpinfo-historikk-preprod-admin
            backend: postgresql/preprod-fss
            username-property: spring.datasource.username
            password-property: spring.datasource.password

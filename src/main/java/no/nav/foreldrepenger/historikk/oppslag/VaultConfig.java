@@ -29,9 +29,6 @@ public class VaultConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        // todo Remove when
-        // https://github.com/spring-cloud/spring-cloud-vault/issues/333 has been
-        // resolved
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
         RequestedSecret secret = RequestedSecret
                 .rotating(this.vaultPostgresBackend + "/creds/" + this.vaultPostgresRole);
