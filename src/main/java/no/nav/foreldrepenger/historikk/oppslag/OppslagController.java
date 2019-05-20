@@ -27,7 +27,7 @@ public class OppslagController {
     @Unprotected
     public String ping(@RequestParam(name = "navn", defaultValue = "jordboer") String navn) {
         LOG.trace("SELECTING " + jdbcTemplate.getDataSource());
-        return "OK";
+        return "OK " + jdbcTemplate.getDataSource();
         // jdbcTemplate.execute("SELECT 1 ");
         // return "OK";
     }
