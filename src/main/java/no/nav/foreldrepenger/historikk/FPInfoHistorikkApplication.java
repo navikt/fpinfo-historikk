@@ -7,7 +7,6 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -27,11 +26,6 @@ public class FPInfoHistorikkApplication {
     @Bean
     public HikariDataSource ds(@Value("${spring.datasource.url}") String url) {
         return new HikariDataSource(hikariConfig(url));
-    }
-
-    @Bean
-    public JdbcTemplate template(HikariDataSource ds) {
-        return new JdbcTemplate(ds);
     }
 
     private HikariConfig hikariConfig(String url) {
