@@ -18,9 +18,9 @@ import com.zaxxer.hikari.HikariDataSource;
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
 public class VaultConfig implements InitializingBean {
     private static Logger LOGGER = LoggerFactory.getLogger(VaultConfig.class.getName());
-    @Value("${vault.postgres.backend}")
+    @Value("${spring.cloud.vault.database.backend}")
     private String vaultPostgresBackend;
-    @Value("${vault.postgres.role}")
+    @Value("${spring.cloud.vault.database.role}")
     private String vaultPostgresRole;
     @Autowired
     private SecretLeaseContainer container;
