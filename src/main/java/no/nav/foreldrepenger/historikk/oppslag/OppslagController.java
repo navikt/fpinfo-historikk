@@ -4,6 +4,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,13 +20,13 @@ import no.nav.security.oidc.api.Unprotected;
 public class OppslagController {
     static final String OPPSLAG = "oppslag";
     private static final Logger LOG = LoggerFactory.getLogger(OppslagController.class);
-    // @Autowired
-    // private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @GetMapping("/ping")
     @Unprotected
     public String ping(@RequestParam(name = "navn", defaultValue = "jordboer") String navn) {
-        // LOG.trace("SELECTING " + jdbcTemplate.getDataSource());
+        LOG.trace("SELECTING " + jdbcTemplate.getDataSource());
         return "OK";
         // jdbcTemplate.execute("SELECT 1 ");
         // return "OK";
