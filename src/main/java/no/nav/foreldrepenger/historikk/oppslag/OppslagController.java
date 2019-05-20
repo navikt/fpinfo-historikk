@@ -25,6 +25,6 @@ public class OppslagController {
     @Unprotected
     public String ping(@RequestParam(name = "navn", defaultValue = "jordboer") String navn) throws IOException {
         LOG.info("Jeg ble pinget");
-        return VaultUtils.getToken();
+        return "OK";
     }
 }

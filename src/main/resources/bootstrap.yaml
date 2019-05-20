@@ -9,4 +9,8 @@ spring :
            backend: postgresql/preprod-fss
            username-property: spring.datasource.username
            password-property: spring.datasource.password
-      authentication: TOKEN   
+      authentication: KUBERNETES
+      kubernetes:
+           role: fpinfo-historikk
+           kubernetes-path: kubernetes/preprod/fss
+           service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
