@@ -6,7 +6,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.vault.core.lease.LeaseEndpoints;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
@@ -17,7 +19,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
-public class VaultHikariConfig implements InitializingBean {
+public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultConfig.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource hikariDataSource;
@@ -31,8 +33,6 @@ public class VaultHikariConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        LOGGER.info("Username property {}", properties.getUsernameProperty());
-        LOGGER.info("password property {}", properties.getPasswordProperty());
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
         RequestedSecret secret = RequestedSecret
                 .rotating(properties.getBackend() + "/creds/" + properties.getRole());
@@ -49,5 +49,11 @@ public class VaultHikariConfig implements InitializingBean {
             }
         });
         container.addRequestedSecret(secret);
+    }
+
+    @Override
+    public void setEnvironment(Environment env) {
+        LOGGER.info("Username " + env.getProperty(properties.getUsernameProperty()));
+        LOGGER.info("PW " + env.getProperty(properties.getPasswordProperty()));
     }
 }
