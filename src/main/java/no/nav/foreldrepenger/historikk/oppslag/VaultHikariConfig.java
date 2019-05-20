@@ -38,14 +38,13 @@ public class VaultHikariConfig implements InitializingBean {
     public void afterPropertiesSet() {
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
         RequestedSecret secret = RequestedSecret
-                .rotating(this.vaultPostgresBackend + "/creds/" + this.vaultPostgresRole);
+                .rotating(properties.getBackend() + "/creds/" + properties.getRole());
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource() == secret && leaseEvent instanceof SecretLeaseCreatedEvent) {
                 LOGGER.info("Rotating creds for path: " + leaseEvent.getSource().getPath());
                 SecretLeaseCreatedEvent slce = (SecretLeaseCreatedEvent) leaseEvent;
                 String username = slce.getSecrets().get("username").toString();
                 String password = slce.getSecrets().get("password").toString();
-                LOGGER.info("Creds are {} {}", username, password);
                 hikariDataSource.setUsername(username);
                 hikariDataSource.setPassword(password);
                 hikariDataSource.getHikariConfigMXBean().setUsername(username);
