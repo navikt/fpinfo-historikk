@@ -1,15 +1,8 @@
 package no.nav.foreldrepenger.historikk;
 
-import java.util.Properties;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
@@ -21,26 +14,5 @@ public class FPInfoHistorikkApplication {
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
-    }
-
-    @Bean
-    public HikariDataSource ds(@Value("${spring.datasource.url}") String url,
-            @Value("${spring.datasource.passwors}") String pw, @Value("${spring.datasource.username}") String un) {
-        return new HikariDataSource(hikariConfig(url, un, pw));
-    }
-
-    private HikariConfig hikariConfig(String url, String username, String password) {
-        HikariConfig config = new HikariConfig();
-        config.setUsername(username);
-        config.setPassword(password);
-        config.setJdbcUrl(url);
-        config.setConnectionTimeout(1000);
-        config.setMinimumIdle(1);
-        config.setMaximumPoolSize(3);
-        config.setConnectionTestQuery("select 1");
-        config.setDriverClassName("org.postgresql.Driver");
-        Properties dsProperties = new Properties();
-        config.setDataSourceProperties(dsProperties);
-        return config;
     }
 }
