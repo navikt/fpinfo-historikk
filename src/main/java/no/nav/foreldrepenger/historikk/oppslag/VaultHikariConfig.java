@@ -6,9 +6,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.vault.core.lease.LeaseEndpoints;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
@@ -19,7 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
-public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
+public class VaultHikariConfig implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultConfig.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource hikariDataSource;
@@ -39,7 +37,7 @@ public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource() == secret && leaseEvent instanceof SecretLeaseCreatedEvent) {
                 LOGGER.info("Rotating creds for path: " + leaseEvent.getSource().getPath());
-                SecretLeaseCreatedEvent slce = (SecretLeaseCreatedEvent) leaseEvent;
+                SecretLeaseCreatedEvent slce = SecretLeaseCreatedEvent.class.cast(leaseEvent);
                 String username = slce.getSecrets().get("username").toString();
                 String password = slce.getSecrets().get("password").toString();
                 hikariDataSource.setUsername(username);
@@ -49,11 +47,5 @@ public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
             }
         });
         container.addRequestedSecret(secret);
-    }
-
-    @Override
-    public void setEnvironment(Environment env) {
-        LOGGER.info("Username " + env.getProperty(properties.getUsernameProperty()));
-        LOGGER.info("PW " + env.getProperty(properties.getPasswordProperty()));
     }
 }
