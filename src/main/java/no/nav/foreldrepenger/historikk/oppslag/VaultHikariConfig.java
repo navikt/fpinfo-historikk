@@ -35,10 +35,11 @@ public class VaultHikariConfig implements InitializingBean {
                 .rotating(properties.getBackend() + "/creds/" + properties.getRole());
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource() == secret && leaseEvent instanceof SecretLeaseCreatedEvent) {
-                LOGGER.info("Rotating creds for path: " + leaseEvent.getSource().getPath());
+                LOGGER.info("Rotating creds for path: {}", leaseEvent.getSource().getPath());
                 SecretLeaseCreatedEvent slce = SecretLeaseCreatedEvent.class.cast(leaseEvent);
                 String username = slce.getSecrets().get("username").toString();
                 String password = slce.getSecrets().get("password").toString();
+                LOGGER.info("Credentials {} {} {}", hikariDataSource.getJdbcUrl(), username, password);
                 hikariDataSource.setUsername(username);
                 hikariDataSource.setPassword(password);
                 hikariDataSource.getHikariConfigMXBean().setUsername(username);
