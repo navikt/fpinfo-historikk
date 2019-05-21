@@ -12,13 +12,12 @@ import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
 import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
 
-import com.bettercloud.vault.VaultConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
 public class VaultHikariConfig implements InitializingBean {
-    private static final Logger LOGGER = LoggerFactory.getLogger(VaultConfig.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfig.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource hikariDataSource;
     @Autowired

@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zaxxer.hikari.HikariDataSource;
-
 import no.nav.security.oidc.api.Unprotected;
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
@@ -28,7 +26,7 @@ public class FPInfoHistorikkApplication {
     @GetMapping("/ready")
     @Unprotected
     public String ready() {
-        jdbcTemplate.execute("SELECT 1 ");
-        return "OK " + HikariDataSource.class.cast(jdbcTemplate.getDataSource());
+        int count = jdbcTemplate.queryForObject("SELECT COUNT(USERNAME) FROM TESTDATA", Integer.class);
+        return "OK (" + count + " rows)";
     }
 }
