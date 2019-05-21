@@ -1,5 +1,8 @@
 package no.nav.foreldrepenger.historikk;
 
+import org.flywaydb.core.api.configuration.FluentConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.flyway.FlywayConfigurationCustomizer;
@@ -36,6 +39,14 @@ public class FPInfoHistorikkApplication {
 
     @Bean
     public FlywayConfigurationCustomizer flywayConfig() {
-        return c -> c.initSql(String.format("SET ROLE \"%s-admin\"", "fpinfo-historikk-preprod"));
+        return new FlywayConfigurationCustomizer() {
+            private final Logger LOG = LoggerFactory.getLogger(FlywayConfigurationCustomizer.class);
+
+            @Override
+            public void customize(FluentConfiguration configuration) {
+                LOG.info("Init SQL set");
+                configuration.initSql(String.format("SET ROLE \"%s-admin\"", "fpinfo-historikk-preprod"));
+            }
+        };
     }
 }
