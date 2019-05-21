@@ -36,6 +36,6 @@ public class FPInfoHistorikkApplication {
 
     @Bean
     public FlywayConfigurationCustomizer flywayConfig() {
-        return c -> c.initSql("SET ROLE fpinfo-historikk-preprod-admin");
+        return c -> c.initSql("SET ROLE \"fpinfo-historikk-preprod-admin\"");
     }
 }
