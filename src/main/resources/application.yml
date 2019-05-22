@@ -30,4 +30,6 @@ spring:
          write-empty-json-arrays: false
          fail-on-empty-beans: false
    main.banner-mode : 'off'
+   
+kafka.topic : fpinfo-historikk
  
