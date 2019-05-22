@@ -1,9 +1,11 @@
-package no.nav.foreldrepenger.historikk.oppslag;
+package no.nav.foreldrepenger.historikk.config;
+
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.CONFIDENTIAL;
+import static org.springframework.vault.core.lease.domain.RequestedSecret.rotating;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
@@ -19,33 +21,37 @@ import com.zaxxer.hikari.HikariDataSource;
 public class VaultHikariConfig implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfig.class.getName());
     private final SecretLeaseContainer container;
-    private final HikariDataSource hikariDataSource;
-    @Autowired
-    private VaultDatabaseProperties properties;
+    private final HikariDataSource ds;
+    private final VaultDatabaseProperties props;
 
-    public VaultHikariConfig(SecretLeaseContainer container, HikariDataSource hikariDataSource) {
+    public VaultHikariConfig(SecretLeaseContainer container, HikariDataSource ds, VaultDatabaseProperties props) {
         this.container = container;
-        this.hikariDataSource = hikariDataSource;
+        this.ds = ds;
+        this.props = props;
     }
 
     @Override
     public void afterPropertiesSet() {
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
-        RequestedSecret secret = RequestedSecret
-                .rotating(properties.getBackend() + "/creds/" + properties.getRole());
+        RequestedSecret secret = rotating(props.getBackend() + "/creds/" + props.getRole());
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource() == secret && leaseEvent instanceof SecretLeaseCreatedEvent) {
                 LOGGER.info("Rotating creds for path: {}", leaseEvent.getSource().getPath());
-                SecretLeaseCreatedEvent slce = SecretLeaseCreatedEvent.class.cast(leaseEvent);
-                String username = slce.getSecrets().get("username").toString();
-                String password = slce.getSecrets().get("password").toString();
-                LOGGER.info("Credentials {} {} {}", hikariDataSource.getJdbcUrl(), username, password);
-                hikariDataSource.setUsername(username);
-                hikariDataSource.setPassword(password);
-                hikariDataSource.getHikariConfigMXBean().setUsername(username);
-                hikariDataSource.getHikariConfigMXBean().setPassword(password);
+                SecretLeaseCreatedEvent event = SecretLeaseCreatedEvent.class.cast(leaseEvent);
+                String username = event.getSecrets().get("username").toString();
+                String password = event.getSecrets().get("password").toString();
+                LOGGER.info(CONFIDENTIAL, "Credentials {} {} {}", ds.getJdbcUrl(), username, password);
+                ds.setUsername(username);
+                ds.setPassword(password);
+                ds.getHikariConfigMXBean().setUsername(username);
+                ds.getHikariConfigMXBean().setPassword(password);
             }
         });
         container.addRequestedSecret(secret);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [container=" + container + ", ds=" + ds + ", props=" + props + "]";
     }
 }

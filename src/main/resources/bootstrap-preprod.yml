@@ -1,5 +1,6 @@
 spring :
    cloud.vault:
+      enabled : true
       uri: https://vault.adeo.no
       database:
            enabled: true
