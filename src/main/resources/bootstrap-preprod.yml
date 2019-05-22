@@ -15,6 +15,6 @@ spring :
            service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token        
       generic:
           enabled: true
-          backend: kv/preprod/fss #This path is cluster specific.
+          backend: kv/preprod/fss
           application-name: fpinfo-historikk/default #Change "default to t10, q1 etc"
           default-context: fpinfo-historikk/default 
