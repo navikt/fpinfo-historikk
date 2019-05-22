@@ -1,1 +1,1 @@
-insert into testdata1(username) values('janolav');
+insert into testdata(username) values('janolav');
