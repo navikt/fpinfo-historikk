@@ -24,10 +24,9 @@
  </springProfile>
      <springProfile name="dev,preprod">
         <logger name="no.nav.foreldrepenger" level="trace" />
-        <logger name="org.flywaydb" level="trace" />
-        <logger name="org.springframework.kafka" level="trace" />  
-         <logger name="org.apache.kafka" level="trace" />     
-         <logger name="org.springframework.kafka.annotation.KafkaListenerAnnotationBeanPostProcessor" level="info" />     
+        <logger name="org.flywaydb" level="info" />
+        <logger name="org.springframework.kafka" level="info" />  
+         <logger name="org.apache.kafka" level="info" />     
     </springProfile>
 </configuration>
 

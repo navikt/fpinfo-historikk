@@ -1,9 +1,12 @@
 package no.nav.foreldrepenger.historikk.util;
 
+import static org.springframework.core.env.Profiles.of;
+
+import java.util.Optional;
+
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.Profiles;
 
 public final class EnvUtil {
     public static final String PREPROD = "preprod";
@@ -14,15 +17,17 @@ public final class EnvUtil {
     }
 
     public static boolean isDevOrPreprod(Environment env) {
-        return (env == null) || isDev(env) || isPreprod(env);
+        return Optional.ofNullable(env)
+                .map(e -> isDev(e) || isPreprod(e))
+                .orElse(true);
     }
 
     public static boolean isPreprod(Environment env) {
-        return env.acceptsProfiles(Profiles.of(PREPROD));
+        return env.acceptsProfiles(of(PREPROD));
     }
 
     public static boolean isDev(Environment env) {
-        return env.acceptsProfiles(Profiles.of(DEV));
+        return env.acceptsProfiles(of(DEV));
     }
 
     public static boolean isProd(Environment env) {
