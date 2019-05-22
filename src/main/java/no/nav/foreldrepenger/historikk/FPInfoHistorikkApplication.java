@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
 @SpringBootApplication
+@EnableKafka
 @RestController
 @Configuration
 public class FPInfoHistorikkApplication {
