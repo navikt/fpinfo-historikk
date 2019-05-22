@@ -6,18 +6,21 @@ management :
 spring :
    http.log-request-details : true
    datasource.url : jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
-   kafka:
-      security.protocol : SASL_SSL
-      sasl :
-         mechanism : PLAIN
-         jaas.config : org.apache.kafka.common.security.scram.ScramLoginModule required username=srvfpinfo-historikk password=${kafka.password}
+   kafka:   
       consumer:
-         bootstrap-servers: b27apvl00045.preprod.local:8443
-         group-id: group_id 
-         auto-offset-reset: earliest
-         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        security.protocol : SASL_SSL
+        sasl :
+            mechanism : PLAIN
+            jaas.config : org.apache.kafka.common.security.scram.ScramLoginModule required username=srvfpinfo-historikk password=@kafka.password@
+        bootstrap-servers: b27apvl00045.preprod.local:8443
+        group-id: group_id 
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       producer:
          bootstrap-servers: b27apvl00045.preprod.local:8443
+         sasl :
+            mechanism : PLAIN
+            jaas.config : org.apache.kafka.common.security.scram.ScramLoginModule required username=srvfpinfo-historikk password=@kafka.password@
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.apache.kafka.common.serialization.StringSerializer
