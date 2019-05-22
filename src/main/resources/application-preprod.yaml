@@ -13,12 +13,12 @@ spring :
             mechanism : PLAIN
             jaas.config : org.apache.kafka.common.security.plain.PlainLoginModule required username=srvfpinfo-historikk password=${kafka.password};
       consumer: 
-         bootstrap-servers: SASL_SSL://b27apvl00045.preprod.local:8443,SASL_SSL://b27apvl00046.preprod.local:8443,SASL_SSL://b27apvl00046.preprod.local:8443
+         bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          group-id: group_id 
          auto-offset-reset: earliest
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       producer:
-         bootstrap-servers: SASL_SSL://b27apvl00045.preprod.local:8443,SASL_SSL://b27apvl00046.preprod.local:8443,SASL_SSL://b27apvl00046.preprod.local:8443
+         bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.apache.kafka.common.serialization.StringSerializer
