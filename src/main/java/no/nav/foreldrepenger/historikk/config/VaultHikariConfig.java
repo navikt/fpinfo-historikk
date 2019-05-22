@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.vault.core.lease.LeaseEndpoints;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
@@ -22,7 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "vault.enabled", matchIfMissing = true)
-public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
+public class VaultHikariConfig implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfig.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource ds;
@@ -57,10 +55,5 @@ public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [container=" + container + ", ds=" + ds + ", props=" + props + "]";
-    }
-
-    @Override
-    public void setEnvironment(Environment environment) {
-        LOGGER.info("XXX " + environment.getProperty("kafka.password"));
     }
 }
