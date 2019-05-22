@@ -61,6 +61,6 @@ public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
 
     @Override
     public void setEnvironment(Environment environment) {
-        LOGGER.info("YYY " + environment.getProperty("spring.kafka.properties.sasl.jaas.config"));
+        LOGGER.info("ZZZ " + environment.getProperty("spring.kafka.properties.sasl.jaas.config"));
     }
 }
