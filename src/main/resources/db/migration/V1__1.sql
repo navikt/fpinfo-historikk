@@ -1,3 +1,3 @@
-CREATE TABLE testdata(
+CREATE TABLE testdata1(
  username VARCHAR (50) UNIQUE NOT NULL
 );

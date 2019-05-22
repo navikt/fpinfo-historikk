@@ -3,6 +3,8 @@ package no.nav.foreldrepenger.historikk.config;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.CONFIDENTIAL;
 import static org.springframework.vault.core.lease.domain.RequestedSecret.rotating;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -37,9 +39,9 @@ public class VaultHikariConfig implements InitializingBean {
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource() == secret && leaseEvent instanceof SecretLeaseCreatedEvent) {
                 LOGGER.info("Rotating creds for path: {}", leaseEvent.getSource().getPath());
-                SecretLeaseCreatedEvent event = SecretLeaseCreatedEvent.class.cast(leaseEvent);
-                String username = event.getSecrets().get("username").toString();
-                String password = event.getSecrets().get("password").toString();
+                Map<String, Object> secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
+                String username = secrets.get("username").toString();
+                String password = secrets.get("password").toString();
                 LOGGER.info(CONFIDENTIAL, "Credentials {} {} {}", ds.getJdbcUrl(), username, password);
                 ds.setUsername(username);
                 ds.setPassword(password);

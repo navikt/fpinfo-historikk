@@ -1,0 +1,1 @@
+insert into testdata1(username) values('janolav');
