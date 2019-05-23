@@ -24,10 +24,5 @@ public class Consumer {
     public void consume(String message) {
         LOG.info(String.format("#### -> Consumed message -> %s", message));
         repository.save(new Customer(message, "Eide"));
-        LOG.info("Customers found with findAll():");
-        LOG.info("-------------------------------");
-        for (Customer customer : repository.findAll()) {
-            LOG.info(customer.toString());
-        }
     }
 }
