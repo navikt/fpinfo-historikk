@@ -18,7 +18,6 @@ server :
 spring:
    jpa.hibernate.ddl-auto : none
    flyway:
-      baselineOnMigrate : true
       enabled : true    
    application.name : fpinfo-historikk
    jackson :
