@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import no.nav.foreldrepenger.historikk.domain.Customer1;
+import no.nav.foreldrepenger.historikk.domain.Customer;
 import no.nav.foreldrepenger.historikk.repository.CustomerRepository;
 
 @Service
@@ -23,10 +23,10 @@ public class Consumer {
     @KafkaListener(topics = "#{'${kafka.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void consume(String message) {
         LOG.info(String.format("#### -> Consumed message -> %s", message));
-        repository.save(new Customer1(message, "Eide"));
+        repository.save(new Customer(message, "Eide"));
         LOG.info("Customers found with findAll():");
         LOG.info("-------------------------------");
-        for (Customer1 customer : repository.findAll()) {
+        for (Customer customer : repository.findAll()) {
             LOG.info(customer.toString());
         }
     }
