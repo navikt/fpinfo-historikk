@@ -1,5 +1,5 @@
 CREATE TABLE CUSTOMER (
  id  SERIAL PRIMARY KEY,
- firstname VARCHAR (50)  NOT NULL,
- lastname VARCHAR (50)  NOT NULL
+ first_name VARCHAR (50)  NOT NULL,
+ last_name VARCHAR (50)  NOT NULL
 );
