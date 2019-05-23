@@ -2,7 +2,6 @@ management :
    endpoints.web.exposure.include:  '*'
    endpoint:
      health.show-details : always
-vault.enabled : false     
 spring:
    jpa.hibernate.ddl-auto : create
    flyway:
