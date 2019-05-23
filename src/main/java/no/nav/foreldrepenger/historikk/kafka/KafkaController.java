@@ -3,6 +3,9 @@ package no.nav.foreldrepenger.historikk.kafka;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +44,15 @@ public class KafkaController {
 
     @GetMapping("/count")
     @Unprotected
-    public String ready() {
-        int count = jdbcTemplate.queryForObject("SELECT COUNT(FIRST_NAME) FROM CUSTOMER", Integer.class);
+    public List<String> count() {
+        jdbcTemplate.queryForObject("SELECT COUNT(FIRST_NAME) FROM CUSTOMER", Integer.class);
         LOG.info("Customers found with findAll():");
+        List<String> list = new ArrayList<>();
         LOG.info("-------------------------------");
         for (Customer customer : repository.findAll()) {
-            LOG.info(customer.toString());
+            LOG.info("customer " + customer.toString());
+            list.add(customer.getId() + "," + customer.getFirstName() + "," + customer.getLastName());
         }
-        return "OK (" + count + " rows)";
+        return list;
     }
 }
