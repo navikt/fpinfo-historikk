@@ -16,6 +16,7 @@ server :
     servlet.context-path :  /api
     use-forward-headers: true
 spring:
+   jpa.hibernate.ddl-auto : none
    flyway:
       enabled : true    
    application.name : fpinfo-historikk

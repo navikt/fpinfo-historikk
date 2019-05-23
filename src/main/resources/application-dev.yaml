@@ -4,6 +4,7 @@ management :
      health.show-details : always
 vault.enabled : false     
 spring:
+   jpa.hibernate.ddl-auto : create
    flyway:
       enabled : false
    http.log-request-details : false
