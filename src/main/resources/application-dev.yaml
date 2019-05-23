@@ -1,12 +1,17 @@
-management :
-   endpoints.web.exposure.include:  '*'
+management:
+   endpoints:
+      web:
+         exposure:
+            include:  '*'
    endpoint:
-     health.show-details : always
+     health:
+        show-details: always
 spring:
-   jpa.hibernate.ddl-auto : create
+   jpa.hibernate.ddl-auto: create
    flyway:
-      enabled : false
-   http.log-request-details : false
+      enabled: false
+   http:
+      log-request-details: false
    kafka:
       consumer:
          bootstrap-servers: localhost:9092
