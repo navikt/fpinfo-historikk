@@ -25,6 +25,7 @@ public class KafkaController {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaController.class);
     @Autowired
     private CustomerRepository repository;
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
