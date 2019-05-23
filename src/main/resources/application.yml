@@ -16,7 +16,7 @@ server :
     servlet.context-path :  /api
     use-forward-headers: true
 spring:
-   jpa.hibernate.ddl-auto : create
+   jpa.hibernate.ddl-auto : none
    flyway:
       baselineOnMigrate : true
       enabled : true    
