@@ -1,9 +1,19 @@
 package no.nav.foreldrepenger.historikk.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Customer {
+    @Id
+    @GeneratedValue
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String firstName;
     private String lastName;
 
@@ -23,8 +33,12 @@ public class Customer {
         return lastName;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [firstName=" + firstName + ", lastName=" + lastName + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
     }
 }
