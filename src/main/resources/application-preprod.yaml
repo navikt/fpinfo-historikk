@@ -1,20 +1,25 @@
-management :
-   endpoints.web.exposure.include:  '*'
+management:
+   endpoints:
+      web:
+         exposure:
+            include:  '*'
    endpoint:
-     health.show-details : always
-     
-spring :
-   flyway:
-      enabled : true  
-   jpa.hibernate.ddl-auto : none
-   http.log-request-details : true
-   datasource.url : jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
+      health:
+         show-details: always
+         
+spring:
+   http:
+      log-request-details: true
+   datasource:
+      url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
    kafka:   
-      properties :
-         security.protocol : SASL_SSL
-         sasl : 
-            mechanism : PLAIN
-            jaas.config : org.apache.kafka.common.security.plain.PlainLoginModule required username=srvfpinfo-historikk password=${kafka.password};
+      properties:
+         security:
+            protocol: SASL_SSL
+         sasl: 
+            mechanism: PLAIN
+            jaas:
+               config: org.apache.kafka.common.security.plain.PlainLoginModule required username=srvfpinfo-historikk password=${kafka.password};
       consumer: 
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          group-id: group_id 
