@@ -22,13 +22,13 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.enabled")
-public class VaultHikariConfig implements InitializingBean, EnvironmentAware {
-    private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfig.class.getName());
+public class VaultHikariConfiguration implements InitializingBean, EnvironmentAware {
+    private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfiguration.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource ds;
     private final VaultDatabaseProperties props;
 
-    public VaultHikariConfig(SecretLeaseContainer container, HikariDataSource ds, VaultDatabaseProperties props) {
+    public VaultHikariConfiguration(SecretLeaseContainer container, HikariDataSource ds, VaultDatabaseProperties props) {
         this.container = container;
         this.ds = ds;
         this.props = props;
