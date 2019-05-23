@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import no.nav.foreldrepenger.historikk.domain.Customer1;
+import no.nav.foreldrepenger.historikk.domain.Customer;
 
-public interface CustomerRepository extends CrudRepository<Customer1, Long> {
-    List<Customer1> findByLastName(String lastName);
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
+    List<Customer> findByLastName(String lastName);
 }
