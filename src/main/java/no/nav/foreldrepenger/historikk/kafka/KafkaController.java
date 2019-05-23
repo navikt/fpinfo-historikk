@@ -42,7 +42,7 @@ public class KafkaController {
     @GetMapping("/count")
     @Unprotected
     public String ready() {
-        int count = jdbcTemplate.queryForObject("SELECT COUNT(FIRSTNAME) FROM CUSTOMER", Integer.class);
+        int count = jdbcTemplate.queryForObject("SELECT COUNT(FIRST_NAME) FROM CUSTOMER", Integer.class);
         LOG.info("Customers found with findAll():");
         LOG.info("-------------------------------");
         for (Customer customer : repository.findAll()) {
