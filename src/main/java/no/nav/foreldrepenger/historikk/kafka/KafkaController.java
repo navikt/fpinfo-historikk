@@ -35,7 +35,7 @@ public class KafkaController {
     @GetMapping("/count")
     @Unprotected
     public String ready() {
-        int count = jdbcTemplate.queryForObject("SELECT COUNT(USERNAME) FROM TESTDATA1", Integer.class);
+        int count = jdbcTemplate.queryForObject("SELECT COUNT(FIRSTNAME) FROM CUSTOMER1", Integer.class);
         return "OK (" + count + " rows)";
     }
 }
