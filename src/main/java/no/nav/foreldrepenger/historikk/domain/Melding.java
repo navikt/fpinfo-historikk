@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Customer {
+public class Melding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -15,23 +15,23 @@ public class Customer {
         this.id = id;
     }
 
-    private String firstName;
-    private String lastName;
+    private String fnr;
+    private String melding;
 
-    protected Customer() {
+    protected Melding() {
     }
 
-    public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Melding(String fnr, String melding) {
+        this.fnr = fnr;
+        this.melding = melding;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFnr() {
+        return fnr;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getMelding() {
+        return melding;
     }
 
     public int getId() {
@@ -40,6 +40,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", melding=" + melding + "]";
     }
 }

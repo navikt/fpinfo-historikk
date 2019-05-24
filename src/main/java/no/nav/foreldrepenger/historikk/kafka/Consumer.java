@@ -10,19 +10,19 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import no.nav.foreldrepenger.historikk.domain.Customer;
-import no.nav.foreldrepenger.historikk.repository.CustomerRepository;
+import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.repository.MeldingRepository;
 
 @Service
 @Profile({ DEV, PREPROD })
 public class Consumer {
     private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
     @Autowired
-    private CustomerRepository repository;
+    private MeldingRepository repository;
 
     @KafkaListener(topics = "#{'${kafka.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void consume(String message) {
-        LOG.info(String.format("#### -> Consumed message -> %s", message));
-        repository.save(new Customer(message, "Eide"));
+    public void consume(Melding melding) {
+        LOG.info(String.format("#### -> Consumed message -> %s", melding));
+        repository.save(melding);
     }
 }
