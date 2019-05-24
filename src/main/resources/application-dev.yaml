@@ -6,8 +6,11 @@ management:
    endpoint:
      health:
         show-details: always
+
 spring:
-   jpa.hibernate.ddl-auto: create
+   jpa:
+      hibernate:
+         ddl-auto: create
    flyway:
       enabled: false
    http:
