@@ -7,8 +7,6 @@ spring:
               enabled: true
               role: fpinfo-historikk-preprod-admin
               backend: postgresql/preprod-fss
-              username-property: spring.datasource.username
-              password-property: spring.datasource.password
          authentication: KUBERNETES
          kubernetes:
               role: fpinfo-historikk

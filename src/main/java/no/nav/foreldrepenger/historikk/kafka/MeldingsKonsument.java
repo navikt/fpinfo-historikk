@@ -15,8 +15,8 @@ import no.nav.foreldrepenger.historikk.repository.MeldingRepository;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class Consumer {
-    private static final Logger LOG = LoggerFactory.getLogger(Producer.class);
+public class MeldingsKonsument {
+    private static final Logger LOG = LoggerFactory.getLogger(MeldingsProdusent.class);
     @Autowired
     private MeldingRepository repository;
 
