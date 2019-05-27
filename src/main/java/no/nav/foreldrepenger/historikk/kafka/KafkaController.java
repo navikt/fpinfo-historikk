@@ -21,12 +21,12 @@ import no.nav.security.oidc.api.Unprotected;
 @RequestMapping(value = "/kafka")
 @Unprotected
 public class KafkaController {
-    private final Producer producer;
+    private final MeldingsProdusent producer;
     @Autowired
     private MeldingRepository repository;
 
     @Autowired
-    KafkaController(Producer producer) {
+    KafkaController(MeldingsProdusent producer) {
         this.producer = producer;
     }
 
