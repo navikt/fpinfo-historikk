@@ -1,10 +1,11 @@
 package no.nav.foreldrepenger.historikk.meldingslager;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMeldingDAO;
+import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
 
 @Repository
 public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
@@ -16,22 +17,27 @@ public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
     }
 
     @Override
-    public void lagre(JPAMeldingDAO meldingDAO) {
+    public void lagre(JPAMelding meldingDAO) {
         repository.save(meldingDAO);
     }
 
     @Override
-    public List<JPAMeldingDAO> hentForAktør(String aktørId) {
+    public List<JPAMelding> hentForAktør(String aktørId) {
         return repository.findByAktørId(aktørId);
     }
 
     @Override
-    public JPAMeldingDAO hentForId(Integer id) {
+    public Optional<JPAMelding> hentForId(Long id) {
         return repository.findById(id);
     }
 
     @Override
-    public Iterable<JPAMeldingDAO> hentAlle() {
+    public List<JPAMelding> hentAlle() {
         return repository.findAll();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [repository=" + repository + "]";
     }
 }

@@ -1,17 +1,18 @@
 package no.nav.foreldrepenger.historikk.meldingslager;
 
 import java.util.List;
+import java.util.Optional;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMeldingDAO;
+import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
 
 public interface MeldingslagerDAO {
 
-    void lagre(JPAMeldingDAO meldingDAO);
+    void lagre(JPAMelding meldingDAO);
 
-    List<JPAMeldingDAO> hentForAktør(String aktørId);
+    List<JPAMelding> hentForAktør(String aktørId);
 
-    JPAMeldingDAO hentForId(Integer id);
+    Optional<JPAMelding> hentForId(Long id);
 
-    Iterable<JPAMeldingDAO> hentAlle();
+    List<JPAMelding> hentAlle();
 
 }
