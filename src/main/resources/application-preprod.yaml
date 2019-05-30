@@ -13,6 +13,7 @@ spring:
    datasource:
       url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
    kafka:   
+      listener.ack-mode: MANUAL  
       properties:
          security:
             protocol: SASL_SSL
@@ -23,14 +24,11 @@ spring:
       consumer: 
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          group-id: group_id 
+         enable-auto-commit: false
          auto-offset-reset: earliest
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-         properties:
-            spring:
-               json:
-                 trusted:
-                   packages: no.nav.foreldrepenger.historikk.domain
+         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+       
       producer:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          key-serializer: org.apache.kafka.common.serialization.StringSerializer

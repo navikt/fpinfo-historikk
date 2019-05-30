@@ -17,18 +17,16 @@ spring:
       enabled: false
    http:
       log-request-details: false
-   kafka:
+   kafka: 
+      listener.ack-mode: MANUAL     
       consumer:
+         enable-auto-commit: false
          bootstrap-servers: localhost:9092
          group-id: group_id
          auto-offset-reset: earliest
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-         properties:
-            spring:
-               json:
-                 trusted:
-                   packages: no.nav.foreldrepenger.historikk.domain
+         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+       
       producer:
          bootstrap-servers: localhost:9092
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
