@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "melding")
-public class JPAMeldingDAO {
+public class JPAMelding {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -21,20 +21,16 @@ public class JPAMeldingDAO {
     @Column(insertable = false, updatable = false)
     private LocalDate dato;
 
-    public LocalDate getDato() {
-        return dato;
+    private JPAMelding() {
     }
 
-    public void setDato(LocalDate dato) {
-        this.dato = dato;
-    }
-
-    private JPAMeldingDAO() {
-    }
-
-    public JPAMeldingDAO(String aktørId, String melding) {
+    public JPAMelding(String aktørId, String melding) {
         this.aktørId = aktørId;
         this.melding = melding;
+    }
+
+    public LocalDate getDato() {
+        return dato;
     }
 
     public String getAktørId() {
