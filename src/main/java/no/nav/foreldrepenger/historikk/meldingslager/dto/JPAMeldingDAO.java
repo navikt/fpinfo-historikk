@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.historikk.meldingslager.dto;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +17,15 @@ public class JPAMeldingDAO {
     private int id;
     private String aktørId;
     private String melding;
+    private LocalDate dato;
+
+    public LocalDate getDato() {
+        return dato;
+    }
+
+    public void setDato(LocalDate dato) {
+        this.dato = dato;
+    }
 
     private JPAMeldingDAO() {
     }
@@ -38,6 +49,8 @@ public class JPAMeldingDAO {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
+                + dato + "]";
     }
+
 }
