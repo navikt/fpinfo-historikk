@@ -12,4 +12,6 @@ public interface MeldingslagerDAO {
 
     JPAMeldingDAO hentForId(Integer id);
 
+    Iterable<JPAMeldingDAO> hentAlle();
+
 }
