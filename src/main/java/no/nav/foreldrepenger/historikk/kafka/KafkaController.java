@@ -8,6 +8,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,12 +36,18 @@ public class KafkaController {
     }
 
     @PostMapping(value = "/publish")
-    public void publish(@Valid @RequestBody Melding melding) {
+    public ResponseEntity<?> publish(@Valid @RequestBody Melding melding) {
         this.producer.sendMelding(melding);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/find")
     public List<Melding> findByAktørId(@RequestParam("aktørId") AktørId aktørId) {
-        return meldingsTjeneste.hentMeldinger(aktørId);
+        return meldingsTjeneste.hentMeldingerForAktør(aktørId);
+    }
+
+    @GetMapping("/id")
+    public Melding findById(@RequestParam("id") String id) {
+        return meldingsTjeneste.hentMeldingForId(id);
     }
 }
