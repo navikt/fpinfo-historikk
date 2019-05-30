@@ -29,4 +29,9 @@ public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
     public JPAMeldingDAO hentForId(Integer id) {
         return repository.findById(id);
     }
+
+    @Override
+    public Iterable<JPAMeldingDAO> hentAlle() {
+        return repository.findAll();
+    }
 }

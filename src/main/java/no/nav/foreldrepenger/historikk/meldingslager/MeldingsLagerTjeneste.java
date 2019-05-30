@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,13 @@ public class MeldingsLagerTjeneste {
         return Optional.ofNullable(dao.hentForId(id))
                 .map(MeldingsLagerTjeneste::tilMelding)
                 .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Melding> hentAlle() {
+        return StreamSupport.stream(dao.hentAlle().spliterator(), false)
+                .map(MeldingsLagerTjeneste::tilMelding)
+                .collect(toList());
     }
 
     private static Melding tilMelding(JPAMeldingDAO dao) {
