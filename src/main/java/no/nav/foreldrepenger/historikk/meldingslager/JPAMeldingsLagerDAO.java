@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.MeldingDAO;
+import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMeldingDAO;
 
 @Repository
 public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
@@ -16,12 +16,12 @@ public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
     }
 
     @Override
-    public void lagre(MeldingDAO meldingDAO) {
+    public void lagre(JPAMeldingDAO meldingDAO) {
         repository.save(meldingDAO);
     }
 
     @Override
-    public List<MeldingDAO> hent(String aktørId) {
+    public List<JPAMeldingDAO> hent(String aktørId) {
         return repository.findByAktørId(aktørId);
     }
 }

@@ -26,7 +26,7 @@
         <logger name="no.nav.foreldrepenger" level="trace" />
         <logger name="org.flywaydb" level="info" />
         <logger name="org.springframework.kafka" level="info" />  
-         <logger name="org.springframework.data" level="trace" />  
+         <logger name="org.springframework.data" level="info" />  
          <logger name="org.hibernate" level="info" />   
          <logger name="org.apache.kafka" level="info" />      
     </springProfile>
