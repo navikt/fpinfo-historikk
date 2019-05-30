@@ -30,8 +30,8 @@ server:
 
 spring:
    datasource:
-    hikari:
-      maximum-pool-size: 2
+     hikari:
+       maximum-pool-size: 2
    jpa:
       hibernate:
          ddl-auto : none
