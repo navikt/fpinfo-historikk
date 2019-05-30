@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +18,7 @@ public class JPAMeldingDAO {
     private int id;
     private String aktørId;
     private String melding;
+    @Column(insertable = false, updatable = false)
     private LocalDate dato;
 
     public LocalDate getDato() {
