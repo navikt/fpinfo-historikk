@@ -21,7 +21,12 @@ public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
     }
 
     @Override
-    public List<JPAMeldingDAO> hent(String aktørId) {
+    public List<JPAMeldingDAO> hentForAktør(String aktørId) {
         return repository.findByAktørId(aktørId);
+    }
+
+    @Override
+    public JPAMeldingDAO hentForId(String id) {
+        return repository.findById(id);
     }
 }

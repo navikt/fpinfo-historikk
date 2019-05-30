@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.meldingslager;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,18 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<Melding> hentMeldinger(AktørId aktørId) {
-        return dao.hent(aktørId.getAktørId())
+    public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
+        return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
                 .collect(toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Melding hentMeldingForId(String id) {
+        return Optional.ofNullable(dao.hentForId(id))
+                .map(MeldingsLagerTjeneste::tilMelding)
+                .orElse(null);
     }
 
     private static Melding tilMelding(JPAMeldingDAO dao) {

@@ -8,4 +8,6 @@ import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMeldingDAO;
 
 public interface MeldingsLagerRepository extends CrudRepository<JPAMeldingDAO, Long> {
     List<JPAMeldingDAO> findByAktørId(String aktørId);
+
+    JPAMeldingDAO findById(String id);
 }

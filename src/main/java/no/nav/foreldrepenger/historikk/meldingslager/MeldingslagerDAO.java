@@ -8,6 +8,8 @@ public interface MeldingslagerDAO {
 
     void lagre(JPAMeldingDAO meldingDAO);
 
-    List<JPAMeldingDAO> hent(String aktørId);
+    List<JPAMeldingDAO> hentForAktør(String aktørId);
+
+    JPAMeldingDAO hentForId(String id);
 
 }
