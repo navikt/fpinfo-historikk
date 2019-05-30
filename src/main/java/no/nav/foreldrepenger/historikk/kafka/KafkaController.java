@@ -47,7 +47,7 @@ public class KafkaController {
     }
 
     @GetMapping("/id")
-    public Melding findById(@RequestParam("id") String id) {
+    public Melding findById(@RequestParam("id") Integer id) {
         return meldingsTjeneste.hentMeldingForId(id);
     }
 }
