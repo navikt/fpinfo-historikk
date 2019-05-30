@@ -2,12 +2,12 @@ package no.nav.foreldrepenger.historikk.meldingslager;
 
 import java.util.List;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.MeldingDAO;
+import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMeldingDAO;
 
 public interface MeldingslagerDAO {
 
-    void lagre(MeldingDAO meldingDAO);
+    void lagre(JPAMeldingDAO meldingDAO);
 
-    List<MeldingDAO> hent(String aktørId);
+    List<JPAMeldingDAO> hent(String aktørId);
 
 }

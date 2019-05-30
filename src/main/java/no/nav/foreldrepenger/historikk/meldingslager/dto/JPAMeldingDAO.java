@@ -9,17 +9,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "melding")
-public class MeldingDAO {
+public class JPAMeldingDAO {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
     private String aktørId;
     private String melding;
 
-    private MeldingDAO() {
+    private JPAMeldingDAO() {
     }
 
-    public MeldingDAO(String aktørId, String melding) {
+    public JPAMeldingDAO(String aktørId, String melding) {
         this.aktørId = aktørId;
         this.melding = melding;
     }

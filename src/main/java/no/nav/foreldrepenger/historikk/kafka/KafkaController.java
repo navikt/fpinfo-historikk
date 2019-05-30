@@ -5,8 +5,12 @@ import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,14 +33,13 @@ public class KafkaController {
         this.meldingsTjeneste = meldingsTjeneste;
     }
 
-    @GetMapping(value = "/publish")
-    public void sendMessageToKafkaTopic(@RequestParam("melding") String melding,
-            @RequestParam("aktørId") AktørId aktørId) {
-        this.producer.sendMelding(new Melding(aktørId, melding));
+    @PostMapping(value = "/publish")
+    public void publish(@Valid @RequestBody Melding melding) {
+        this.producer.sendMelding(melding);
     }
 
     @GetMapping("/find")
-    public List<Melding> findByFnr(@RequestParam("aktørId") AktørId aktørId) {
+    public List<Melding> findByAktørId(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldinger(aktørId);
     }
 }
