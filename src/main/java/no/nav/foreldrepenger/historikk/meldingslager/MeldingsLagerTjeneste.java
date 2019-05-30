@@ -38,7 +38,7 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public Melding hentMeldingForId(String id) {
+    public Melding hentMeldingForId(Integer id) {
         return Optional.ofNullable(dao.hentForId(id))
                 .map(MeldingsLagerTjeneste::tilMelding)
                 .orElse(null);

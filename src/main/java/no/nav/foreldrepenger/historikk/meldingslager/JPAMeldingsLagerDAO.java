@@ -26,7 +26,7 @@ public class JPAMeldingsLagerDAO implements MeldingslagerDAO {
     }
 
     @Override
-    public JPAMeldingDAO hentForId(String id) {
+    public JPAMeldingDAO hentForId(Integer id) {
         return repository.findById(id);
     }
 }

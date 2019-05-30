@@ -10,6 +10,6 @@ public interface MeldingslagerDAO {
 
     List<JPAMeldingDAO> hentForAktør(String aktørId);
 
-    JPAMeldingDAO hentForId(String id);
+    JPAMeldingDAO hentForId(Integer id);
 
 }
