@@ -1,33 +1,28 @@
 package no.nav.foreldrepenger.historikk.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Entity
 public class Melding {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    public void setId(int id) {
+    private final int id;
+    private final AktørId aktørId;
+    private final String melding;
+
+    public Melding(AktørId aktørId, String melding) {
+        this(0, aktørId, melding);
+    }
+
+    @JsonCreator
+    public Melding(@JsonProperty("id") int id, @JsonProperty("aktørId") AktørId aktørId,
+            @JsonProperty("melding") String melding) {
         this.id = id;
-    }
-
-    private String fnr;
-    private String melding;
-
-    protected Melding() {
-    }
-
-    public Melding(String fnr, String melding) {
-        this.fnr = fnr;
+        this.aktørId = aktørId;
         this.melding = melding;
     }
 
-    public String getFnr() {
-        return fnr;
+    public AktørId getAktørId() {
+        return aktørId;
     }
 
     public String getMelding() {
@@ -40,6 +35,6 @@ public class Melding {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", melding=" + melding + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + "]";
     }
 }
