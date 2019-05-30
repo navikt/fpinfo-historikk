@@ -32,4 +32,9 @@ public class MeldingsKonsument {
         meldingsLager.lagre(mapper.convert(json, Melding.class));
         ack.acknowledge();
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[meldingsLager=" + meldingsLager + ", mapper=" + mapper + "]";
+    }
 }
