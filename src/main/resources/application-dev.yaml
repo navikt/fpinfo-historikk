@@ -11,6 +11,10 @@ spring.mvc.view.prefix: /WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 spring:
    jpa:
+      show-sql: false
+      properties:
+         hibernate:
+            format_sql=false
       hibernate:
          ddl-auto: create
    flyway:

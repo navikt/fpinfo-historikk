@@ -28,7 +28,9 @@
         <logger name="org.springframework.kafka" level="info" />  
          <logger name="org.springframework.data" level="info" />  
          <logger name="org.hibernate" level="info" />   
-         <logger name="org.apache.kafka" level="info" />      
+         <logger name="org.apache.kafka" level="info" />    
+         <logger name="org.hibernate.SQL" level="debug" />
+         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />   
     </springProfile>
 </configuration>
 
