@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.historikk.util;
 
 import static org.springframework.core.env.Profiles.of;
 
-import java.util.Optional;
-
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.core.env.Environment;
@@ -17,9 +15,7 @@ public final class EnvUtil {
     }
 
     public static boolean isDevOrPreprod(Environment env) {
-        return Optional.ofNullable(env)
-                .map(e -> isDev(e) || isPreprod(e))
-                .orElse(true);
+        return isDev(env) || isPreprod(env);
     }
 
     public static boolean isPreprod(Environment env) {
