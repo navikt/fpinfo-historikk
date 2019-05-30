@@ -28,8 +28,9 @@ public class MeldingsKonsument {
 
     @KafkaListener(topics = "#{'${kafka.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void listen(String json, Acknowledgment ack) {
-        LOG.info("#### -> Consumed message -> {},{} ", json);
-        meldingsLager.lagre(mapper.convert(json, Melding.class));
+        Melding melding = mapper.convert(json, Melding.class);
+        LOG.info("Mottok melding -> {}", json);
+        meldingsLager.lagre(melding);
         ack.acknowledge();
     }
 

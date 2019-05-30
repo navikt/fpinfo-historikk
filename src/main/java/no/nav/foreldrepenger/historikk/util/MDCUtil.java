@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.errorhandling;
+package no.nav.foreldrepenger.historikk.util;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
