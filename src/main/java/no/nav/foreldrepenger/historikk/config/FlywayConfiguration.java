@@ -8,21 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile({ PREPROD })
 public class FlywayConfiguration {
     @Bean
+    @Profile({ PREPROD })
     public FlywayConfigurationCustomizer flywayConfig() {
         return c -> c.initSql("SET ROLE \"fpinfo-historikk-preprod-admin\"");
     }
-    /*
-     * 
-     * @Bean FlywayMigrationInitializer flywayInitializer(Flyway flyway) { return
-     * new FlywayMigrationInitializer(flyway, (f) -> { }); }
-     * 
-     * @Bean
-     * 
-     * @DependsOn("entityManagerFactory") FlywayMigrationInitializer
-     * delayedFlywayInitializer(Flyway flyway) { return new
-     * FlywayMigrationInitializer(flyway, null); }
-     */
 }
