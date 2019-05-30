@@ -25,7 +25,7 @@ public class JacksonUtil {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
-            throw new UnexpectedInputException("Kunne ikke rekonstuere melding", e);
+            throw new UnexpectedInputException("Kunne ikke rekonstuere melding til %s", e, clazz);
         }
     }
 
