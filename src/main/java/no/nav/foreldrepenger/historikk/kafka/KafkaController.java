@@ -2,13 +2,14 @@ package no.nav.foreldrepenger.historikk.kafka;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,18 +28,18 @@ import no.nav.security.oidc.api.Unprotected;
 @RequestMapping(value = "/kafka")
 @Unprotected
 public class KafkaController {
-    private final MeldingsProdusent producer;
+    private final MeldingsProdusent produsent;
     private final MeldingsLagerTjeneste meldingsTjeneste;
 
-    KafkaController(MeldingsProdusent producer, MeldingsLagerTjeneste meldingsTjeneste) {
-        this.producer = producer;
+    KafkaController(MeldingsProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste) {
+        this.produsent = produsent;
         this.meldingsTjeneste = meldingsTjeneste;
     }
 
     @PostMapping(value = "/publish")
     public ResponseEntity<?> publish(@Valid @RequestBody Melding melding) {
-        this.producer.sendMelding(melding);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        produsent.sendMelding(melding);
+        return created(fromCurrentRequest().path("/{id}").build().toUri()).build();
     }
 
     @GetMapping("/find")
