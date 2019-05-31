@@ -10,23 +10,27 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Melding;
 import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.oppslag.OppslagConnection;
 
 @Service
 @Transactional
 public class MeldingsLagerTjeneste {
 
     private final MeldingsLagerDAO dao;
+    private final OppslagConnection oppslag;
 
-    public MeldingsLagerTjeneste(MeldingsLagerDAO dao) {
+    public MeldingsLagerTjeneste(MeldingsLagerDAO dao, OppslagConnection oppslag) {
         this.dao = dao;
+        this.oppslag = oppslag;
     }
 
-    public void lagre(Melding melding) {
-        dao.lagre(new JPAMelding(melding.getAktørId().getAktørId(), melding.getMelding(), melding.getSaknr()));
+    public void lagre(Melding m) {
+        dao.lagre(new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr()));
     }
 
     @Transactional(readOnly = true)
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
+        // AktørId id = oppslag.hentAktørId();
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
