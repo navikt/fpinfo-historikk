@@ -5,6 +5,8 @@ import java.net.URI;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import no.nav.foreldrepenger.historikk.util.URIUtil;
+
 @ConfigurationProperties(prefix = "oppslag")
 @Configuration
 public class OppslagConfig {
@@ -13,12 +15,8 @@ public class OppslagConfig {
     private static final String DEFAULT_PING_PATH = "actuator/info";
     private boolean enabled;
 
-    public String getAktørPath() {
-        return AKTØR;
-    }
-
-    public URI getBaseURI() {
-        return DEFAULT_BASE_URI;
+    public URI aktørURI() {
+        return URIUtil.uri(DEFAULT_BASE_URI, AKTØR);
     }
 
     public boolean isEnabled() {
@@ -29,8 +27,7 @@ public class OppslagConfig {
         this.enabled = enabled;
     }
 
-    public String getPingPath() {
-        return DEFAULT_PING_PATH;
+    public URI pingURI() {
+        return URIUtil.uri(DEFAULT_BASE_URI, DEFAULT_PING_PATH);
     }
-
 }

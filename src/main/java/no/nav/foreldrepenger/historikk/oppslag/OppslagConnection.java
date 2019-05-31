@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.oppslag;
 
-import static no.nav.foreldrepenger.historikk.util.URIUtil.uri;
-
 import java.net.URI;
 
 import org.slf4j.Logger;
@@ -30,11 +28,11 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
 
     @Override
     public URI pingEndpoint() {
-        return uri(cfg.getBaseURI(), cfg.getPingPath());
+        return cfg.pingURI();
     }
 
     public AktørId hentAktørId() {
-        return getForObject(uri(cfg.getBaseURI(), cfg.getAktørPath()), AktørId.class, true);
+        return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
     @Override
