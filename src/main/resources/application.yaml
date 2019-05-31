@@ -1,3 +1,6 @@
+oppslag :
+   enabled : false
+
 http:
    proxy: http://webproxy-nais.nav.no:8088
 
