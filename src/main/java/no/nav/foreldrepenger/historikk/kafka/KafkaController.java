@@ -34,22 +34,27 @@ public class KafkaController {
     }
 
     @PostMapping(value = "/publish")
-    public void publish(@Valid @RequestBody Melding melding) {
+    public void sendMelding(@Valid @RequestBody Melding melding) {
         produsent.sendMelding(melding);
     }
 
     @GetMapping("/find")
-    public List<Melding> findByAktørId(@RequestParam("aktørId") AktørId aktørId) {
+    public List<Melding> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);
     }
 
     @GetMapping("/alle")
-    public List<Melding> findAlle() {
+    public List<Melding> hentAlle() {
         return meldingsTjeneste.hentAlle();
     }
 
     @GetMapping("/id")
-    public Melding findById(@RequestParam("id") Long id) {
+    public Melding hentMeldingForId(@RequestParam("id") Long id) {
         return meldingsTjeneste.hentMeldingForId(id);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [produsent=" + produsent + ", meldingsTjeneste=" + meldingsTjeneste + "]";
     }
 }
