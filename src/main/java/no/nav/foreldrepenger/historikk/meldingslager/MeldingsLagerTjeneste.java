@@ -22,7 +22,7 @@ public class MeldingsLagerTjeneste {
     }
 
     public void lagre(Melding melding) {
-        dao.lagre(new JPAMelding(melding.getAktørId().getAktørId(), melding.getMelding()));
+        dao.lagre(new JPAMelding(melding.getAktørId().getAktørId(), melding.getMelding(), melding.getSaknr()));
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +49,7 @@ public class MeldingsLagerTjeneste {
     }
 
     private static Melding tilMelding(JPAMelding m) {
-        Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding());
+        Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
         return melding;
     }
