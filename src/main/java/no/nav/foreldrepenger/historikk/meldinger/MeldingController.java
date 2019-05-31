@@ -22,7 +22,7 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ DEV, PREPROD })
-@RequestMapping(value = "/kafka")
+@RequestMapping(value = "/historikk")
 @Unprotected
 @Api(value = "Endpoint for message management", protocols = "http,https")
 public class MeldingController {
