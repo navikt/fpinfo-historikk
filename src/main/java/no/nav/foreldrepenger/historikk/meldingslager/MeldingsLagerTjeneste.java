@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,8 @@ import no.nav.foreldrepenger.historikk.oppslag.OppslagConnection;
 @Service
 @Transactional
 public class MeldingsLagerTjeneste {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MeldingsLagerTjeneste.class);
 
     private final MeldingsLagerDAO dao;
     private final OppslagConnection oppslag;
@@ -30,11 +34,21 @@ public class MeldingsLagerTjeneste {
 
     @Transactional(readOnly = true)
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
-        // AktørId id = oppslag.hentAktørId();
-        return dao.hentForAktør(aktørId.getAktørId())
+        return dao.hentForAktør(overstyrAktørIdHvisNødvendig(aktørId).getAktørId())
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
                 .collect(toList());
+    }
+
+    private AktørId overstyrAktørIdHvisNødvendig(AktørId aktørId) {
+        if (oppslag.isEnabled()) {
+            LOG.info("Overstyrer aktørid {}", aktørId);
+            AktørId id = oppslag.hentAktørId();
+            LOG.info("Aktørid er {} for innlogget bruker", id);
+            return id;
+        }
+        LOG.info("Bruker gitt aktørid {}", aktørId);
+        return aktørId;
     }
 
     @Transactional(readOnly = true)
@@ -60,6 +74,7 @@ public class MeldingsLagerTjeneste {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [dao=" + dao + "]";
+        return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
     }
+
 }

@@ -42,6 +42,10 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
         return getClass().getSimpleName() + " [cfg=" + cfg + "]";
     }
 
+    public boolean isEnabled() {
+        return cfg.isEnabled();
+    }
+
     @Override
     public String name() {
         return "fpsoknad-oppslag";
