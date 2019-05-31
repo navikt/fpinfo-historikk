@@ -15,9 +15,9 @@ import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
 @Transactional
 public class MeldingsLagerTjeneste {
 
-    private final MeldingslagerDAO dao;
+    private final MeldingsLagerDAO dao;
 
-    public MeldingsLagerTjeneste(MeldingslagerDAO dao) {
+    public MeldingsLagerTjeneste(MeldingsLagerDAO dao) {
         this.dao = dao;
     }
 

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
 
-public interface MeldingslagerDAO {
+public interface MeldingsLagerDAO {
 
     void lagre(JPAMelding meldingDAO);
 
