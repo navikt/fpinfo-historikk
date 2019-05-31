@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.kafka;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
@@ -11,17 +11,16 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.Melding;
-import no.nav.foreldrepenger.historikk.meldingslager.MeldingsLagerTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MeldingsKonsument {
-    private static final Logger LOG = LoggerFactory.getLogger(MeldingsKonsument.class);
+public class MeldingKonsument {
+    private static final Logger LOG = LoggerFactory.getLogger(MeldingKonsument.class);
     private final MeldingsLagerTjeneste meldingsLager;
     private final JacksonUtil mapper;
 
-    public MeldingsKonsument(MeldingsLagerTjeneste meldingsLager, JacksonUtil mapper) {
+    public MeldingKonsument(MeldingsLagerTjeneste meldingsLager, JacksonUtil mapper) {
         this.meldingsLager = meldingsLager;
         this.mapper = mapper;
     }

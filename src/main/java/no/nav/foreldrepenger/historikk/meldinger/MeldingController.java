@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.kafka;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
@@ -15,20 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Melding;
-import no.nav.foreldrepenger.historikk.meldingslager.MeldingsLagerTjeneste;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ DEV, PREPROD })
 @RequestMapping(value = "/kafka")
 @Unprotected
-public class KafkaController {
-    private final MeldingsProdusent produsent;
+@Api(value = "Endpoint for message management", protocols = "http,https")
+public class MeldingController {
+    private final MeldingProdusent produsent;
     private final MeldingsLagerTjeneste meldingsTjeneste;
 
-    KafkaController(MeldingsProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste) {
+    MeldingController(MeldingProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste) {
         this.produsent = produsent;
         this.meldingsTjeneste = meldingsTjeneste;
     }

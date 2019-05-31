@@ -1,9 +1,9 @@
-package no.nav.foreldrepenger.historikk.meldingslager;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import java.util.List;
 import java.util.Optional;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 public interface MeldingsLagerDAO {
 
