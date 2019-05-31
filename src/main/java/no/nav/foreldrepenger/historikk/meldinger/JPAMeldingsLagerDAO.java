@@ -1,11 +1,11 @@
-package no.nav.foreldrepenger.historikk.meldingslager;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import no.nav.foreldrepenger.historikk.meldingslager.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 @Repository
 public class JPAMeldingsLagerDAO implements MeldingsLagerDAO {

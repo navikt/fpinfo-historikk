@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.kafka;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
@@ -14,12 +14,12 @@ import no.nav.foreldrepenger.historikk.domain.Melding;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MeldingsProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(MeldingsProdusent.class);
+public class MeldingProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(MeldingProdusent.class);
     private final String topic;
     private final KafkaTemplate<String, Melding> kafkaTemplate;
 
-    public MeldingsProdusent(@Value("${kafka.topic}") String topic, KafkaTemplate<String, Melding> kafkaTemplate) {
+    public MeldingProdusent(@Value("${kafka.topic}") String topic, KafkaTemplate<String, Melding> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
     }

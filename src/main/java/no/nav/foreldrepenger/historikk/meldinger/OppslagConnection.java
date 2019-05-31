@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.oppslag;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import java.net.URI;
 
@@ -10,6 +10,7 @@ import org.springframework.web.client.RestOperations;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
+import no.nav.foreldrepenger.historikk.oppslag.OppslagConfig;
 
 @Component
 public class OppslagConnection extends AbstractRestConnection implements PingEndpointAware {
