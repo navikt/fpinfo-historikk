@@ -70,6 +70,7 @@ public class MeldingsLagerTjeneste {
         Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
+        melding.setLest(m.getLest());
         return melding;
     }
 

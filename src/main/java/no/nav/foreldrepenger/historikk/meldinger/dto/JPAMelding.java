@@ -22,6 +22,15 @@ public class JPAMelding {
     private LocalDate dato;
     private String saksnr;
     private String kanal;
+    private LocalDate lest;
+
+    public void setLest(LocalDate lest) {
+        this.lest = lest;
+    }
+
+    public LocalDate getLest() {
+        return lest;
+    }
 
     private JPAMelding() {
     }

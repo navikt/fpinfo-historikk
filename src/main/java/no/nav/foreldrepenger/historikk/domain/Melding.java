@@ -9,6 +9,15 @@ public class Melding {
     private final String saknr;
     private LocalDate dato;
     private LeveranseKanal kanal;
+    private LocalDate lest;
+
+    public LocalDate getLest() {
+        return lest;
+    }
+
+    public void setLest(LocalDate lest) {
+        this.lest = lest;
+    }
 
     public LeveranseKanal getKanal() {
         return kanal;
