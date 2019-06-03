@@ -21,14 +21,20 @@ public class JPAMelding {
     @Column(insertable = false, updatable = false)
     private LocalDate dato;
     private String saksnr;
+    private String kanal;
 
     private JPAMelding() {
     }
 
-    public JPAMelding(String aktørId, String melding, String saksnr) {
+    public JPAMelding(String aktørId, String melding, String saksnr, String kanal) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saksnr = saksnr;
+        this.kanal = kanal;
+    }
+
+    public String getKanal() {
+        return kanal;
     }
 
     public LocalDate getDato() {
@@ -54,7 +60,7 @@ public class JPAMelding {
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
-                + dato + ", saksnr=" + saksnr + "]";
+                + dato + ", saksnr=" + saksnr + ", kanal=" + kanal + "]";
     }
 
 }

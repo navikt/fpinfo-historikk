@@ -8,6 +8,15 @@ public class Melding {
     private final String melding;
     private final String saknr;
     private LocalDate dato;
+    private LeveranseKanal kanal;
+
+    public LeveranseKanal getKanal() {
+        return kanal;
+    }
+
+    public void setKanal(LeveranseKanal kanal) {
+        this.kanal = kanal;
+    }
 
     public Melding(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
@@ -38,7 +47,7 @@ public class Melding {
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [aktørId=" + aktørId + ", melding=" + melding + ", saknr=" + saknr
-                + ", dato=" + dato + "]";
+                + ", dato=" + dato + ", kanal=" + kanal + "]";
     }
 
 }

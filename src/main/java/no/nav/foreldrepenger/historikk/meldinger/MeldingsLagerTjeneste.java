@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.Melding;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
@@ -28,7 +29,7 @@ public class MeldingsLagerTjeneste {
     }
 
     public void lagre(Melding m) {
-        dao.lagre(new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr()));
+        dao.lagre(new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name()));
     }
 
     @Transactional(readOnly = true)
@@ -68,6 +69,7 @@ public class MeldingsLagerTjeneste {
     private static Melding tilMelding(JPAMelding m) {
         Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
+        melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         return melding;
     }
 
