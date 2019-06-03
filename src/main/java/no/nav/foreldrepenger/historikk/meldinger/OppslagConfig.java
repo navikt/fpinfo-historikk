@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.oppslag;
+package no.nav.foreldrepenger.historikk.meldinger;
 
 import java.net.URI;
 
