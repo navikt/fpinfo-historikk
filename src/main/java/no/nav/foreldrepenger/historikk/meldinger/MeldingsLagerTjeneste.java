@@ -41,7 +41,7 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<Melding> hentMeldingerForAktør() {
+    public List<Melding> hentMineMeldinger() {
         AktørId id = oppslag.hentAktørId();
         return hentMeldingerForAktør(id);
     }

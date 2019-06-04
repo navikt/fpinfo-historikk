@@ -48,8 +48,8 @@ public class MeldingController {
     }
 
     @GetMapping("/find/me")
-    public List<Melding> hentMeldingerForAktør() {
-        return meldingsTjeneste.hentMeldingerForAktør();
+    public List<Melding> meldinger() {
+        return meldingsTjeneste.hentMineMeldinger();
     }
 
     @Unprotected
