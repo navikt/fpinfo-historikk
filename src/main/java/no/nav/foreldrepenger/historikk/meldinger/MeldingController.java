@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.security.oidc.api.ProtectedWithClaims;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ DEV, PREPROD })
 @RequestMapping(value = "/historikk")
-@Unprotected
+@ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
 @Api(value = "Endpoint for message management", protocols = "http,https")
 public class MeldingController {
     private final MeldingProdusent produsent;
@@ -34,11 +35,13 @@ public class MeldingController {
         this.meldingsTjeneste = meldingsTjeneste;
     }
 
+    @Unprotected
     @PostMapping(value = "/publish")
     public void sendMelding(@Valid @RequestBody Melding melding) {
         produsent.sendMelding(melding);
     }
 
+    @Unprotected
     @GetMapping("/find")
     public List<Melding> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);
@@ -49,16 +52,19 @@ public class MeldingController {
         return meldingsTjeneste.hentMeldingerForAktør();
     }
 
+    @Unprotected
     @GetMapping("/merk")
     public void merkAlleLestForAktør(@RequestParam("aktørId") AktørId aktørId) {
         meldingsTjeneste.merkAlleLest(aktørId);
     }
 
+    @Unprotected
     @GetMapping("/alle")
     public List<Melding> hentAlle() {
         return meldingsTjeneste.hentAlle();
     }
 
+    @Unprotected
     @GetMapping("/id")
     public Melding hentMeldingForId(@RequestParam("id") Long id) {
         return meldingsTjeneste.hentMeldingForId(id);
