@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +13,6 @@ public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long>
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
 
     @Modifying
-    @Query("UPDATE JPAMelding m SET m.lest = ?2 WHERE m.aktørId = ?1")
-    void merkAlle(String aktørId, LocalDate date);
+    @Query(value = "UPDATE melding set m.lest = CURRENT_DATE where m.aktørId = ?1", nativeQuery = true)
+    void merkAlle(String aktørId);
 }
