@@ -5,7 +5,7 @@
     "description": "The http proxy to be used"
   },
   {
-    "name": "kafka.topic",
+    "name": "no.nav.foreldrepenger.historikk.kafka.meldinger.topic",
     "type": "java.lang.String",
     "description": "The topic to consume from"
   }

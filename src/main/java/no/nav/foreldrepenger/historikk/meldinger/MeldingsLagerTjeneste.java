@@ -34,21 +34,16 @@ public class MeldingsLagerTjeneste {
 
     @Transactional(readOnly = true)
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
-        return dao.hentForAktør(overstyrAktørIdHvisNødvendig(aktørId).getAktørId())
+        return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
                 .collect(toList());
     }
 
-    private AktørId overstyrAktørIdHvisNødvendig(AktørId aktørId) {
-        if (oppslag.isEnabled()) {
-            LOG.info("Overstyrer aktørid {}", aktørId);
-            AktørId id = oppslag.hentAktørId();
-            LOG.info("Aktørid er {} for innlogget bruker", id);
-            return id;
-        }
-        LOG.info("Bruker gitt aktørid {}", aktørId);
-        return aktørId;
+    @Transactional(readOnly = true)
+    public List<Melding> hentMeldingerForAktør() {
+        AktørId id = oppslag.hentAktørId();
+        return hentMeldingerForAktør(id);
     }
 
     @Transactional(readOnly = true)
@@ -66,6 +61,10 @@ public class MeldingsLagerTjeneste {
                 .collect(toList());
     }
 
+    public void merkAlleLest(AktørId aktørId) {
+        dao.merkAlle(aktørId.getAktørId());
+    }
+
     private static Melding tilMelding(JPAMelding m) {
         Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
@@ -77,10 +76,6 @@ public class MeldingsLagerTjeneste {
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
-    }
-
-    public void merkAlleLest(AktørId aktørId) {
-        dao.merkAlle(aktørId.getAktørId());
     }
 
 }

@@ -1,11 +1,12 @@
-oppslag :
-   enabled : false
-
 http:
    proxy: http://webproxy-nais.nav.no:8088
 
-kafka:
-   topic: fpinfo-historikk
+no.nav.foreldrepenger.historikk:
+   oppslag:
+      enabled: false
+   kafka:
+      meldinger:
+         topic: fpinfo-historikk
 
 info:
    app:
