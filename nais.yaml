@@ -1,4 +1,5 @@
 name: fpinfo-historikk
+vault.enabled : true
 secrets: true
 team: teamforeldrepenger
 image: repo.adeo.no:5443/fpinfo-historikk
