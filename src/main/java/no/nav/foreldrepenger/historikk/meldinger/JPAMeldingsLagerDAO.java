@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +38,7 @@ public class JPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
     @Override
     public void merkAlle(String aktørId) {
-        repository.merkAlle(aktørId, LocalDate.now());
+        repository.merkAlle(aktørId);
     }
 
     @Override
