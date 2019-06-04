@@ -15,4 +15,6 @@ public interface MeldingsLagerDAO {
 
     List<JPAMelding> hentAlle();
 
+    void merkAlle(String aktørId);
+
 }

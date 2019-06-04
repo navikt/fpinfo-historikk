@@ -79,4 +79,8 @@ public class MeldingsLagerTjeneste {
         return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
     }
 
+    public void merkAlleLest(AktørId aktørId) {
+        dao.merkAlle(aktørId.getAktørId());
+    }
+
 }

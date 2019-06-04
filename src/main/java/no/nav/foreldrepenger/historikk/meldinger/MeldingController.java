@@ -44,6 +44,11 @@ public class MeldingController {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);
     }
 
+    @GetMapping("/merk")
+    public void merkAlleLestForAktør(@RequestParam("aktørId") AktørId aktørId) {
+        meldingsTjeneste.merkAlleLest(aktørId);
+    }
+
     @GetMapping("/alle")
     public List<Melding> hentAlle() {
         return meldingsTjeneste.hentAlle();
