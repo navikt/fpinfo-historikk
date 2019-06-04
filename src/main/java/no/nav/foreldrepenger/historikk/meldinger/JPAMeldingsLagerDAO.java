@@ -23,7 +23,7 @@ public class JPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
     @Override
     public List<JPAMelding> hentForAktør(String aktørId) {
-        return repository.findByAktørId(aktørId);
+        return repository.finnUlesteMeldinger(aktørId);
     }
 
     @Override
