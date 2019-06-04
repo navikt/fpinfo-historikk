@@ -3,7 +3,7 @@ http:
 
 no.nav.foreldrepenger.historikk:
    oppslag:
-      enabled: false
+      enabled: true
    kafka:
       meldinger:
          topic: fpinfo-historikk
