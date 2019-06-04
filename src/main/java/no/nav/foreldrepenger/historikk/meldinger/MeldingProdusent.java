@@ -19,13 +19,14 @@ public class MeldingProdusent {
     private final String topic;
     private final KafkaTemplate<String, Melding> kafkaTemplate;
 
-    public MeldingProdusent(@Value("${kafka.topic}") String topic, KafkaTemplate<String, Melding> kafkaTemplate) {
+    public MeldingProdusent(@Value("${no.nav.foreldrepenger.historikk.kafka.meldinger.topic}") String topic,
+            KafkaTemplate<String, Melding> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
     }
 
     public void sendMelding(Melding melding) {
-        LOG.info(String.format("#### -> Producing message -> %s", melding));
+        LOG.info(String.format("Sender melding %s", melding));
         this.kafkaTemplate.send(topic, melding);
     }
 
