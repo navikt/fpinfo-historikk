@@ -32,7 +32,6 @@ public class MeldingsLagerTjeneste {
     public MeldingsLagerTjeneste(MeldingsLagerDAO dao, OppslagConnection oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
-        LOG.info("FP.TEST ER " + test);
     }
 
     public void lagre(Melding m) {
@@ -62,6 +61,7 @@ public class MeldingsLagerTjeneste {
 
     @Transactional(readOnly = true)
     public List<Melding> hentAlle() {
+        LOG.info("Henter alle, FPTEST ER " + test);
         return dao.hentAlle()
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
