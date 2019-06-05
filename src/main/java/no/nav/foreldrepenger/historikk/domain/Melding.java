@@ -4,12 +4,19 @@ import java.time.LocalDate;
 
 public class Melding {
 
+    private long id;
     private final AktørId aktørId;
     private final String melding;
     private final String saknr;
     private LocalDate dato;
     private LeveranseKanal kanal;
     private LocalDate lest;
+
+    public Melding(AktørId aktørId, String melding, String saksnr) {
+        this.aktørId = aktørId;
+        this.melding = melding;
+        this.saknr = saksnr;
+    }
 
     public LocalDate getLest() {
         return lest;
@@ -25,12 +32,6 @@ public class Melding {
 
     public void setKanal(LeveranseKanal kanal) {
         this.kanal = kanal;
-    }
-
-    public Melding(AktørId aktørId, String melding, String saksnr) {
-        this.aktørId = aktørId;
-        this.melding = melding;
-        this.saknr = saksnr;
     }
 
     public LocalDate getDato() {
@@ -53,10 +54,12 @@ public class Melding {
         return saknr;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [aktørId=" + aktørId + ", melding=" + melding + ", saknr=" + saknr
-                + ", dato=" + dato + ", kanal=" + kanal + "]";
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 }

@@ -29,7 +29,7 @@ public class MeldingsLagerTjeneste {
     }
 
     public void lagre(Melding m) {
-        dao.lagre(new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name()));
+        dao.lagre(fraMelding(m));
     }
 
     @Transactional(readOnly = true)
@@ -65,11 +65,16 @@ public class MeldingsLagerTjeneste {
         dao.merkAlle(aktørId.getAktørId());
     }
 
+    private static JPAMelding fraMelding(Melding m) {
+        return new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name());
+    }
+
     private static Melding tilMelding(JPAMelding m) {
         Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setLest(m.getLest());
+        melding.setId(m.getId());
         return melding;
     }
 
