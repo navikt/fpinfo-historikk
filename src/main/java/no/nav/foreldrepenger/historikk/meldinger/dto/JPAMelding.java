@@ -6,12 +6,14 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "melding")
+@EntityListeners(JPAMeldingListener.class)
 public class JPAMelding {
     @Id
     @GeneratedValue(strategy = IDENTITY)
