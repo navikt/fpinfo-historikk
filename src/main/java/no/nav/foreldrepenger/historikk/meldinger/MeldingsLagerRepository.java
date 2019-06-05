@@ -6,9 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
+@Transactional
 public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long> {
     @Query("SELECT m FROM JPAMelding m WHERE m.aktørId = ?1 AND m.lest IS NULL")
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
