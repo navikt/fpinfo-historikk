@@ -16,6 +16,6 @@ public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long>
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
 
     @Modifying
-    @Query("UPDATE JPAMelding m SET m.lest = NULL  WHERE m.aktørId = :aktørid")
+    @Query("UPDATE m JPAMelding SET m.lest = NULL  WHERE m.aktørId = :aktørid")
     void merkAlle(@Param("aktørid") String aktørid);
 }
