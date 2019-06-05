@@ -11,10 +11,10 @@ import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 @Transactional
 public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long> {
-    @Query("SELECT m FROM JPAMelding m WHERE m.aktørId = ?1 AND m.lest IS NULL")
+    @Query("select m from JPAMelding m where m.aktørId = ?1 and m.lest is null")
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
 
     @Modifying
-    @Query("update JPAMelding m set  m.lest = current_date where m.aktørId = ?1")
+    @Query("update JPAMelding m set m.lest = current_date where m.aktørId = ?1")
     void merkAlle(String aktørid);
 }
