@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
@@ -13,6 +14,6 @@ public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long>
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
 
     @Modifying
-    @Query(value = "UPDATE melding m set m.lest = CURRENT_DATE where m.aktør_id = ?1", nativeQuery = true)
-    void merkAlle(String aktørId);
+    @Query("UPDATE JPAMelding m SET m.lest = CURRENT_DATE WHERE m.aktørId = :aktørid")
+    void merkAlle(@Param("aktørid") String aktørid);
 }

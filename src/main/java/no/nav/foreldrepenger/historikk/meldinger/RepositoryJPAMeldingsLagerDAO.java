@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 @Repository
-public class JPAMeldingsLagerDAO implements MeldingsLagerDAO {
+public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
     private final MeldingsLagerRepository repository;
 
-    public JPAMeldingsLagerDAO(MeldingsLagerRepository repository) {
+    public RepositoryJPAMeldingsLagerDAO(MeldingsLagerRepository repository) {
         this.repository = repository;
     }
 

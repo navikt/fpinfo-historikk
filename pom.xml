@@ -15,7 +15,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<oidc-spring-support.version>0.2.15</oidc-spring-support.version>
+		<oidc-spring-support.version>0.2.18</oidc-spring-support.version>
 		<springfox.version>2.9.2</springfox.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
