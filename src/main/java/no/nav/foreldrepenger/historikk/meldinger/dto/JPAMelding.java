@@ -6,14 +6,12 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "melding")
-@EntityListeners(JPAMeldingListener.class)
 public class JPAMelding {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -26,14 +24,6 @@ public class JPAMelding {
     private String kanal;
     private LocalDate lest;
 
-    public void setLest(LocalDate lest) {
-        this.lest = lest;
-    }
-
-    public LocalDate getLest() {
-        return lest;
-    }
-
     private JPAMelding() {
     }
 
@@ -42,6 +32,14 @@ public class JPAMelding {
         this.melding = melding;
         this.saksnr = saksnr;
         this.kanal = kanal;
+    }
+
+    public void setLest(LocalDate lest) {
+        this.lest = lest;
+    }
+
+    public LocalDate getLest() {
+        return lest;
     }
 
     public String getKanal() {
