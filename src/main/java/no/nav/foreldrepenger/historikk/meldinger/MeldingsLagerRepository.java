@@ -16,5 +16,5 @@ public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long>
 
     @Modifying
     @Query("update JPAMelding m set m.lest = current_date where m.id = ?1")
-    void markerLest(String id);
+    void markerLest(long id);
 }

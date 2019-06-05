@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.Melding;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
@@ -18,12 +17,10 @@ import no.nav.security.oidc.api.ProtectedWithClaims;
 public class MeldingController {
     private final MeldingProdusent produsent;
     private final MeldingsLagerTjeneste meldingsTjeneste;
-    private final TokenUtil tokenUtil;
 
-    MeldingController(MeldingProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste, TokenUtil tokenUtil) {
+    MeldingController(MeldingProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste) {
         this.produsent = produsent;
         this.meldingsTjeneste = meldingsTjeneste;
-        this.tokenUtil = tokenUtil;
     }
 
     @GetMapping("/find/me")

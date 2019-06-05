@@ -33,6 +33,7 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
+    @LogExecutionTime
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
@@ -45,8 +46,8 @@ public class MeldingsLagerTjeneste {
         return hentMeldingerForAktør(oppslag.hentAktørId());
     }
 
-    public void markerLest(String id) {
-        dao.markerLest(id);
+    public void markerLest(long id) {
+        dao.markerLest(id, oppslag.hentAktørId());
     }
 
     private static JPAMelding fraMelding(Melding m) {

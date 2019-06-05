@@ -45,7 +45,7 @@ public class MeldingPreprodController {
     }
 
     @GetMapping("/merk")
-    public void markerLest(@RequestParam("id") String id) {
+    public void markerLest(@RequestParam("id") long id) {
         meldingsTjeneste.markerLest(id);
     }
 
