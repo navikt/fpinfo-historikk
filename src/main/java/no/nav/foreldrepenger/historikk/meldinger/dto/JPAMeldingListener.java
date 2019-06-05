@@ -8,39 +8,45 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class JPAMeldingListener {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JPAMeldingListener.class);
+
     @PrePersist
     public void userPrePersist(JPAMelding ob) {
-        System.out.println("Listening Melding Pre Persist : " + ob);
+        LOG.info("Listening Melding Pre Persist : " + ob);
     }
 
     @PostPersist
     public void userPostPersist(JPAMelding ob) {
-        System.out.println("Listening Melding Post Persist : " + ob);
+        LOG.info("Listening Melding Post Persist : " + ob);
     }
 
     @PostLoad
     public void userPostLoad(JPAMelding ob) {
-        System.out.println("Listening Melding Post Load : " + ob);
+        LOG.info("Listening Melding Post Load : " + ob);
     }
 
     @PreUpdate
     public void userPreUpdate(JPAMelding ob) {
-        System.out.println("Listening Melding Pre Update : " + ob);
+        LOG.info("Listening Melding Pre Update : " + ob);
     }
 
     @PostUpdate
     public void userPostUpdate(JPAMelding ob) {
-        System.out.println("Listening Melding Post Update : " + ob);
+        LOG.info("Listening Melding Post Update : " + ob);
     }
 
     @PreRemove
     public void userPreRemove(JPAMelding ob) {
-        System.out.println("Listening Melding Pre Remove : " + ob);
+        LOG.info("Listening Melding Pre Remove : " + ob);
     }
 
     @PostRemove
     public void userPostRemove(JPAMelding ob) {
-        System.out.println("Listening Melding Post Remove : " + ob);
+        LOG.info("Listening Melding Post Remove : " + ob);
     }
 }
