@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
@@ -16,6 +15,6 @@ public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long>
     List<JPAMelding> finnUlesteMeldinger(String aktørId);
 
     @Modifying
-    @Query("UPDATE m JPAMelding SET m.lest = NULL  WHERE m.aktørId = :aktørid")
-    void merkAlle(@Param("aktørid") String aktørid);
+    @Query("update JPAMelding m SET m.lest = NULL  WHERE m.aktørId = ?1")
+    void merkAlle(String aktørid);
 }
