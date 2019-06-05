@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,40 +9,30 @@ import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 @Repository
 public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
-    private final MeldingsLagerRepository repository;
+    private final MeldingsLagerRepository repo;
 
-    public RepositoryJPAMeldingsLagerDAO(MeldingsLagerRepository repository) {
-        this.repository = repository;
+    public RepositoryJPAMeldingsLagerDAO(MeldingsLagerRepository repo) {
+        this.repo = repo;
     }
 
     @Override
     public void lagre(JPAMelding meldingDAO) {
-        repository.save(meldingDAO);
+        repo.save(meldingDAO);
     }
 
     @Override
     public List<JPAMelding> hentForAktør(String aktørId) {
-        return repository.finnUlesteMeldinger(aktørId);
+        return repo.finnUlesteMeldinger(aktørId);
     }
 
     @Override
-    public Optional<JPAMelding> hentForId(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public List<JPAMelding> hentAlle() {
-        return repository.findAll();
-    }
-
-    @Override
-    public void merkAlle(String aktørId) {
-        repository.merkAlle(aktørId);
+    public void markerLest(String id) {
+        repo.markerLest(id);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [repository=" + repository + "]";
+        return getClass().getSimpleName() + " [repo=" + repo + "]";
     }
 
 }
