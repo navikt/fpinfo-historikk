@@ -8,5 +8,18 @@
     "name": "no.nav.foreldrepenger.historikk.kafka.meldinger.topic",
     "type": "java.lang.String",
     "description": "The topic to consume from"
+  },
+  {
+    "name": "no.nav.foreldrepenger.historikk.oppslag.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'no.nav.foreldrepenger.historikk.oppslag'"
+  },
+  {
+    "name": "no.nav.security.oidc.issuer.selvbetjening",
+    "description": "A description for 'no.nav.security.oidc.issuer.selvbetjening'"
+  },
+  {
+    "name": "no.nav.security.oidc.issuers",
+    "description": "A description for 'no.nav.security.oidc.issuers'"
   }
 ]}

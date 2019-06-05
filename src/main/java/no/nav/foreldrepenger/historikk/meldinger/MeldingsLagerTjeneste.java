@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +22,6 @@ public class MeldingsLagerTjeneste {
 
     private final MeldingsLagerDAO dao;
     private final OppslagConnection oppslag;
-
-    @Autowired
-    @Value("${fp.test:jalla}")
-    String test;
 
     public MeldingsLagerTjeneste(MeldingsLagerDAO dao, OppslagConnection oppslag) {
         this.dao = dao;
@@ -61,7 +55,6 @@ public class MeldingsLagerTjeneste {
 
     @Transactional(readOnly = true)
     public List<Melding> hentAlle() {
-        LOG.info("Henter alle, FPTEST ER " + test);
         return dao.hentAlle()
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
