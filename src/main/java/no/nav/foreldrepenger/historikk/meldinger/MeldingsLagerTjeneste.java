@@ -33,7 +33,7 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    @LogExecutionTime
+    @AuthorizeAktørId
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
