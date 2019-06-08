@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.Melding;
@@ -26,9 +27,9 @@ public class MeldingKonsument {
     }
 
     @KafkaListener(topics = "#{'${no.nav.foreldrepenger.historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(String json, Acknowledgment ack) {
+    public void listen(String json, Acknowledgment ack, @Header("X-Custom-Header") String customHeader) {
         Melding melding = mapper.convert(json, Melding.class);
-        LOG.info("Mottok melding {}", json);
+        LOG.info("Mottok melding {} med header {}", json, customHeader);
         meldingsLager.lagre(melding);
         ack.acknowledge();
     }
