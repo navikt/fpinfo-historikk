@@ -62,4 +62,11 @@ public class Melding {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
+                + saknr + ", dato="
+                + dato + ", kanal=" + kanal + ", lest=" + lest + "]";
+    }
+
 }

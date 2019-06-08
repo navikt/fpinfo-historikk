@@ -27,7 +27,7 @@ public class MeldingProdusent {
 
     public void sendMelding(Melding melding) {
 
-        LOG.info(String.format("Sender melding %s", melding));
+        LOG.info(String.format("Sender melding %s på topic %s", melding, topic));
         this.kafkaTemplate.send(topic, melding);
     }
 
