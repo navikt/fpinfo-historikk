@@ -19,7 +19,7 @@ public class MeldingProdusent {
     private final String topic;
     private final KafkaTemplate<String, Melding> kafkaTemplate;
 
-    public MeldingProdusent(@Value("${no.nav.foreldrepenger.historikk.kafka.meldinger.topic}") String topic,
+    public MeldingProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
             KafkaTemplate<String, Melding> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;

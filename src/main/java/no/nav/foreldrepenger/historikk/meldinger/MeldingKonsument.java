@@ -25,7 +25,7 @@ public class MeldingKonsument {
         this.mapper = mapper;
     }
 
-    @KafkaListener(topics = "#{'${no.nav.foreldrepenger.historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void listen(String json, Acknowledgment ack) {
         Melding melding = mapper.convert(json, Melding.class);
         LOG.info("Mottok melding {}", json);

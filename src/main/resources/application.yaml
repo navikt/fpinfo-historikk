@@ -7,7 +7,7 @@ no.nav.security.oidc :
        discoveryurl : Set from FASIT
        accepted_audience : <Set from FASIT>
        
-no.nav.foreldrepenger.historikk:
+historikk:
    oppslag:
       enabled: true
    kafka:
