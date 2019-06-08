@@ -22,16 +22,19 @@ public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
     @Override
     public void lagre(JPAMelding meldingDAO) {
+
         repo.save(meldingDAO);
     }
 
     @Override
     public List<JPAMelding> hentForAktør(String aktørId) {
+        LOG.info("Henter meldinger for {}", aktørId);
         return repo.findByAktørId(aktørId);
     }
 
     @Override
     public void markerLest(long id, AktørId aktørId) {
+        LOG.info("Markerer melding {} lest", id);
         repo.markerLest(id);
     }
 
