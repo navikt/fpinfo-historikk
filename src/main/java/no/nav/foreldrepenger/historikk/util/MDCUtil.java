@@ -6,12 +6,21 @@ import java.util.Optional;
 
 import org.slf4j.MDC;
 
+import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
+
 public final class MDCUtil {
+
+    private static final CallIdGenerator GEN = new CallIdGenerator();
+
     private MDCUtil() {
     }
 
     public static String callId() {
         return MDC.get(NAV_CALL_ID);
+    }
+
+    public static String callIdOrNew() {
+        return Optional.ofNullable(callId()).orElse(GEN.create());
     }
 
     public static void toMDC(String key, Object value) {

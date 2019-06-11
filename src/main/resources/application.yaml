@@ -3,17 +3,17 @@ http:
 
 no.nav.security.oidc :
     issuers :  selvbetjening
-    issuer.selvbetjening :
-       discoveryurl : Set from FASIT
-       accepted_audience : <Set from FASIT>
-       
+    issuer:
+       selvbetjening :
+          discoveryurl : <Set from FASIT>
+          accepted_audience : <Set from FASIT>       
 historikk:
    oppslag:
       enabled: true
    kafka:
       meldinger:
          topic: fpinfo-historikk
-
+         søknad_topic : fpsoknad-mottak
 info:
    app:
       version: '@project.version@'

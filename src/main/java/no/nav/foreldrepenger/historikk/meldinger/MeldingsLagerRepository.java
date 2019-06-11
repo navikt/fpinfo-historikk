@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
-@Transactional
+@Transactional("jpa")
 public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long> {
 
     @Modifying

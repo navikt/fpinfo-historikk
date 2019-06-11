@@ -8,12 +8,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.config.Constants;
 import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
+
 public class MeldingProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MeldingProdusent.class);
     private final String topic;
@@ -25,10 +32,15 @@ public class MeldingProdusent {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    @Transactional
     public void sendMelding(Melding melding) {
-
-        LOG.info(String.format("Sender melding %s på topic %s", melding, topic));
-        this.kafkaTemplate.send(topic, melding);
+        Message<Melding> message = MessageBuilder
+                .withPayload(melding)
+                .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
+                .build();
+        LOG.info(String.format("Sender melding %s", message));
+        kafkaTemplate.send(message);
     }
 
     @Override

@@ -1,10 +1,3 @@
-no.nav.security.oidc :
-    issuers: selvbetjening
-    issuer:
-       selvbetjening.discoveryurl: http://metadata
-       selvbetjening.accepted_audience: aud-localhost
-       selvbetjening.cookie_name: localhost-idtoken
-
 management:
    endpoints:
       web:
@@ -27,7 +20,6 @@ spring:
    http:
       log-request-details: false
    kafka: 
-      listener.ack-mode: MANUAL     
       consumer:
          enable-auto-commit: false
          bootstrap-servers: localhost:9092
@@ -37,6 +29,7 @@ spring:
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
        
       producer:
+         transaction-id-prefix: 'tx.'
          bootstrap-servers: localhost:9092
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -25,13 +25,13 @@
      <springProfile name="dev,preprod">
         <logger name="no.nav.foreldrepenger" level="trace" />
         <logger name="org.flywaydb" level="info" />
-        <logger name="org.springframework.kafka" level="trace" />  
-         <logger name="no.nav.security.spring" level="trace" />  
+        <logger name="org.springframework.kafka.transaction" level="trace" />  
+         <logger name="no.nav.security.spring" level="info" />  
          <logger name="org.springframework.transaction" level="trace" />     
-         <logger name="org.hibernate" level="trace" />   
-         <logger name="org.apache.kafka" level="trace" />    
+         <logger name="org.hibernate" level="info" />   
+         <logger name="org.apache.kafka.transaction" level="trace" />    
          <logger name="org.hibernate.SQL" level="debug" />
-         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />   
+         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="info" />   
     </springProfile>
 </configuration>
 

@@ -22,7 +22,8 @@ public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
 
     @Override
     public void lagre(JPAMelding meldingDAO) {
-
+        if (meldingDAO.getAktørId().equals("42"))
+            throw new IllegalArgumentException("42");
         repo.save(meldingDAO);
     }
 
