@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.historikk.domain.Melding;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 @Service
-@Transactional
+@Transactional("jpa")
 public class MeldingsLagerTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MeldingsLagerTjeneste.class);
@@ -33,7 +33,6 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    @AuthorizeAktørId
     public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import no.nav.foreldrepenger.historikk.util.URIUtil;
 
-@ConfigurationProperties(prefix = "no.nav.foreldrepenger.historikk.oppslag")
+@ConfigurationProperties(prefix = "historikk.oppslag")
 @Configuration
 public class OppslagConfig {
     private static final String AKTØR = "oppslag/aktor";
