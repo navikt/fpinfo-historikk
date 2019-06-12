@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Melding;
@@ -35,7 +37,7 @@ public class MeldingPreprodController {
     }
 
     @PostMapping(value = "/publish")
-    public void sendMelding(@Valid @RequestBody Melding melding) {
+    public void sendMelding(@Valid @RequestBody Melding melding) throws JsonProcessingException {
         produsent.sendMelding(melding);
     }
 
