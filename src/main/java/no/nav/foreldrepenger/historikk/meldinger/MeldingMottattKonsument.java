@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +29,9 @@ public class MeldingMottattKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(String json, @Header(Constants.NAV_CALL_ID) String callId,
-            @Header(KafkaHeaders.OFFSET) Long offset) {
+    public void listen(String json, @Header(Constants.NAV_CALL_ID) String callId) {
         Melding melding = mapper.convert(json, Melding.class);
-        LOG.info("Mottok melding {} {} {}", json, callId, offset);
+        LOG.info("Mottok melding {} {}", json, callId);
         meldingsLager.lagre(melding);
     }
 
