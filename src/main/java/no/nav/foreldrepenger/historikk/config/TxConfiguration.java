@@ -9,14 +9,12 @@ import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.transaction.support.AbstractPlatformTransactionManager;
 
 import no.nav.foreldrepenger.historikk.domain.Melding;
 
@@ -28,22 +26,26 @@ public class TxConfiguration {
 
     @Primary
     @Bean(name = "transactionManager")
-    public ChainedTransactionManager chainedTransactionManager(JpaTransactionManager jpaTransactionManager,
-            KafkaTransactionManager kafkaTransactionManager) {
-        return new ChainedTransactionManager(kafkaTransactionManager, jpaTransactionManager);
+    public ChainedTransactionManager chainedTransactionManager(JpaTransactionManager jpaTM,
+            KafkaTransactionManager<String, Melding> kafkaTM) {
+        return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
     @Bean
-    public KafkaTransactionManager kafkaTransactionManager(ProducerFactory<String, Melding> pf) {
-        KafkaTransactionManager ktm = new KafkaTransactionManager(pf);
-        ktm.setTransactionSynchronization(AbstractPlatformTransactionManager.SYNCHRONIZATION_ALWAYS);
+    public KafkaTransactionManager<String, Melding> kafkaTM(ProducerFactory<String, Melding> pf) {
+        KafkaTransactionManager<String, Melding> ktm = new KafkaTransactionManager<>(pf);
         ktm.setNestedTransactionAllowed(true);
         return ktm;
     }
 
+    @Bean(name = "jpa")
+    public JpaTransactionManager jpaTM() {
+        return new JpaTransactionManager();
+    }
+
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory(
-            ConsumerFactory<String, String> cf, KafkaTransactionManager tf) {
+            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, Melding> tf) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.getContainerProperties().setTransactionManager(tf);
@@ -54,15 +56,8 @@ public class TxConfiguration {
     public ProducerFactory<String, Melding> producerFactory() {
         DefaultKafkaProducerFactory<String, Melding> pf = new DefaultKafkaProducerFactory<>(
                 props.buildProducerProperties());
-
         pf.setTransactionIdPrefix("tx.");
         return pf;
-    }
-
-    @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(
-                props.buildConsumerProperties());
     }
 
     @Bean
@@ -70,8 +65,4 @@ public class TxConfiguration {
         return new KafkaTemplate<>(pf);
     }
 
-    @Bean(name = "jpa")
-    public JpaTransactionManager jpaTransactionManager() {
-        return new JpaTransactionManager();
-    }
 }
