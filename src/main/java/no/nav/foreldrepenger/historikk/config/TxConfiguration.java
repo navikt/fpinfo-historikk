@@ -31,7 +31,7 @@ public class TxConfiguration {
         return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
-    @Bean
+    @Bean(name = "kafka")
     public KafkaTransactionManager<String, Melding> kafkaTM(ProducerFactory<String, Melding> pf) {
         KafkaTransactionManager<String, Melding> ktm = new KafkaTransactionManager<>(pf);
         ktm.setNestedTransactionAllowed(true);

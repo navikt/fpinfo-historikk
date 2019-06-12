@@ -35,7 +35,7 @@ public class MeldingProdusent {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @Transactional
+    @Transactional("kafka")
     public void sendMelding(Melding melding) {
         Message<Melding> message = MessageBuilder
                 .withPayload(melding)
@@ -46,7 +46,7 @@ public class MeldingProdusent {
         kafkaTemplate.send(message);
     }
 
-    @Transactional
+    @Transactional("kafka")
     public void sendSøknad(String søknad) {
         Message<String> message = MessageBuilder
                 .withPayload(søknad)
