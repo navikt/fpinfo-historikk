@@ -24,11 +24,14 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 public class MeldingProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MeldingProdusent.class);
     private final String topic;
+    private final String søknad_topic;
     private final KafkaTemplate<String, Melding> kafkaTemplate;
 
     public MeldingProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
+            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknad_topic,
             KafkaTemplate<String, Melding> kafkaTemplate) {
         this.topic = topic;
+        this.søknad_topic = søknad_topic;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -37,6 +40,17 @@ public class MeldingProdusent {
         Message<Melding> message = MessageBuilder
                 .withPayload(melding)
                 .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
+                .build();
+        LOG.info(String.format("Sender melding %s", message));
+        kafkaTemplate.send(message);
+    }
+
+    @Transactional
+    public void sendSøknad(String søknad) {
+        Message<String> message = MessageBuilder
+                .withPayload(søknad)
+                .setHeader(KafkaHeaders.TOPIC, søknad_topic)
                 .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
                 .build();
         LOG.info(String.format("Sender melding %s", message));

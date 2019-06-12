@@ -39,6 +39,11 @@ public class MeldingPreprodController {
         produsent.sendMelding(melding);
     }
 
+    @PostMapping(value = "/send")
+    public void sendMelding(@Valid @RequestBody String melding) {
+        produsent.sendSøknad(melding);
+    }
+
     @GetMapping("/find")
     public List<Melding> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);

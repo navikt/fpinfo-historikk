@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.historikk.meldinger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +15,7 @@ public class SøknadMottattKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(String json, @Header(Constants.NAV_CALL_ID) String callId,
-            @Header(KafkaHeaders.OFFSET) Long offset) {
-        LOG.info("Mottok melding om søknad {} {} {}", json, callId, offset);
+    public void listen(String json, @Header(Constants.NAV_CALL_ID) String callId) {
+        LOG.info("Mottok melding om søknad {} {}", json, callId);
     }
 }
