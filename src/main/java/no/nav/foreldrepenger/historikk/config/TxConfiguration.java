@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,21 +18,18 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 @Configuration
 public class TxConfiguration {
 
-    @Autowired
-    private KafkaProperties props;
-
     @Primary
     @Bean(name = "transactionManager")
-    public ChainedTransactionManager chainedTransactionManager(JpaTransactionManager jpaTM,
+    public ChainedTransactionManager chainedTM(JpaTransactionManager jpaTM,
             KafkaTransactionManager<String, String> kafkaTM) {
         return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
     @Bean(name = "kafka")
     public KafkaTransactionManager<String, String> kafkaTM(ProducerFactory<String, String> pf) {
-        KafkaTransactionManager<String, String> ktm = new KafkaTransactionManager<>(pf);
-        ktm.setNestedTransactionAllowed(true);
-        return ktm;
+        KafkaTransactionManager<String, String> tm = new KafkaTransactionManager<>(pf);
+        tm.setNestedTransactionAllowed(true);
+        return tm;
     }
 
     @Bean(name = "jpa")
@@ -43,15 +39,15 @@ public class TxConfiguration {
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory(
-            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, String> tf) {
+            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, String> tm) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
-        factory.getContainerProperties().setTransactionManager(tf);
+        factory.getContainerProperties().setTransactionManager(tm);
         return factory;
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, String> producerFactory(KafkaProperties props) {
         DefaultKafkaProducerFactory<String, String> pf = new DefaultKafkaProducerFactory<>(
                 props.buildProducerProperties());
         pf.setTransactionIdPrefix("tx.");
@@ -62,5 +58,4 @@ public class TxConfiguration {
     public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> pf) {
         return new KafkaTemplate<>(pf);
     }
-
 }

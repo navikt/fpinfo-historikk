@@ -29,7 +29,6 @@ spring:
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
        
       producer:
-         transaction-id-prefix: 'tx.'
          bootstrap-servers: localhost:9092
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
-         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+         value-serializer: org.apache.kafka.common.serialization.StringSerializer
