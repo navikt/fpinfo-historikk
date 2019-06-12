@@ -25,7 +25,7 @@
      <springProfile name="dev,preprod">
         <logger name="no.nav.foreldrepenger" level="trace" />
         <logger name="org.flywaydb" level="info" />
-        <logger name="org.springframework.kafka.transaction" level="info" />  
+        <logger name="org.springframework.kafka.transaction" level="trace" />  
          <logger name="no.nav.security.spring" level="info" />  
          <logger name="org.springframework.transaction" level="trace" />     
          <logger name="org.hibernate" level="info" />   
