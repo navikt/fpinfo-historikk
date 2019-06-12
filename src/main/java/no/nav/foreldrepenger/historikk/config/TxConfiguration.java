@@ -45,7 +45,7 @@ public class TxConfiguration {
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory(
-            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, Melding> tf) {
+            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, String> tf) {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.getContainerProperties().setTransactionManager(tf);
@@ -53,8 +53,8 @@ public class TxConfiguration {
     }
 
     @Bean
-    public ProducerFactory<String, Melding> producerFactory() {
-        DefaultKafkaProducerFactory<String, Melding> pf = new DefaultKafkaProducerFactory<>(
+    public ProducerFactory<String, String> producerFactory() {
+        DefaultKafkaProducerFactory<String, String> pf = new DefaultKafkaProducerFactory<>(
                 props.buildProducerProperties());
         pf.setTransactionIdPrefix("tx.");
         return pf;
