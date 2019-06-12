@@ -21,6 +21,7 @@ spring:
             jaas:
                config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
       consumer: 
+         enable-auto-commit: false
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          group-id: group_id 
          auto-offset-reset: earliest
@@ -28,7 +29,6 @@ spring:
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
        
       producer:
-         transaction-id-prefix: tx.
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.apache.kafka.common.serialization.StringSerializer
