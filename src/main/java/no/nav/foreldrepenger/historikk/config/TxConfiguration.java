@@ -16,8 +16,6 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
-import no.nav.foreldrepenger.historikk.domain.Melding;
-
 @Configuration
 public class TxConfiguration {
 
@@ -27,13 +25,13 @@ public class TxConfiguration {
     @Primary
     @Bean(name = "transactionManager")
     public ChainedTransactionManager chainedTransactionManager(JpaTransactionManager jpaTM,
-            KafkaTransactionManager<String, Melding> kafkaTM) {
+            KafkaTransactionManager<String, String> kafkaTM) {
         return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
     @Bean(name = "kafka")
-    public KafkaTransactionManager<String, Melding> kafkaTM(ProducerFactory<String, Melding> pf) {
-        KafkaTransactionManager<String, Melding> ktm = new KafkaTransactionManager<>(pf);
+    public KafkaTransactionManager<String, String> kafkaTM(ProducerFactory<String, String> pf) {
+        KafkaTransactionManager<String, String> ktm = new KafkaTransactionManager<>(pf);
         ktm.setNestedTransactionAllowed(true);
         return ktm;
     }
@@ -61,7 +59,7 @@ public class TxConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Melding> kafkaTemplate(ProducerFactory<String, Melding> pf) {
+    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String, String> pf) {
         return new KafkaTemplate<>(pf);
     }
 
