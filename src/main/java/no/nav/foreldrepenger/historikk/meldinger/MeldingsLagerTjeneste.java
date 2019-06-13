@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import no.nav.foreldrepenger.historikk.domain.Melding;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
 
 @Service
-@Transactional("jpa")
+@Transactional(JPA)
 public class MeldingsLagerTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MeldingsLagerTjeneste.class);

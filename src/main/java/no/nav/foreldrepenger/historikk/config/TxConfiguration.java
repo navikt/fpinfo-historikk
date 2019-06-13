@@ -18,6 +18,9 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 @Configuration
 public class TxConfiguration {
 
+    public static final String KAFKA = "kafka";
+    public static final String JPA = "jpa";
+
     @Primary
     @Bean(name = "transactionManager")
     public ChainedTransactionManager chainedTM(JpaTransactionManager jpaTM,
@@ -25,14 +28,14 @@ public class TxConfiguration {
         return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
-    @Bean(name = "kafka")
+    @Bean(name = KAFKA)
     public KafkaTransactionManager<String, String> kafkaTM(ProducerFactory<String, String> pf) {
         KafkaTransactionManager<String, String> tm = new KafkaTransactionManager<>(pf);
         tm.setNestedTransactionAllowed(true);
         return tm;
     }
 
-    @Bean(name = "jpa")
+    @Bean(name = JPA)
     public JpaTransactionManager jpaTM() {
         return new JpaTransactionManager();
     }
