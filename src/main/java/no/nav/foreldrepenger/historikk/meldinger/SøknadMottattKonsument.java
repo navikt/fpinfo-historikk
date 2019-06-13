@@ -25,8 +25,8 @@ public class SøknadMottattKonsument {
 
     @Transactional(KAFKA)
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(String json, @Header(NAV_CALL_ID) String callId) {
-        InnsendingEvent event = mapper.convert(json, InnsendingEvent.class);
+    public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
+        InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
         LOG.info("Mottok melding om søknad {} med callId {}", event, callId);
     }
 
