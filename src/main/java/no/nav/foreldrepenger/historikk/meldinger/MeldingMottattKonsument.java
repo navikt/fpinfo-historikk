@@ -29,7 +29,7 @@ public class MeldingMottattKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(String json, @Header(Constants.NAV_CALL_ID) String callId) {
+    public void listen(String json, @Header(required = false, value = Constants.NAV_CALL_ID) String callId) {
         Melding melding = mapper.convert(json, Melding.class);
         LOG.info("Mottok melding {} {}", json, callId);
         meldingsLager.lagre(melding);
