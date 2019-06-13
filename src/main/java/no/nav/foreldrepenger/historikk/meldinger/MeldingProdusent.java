@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
+import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
@@ -25,7 +26,6 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-
 public class MeldingProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MeldingProdusent.class);
     private final String topic;
@@ -43,7 +43,7 @@ public class MeldingProdusent {
     @Inject
     private ObjectMapper mapper;
 
-    @Transactional("kafka")
+    @Transactional(KAFKA)
     public void sendMelding(Melding melding) throws JsonProcessingException {
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(melding))
@@ -54,7 +54,7 @@ public class MeldingProdusent {
         kafkaTemplate.send(message);
     }
 
-    @Transactional("kafka")
+    @Transactional(KAFKA)
     public void sendSøknad(String søknad) {
         Message<String> message = MessageBuilder
                 .withPayload(søknad)
