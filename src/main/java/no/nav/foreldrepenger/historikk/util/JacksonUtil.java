@@ -21,11 +21,11 @@ public class JacksonUtil {
         this.mapper = mapper;
     }
 
-    public <T> T convert(String json, Class<T> clazz) {
+    public <T> T convertTo(String json, Class<T> clazz) {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
-            throw new UnexpectedInputException("Kunne ikke rekonstuere melding til %s", e, clazz);
+            throw new UnexpectedInputException("Kunne ikke rekonstuere melding fra %s til %s", e, json, clazz);
         }
     }
 
