@@ -1,2 +1,2 @@
 alter TABLE MELDING
-    add column lest date;
+RENAME COLUMN aktive TO aktiv;
