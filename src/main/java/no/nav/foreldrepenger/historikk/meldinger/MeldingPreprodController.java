@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -58,6 +59,11 @@ public class MeldingPreprodController {
     @GetMapping("/historikk")
     public List<HistorikkInnslag> hentHistorikkForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return historikk.hentHistorikkForAktør(aktørId);
+    }
+
+    @PostMapping("/historikk/lagre")
+    public void lagreHistorikk(InnsendingEvent event) {
+        historikk.lagre(event);
     }
 
     @GetMapping("/merk")

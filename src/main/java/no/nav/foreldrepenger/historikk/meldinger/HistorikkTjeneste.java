@@ -63,8 +63,10 @@ public class HistorikkTjeneste {
     }
 
     private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
-        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), "test");
+        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
         innslag.setAktiv(true);
+        innslag.setSaksnr(event.getSaksNr());
+        innslag.setJournalpostId(event.getJournalId());
         return innslag;
     }
 }
