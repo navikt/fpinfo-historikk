@@ -27,11 +27,11 @@
         <logger name="org.flywaydb" level="info" />
         <logger name="org.springframework.kafka" level="info" />  
          <logger name="no.nav.security.spring" level="info" />  
-         <logger name="org.springframework.transaction" level="trace" />     
+         <logger name="org.springframework.transaction" level="info" />     
          <logger name="org.hibernate" level="info" />   
-         <logger name="org.apache.kafka.transaction" level="trace" />    
-         <logger name="org.hibernate.SQL" level="info" />
-         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="info" />   
+         <logger name="org.apache.kafka.transaction" level="info" />    
+         <logger name="org.hibernate.SQL" level="trace" />
+         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />   
     </springProfile>
 </configuration>
 
