@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.domain.Melding;
 import no.nav.security.oidc.api.Unprotected;
 
@@ -30,10 +31,13 @@ import no.nav.security.oidc.api.Unprotected;
 public class MeldingPreprodController {
     private final MeldingProdusent produsent;
     private final MeldingsLagerTjeneste meldingsTjeneste;
+    private final HistorikkTjeneste historikk;
 
-    MeldingPreprodController(MeldingProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste) {
+    MeldingPreprodController(MeldingProdusent produsent, MeldingsLagerTjeneste meldingsTjeneste,
+            HistorikkTjeneste historikk) {
         this.produsent = produsent;
         this.meldingsTjeneste = meldingsTjeneste;
+        this.historikk = historikk;
     }
 
     @PostMapping(value = "/publish")
@@ -49,6 +53,11 @@ public class MeldingPreprodController {
     @GetMapping("/find")
     public List<Melding> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);
+    }
+
+    @GetMapping("/historikk")
+    public List<HistorikkInnslag> hentHistorikkForAktør(@RequestParam("aktørId") AktørId aktørId) {
+        return historikk.hentHistorikkForAktør(aktørId);
     }
 
     @GetMapping("/merk")
