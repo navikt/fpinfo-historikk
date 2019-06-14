@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedInputException;
-
 @Component
 public class JacksonUtil {
 
@@ -25,7 +23,9 @@ public class JacksonUtil {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
-            throw new UnexpectedInputException("Kunne ikke rekonstuere melding fra %s til %s", e, json, clazz);
+            return null;
+            // throw new UnexpectedInputException("Kunne ikke rekonstuere melding fra %s til
+            // %s", e, json, clazz);
         }
     }
 

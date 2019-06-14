@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDate;
 
-public class Melding {
+public class MinidialogInnslag {
 
     private long id;
     private final AktørId aktørId;
@@ -12,7 +12,7 @@ public class Melding {
     private LeveranseKanal kanal;
     private LocalDate lest;
 
-    public Melding(AktørId aktørId, String melding, String saksnr) {
+    public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saknr = saksnr;

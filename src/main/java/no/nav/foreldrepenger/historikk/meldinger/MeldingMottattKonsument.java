@@ -12,7 +12,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
@@ -30,7 +30,7 @@ public class MeldingMottattKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
-        Melding melding = mapper.convertTo(json, Melding.class);
+        MinidialogInnslag melding = mapper.convertTo(json, MinidialogInnslag.class);
         LOG.info("Mottok melding {} {}", json, callId);
         meldingsLager.lagre(melding);
     }

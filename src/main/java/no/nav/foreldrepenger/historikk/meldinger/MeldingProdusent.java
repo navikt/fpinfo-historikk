@@ -21,7 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import no.nav.foreldrepenger.historikk.config.Constants;
-import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
@@ -44,7 +44,7 @@ public class MeldingProdusent {
     private ObjectMapper mapper;
 
     @Transactional(KAFKA)
-    public void sendMelding(Melding melding) throws JsonProcessingException {
+    public void sendMelding(MinidialogInnslag melding) throws JsonProcessingException {
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(melding))
                 .setHeader(KafkaHeaders.TOPIC, topic)

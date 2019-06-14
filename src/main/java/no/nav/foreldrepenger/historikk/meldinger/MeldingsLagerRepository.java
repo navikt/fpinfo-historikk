@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Transactional(JPA)
-public interface MeldingsLagerRepository extends JpaRepository<JPAMelding, Long> {
+public interface MeldingsLagerRepository extends JpaRepository<JPAMinidialogInnslag, Long> {
 
     @Modifying
-    @Query("update JPAMelding m set m.lest = current_date where m.id = ?1")
+    @Query("update JPAMinidialogInnslag m set m.lest = current_date where m.id = ?1")
     void markerLest(long id);
 
-    List<JPAMelding> findByAktørId(String aktørId);
+    List<JPAMinidialogInnslag> findByAktørId(String aktørId);
 }

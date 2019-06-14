@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
-import no.nav.foreldrepenger.historikk.domain.Melding;
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Service
 @Transactional(JPA)
@@ -29,12 +29,12 @@ public class MeldingsLagerTjeneste {
         this.oppslag = oppslag;
     }
 
-    public void lagre(Melding m) {
+    public void lagre(MinidialogInnslag m) {
         dao.lagre(fraMelding(m));
     }
 
     @Transactional(readOnly = true)
-    public List<Melding> hentMeldingerForAktør(AktørId aktørId) {
+    public List<MinidialogInnslag> hentMeldingerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
                 .map(MeldingsLagerTjeneste::tilMelding)
@@ -42,7 +42,7 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<Melding> hentMineMeldinger() {
+    public List<MinidialogInnslag> hentMineMeldinger() {
         return hentMeldingerForAktør(oppslag.hentAktørId());
     }
 
@@ -50,12 +50,12 @@ public class MeldingsLagerTjeneste {
         dao.markerLest(id, oppslag.hentAktørId());
     }
 
-    private static JPAMelding fraMelding(Melding m) {
-        return new JPAMelding(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name());
+    private static JPAMinidialogInnslag fraMelding(MinidialogInnslag m) {
+        return new JPAMinidialogInnslag(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name());
     }
 
-    private static Melding tilMelding(JPAMelding m) {
-        Melding melding = new Melding(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
+    private static MinidialogInnslag tilMelding(JPAMinidialogInnslag m) {
+        MinidialogInnslag melding = new MinidialogInnslag(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setLest(m.getLest());

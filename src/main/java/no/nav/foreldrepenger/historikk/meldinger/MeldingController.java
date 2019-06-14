@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
-import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
@@ -24,7 +24,7 @@ public class MeldingController {
     }
 
     @GetMapping("/find/me")
-    public List<Melding> meldinger() {
+    public List<MinidialogInnslag> meldinger() {
         return meldingsTjeneste.hentMineMeldinger();
     }
 
