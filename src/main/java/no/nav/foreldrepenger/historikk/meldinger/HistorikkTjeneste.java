@@ -59,10 +59,12 @@ public class HistorikkTjeneste {
     }
 
     public void lagre(InnsendingEvent event) {
-        dao.save(fraEvent(event));
+        if (event != null)
+            dao.save(fraEvent(event));
     }
 
     private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
+
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
         innslag.setAktiv(true);
         innslag.setSaksnr(event.getSaksNr());

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "melding")
-public class JPAMelding {
+public class JPAMinidialogInnslag {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -24,10 +24,10 @@ public class JPAMelding {
     private String kanal;
     private LocalDate lest;
 
-    private JPAMelding() {
+    private JPAMinidialogInnslag() {
     }
 
-    public JPAMelding(String aktørId, String melding, String saksnr, String kanal) {
+    public JPAMinidialogInnslag(String aktørId, String melding, String saksnr, String kanal) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saksnr = saksnr;

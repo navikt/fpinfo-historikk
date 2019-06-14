@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.domain.Melding;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.security.oidc.api.Unprotected;
 
@@ -42,7 +42,7 @@ public class MeldingPreprodController {
     }
 
     @PostMapping(value = "/publish")
-    public void sendMelding(@Valid @RequestBody Melding melding) throws JsonProcessingException {
+    public void sendMelding(@Valid @RequestBody MinidialogInnslag melding) throws JsonProcessingException {
         produsent.sendMelding(melding);
     }
 
@@ -52,7 +52,7 @@ public class MeldingPreprodController {
     }
 
     @GetMapping("/find")
-    public List<Melding> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
+    public List<MinidialogInnslag> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return meldingsTjeneste.hentMeldingerForAktør(aktørId);
     }
 

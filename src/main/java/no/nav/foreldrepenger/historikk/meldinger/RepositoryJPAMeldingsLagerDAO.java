@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMelding;
+import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Repository
 public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
@@ -21,14 +21,14 @@ public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
     }
 
     @Override
-    public void lagre(JPAMelding meldingDAO) {
+    public void lagre(JPAMinidialogInnslag meldingDAO) {
         if (meldingDAO.getAktørId().equals("42"))
             throw new IllegalArgumentException("42");
         repo.save(meldingDAO);
     }
 
     @Override
-    public List<JPAMelding> hentForAktør(String aktørId) {
+    public List<JPAMinidialogInnslag> hentForAktør(String aktørId) {
         LOG.info("Henter meldinger for {}", aktørId);
         return repo.findByAktørId(aktørId);
     }
