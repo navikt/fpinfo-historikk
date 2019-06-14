@@ -69,16 +69,16 @@ public class JPAHistorikkInnslag {
         return datoMottatt;
     }
 
-    public void setDatoMottatt(LocalDate dato_mottatt) {
-        this.datoMottatt = dato_mottatt;
+    public void setDatoMottatt(LocalDate datoMottatt) {
+        this.datoMottatt = datoMottatt;
     }
 
     public LocalDate getGyldigTil() {
         return gyldigTil;
     }
 
-    public void setGyldig_til(LocalDate gyldig_til) {
-        this.gyldigTil = gyldig_til;
+    public void setGyldigTil(LocalDate gyldigTil) {
+        this.gyldigTil = gyldigTil;
     }
 
     public boolean isAktiv() {
