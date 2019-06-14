@@ -79,7 +79,7 @@ public class HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalpostId=" + journalpostId + ", tekst="
-                + tekst + ", dato_mottatt=" + dato_mottatt + ", gyldig_til=" + gyldig_til + ", aktiv=" + aktiv
+                + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv
                 + ", saksnr=" + saksnr + "]";
     }
 }
