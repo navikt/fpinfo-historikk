@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class InnsendingEvent {
 
+    private final String aktørId;
     private final String journalId;
     private final String referanseId;
     private final String saksNr;
@@ -16,10 +17,12 @@ public class InnsendingEvent {
     private List<String> vedlegg;
 
     @JsonCreator
-    public InnsendingEvent(@JsonProperty("journalId") String journalId, @JsonProperty("referanseId") String referanseId,
+    public InnsendingEvent(@JsonProperty("aktørId") String aktørId, @JsonProperty("journalId") String journalId,
+            @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr, @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
             @JsonProperty("type") SøknadType type, @JsonProperty("versjon") String versjon,
             @JsonProperty("vedlegg") List<String> vedlegg) {
+        this.aktørId = aktørId;
         this.journalId = journalId;
         this.referanseId = referanseId;
         this.saksNr = saksNr;
@@ -27,6 +30,10 @@ public class InnsendingEvent {
         this.type = type;
         this.versjon = versjon;
         this.vedlegg = vedlegg;
+    }
+
+    public String getAktørId() {
+        return aktørId;
     }
 
     public String getJournalId() {

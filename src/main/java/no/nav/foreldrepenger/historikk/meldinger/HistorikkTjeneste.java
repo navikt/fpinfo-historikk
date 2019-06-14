@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 
 @Service
 @Transactional(JPA)
@@ -55,6 +56,16 @@ public class HistorikkTjeneste {
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
+    }
+
+    public void lagre(InnsendingEvent event) {
+        dao.save(fraEvent(event));
+    }
+
+    private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
+        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), "test");
+        innslag.setAktiv(true);
+        return innslag;
     }
 
 }
