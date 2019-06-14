@@ -28,7 +28,7 @@ public class SøknadMottattKonsument {
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
         LOG.info("Mottok melding om søknad {}", json);
         InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
-        LOG.info("Melding om søknad konvert til {}", event);
+        LOG.info("Melding om søknad konvertert til {}", event);
     }
 
     @Override
