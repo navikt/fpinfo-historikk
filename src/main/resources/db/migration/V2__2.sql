@@ -5,6 +5,4 @@ CREATE TABLE HISTORIKK (
     saksnr VARCHAR(50),
     tekst VARCHAR (2000)  NOT NULL,
     dato_mottatt timestamp NOT NULL DEFAULT now(),
-    gyldig_til DATE,
-    aktiv boolean
-);
+    gyldig_til DATE);
