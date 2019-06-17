@@ -97,4 +97,10 @@ public class JPAHistorikkInnslag {
         this.saksnr = saksnr;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
+                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv
+                + ", saksnr=" + saksnr + "]";
+    }
 }

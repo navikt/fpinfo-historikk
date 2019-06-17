@@ -53,22 +53,26 @@ public class HistorikkTjeneste {
 
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
-    }
-
     public void lagre(InnsendingEvent event) {
-        if (event != null)
+        if (event != null) {
+            LOG.info("Lagrer {}", event);
             dao.save(fraEvent(event));
+        }
     }
 
     private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
 
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
         innslag.setAktiv(true);
+        innslag.setGyldigTil(event.getGyldigTil());
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
+        innslag.setTekst(event.getType() + " mottatt");
         return innslag;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
     }
 }
