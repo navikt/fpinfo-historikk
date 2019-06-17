@@ -50,7 +50,7 @@ spring:
       hibernate:
          ddl-auto : none
    flyway:
-      baselineOnMigrate: true
+      baselineOnMigrate: false
       enabled: true    
    application:
       name: fpinfo-historikk
