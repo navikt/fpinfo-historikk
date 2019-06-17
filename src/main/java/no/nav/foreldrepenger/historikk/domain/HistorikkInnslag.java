@@ -10,7 +10,6 @@ public class HistorikkInnslag {
     private String tekst;
     private LocalDateTime datoMottatt;
     private LocalDate gyldigTil;
-    private boolean aktiv;
     private String saksnr;
 
     private HistorikkInnslag() {
@@ -61,14 +60,6 @@ public class HistorikkInnslag {
         this.gyldigTil = gyldig_til;
     }
 
-    public boolean isAktiv() {
-        return aktiv;
-    }
-
-    public void setAktiv(boolean aktiv) {
-        this.aktiv = aktiv;
-    }
-
     public String getSaksnr() {
         return saksnr;
     }
@@ -80,7 +71,6 @@ public class HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalpostId=" + journalpostId + ", tekst="
-                + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv
-                + ", saksnr=" + saksnr + "]";
+                + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + "]";
     }
 }

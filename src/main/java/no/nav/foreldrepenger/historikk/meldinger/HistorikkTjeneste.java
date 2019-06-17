@@ -56,7 +56,6 @@ public class HistorikkTjeneste {
 
     private static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
         HistorikkInnslag innslag = new HistorikkInnslag(AktørId.valueOf(i.getAktørId()), i.getTekst());
-        innslag.setAktiv(i.isAktiv());
         innslag.setDatoMottatt(i.getDatoMottatt());
         innslag.setGyldigTil(i.getGyldigTil());
         innslag.setJournalpostId(i.getJournalpostId());
@@ -75,7 +74,6 @@ public class HistorikkTjeneste {
     private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
 
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
-        innslag.setAktiv(true);
         innslag.setGyldigTil(event.getGyldigTil());
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());

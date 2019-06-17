@@ -23,7 +23,6 @@ public class JPAHistorikkInnslag {
     @Column(insertable = false, updatable = false)
     private LocalDateTime datoMottatt;
     private LocalDate gyldigTil;
-    private boolean aktiv;
     private String saksnr;
 
     private JPAHistorikkInnslag() {
@@ -82,14 +81,6 @@ public class JPAHistorikkInnslag {
         this.gyldigTil = gyldigTil;
     }
 
-    public boolean isAktiv() {
-        return aktiv;
-    }
-
-    public void setAktiv(boolean aktiv) {
-        this.aktiv = aktiv;
-    }
-
     public String getSaksnr() {
         return saksnr;
     }
@@ -101,7 +92,7 @@ public class JPAHistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
-                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv
-                + ", saksnr=" + saksnr + "]";
+                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", saksnr="
+                + saksnr + "]";
     }
 }
