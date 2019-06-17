@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+	<appender name="stdout"
+		class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
 	<springProfile name="dev">
-		<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<appender name="stdout"
+			class="ch.qos.logback.core.ConsoleAppender">
 			<layout class="ch.qos.logback.classic.PatternLayout">
 				<Pattern>
 					%d{yyyy-MM-dd HH:mm:ss} %X{Nav-CallId} [%thread] %-5level %logger{70} - %msg%n
@@ -15,23 +17,26 @@
 	<root level="info">
 		<appender-ref ref="stdout" />
 	</root>
- <springProfile name="default">
-    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
-        <Name>CONFIDENTIAL_FILTER</Name>
-        <Marker>CONFIDENTIAL</Marker>
-        <OnMatch>DENY</OnMatch>
-    </turboFilter>
- </springProfile>
-     <springProfile name="dev,preprod">
-        <logger name="no.nav.foreldrepenger" level="trace" />
-        <logger name="org.flywaydb" level="info" />
-        <logger name="org.springframework.kafka" level="info" />  
-         <logger name="no.nav.security.spring" level="info" />  
-         <logger name="org.springframework.transaction" level="info" />     
-         <logger name="org.hibernate" level="info" />   
-         <logger name="org.apache.kafka.transaction" level="info" />    
-         <logger name="org.hibernate.SQL" level="trace" />
-         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />   
-    </springProfile>
+	<springProfile name="default">
+		<turboFilter
+			class="ch.qos.logback.classic.turbo.MarkerFilter">
+			<Name>CONFIDENTIAL_FILTER</Name>
+			<Marker>CONFIDENTIAL</Marker>
+			<OnMatch>DENY</OnMatch>
+		</turboFilter>
+	</springProfile>
+	<springProfile name="dev,preprod">
+		<logger name="no.nav.foreldrepenger" level="trace" />
+		<logger name="org.flywaydb" level="info" />
+		<logger name="org.springframework.kafka" level="info" />
+		<logger name="no.nav.security.spring" level="info" />
+		<logger name="org.springframework.transaction" level="info" />
+		<logger name="org.hibernate" level="info" />
+		<logger name="org.apache.kafka.transaction" level="info" />
+		<logger name="org.hibernate.SQL" level="trace" />
+		<logger name="com.github.ben-manes.caffeine" level="trace" />
+		<logger name="org.hibernate.type.descriptor.sql.BasicBinder"
+			level="trace" />
+	</springProfile>
 </configuration>
 

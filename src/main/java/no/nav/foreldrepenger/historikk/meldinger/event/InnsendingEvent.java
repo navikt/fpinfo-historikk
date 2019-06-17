@@ -1,6 +1,9 @@
 package no.nav.foreldrepenger.historikk.meldinger.event;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,6 +17,7 @@ public class InnsendingEvent {
     private final LeveranseStatus leveranseStatus;
     private final SøknadType type;
     private final String versjon;
+    private final LocalDate gyldigTil;
     private List<String> vedlegg;
 
     @JsonCreator
@@ -21,6 +25,7 @@ public class InnsendingEvent {
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr, @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
             @JsonProperty("type") SøknadType type, @JsonProperty("versjon") String versjon,
+            @JsonProperty("gyldigTil") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate gyldigTil,
             @JsonProperty("vedlegg") List<String> vedlegg) {
         this.aktørId = aktørId;
         this.journalId = journalId;
@@ -29,7 +34,12 @@ public class InnsendingEvent {
         this.leveranseStatus = leveranseStatus;
         this.type = type;
         this.versjon = versjon;
+        this.gyldigTil = gyldigTil;
         this.vedlegg = vedlegg;
+    }
+
+    public LocalDate getGyldigTil() {
+        return gyldigTil;
     }
 
     public String getAktørId() {
@@ -66,8 +76,9 @@ public class InnsendingEvent {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [journalId=" + journalId + ", referanseId=" + referanseId + ", saksNr="
-                + saksNr + ", leveranseStatus=" + leveranseStatus + ", type=" + type + ", versjon=" + versjon
-                + ", vedlegg=" + vedlegg + "]";
+        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalId=" + journalId + ", referanseId="
+                + referanseId + ", saksNr=" + saksNr + ", leveranseStatus=" + leveranseStatus + ", type=" + type
+                + ", versjon=" + versjon + ", gyldigTil=" + gyldigTil + ", vedlegg=" + vedlegg + "]";
     }
+
 }
