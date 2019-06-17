@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Repository
@@ -31,12 +30,6 @@ public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
     public List<JPAMinidialogInnslag> hentForAktør(String aktørId) {
         LOG.info("Henter meldinger for {}", aktørId);
         return repo.findByAktørId(aktørId);
-    }
-
-    @Override
-    public void markerLest(long id, AktørId aktørId) {
-        LOG.info("Markerer melding {} lest", id);
-        repo.markerLest(id);
     }
 
     @Override

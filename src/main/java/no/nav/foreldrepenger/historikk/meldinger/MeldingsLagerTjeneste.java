@@ -46,10 +46,6 @@ public class MeldingsLagerTjeneste {
         return hentMeldingerForAktør(oppslag.hentAktørId());
     }
 
-    public void markerLest(long id) {
-        dao.markerLest(id, oppslag.hentAktørId());
-    }
-
     private static JPAMinidialogInnslag fraMelding(MinidialogInnslag m) {
         return new JPAMinidialogInnslag(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name());
     }
