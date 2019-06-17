@@ -21,23 +21,23 @@ public class MinidialogTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
-    private final MinidialogDAO dao;
+    private final RepositoryJPAMeldingsLagerDAO dao;
     private final OppslagConnection oppslag;
 
-    public MinidialogTjeneste(MinidialogDAO dao, OppslagConnection oppslag) {
+    public MinidialogTjeneste(RepositoryJPAMeldingsLagerDAO dao, OppslagConnection oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }
 
     public void lagre(MinidialogInnslag m) {
-        dao.lagre(fraMelding(m));
+        dao.lagre(fraInnslag(m));
     }
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentDialogerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
-                .map(MinidialogTjeneste::tilMelding)
+                .map(MinidialogTjeneste::tilInnslag)
                 .collect(toList());
     }
 
@@ -46,16 +46,21 @@ public class MinidialogTjeneste {
         return hentDialogerForAktør(oppslag.hentAktørId());
     }
 
-    private static JPAMinidialogInnslag fraMelding(MinidialogInnslag m) {
-        return new JPAMinidialogInnslag(m.getAktørId().getAktørId(), m.getMelding(), m.getSaknr(), m.getKanal().name());
+    private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
+        JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId().getAktørId(), m.getMelding(),
+                m.getSaknr(),
+                m.getKanal().name());
+        dialog.setGyldigTil(m.getGyldigTil());
+        return dialog;
     }
 
-    private static MinidialogInnslag tilMelding(JPAMinidialogInnslag m) {
+    private static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
         MinidialogInnslag melding = new MinidialogInnslag(AktørId.valueOf(m.getAktørId()), m.getMelding(),
                 m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setId(m.getId());
+        melding.setGyldigTil(m.getGyldigTil());
         return melding;
     }
 

@@ -10,11 +10,20 @@ public class MinidialogInnslag {
     private final String saknr;
     private LocalDate dato;
     private LeveranseKanal kanal;
+    private LocalDate gyldigTil;
 
     public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saknr = saksnr;
+    }
+
+    public LocalDate getGyldigTil() {
+        return gyldigTil;
+    }
+
+    public void setGyldigTil(LocalDate gyldigTil) {
+        this.gyldigTil = gyldigTil;
     }
 
     public LeveranseKanal getKanal() {

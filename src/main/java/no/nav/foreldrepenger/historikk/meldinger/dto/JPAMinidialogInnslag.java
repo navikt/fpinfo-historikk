@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "melding")
 public class JPAMinidialogInnslag {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -20,6 +21,8 @@ public class JPAMinidialogInnslag {
     private String melding;
     @Column(insertable = false, updatable = false)
     private LocalDate dato;
+
+    private LocalDate gyldigTil;
     private String saksnr;
     private String kanal;
 
@@ -31,6 +34,14 @@ public class JPAMinidialogInnslag {
         this.melding = melding;
         this.saksnr = saksnr;
         this.kanal = kanal;
+    }
+
+    public LocalDate getGyldigTil() {
+        return gyldigTil;
+    }
+
+    public void setGyldigTil(LocalDate gyldigTil) {
+        this.gyldigTil = gyldigTil;
     }
 
     public String getKanal() {
@@ -59,8 +70,8 @@ public class JPAMinidialogInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
-                + dato + ", saksnr=" + saksnr + ", kanal=" + kanal + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
+                + dato + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + "]";
     }
 
 }

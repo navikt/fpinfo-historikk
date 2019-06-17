@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Repository
-public class RepositoryJPAMeldingsLagerDAO implements MinidialogDAO {
+public class RepositoryJPAMeldingsLagerDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(RepositoryJPAMeldingsLagerDAO.class);
 
@@ -19,14 +19,12 @@ public class RepositoryJPAMeldingsLagerDAO implements MinidialogDAO {
         this.repo = repo;
     }
 
-    @Override
     public void lagre(JPAMinidialogInnslag meldingDAO) {
         if (meldingDAO.getAktørId().equals("42"))
             throw new IllegalArgumentException("42");
         repo.save(meldingDAO);
     }
 
-    @Override
     public List<JPAMinidialogInnslag> hentForAktør(String aktørId) {
         LOG.info("Henter meldinger for {}", aktørId);
         return repo.findByAktørId(aktørId);
