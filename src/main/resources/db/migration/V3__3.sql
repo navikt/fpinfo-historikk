@@ -1,1 +1,0 @@
-ALTER TABLE historikk drop column aktiv;

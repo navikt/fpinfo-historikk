@@ -4,5 +4,5 @@ CREATE TABLE MELDING (
     melding VARCHAR (2000)  NOT NULL,
     dato DATE NOT NULL DEFAULT CURRENT_DATE,
     saksnr VARCHAR(50) NOT NULL,
-    kanal VARCHAR(50) NOT NULL
-);
+    kanal VARCHAR(50) NOT NULL,
+    aktiv boolean);
