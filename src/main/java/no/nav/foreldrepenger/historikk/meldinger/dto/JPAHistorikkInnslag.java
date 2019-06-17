@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.meldinger.dto;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -22,7 +21,6 @@ public class JPAHistorikkInnslag {
     private String tekst;
     @Column(insertable = false, updatable = false)
     private LocalDateTime datoMottatt;
-    private LocalDate gyldigTil;
     private String saksnr;
 
     private JPAHistorikkInnslag() {
@@ -73,14 +71,6 @@ public class JPAHistorikkInnslag {
         this.datoMottatt = datoMottatt;
     }
 
-    public LocalDate getGyldigTil() {
-        return gyldigTil;
-    }
-
-    public void setGyldigTil(LocalDate gyldigTil) {
-        this.gyldigTil = gyldigTil;
-    }
-
     public String getSaksnr() {
         return saksnr;
     }
@@ -92,7 +82,7 @@ public class JPAHistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
-                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", gyldigTil=" + gyldigTil + ", saksnr="
+                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", saksnr="
                 + saksnr + "]";
     }
 }
