@@ -1,13 +1,14 @@
 package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class HistorikkInnslag {
 
     private AktørId aktørId;
     private String journalpostId;
     private String tekst;
-    private LocalDate datoMottatt;
+    private LocalDateTime datoMottatt;
     private LocalDate gyldigTil;
     private boolean aktiv;
     private String saksnr;
@@ -44,12 +45,12 @@ public class HistorikkInnslag {
         this.tekst = tekst;
     }
 
-    public LocalDate getDatoMottatt() {
+    public LocalDateTime getDatoMottatt() {
         return datoMottatt;
     }
 
-    public void setDatoMottatt(LocalDate dato_mottatt) {
-        this.datoMottatt = dato_mottatt;
+    public void setDatoMottatt(LocalDateTime datoMottatt) {
+        this.datoMottatt = datoMottatt;
     }
 
     public LocalDate getGyldigTil() {
