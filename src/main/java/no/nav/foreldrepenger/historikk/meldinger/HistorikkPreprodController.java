@@ -25,10 +25,10 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 @Api(value = "Endpoint for message management", protocols = "http,https")
 public class HistorikkPreprodController {
-    private final MinidialogHendelseProdusent produsent;
+    private final MinidialogEventProdusent produsent;
     private final HistorikkTjeneste historikk;
 
-    HistorikkPreprodController(MinidialogHendelseProdusent produsent,
+    HistorikkPreprodController(MinidialogEventProdusent produsent,
             HistorikkTjeneste historikk) {
         this.produsent = produsent;
         this.historikk = historikk;

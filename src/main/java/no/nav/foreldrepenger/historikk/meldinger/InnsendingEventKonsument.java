@@ -13,13 +13,13 @@ import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
-public class SøknadMottattKonsument {
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadMottattKonsument.class);
+public class InnsendingEventKonsument {
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingEventKonsument.class);
 
     private final HistorikkTjeneste historikk;
     private final JacksonUtil mapper;
 
-    public SøknadMottattKonsument(JacksonUtil mapper, HistorikkTjeneste historikk) {
+    public InnsendingEventKonsument(JacksonUtil mapper, HistorikkTjeneste historikk) {
         this.mapper = mapper;
         this.historikk = historikk;
     }

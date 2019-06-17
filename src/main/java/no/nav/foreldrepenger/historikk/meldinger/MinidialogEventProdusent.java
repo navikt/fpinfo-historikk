@@ -26,15 +26,15 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MinidialogHendelseProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseProdusent.class);
+public class MinidialogEventProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogEventProdusent.class);
     private final String topic;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Inject
     private ObjectMapper mapper;
 
-    public MinidialogHendelseProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
+    public MinidialogEventProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
             KafkaTemplate<String, String> kafkaTemplate) {
         this.topic = topic;
         this.kafkaTemplate = kafkaTemplate;
