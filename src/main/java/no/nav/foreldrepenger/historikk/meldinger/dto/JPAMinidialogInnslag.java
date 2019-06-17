@@ -21,7 +21,6 @@ public class JPAMinidialogInnslag {
     private String melding;
     @Column(insertable = false, updatable = false)
     private LocalDate dato;
-
     private LocalDate gyldigTil;
     private String saksnr;
     private String kanal;
