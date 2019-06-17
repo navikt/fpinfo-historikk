@@ -66,11 +66,6 @@ public class MeldingPreprodController {
         historikk.lagre(event);
     }
 
-    @GetMapping("/merk")
-    public void markerLest(@RequestParam("id") long id) {
-        meldingsTjeneste.markerLest(id);
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [produsent=" + produsent + ", meldingsTjeneste=" + meldingsTjeneste + "]";
