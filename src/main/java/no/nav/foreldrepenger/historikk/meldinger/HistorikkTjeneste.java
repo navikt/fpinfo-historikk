@@ -30,16 +30,20 @@ public class HistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<HistorikkInnslag> hentHistorikkForAktør(AktørId aktørId) {
+    public List<HistorikkInnslag> hentMinHistorikk() {
+        return hent(oppslag.hentAktørId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
+        return hent(aktørId);
+    }
+
+    private List<HistorikkInnslag> hent(AktørId aktørId) {
         return dao.findByAktørId(aktørId.getAktørId())
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
                 .collect(toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<HistorikkInnslag> hentMineMeldinger() {
-        return hentHistorikkForAktør(oppslag.hentAktørId());
     }
 
     private static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
