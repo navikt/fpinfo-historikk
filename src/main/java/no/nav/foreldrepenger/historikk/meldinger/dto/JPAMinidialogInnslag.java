@@ -22,7 +22,6 @@ public class JPAMinidialogInnslag {
     private LocalDate dato;
     private String saksnr;
     private String kanal;
-    private LocalDate lest;
 
     private JPAMinidialogInnslag() {
     }
@@ -32,14 +31,6 @@ public class JPAMinidialogInnslag {
         this.melding = melding;
         this.saksnr = saksnr;
         this.kanal = kanal;
-    }
-
-    public void setLest(LocalDate lest) {
-        this.lest = lest;
-    }
-
-    public LocalDate getLest() {
-        return lest;
     }
 
     public String getKanal() {

@@ -55,10 +55,10 @@ public class MeldingsLagerTjeneste {
     }
 
     private static MinidialogInnslag tilMelding(JPAMinidialogInnslag m) {
-        MinidialogInnslag melding = new MinidialogInnslag(AktørId.valueOf(m.getAktørId()), m.getMelding(), m.getSaksnr());
+        MinidialogInnslag melding = new MinidialogInnslag(AktørId.valueOf(m.getAktørId()), m.getMelding(),
+                m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
-        melding.setLest(m.getLest());
         melding.setId(m.getId());
         return melding;
     }
