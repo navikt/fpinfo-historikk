@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.meldinger.dto;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class JPAHistorikkInnslag {
     private String journalpostId;
     private String tekst;
     @Column(insertable = false, updatable = false)
-    private LocalDate datoMottatt;
+    private LocalDateTime datoMottatt;
     private LocalDate gyldigTil;
     private boolean aktiv;
     private String saksnr;
@@ -65,11 +66,11 @@ public class JPAHistorikkInnslag {
         this.tekst = tekst;
     }
 
-    public LocalDate getDatoMottatt() {
+    public LocalDateTime getDatoMottatt() {
         return datoMottatt;
     }
 
-    public void setDatoMottatt(LocalDate datoMottatt) {
+    public void setDatoMottatt(LocalDateTime datoMottatt) {
         this.datoMottatt = datoMottatt;
     }
 

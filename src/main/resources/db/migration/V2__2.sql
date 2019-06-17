@@ -4,7 +4,7 @@ CREATE TABLE HISTORIKK (
     journalpost_id VARCHAR(50),
     saksnr VARCHAR(50),
     tekst VARCHAR (2000)  NOT NULL,
-    dato_mottatt DATE NOT NULL DEFAULT CURRENT_DATE,
+    dato_mottatt timestamp NOT NULL DEFAULT now(),
     gyldig_til DATE,
     aktiv boolean
 );
