@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Repository
-public class RepositoryJPAMeldingsLagerDAO implements MeldingsLagerDAO {
+public class RepositoryJPAMeldingsLagerDAO implements MinidialogDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(RepositoryJPAMeldingsLagerDAO.class);
 
-    private final MeldingsLagerRepository repo;
+    private final MinidialogRepository repo;
 
-    public RepositoryJPAMeldingsLagerDAO(MeldingsLagerRepository repo) {
+    public RepositoryJPAMeldingsLagerDAO(MinidialogRepository repo) {
         this.repo = repo;
     }
 

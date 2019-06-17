@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Transactional(JPA)
-public interface MeldingsLagerRepository extends JpaRepository<JPAMinidialogInnslag, Long> {
+public interface MinidialogRepository extends JpaRepository<JPAMinidialogInnslag, Long> {
 
     List<JPAMinidialogInnslag> findByAktørId(String aktørId);
 }

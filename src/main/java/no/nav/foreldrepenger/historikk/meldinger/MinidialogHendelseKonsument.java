@@ -17,12 +17,12 @@ import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MeldingMottattKonsument {
-    private static final Logger LOG = LoggerFactory.getLogger(MeldingMottattKonsument.class);
-    private final MeldingsLagerTjeneste meldingsLager;
+public class MinidialogHendelseKonsument {
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
+    private final MinidialogTjeneste meldingsLager;
     private final JacksonUtil mapper;
 
-    public MeldingMottattKonsument(MeldingsLagerTjeneste meldingsLager, JacksonUtil mapper) {
+    public MinidialogHendelseKonsument(MinidialogTjeneste meldingsLager, JacksonUtil mapper) {
         this.meldingsLager = meldingsLager;
         this.mapper = mapper;
     }
