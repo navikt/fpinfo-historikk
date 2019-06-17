@@ -4,7 +4,7 @@ import java.util.List;
 
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
-public interface MeldingsLagerDAO {
+public interface MinidialogDAO {
 
     void lagre(JPAMinidialogInnslag meldingDAO);
 

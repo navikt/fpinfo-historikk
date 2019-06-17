@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.meldinger;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -37,6 +38,13 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
         return hent(aktørId);
+    }
+
+    public List<HistorikkInnslag> hentHistorikk(AktørId aktørId, LocalDate fra) {
+        return dao.findByAktørIdAndDatoMottattAfter(aktørId.getAktørId(), fra)
+                .stream()
+                .map(HistorikkTjeneste::tilHistorikkInnslag)
+                .collect(toList());
     }
 
     private List<HistorikkInnslag> hent(AktørId aktørId) {
@@ -79,4 +87,5 @@ public class HistorikkTjeneste {
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
     }
+
 }

@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,7 @@ import no.nav.foreldrepenger.historikk.meldinger.dto.JPAHistorikkInnslag;
 public interface HistorikkRepository extends JpaRepository<JPAHistorikkInnslag, Long> {
 
     List<JPAHistorikkInnslag> findByAktørId(String aktørId);
+
+    List<JPAHistorikkInnslag> findByAktørIdAndDatoMottattAfter(String aktørId, LocalDate after);
+
 }

@@ -17,14 +17,14 @@ import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
 
 @Service
 @Transactional(JPA)
-public class MeldingsLagerTjeneste {
+public class MinidialogTjeneste {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MeldingsLagerTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
-    private final MeldingsLagerDAO dao;
+    private final MinidialogDAO dao;
     private final OppslagConnection oppslag;
 
-    public MeldingsLagerTjeneste(MeldingsLagerDAO dao, OppslagConnection oppslag) {
+    public MinidialogTjeneste(MinidialogDAO dao, OppslagConnection oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }
@@ -34,16 +34,16 @@ public class MeldingsLagerTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentMeldingerForAktør(AktørId aktørId) {
+    public List<MinidialogInnslag> hentDialogerForAktør(AktørId aktørId) {
         return dao.hentForAktør(aktørId.getAktørId())
                 .stream()
-                .map(MeldingsLagerTjeneste::tilMelding)
+                .map(MinidialogTjeneste::tilMelding)
                 .collect(toList());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentMineMeldinger() {
-        return hentMeldingerForAktør(oppslag.hentAktørId());
+    public List<MinidialogInnslag> hentMineDialoger() {
+        return hentDialogerForAktør(oppslag.hentAktørId());
     }
 
     private static JPAMinidialogInnslag fraMelding(MinidialogInnslag m) {

@@ -26,42 +26,28 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MeldingProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(MeldingProdusent.class);
+public class MinidialogHendelseProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseProdusent.class);
     private final String topic;
-    private final String søknad_topic;
     private final KafkaTemplate<String, String> kafkaTemplate;
-
-    public MeldingProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
-            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknad_topic,
-            KafkaTemplate<String, String> kafkaTemplate) {
-        this.topic = topic;
-        this.søknad_topic = søknad_topic;
-        this.kafkaTemplate = kafkaTemplate;
-    }
 
     @Inject
     private ObjectMapper mapper;
 
-    @Transactional(KAFKA)
-    public void sendMelding(MinidialogInnslag melding) throws JsonProcessingException {
-        Message<String> message = MessageBuilder
-                .withPayload(mapper.writeValueAsString(melding))
-                .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
-                .build();
-        LOG.info(String.format("Sender melding %s", message));
-        kafkaTemplate.send(message);
+    public MinidialogHendelseProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
+            KafkaTemplate<String, String> kafkaTemplate) {
+        this.topic = topic;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Transactional(KAFKA)
-    public void sendSøknad(String søknad) {
+    public void sendMinidialogHendelse(MinidialogInnslag hendelse) throws JsonProcessingException {
         Message<String> message = MessageBuilder
-                .withPayload(søknad)
-                .setHeader(KafkaHeaders.TOPIC, søknad_topic)
+                .withPayload(mapper.writeValueAsString(hendelse))
+                .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
                 .build();
-        LOG.info(String.format("Sender melding %s", message));
+        LOG.info(String.format("Sender hendelse %s", message));
         kafkaTemplate.send(message);
     }
 
