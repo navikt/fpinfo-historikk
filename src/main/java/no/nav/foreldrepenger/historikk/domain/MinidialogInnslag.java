@@ -10,20 +10,11 @@ public class MinidialogInnslag {
     private final String saknr;
     private LocalDate dato;
     private LeveranseKanal kanal;
-    private LocalDate lest;
 
     public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saknr = saksnr;
-    }
-
-    public LocalDate getLest() {
-        return lest;
-    }
-
-    public void setLest(LocalDate lest) {
-        this.lest = lest;
     }
 
     public LeveranseKanal getKanal() {
@@ -66,7 +57,7 @@ public class MinidialogInnslag {
     public String toString() {
         return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
                 + saknr + ", dato="
-                + dato + ", kanal=" + kanal + ", lest=" + lest + "]";
+                + dato + ", kanal=" + kanal + "]";
     }
 
 }
