@@ -16,22 +16,6 @@ public class MinidialogInnslag {
     private SøknadType handling;
     private boolean aktiv;
 
-    public boolean isAktiv() {
-        return aktiv;
-    }
-
-    public void setAktiv(boolean aktiv) {
-        this.aktiv = aktiv;
-    }
-
-    public SøknadType getHandling() {
-        return handling;
-    }
-
-    public void setHandling(SøknadType handling) {
-        this.handling = handling;
-    }
-
     public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
@@ -80,6 +64,22 @@ public class MinidialogInnslag {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
+
+    public SøknadType getHandling() {
+        return handling;
+    }
+
+    public void setHandling(SøknadType handling) {
+        this.handling = handling;
     }
 
     @Override
