@@ -6,24 +6,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class AktørId {
 
-    @JsonValue
-    private String aktørId;
+    private final String aktørId;
 
     @JsonCreator
     public AktørId(@JsonProperty("aktørId") String aktørId) {
         this.aktørId = aktørId;
     }
 
+    @JsonValue
     public String getAktørId() {
         return aktørId;
     }
 
-    public void setAktørId(String aktørId) {
-        this.aktørId = aktørId;
-    }
-
-    public static AktørId valueOf(String id) {
-        return new AktørId(id);
+    public static AktørId valueOf(String aktørId) {
+        return new AktørId(aktørId);
     }
 
     @Override
