@@ -31,7 +31,7 @@ public class MinidialogPreprodController {
     }
 
     @GetMapping("/find")
-    public List<MinidialogInnslag> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
+    public List<MinidialogInnslag> hentAktiveDialogerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return minidialog.hentAktiveDialogerForAktør(aktørId);
     }
 
@@ -41,7 +41,7 @@ public class MinidialogPreprodController {
     }
 
     @PostMapping("/merk")
-    public int merk(AktørId aktørId, SøknadType type) {
+    public int deaktiverMinidialoger(AktørId aktørId, SøknadType type) {
         return minidialog.deaktiverMinidialoger(aktørId, type);
     }
 
