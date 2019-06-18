@@ -22,29 +22,29 @@ public class MinidialogTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
-    private final RepositoryJPAMeldingsLagerDAO dao;
+    private final MinidialogRepository dao;
     private final OppslagConnection oppslag;
 
-    public MinidialogTjeneste(RepositoryJPAMeldingsLagerDAO dao, OppslagConnection oppslag) {
+    public MinidialogTjeneste(MinidialogRepository dao, OppslagConnection oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }
 
     public void lagre(MinidialogInnslag m) {
-        dao.lagre(fraInnslag(m));
+        dao.save(fraInnslag(m));
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentDialogerForAktør(AktørId aktørId) {
-        return dao.hentForAktør(aktørId.getAktørId())
+    public List<MinidialogInnslag> hentAktiveDialogerForAktør(AktørId aktørId) {
+        return dao.findByAktørIdAndAktivIsTrue(aktørId.getAktørId())
                 .stream()
                 .map(MinidialogTjeneste::tilInnslag)
                 .collect(toList());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentMineDialoger() {
-        return hentDialogerForAktør(oppslag.hentAktørId());
+    public List<MinidialogInnslag> hentMineAktiveDialoger() {
+        return hentAktiveDialogerForAktør(oppslag.hentAktørId());
     }
 
     private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
