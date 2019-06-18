@@ -42,7 +42,7 @@ public class MinidialogPreprodController {
     }
 
     @PostMapping("/merk")
-    public int merk(@RequestParam("aktørId") AktørId aktørId) {
+    public int merk(AktørId aktørId) {
         return minidialog.deaktiverMinidaloger(aktørId, SøknadType.INITIELL_ENGANGSSTØNAD);
     }
 
