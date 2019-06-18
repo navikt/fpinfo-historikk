@@ -2,6 +2,9 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
 public class MinidialogInnslag {
@@ -16,7 +19,9 @@ public class MinidialogInnslag {
     private SøknadType handling;
     private boolean aktiv;
 
-    public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
+    @JsonCreator
+    public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("melding") String melding,
+            @JsonProperty("saksnr") String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saknr = saksnr;
