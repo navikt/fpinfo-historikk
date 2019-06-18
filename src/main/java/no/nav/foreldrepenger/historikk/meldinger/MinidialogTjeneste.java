@@ -14,6 +14,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
 @Service
 @Transactional(JPA)
@@ -51,6 +52,7 @@ public class MinidialogTjeneste {
                 m.getSaknr(),
                 m.getKanal().name());
         dialog.setGyldigTil(m.getGyldigTil());
+        dialog.setHandling(m.getHandling().name());
         return dialog;
     }
 
@@ -61,6 +63,9 @@ public class MinidialogTjeneste {
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setId(m.getId());
         melding.setGyldigTil(m.getGyldigTil());
+        if (m.getHandling() != null) {
+            melding.setHandling(SøknadType.valueOf(m.getHandling()));
+        }
         return melding;
     }
 
