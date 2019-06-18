@@ -53,6 +53,7 @@ public class MinidialogTjeneste {
                 m.getKanal().name());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setHandling(m.getHandling().name());
+        dialog.setAktiv(m.isAktiv());
         return dialog;
     }
 
@@ -66,6 +67,7 @@ public class MinidialogTjeneste {
         if (m.getHandling() != null) {
             melding.setHandling(SøknadType.valueOf(m.getHandling()));
         }
+        melding.setAktiv(m.isAktiv());
         return melding;
     }
 
