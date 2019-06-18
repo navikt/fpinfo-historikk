@@ -56,7 +56,7 @@ public class MinidialogTjeneste {
     }
 
     private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
-        JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId().getAktørId(), m.getMelding(),
+        JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId(), m.getMelding(),
                 m.getSaknr(),
                 m.getKanal().name());
         dialog.setGyldigTil(m.getGyldigTil());
@@ -66,7 +66,7 @@ public class MinidialogTjeneste {
     }
 
     private static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
-        MinidialogInnslag melding = new MinidialogInnslag(AktørId.valueOf(m.getAktørId()), m.getMelding(),
+        MinidialogInnslag melding = new MinidialogInnslag(m.getAktørId(), m.getMelding(),
                 m.getSaksnr());
         melding.setDato(m.getDato());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));

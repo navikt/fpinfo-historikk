@@ -10,7 +10,7 @@ import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 public class MinidialogInnslag {
 
     private long id;
-    private final AktørId aktørId;
+    private final String aktørId;
     private final String melding;
     private final String saknr;
     private LocalDate dato;
@@ -20,7 +20,7 @@ public class MinidialogInnslag {
     private boolean aktiv;
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("melding") String melding,
+    public MinidialogInnslag(@JsonProperty("aktørId") String aktørId, @JsonProperty("melding") String melding,
             @JsonProperty("saksnr") String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
@@ -51,7 +51,7 @@ public class MinidialogInnslag {
         this.dato = dato;
     }
 
-    public AktørId getAktørId() {
+    public String getAktørId() {
         return aktørId;
     }
 
