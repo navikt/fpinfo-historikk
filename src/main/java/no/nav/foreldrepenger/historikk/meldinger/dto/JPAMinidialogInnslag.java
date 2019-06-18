@@ -25,6 +25,15 @@ public class JPAMinidialogInnslag {
     private String saksnr;
     private String kanal;
     private String handling;
+    private boolean aktiv;
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
 
     private JPAMinidialogInnslag() {
     }
@@ -76,11 +85,35 @@ public class JPAMinidialogInnslag {
         this.handling = handling;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAktørId(String aktørId) {
+        this.aktørId = aktørId;
+    }
+
+    public void setMelding(String melding) {
+        this.melding = melding;
+    }
+
+    public void setDato(LocalDate dato) {
+        this.dato = dato;
+    }
+
+    public void setSaksnr(String saksnr) {
+        this.saksnr = saksnr;
+    }
+
+    public void setKanal(String kanal) {
+        this.kanal = kanal;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
                 + dato + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + ", handling="
-                + handling + "]";
+                + handling + ", aktiv=" + aktiv + "]";
     }
 
 }

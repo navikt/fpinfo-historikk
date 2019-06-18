@@ -14,6 +14,15 @@ public class MinidialogInnslag {
     private LeveranseKanal kanal;
     private LocalDate gyldigTil;
     private SøknadType handling;
+    private boolean aktiv;
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
 
     public SøknadType getHandling() {
         return handling;
@@ -77,6 +86,7 @@ public class MinidialogInnslag {
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
                 + saknr + ", dato=" + dato + ", kanal=" + kanal + ", gyldigTil=" + gyldigTil + ", handling=" + handling
-                + "]";
+                + ", aktiv=" + aktiv + "]";
     }
+
 }
