@@ -28,7 +28,7 @@ public class MinidialogPreprodController {
 
     @GetMapping("/find")
     public List<MinidialogInnslag> hentMeldingerForAktør(@RequestParam("aktørId") AktørId aktørId) {
-        return minidialog.hentDialogerForAktør(aktørId);
+        return minidialog.hentAktiveDialogerForAktør(aktørId);
     }
 
     @Override
