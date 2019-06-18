@@ -30,8 +30,12 @@ public class MinidialogTjeneste {
         this.oppslag = oppslag;
     }
 
-    public int deaktiverMinidaloger(SøknadType type) {
+    public int deaktiverMineMinidaloger(SøknadType type) {
         return dao.deaktiver(oppslag.hentAktørId().getAktørId(), type.name());
+    }
+
+    public int deaktiverMinidaloger(AktørId aktørId, SøknadType type) {
+        return dao.deaktiver(aktørId.getAktørId(), type.name());
     }
 
     public void lagre(MinidialogInnslag m) {
