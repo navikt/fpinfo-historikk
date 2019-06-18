@@ -21,5 +21,5 @@ public interface MinidialogRepository extends JpaRepository<JPAMinidialogInnslag
 
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.handling = :handling")
-    void deaktiver(@Param("aktørId") String aktørId, @Param("handling") String handling);
+    int deaktiver(@Param("aktørId") String aktørId, @Param("handling") String handling);
 }
