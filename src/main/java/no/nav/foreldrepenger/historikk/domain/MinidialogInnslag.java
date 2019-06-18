@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDate;
 
+import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+
 public class MinidialogInnslag {
 
     private long id;
@@ -11,6 +13,15 @@ public class MinidialogInnslag {
     private LocalDate dato;
     private LeveranseKanal kanal;
     private LocalDate gyldigTil;
+    private SøknadType handling;
+
+    public SøknadType getHandling() {
+        return handling;
+    }
+
+    public void setHandling(SøknadType handling) {
+        this.handling = handling;
+    }
 
     public MinidialogInnslag(AktørId aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
@@ -64,9 +75,8 @@ public class MinidialogInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
-                + saknr + ", dato="
-                + dato + ", kanal=" + kanal + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
+                + saknr + ", dato=" + dato + ", kanal=" + kanal + ", gyldigTil=" + gyldigTil + ", handling=" + handling
+                + "]";
     }
-
 }

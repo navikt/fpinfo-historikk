@@ -24,6 +24,7 @@ public class JPAMinidialogInnslag {
     private LocalDate gyldigTil;
     private String saksnr;
     private String kanal;
+    private String handling;
 
     private JPAMinidialogInnslag() {
     }
@@ -67,10 +68,19 @@ public class JPAMinidialogInnslag {
         return saksnr;
     }
 
+    public String getHandling() {
+        return handling;
+    }
+
+    public void setHandling(String handling) {
+        this.handling = handling;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
-                + dato + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + "]";
+                + dato + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + ", handling="
+                + handling + "]";
     }
 
 }
