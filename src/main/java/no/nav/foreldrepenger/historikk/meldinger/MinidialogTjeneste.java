@@ -34,7 +34,7 @@ public class MinidialogTjeneste {
         return dao.deaktiver(oppslag.hentAktørId().getAktørId(), type.name());
     }
 
-    public int deaktiverMinidaloger(AktørId aktørId, SøknadType type) {
+    public int deaktiverMinidialoger(AktørId aktørId, SøknadType type) {
         return dao.deaktiver(aktørId.getAktørId(), type.name());
     }
 
