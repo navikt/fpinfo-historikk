@@ -17,26 +17,30 @@ public class InnsendingEventKonsument {
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingEventKonsument.class);
 
     private final HistorikkTjeneste historikk;
+    private final MinidialogTjeneste dialog;
     private final JacksonUtil mapper;
 
-    public InnsendingEventKonsument(JacksonUtil mapper, HistorikkTjeneste historikk) {
+    public InnsendingEventKonsument(JacksonUtil mapper, HistorikkTjeneste historikk, MinidialogTjeneste dialog) {
         this.mapper = mapper;
         this.historikk = historikk;
+        this.dialog = dialog;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
-        LOG.info("Mottok melding om søknad {}", json);
         InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
-        LOG.info("Melding om søknad konvertert til {}", event);
         LOG.info("Lagrer historikkinnslag fra hendelse {}", event);
         historikk.lagre(event);
         LOG.info("Lagret historikkinnslag fra hendelse OK ");
+        LOG.info("Deaktiverer eventuelle minidialoger for {}", event.getType());
+        dialog.deaktiverMinidaloger(event.getType());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [mapper=" + mapper + "]";
+        return getClass().getSimpleName() + "[historikk=" + historikk + ", dialog=" + dialog + ", mapper=" + mapper
+                + "]";
     }
+
 }

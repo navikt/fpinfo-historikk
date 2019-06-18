@@ -23,11 +23,15 @@ public class MinidialogTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
     private final MinidialogRepository dao;
-    private final OppslagConnection oppslag;
+    private final OppslagTjeneste oppslag;
 
-    public MinidialogTjeneste(MinidialogRepository dao, OppslagConnection oppslag) {
+    public MinidialogTjeneste(MinidialogRepository dao, OppslagTjeneste oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
+    }
+
+    public int deaktiverMinidaloger(SøknadType type) {
+        return dao.deaktiver(oppslag.hentAktørId().getAktørId(), type.name());
     }
 
     public void lagre(MinidialogInnslag m) {

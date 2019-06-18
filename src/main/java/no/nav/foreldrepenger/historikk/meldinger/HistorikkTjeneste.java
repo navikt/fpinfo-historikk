@@ -23,23 +23,24 @@ public class HistorikkTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkTjeneste.class);
 
     private final HistorikkRepository dao;
-    private final OppslagConnection oppslag;
+    private final OppslagTjeneste oppslag;
 
-    public HistorikkTjeneste(HistorikkRepository dao, OppslagConnection oppslag) {
+    public HistorikkTjeneste(HistorikkRepository dao, OppslagTjeneste oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
-        return hent(oppslag.hentAktørId());
+        return hentFor(oppslag.hentAktørId());
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
-        return hent(aktørId);
+        return hentFor(aktørId);
     }
 
+    @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId, LocalDate fra) {
         return dao.findByAktørIdAndDatoMottattAfter(aktørId.getAktørId(), fra)
                 .stream()
@@ -47,7 +48,7 @@ public class HistorikkTjeneste {
                 .collect(toList());
     }
 
-    private List<HistorikkInnslag> hent(AktørId aktørId) {
+    private List<HistorikkInnslag> hentFor(AktørId aktørId) {
         return dao.findByAktørId(aktørId.getAktørId())
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
