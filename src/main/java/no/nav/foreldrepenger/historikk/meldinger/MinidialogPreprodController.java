@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 import no.nav.security.oidc.api.Unprotected;
@@ -44,14 +43,6 @@ public class MinidialogPreprodController {
     @PostMapping("/merk")
     public int merk(AktørId aktørId) {
         return minidialog.deaktiverMinidaloger(aktørId, SøknadType.INITIELL_ENGANGSSTØNAD);
-    }
-
-    private static MinidialogInnslag m(AktørId aktørId) {
-        MinidialogInnslag m = new MinidialogInnslag(aktørId, "hei", "42");
-        m.setHandling(SøknadType.INITIELL_ENGANGSSTØNAD);
-        m.setKanal(LeveranseKanal.DIREKTE);
-        m.setAktiv(true);
-        return m;
     }
 
     @Override
