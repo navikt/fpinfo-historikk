@@ -2,28 +2,25 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class HistorikkInnslag {
 
-    private AktørId aktørId;
+    private final AktørId aktørId;
     private String journalpostId;
-    private String tekst;
+    private final String tekst;
     private LocalDateTime datoMottatt;
     private String saksnr;
 
-    private HistorikkInnslag() {
-    }
-
-    public HistorikkInnslag(AktørId aktørId, String tekst) {
+    @JsonCreator
+    public HistorikkInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("aktørId") String tekst) {
         this.aktørId = aktørId;
         this.tekst = tekst;
     }
 
     public AktørId getAktørId() {
         return aktørId;
-    }
-
-    public void setAktørId(AktørId aktørId) {
-        this.aktørId = aktørId;
     }
 
     public String getJournalpostId() {
@@ -36,10 +33,6 @@ public class HistorikkInnslag {
 
     public String getTekst() {
         return tekst;
-    }
-
-    public void setTekst(String tekst) {
-        this.tekst = tekst;
     }
 
     public LocalDateTime getDatoMottatt() {
