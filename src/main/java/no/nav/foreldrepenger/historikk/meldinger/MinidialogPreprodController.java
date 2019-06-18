@@ -36,7 +36,7 @@ public class MinidialogPreprodController {
     }
 
     @PostMapping("/produser")
-    public void lagre(MinidialogInnslag hendelse) {
+    public void produser(MinidialogInnslag hendelse) {
         produsent.sendMinidialogHendelse(hendelse);
     }
 
