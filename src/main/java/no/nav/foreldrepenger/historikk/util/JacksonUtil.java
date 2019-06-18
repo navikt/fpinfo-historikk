@@ -23,14 +23,22 @@ public class JacksonUtil {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
+            LOG.warn("Kunne ikke deserialisere melding fra {} til {}", json, clazz, e);
             return null;
-            // throw new UnexpectedInputException("Kunne ikke rekonstuere melding fra %s til
-            // %s", e, json, clazz);
         }
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [mapper=" + mapper + "]";
+    }
+
+    public String writeValueAsString(Object obj) {
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (IOException e) {
+            LOG.warn("Kunne ikke serialisere melding fra {}", obj, e);
+            return null;
+        }
     }
 }

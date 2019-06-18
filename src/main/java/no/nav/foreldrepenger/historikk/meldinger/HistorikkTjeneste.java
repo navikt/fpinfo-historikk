@@ -76,7 +76,7 @@ public class HistorikkTjeneste {
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
-        innslag.setTekst(event.getType() + " mottatt");
+        innslag.setTekst(event.getType().name());
         return innslag;
     }
 

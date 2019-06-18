@@ -24,9 +24,11 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 public class MinidialogPreprodController {
     private final MinidialogTjeneste minidialog;
+    private final MinidialogEventProdusent produsent;
 
-    MinidialogPreprodController(MinidialogTjeneste minidialog) {
+    MinidialogPreprodController(MinidialogTjeneste minidialog, MinidialogEventProdusent produsent) {
         this.minidialog = minidialog;
+        this.produsent = produsent;
     }
 
     @GetMapping("/find")
@@ -34,9 +36,9 @@ public class MinidialogPreprodController {
         return minidialog.hentAktiveDialogerForAktør(aktørId);
     }
 
-    @PostMapping("/lagre")
-    public void lagre(@RequestParam("aktørId") AktørId aktørId) {
-        minidialog.lagre(m(aktørId));
+    @PostMapping("/produser")
+    public void lagre(MinidialogInnslag hendelse) {
+        produsent.sendMinidialogHendelse(hendelse);
     }
 
     @PostMapping("/merk")

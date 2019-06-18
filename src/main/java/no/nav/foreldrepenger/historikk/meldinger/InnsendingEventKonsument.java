@@ -34,7 +34,9 @@ public class InnsendingEventKonsument {
         historikk.lagre(event);
         LOG.info("Lagret historikkinnslag fra hendelse OK ");
         LOG.info("Deaktiverer eventuelle minidialoger for {}", event.getType());
-        dialog.deaktiverMineMinidaloger(event.getType());
+        int antallDeaktivert = dialog.deaktiverMineMinidaloger(event.getType());
+        LOG.info("{} minidialoger ble deaktivert", antallDeaktivert);
+
     }
 
     @Override

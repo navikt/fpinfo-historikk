@@ -1,8 +1,11 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
+import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.MDCUtil.callIdOrNew;
+import static org.springframework.kafka.support.KafkaHeaders.TOPIC;
 
 import javax.inject.Inject;
 
@@ -10,49 +13,44 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import no.nav.foreldrepenger.historikk.config.Constants;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
+import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
 public class MinidialogEventProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogEventProdusent.class);
     private final String topic;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaOperations<String, String> kafkaOperations;
 
     @Inject
-    private ObjectMapper mapper;
+    private JacksonUtil mapper;
 
-    public MinidialogEventProdusent(@Value("${historikk.kafka.meldinger.topic}") String topic,
-            KafkaTemplate<String, String> kafkaTemplate) {
+    public MinidialogEventProdusent(KafkaOperations<String, String> kafkaOperations,
+            @Value("${historikk.kafka.meldinger.topic}") String topic) {
         this.topic = topic;
-        this.kafkaTemplate = kafkaTemplate;
+        this.kafkaOperations = kafkaOperations;
     }
 
     @Transactional(KAFKA)
-    public void sendMinidialogHendelse(MinidialogInnslag hendelse) throws JsonProcessingException {
+    public void sendMinidialogHendelse(MinidialogInnslag hendelse) {
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
-                .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(Constants.NAV_CALL_ID, MDCUtil.callIdOrNew())
+                .setHeader(TOPIC, topic)
+                .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
-        LOG.info(String.format("Sender hendelse %s", message));
-        kafkaTemplate.send(message);
+        LOG.info("Sender hendelse {}", message);
+        kafkaOperations.send(message);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [topic=" + topic + ", kafkaTemplate=" + kafkaTemplate + "]";
+        return getClass().getSimpleName() + " [topic=" + topic + ", kafkaOperations=" + kafkaOperations + "]";
     }
 }
