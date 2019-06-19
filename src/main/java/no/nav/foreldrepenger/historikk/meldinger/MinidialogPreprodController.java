@@ -30,7 +30,7 @@ public class MinidialogPreprodController {
         this.produsent = produsent;
     }
 
-    @GetMapping("/find")
+    @GetMapping("/aktive")
     public List<MinidialogInnslag> hentAktiveDialogerForAktør(@RequestParam("aktørId") AktørId aktørId) {
         return minidialog.hentAktiveDialogerForAktør(aktørId);
     }

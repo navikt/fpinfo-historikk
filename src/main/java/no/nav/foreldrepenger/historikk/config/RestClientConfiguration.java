@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
+
 import java.util.Arrays;
 
 import org.slf4j.Logger;
@@ -13,7 +15,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestOperations;
 
-import no.nav.foreldrepenger.historikk.util.EnvUtil;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.spring.oidc.SpringOIDCRequestContextHolder;
@@ -32,7 +33,7 @@ public class RestClientConfiguration {
     }
 
     @Bean
-    @Profile(EnvUtil.DEV)
+    @Profile(DEV)
     @ConditionalOnMissingBean(SpringOIDCRequestContextHolder.class)
     OIDCRequestContextHolder dummyContextHolderForDev() {
         return new OIDCRequestContextHolder() {
