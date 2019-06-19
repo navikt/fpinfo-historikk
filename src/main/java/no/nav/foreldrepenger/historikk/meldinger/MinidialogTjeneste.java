@@ -44,7 +44,7 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentAktiveDialogerForAktør(AktørId aktørId) {
-        return dao.findByAktørIdAndAktivIsTrue(aktørId.getAktørId())
+        return dao.finnAktiveDialoger(aktørId.getAktørId())
                 .stream()
                 .map(MinidialogTjeneste::tilInnslag)
                 .collect(toList());

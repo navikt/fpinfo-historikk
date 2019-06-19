@@ -3,12 +3,15 @@ package no.nav.foreldrepenger.historikk.meldinger.dto;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Table(name = "melding")
@@ -25,14 +28,15 @@ public class JPAMinidialogInnslag {
     private String saksnr;
     private String kanal;
     private String handling;
-    private boolean aktiv;
+    @CreatedDate
+    private LocalDateTime opprettet;
 
-    public boolean isAktiv() {
-        return aktiv;
+    public LocalDateTime getOpprettet() {
+        return opprettet;
     }
 
-    public void setAktiv(boolean aktiv) {
-        this.aktiv = aktiv;
+    public void setOpprettet(LocalDateTime opprettet) {
+        this.opprettet = opprettet;
     }
 
     private JPAMinidialogInnslag() {
@@ -43,6 +47,16 @@ public class JPAMinidialogInnslag {
         this.melding = melding;
         this.saksnr = saksnr;
         this.kanal = kanal;
+    }
+
+    private boolean aktiv;
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
     }
 
     public LocalDate getGyldigTil() {
