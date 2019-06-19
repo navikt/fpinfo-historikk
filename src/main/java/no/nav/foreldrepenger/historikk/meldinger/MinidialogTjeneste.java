@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harHandling;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
 @Service
@@ -26,16 +28,19 @@ public class MinidialogTjeneste {
         this.oppslag = oppslag;
     }
 
+    public List<MinidialogInnslag> query(SøknadType type) {
+        return dao.findAll(where(harHandling(type)))
+                .stream()
+                .map(MinidialogTjeneste::tilInnslag)
+                .collect(toList());
+    }
+
     public int deaktiverMineMinidaloger(SøknadType type) {
         return deaktiver(oppslag.hentAktørId(), type);
     }
 
     public int deaktiverMinidialoger(AktørId aktørId, SøknadType type) {
         return deaktiver(aktørId, type);
-    }
-
-    private int deaktiver(AktørId aktørId, SøknadType type) {
-        return dao.deaktiver(aktørId.getAktørId(), type.name());
     }
 
     public void lagre(MinidialogInnslag m) {
@@ -53,6 +58,10 @@ public class MinidialogTjeneste {
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentMineAktiveDialoger() {
         return hentAktiveDialogerForAktør(oppslag.hentAktørId());
+    }
+
+    private int deaktiver(AktørId aktørId, SøknadType type) {
+        return dao.deaktiver(aktørId.getAktørId(), type.name());
     }
 
     private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {

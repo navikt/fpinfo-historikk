@@ -2,6 +2,9 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.erEtter;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.harAktør;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 
 @Service
@@ -41,22 +44,22 @@ public class HistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<HistorikkInnslag> hentHistorikk(AktørId aktørId, LocalDate fra) {
-        return dao.findByAktørIdAndDatoMottattAfter(aktørId.getAktørId(), fra)
+    public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate date) {
+        return dao.findAll(where(harAktør(aktørId)).and(erEtter(date)))
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
                 .collect(toList());
     }
 
     private List<HistorikkInnslag> hentFor(AktørId aktørId) {
-        return dao.findByAktørId(aktørId.getAktørId())
+        return dao.findAll(where(harAktør(aktørId)))
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
                 .collect(toList());
     }
 
     private static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
-        HistorikkInnslag innslag = new HistorikkInnslag(AktørId.valueOf(i.getAktørId()), i.getTekst());
+        HistorikkInnslag innslag = new HistorikkInnslag(new AktørId(i.getAktørId()), i.getTekst());
         innslag.setDatoMottatt(i.getDatoMottatt());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
