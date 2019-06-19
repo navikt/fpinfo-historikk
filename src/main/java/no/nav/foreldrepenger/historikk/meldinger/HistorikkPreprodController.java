@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,9 @@ public class HistorikkPreprodController {
     }
 
     @GetMapping("/historikk/hentfra")
-    public List<HistorikkInnslag> hentHistorikk(@RequestParam("aktørId") AktørId aktørId,
-            @RequestParam("fra") LocalDate fra) {
-        return historikk.hentHistorikk(aktørId, fra);
+    public List<HistorikkInnslag> hentHistorikkFra(@RequestParam("aktørId") AktørId aktørId,
+            @RequestParam("fra") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fra) {
+        return historikk.hentHistorikkFra(aktørId, fra);
     }
 
     @Override

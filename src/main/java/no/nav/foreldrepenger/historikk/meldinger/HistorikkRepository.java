@@ -2,19 +2,14 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.meldinger.dto.JPAHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.dao.JPAHistorikkInnslag;
 
 @Transactional(JPA)
-public interface HistorikkRepository extends JpaRepository<JPAHistorikkInnslag, Long> {
-
-    List<JPAHistorikkInnslag> findByAktørId(String aktørId);
-
-    List<JPAHistorikkInnslag> findByAktørIdAndDatoMottattAfter(String aktørId, LocalDate after);
+public interface HistorikkRepository
+        extends JpaRepository<JPAHistorikkInnslag, Long>, JpaSpecificationExecutor<JPAHistorikkInnslag> {
 
 }
