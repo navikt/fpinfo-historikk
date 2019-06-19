@@ -68,7 +68,8 @@ public class MinidialogTjeneste {
     private static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
         MinidialogInnslag melding = new MinidialogInnslag(m.getAktørId(), m.getMelding(),
                 m.getSaksnr());
-        melding.setDato(m.getDato());
+        melding.setEndret(m.getEndret());
+        melding.setOpprettet(m.getOpprettet());
         melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setId(m.getId());
         melding.setGyldigTil(m.getGyldigTil());

@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.kafka.annotation.EnableKafka;
 
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
@@ -11,6 +12,7 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 @SpringBootApplication
 @EnableKafka
 @EnableCaching
+@EnableJpaAuditing
 public class FPInfoHistorikkApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)

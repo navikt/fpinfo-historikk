@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +14,8 @@ public class MinidialogInnslag {
     private final String aktørId;
     private final String melding;
     private final String saknr;
-    private LocalDate dato;
+    private LocalDateTime opprettet;
+    private LocalDateTime endret;
     private LeveranseKanal kanal;
     private LocalDate gyldigTil;
     private SøknadType handling;
@@ -41,14 +43,6 @@ public class MinidialogInnslag {
 
     public void setKanal(LeveranseKanal kanal) {
         this.kanal = kanal;
-    }
-
-    public LocalDate getDato() {
-        return dato;
-    }
-
-    public void setDato(LocalDate dato) {
-        this.dato = dato;
     }
 
     public String getAktørId() {
@@ -87,11 +81,27 @@ public class MinidialogInnslag {
         this.handling = handling;
     }
 
+    public LocalDateTime getOpprettet() {
+        return opprettet;
+    }
+
+    public void setOpprettet(LocalDateTime opprettet) {
+        this.opprettet = opprettet;
+    }
+
+    public LocalDateTime getEndret() {
+        return endret;
+    }
+
+    public void setEndret(LocalDateTime endret) {
+        this.endret = endret;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
-                + saknr + ", dato=" + dato + ", kanal=" + kanal + ", gyldigTil=" + gyldigTil + ", handling=" + handling
-                + ", aktiv=" + aktiv + "]";
+                + saknr + ", opprettet=" + opprettet + ", endret=" + endret + ", kanal=" + kanal + ", gyldigTil="
+                + gyldigTil + ", handling=" + handling + ", aktiv=" + aktiv + "]";
     }
 
 }
