@@ -17,8 +17,8 @@ public interface MinidialogRepository extends JpaRepository<JPAMinidialogInnslag
 
     List<JPAMinidialogInnslag> findByAktørId(String aktørId);
 
-    @Query("Select m from JPAMinidialogInnslag m where m.gyldigTil >= CURRENT_DATE and m.aktørId = :aktørId and m.aktiv = true")
-    List<JPAMinidialogInnslag> findByAktørIdAndAktivIsTrue(@Param("aktørId") String aktørId);
+    @Query("select m from JPAMinidialogInnslag m where m.gyldigTil >= CURRENT_DATE and m.aktørId = :aktørId and m.aktiv = true")
+    List<JPAMinidialogInnslag> finnAktiveDialoger(@Param("aktørId") String aktørId);
 
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.handling = :handling")
