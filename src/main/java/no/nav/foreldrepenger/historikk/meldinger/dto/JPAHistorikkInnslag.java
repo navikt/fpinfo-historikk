@@ -4,14 +4,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Entity
 @Table(name = "historikk")
+@EntityListeners(AuditingEntityListener.class)
 public class JPAHistorikkInnslag {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -19,7 +23,7 @@ public class JPAHistorikkInnslag {
     private String aktørId;
     private String journalpostId;
     private String tekst;
-    @Column(insertable = false, updatable = false)
+    @CreatedDate
     private LocalDateTime datoMottatt;
     private String saksnr;
 
