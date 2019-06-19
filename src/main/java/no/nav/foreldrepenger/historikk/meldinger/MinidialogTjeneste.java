@@ -57,7 +57,7 @@ public class MinidialogTjeneste {
 
     private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId(), m.getMelding(),
-                m.getSaknr(),
+                m.getSaksnr(),
                 m.getKanal().name());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setHandling(m.getHandling().name());

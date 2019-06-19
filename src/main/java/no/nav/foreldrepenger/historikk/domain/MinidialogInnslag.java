@@ -3,6 +3,9 @@ package no.nav.foreldrepenger.historikk.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,10 +16,11 @@ public class MinidialogInnslag {
     private long id;
     private final String aktørId;
     private final String melding;
-    private final String saknr;
+    private final String saksnr;
     private LocalDateTime opprettet;
     private LocalDateTime endret;
     private LeveranseKanal kanal;
+    @DateTimeFormat(iso = ISO.DATE)
     private LocalDate gyldigTil;
     private SøknadType handling;
     private boolean aktiv;
@@ -26,7 +30,7 @@ public class MinidialogInnslag {
             @JsonProperty("saksnr") String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
-        this.saknr = saksnr;
+        this.saksnr = saksnr;
     }
 
     public LocalDate getGyldigTil() {
@@ -53,8 +57,8 @@ public class MinidialogInnslag {
         return melding;
     }
 
-    public String getSaknr() {
-        return saknr;
+    public String getSaksnr() {
+        return saksnr;
     }
 
     public long getId() {
@@ -100,7 +104,7 @@ public class MinidialogInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
-                + saknr + ", opprettet=" + opprettet + ", endret=" + endret + ", kanal=" + kanal + ", gyldigTil="
+                + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", kanal=" + kanal + ", gyldigTil="
                 + gyldigTil + ", handling=" + handling + ", aktiv=" + aktiv + "]";
     }
 
