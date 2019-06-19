@@ -5,16 +5,19 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "melding")
+@EntityListeners(AuditingEntityListener.class)
 public class JPAMinidialogInnslag {
 
     @Id
@@ -22,22 +25,15 @@ public class JPAMinidialogInnslag {
     private int id;
     private String aktørId;
     private String melding;
-    @Column(insertable = false, updatable = false)
-    private LocalDate dato;
     private LocalDate gyldigTil;
     private String saksnr;
     private String kanal;
     private String handling;
     @CreatedDate
     private LocalDateTime opprettet;
-
-    public LocalDateTime getOpprettet() {
-        return opprettet;
-    }
-
-    public void setOpprettet(LocalDateTime opprettet) {
-        this.opprettet = opprettet;
-    }
+    @LastModifiedDate
+    private LocalDateTime endret;
+    private boolean aktiv;
 
     private JPAMinidialogInnslag() {
     }
@@ -49,7 +45,13 @@ public class JPAMinidialogInnslag {
         this.kanal = kanal;
     }
 
-    private boolean aktiv;
+    public LocalDateTime getOpprettet() {
+        return opprettet;
+    }
+
+    public void setOpprettet(LocalDateTime opprettet) {
+        this.opprettet = opprettet;
+    }
 
     public boolean isAktiv() {
         return aktiv;
@@ -71,8 +73,12 @@ public class JPAMinidialogInnslag {
         return kanal;
     }
 
-    public LocalDate getDato() {
-        return dato;
+    public LocalDateTime getEndret() {
+        return endret;
+    }
+
+    public void setEndret(LocalDateTime endret) {
+        this.endret = endret;
     }
 
     public String getAktørId() {
@@ -111,10 +117,6 @@ public class JPAMinidialogInnslag {
         this.melding = melding;
     }
 
-    public void setDato(LocalDate dato) {
-        this.dato = dato;
-    }
-
     public void setSaksnr(String saksnr) {
         this.saksnr = saksnr;
     }
@@ -125,9 +127,9 @@ public class JPAMinidialogInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", dato="
-                + dato + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + ", handling="
-                + handling + ", aktiv=" + aktiv + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding
+                + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + ", handling=" + handling
+                + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
     }
 
 }
