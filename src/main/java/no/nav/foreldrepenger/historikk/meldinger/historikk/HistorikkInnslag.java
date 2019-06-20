@@ -1,9 +1,11 @@
-package no.nav.foreldrepenger.historikk.domain;
+package no.nav.foreldrepenger.historikk.meldinger.historikk;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public class HistorikkInnslag {
 

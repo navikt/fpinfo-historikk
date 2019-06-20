@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.historikk.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
 
