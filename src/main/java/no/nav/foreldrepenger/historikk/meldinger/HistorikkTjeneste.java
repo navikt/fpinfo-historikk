@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.erEtter;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.harAktør;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 @Transactional(JPA)
 public class HistorikkTjeneste {
 
+    private static final Sort SORT = new Sort(ASC, "opprettet");
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkTjeneste.class);
 
     private final HistorikkRepository dao;
@@ -42,20 +45,20 @@ public class HistorikkTjeneste {
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
-        return mapAndCollect(dao.findAll(where(harAktør(oppslag.hentAktørId()))));
+        return konverterFra(dao.findAll(where(harAktør(oppslag.hentAktørId())), SORT));
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
-        return mapAndCollect(dao.findAll(where(harAktør(aktørId))));
+        return konverterFra(dao.findAll(where(harAktør(aktørId)), SORT));
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate dato) {
-        return mapAndCollect(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato))));
+        return konverterFra(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato)), SORT));
     }
 
-    private static List<HistorikkInnslag> mapAndCollect(List<JPAHistorikkInnslag> innslag) {
+    private static List<HistorikkInnslag> konverterFra(List<JPAHistorikkInnslag> innslag) {
         return innslag
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
