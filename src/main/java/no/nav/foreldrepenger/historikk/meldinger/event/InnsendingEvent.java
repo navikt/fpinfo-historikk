@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class InnsendingEvent {
@@ -72,6 +73,11 @@ public class InnsendingEvent {
 
     public List<String> getVedlegg() {
         return vedlegg;
+    }
+
+    @JsonIgnore
+    public boolean erEttersending() {
+        return getType().erEttersending();
     }
 
     @Override

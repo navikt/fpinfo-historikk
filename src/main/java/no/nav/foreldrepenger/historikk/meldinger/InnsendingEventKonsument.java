@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
@@ -35,7 +34,7 @@ public class InnsendingEventKonsument {
         historikk.lagre(event);
         LOG.info("Lagret historikkinnslag fra hendelse OK ");
         LOG.info("Deaktiverer eventuelle minidialoger for {}", event.getType());
-        int antallDeaktivert = dialog.deaktiverMinidialoger(AktørId.valueOf(event.getAktørId()), event.getType());
+        int antallDeaktivert = dialog.deaktiverMinidialoger(event);
         LOG.info("{} minidialoger ble deaktivert", antallDeaktivert);
     }
 

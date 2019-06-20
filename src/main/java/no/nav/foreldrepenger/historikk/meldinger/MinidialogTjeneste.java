@@ -16,6 +16,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
 @Service
@@ -30,12 +31,11 @@ public class MinidialogTjeneste {
         this.oppslag = oppslag;
     }
 
-    public int deaktiverMineMinidaloger(SøknadType type) {
-        return deaktiver(oppslag.hentAktørId(), type);
-    }
-
-    public int deaktiverMinidialoger(AktørId aktørId, SøknadType type) {
-        return deaktiver(aktørId, type);
+    public int deaktiverMinidialoger(InnsendingEvent event) {
+        if (event.erEttersending()) {
+            return dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
+        }
+        return dao.deaktiver(event.getAktørId(), event.getType().name());
     }
 
     public void lagre(MinidialogInnslag m) {
@@ -52,8 +52,8 @@ public class MinidialogTjeneste {
         return hentDialoger(oppslag.hentAktørId());
     }
 
-    private int deaktiver(AktørId aktørId, SøknadType type) {
-        return dao.deaktiver(aktørId.getAktørId(), type.name());
+    int deaktiver(String aktørId, SøknadType type) {
+        return dao.deaktiver(aktørId, type.name());
     }
 
     private List<MinidialogInnslag> hentDialoger(AktørId aktørId) {
