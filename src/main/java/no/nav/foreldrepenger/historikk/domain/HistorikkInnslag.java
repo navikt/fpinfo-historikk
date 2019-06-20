@@ -10,7 +10,7 @@ public class HistorikkInnslag {
     private final AktørId aktørId;
     private String journalpostId;
     private final String tekst;
-    private LocalDateTime datoMottatt;
+    private LocalDateTime opprettet;
     private String saksnr;
 
     @JsonCreator
@@ -35,12 +35,12 @@ public class HistorikkInnslag {
         return tekst;
     }
 
-    public LocalDateTime getDatoMottatt() {
-        return datoMottatt;
+    public LocalDateTime getOpprettet() {
+        return opprettet;
     }
 
-    public void setDatoMottatt(LocalDateTime datoMottatt) {
-        this.datoMottatt = datoMottatt;
+    public void setOpprettet(LocalDateTime opprettet) {
+        this.opprettet = opprettet;
     }
 
     public String getSaksnr() {
@@ -54,6 +54,6 @@ public class HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalpostId=" + journalpostId + ", tekst="
-                + tekst + ", datoMottatt=" + datoMottatt + ", saksnr=" + saksnr + "]";
+                + tekst + ", opprettet=" + opprettet + ", saksnr=" + saksnr + "]";
     }
 }
