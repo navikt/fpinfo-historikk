@@ -32,6 +32,7 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(InnsendingEvent event) {
+
         if (event.erEttersending()) {
             return dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
         }
