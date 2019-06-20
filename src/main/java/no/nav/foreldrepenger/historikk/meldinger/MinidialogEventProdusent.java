@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA;
+import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 import static no.nav.foreldrepenger.historikk.util.MDCUtil.callIdOrNew;
@@ -38,7 +38,7 @@ public class MinidialogEventProdusent {
         this.kafkaOperations = kafkaOperations;
     }
 
-    @Transactional(KAFKA)
+    @Transactional(KAFKA_TM)
     public void sendMinidialogHendelse(MinidialogInnslag hendelse) {
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))

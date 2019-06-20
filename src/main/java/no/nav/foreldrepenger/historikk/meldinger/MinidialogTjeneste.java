@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
+import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harAktør;
@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
 @Service
-@Transactional(JPA)
+@Transactional(JPA_TM)
 public class MinidialogTjeneste {
 
     private final MinidialogRepository dao;
