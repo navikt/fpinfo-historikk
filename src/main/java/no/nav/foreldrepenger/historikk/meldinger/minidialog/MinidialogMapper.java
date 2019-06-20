@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.meldinger.minidialog;
 
-import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
-import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
 import no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.JPAMinidialogInnslag;
 
