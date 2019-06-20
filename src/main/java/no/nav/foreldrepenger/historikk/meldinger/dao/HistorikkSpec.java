@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 
-public class HistorikkSpec {
+public final class HistorikkSpec {
 
     private HistorikkSpec() {
 
