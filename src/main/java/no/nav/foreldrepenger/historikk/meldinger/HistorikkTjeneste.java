@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
+import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.erEtter;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.harAktør;
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.historikk.meldinger.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 
 @Service
-@Transactional(JPA)
+@Transactional(JPA_TM)
 public class HistorikkTjeneste {
 
     private static final Sort SORT = new Sort(ASC, "opprettet");
