@@ -1,10 +1,10 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.historikk;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.meldinger.HistorikkMapper.fraEvent;
-import static no.nav.foreldrepenger.historikk.meldinger.HistorikkMapper.konverterFra;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.erEtter;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.harAktør;
+import static no.nav.foreldrepenger.historikk.meldinger.historikk.HistorikkMapper.fraEvent;
+import static no.nav.foreldrepenger.historikk.meldinger.historikk.HistorikkMapper.konverterFra;
+import static no.nav.foreldrepenger.historikk.meldinger.historikk.dao.HistorikkSpec.erEtter;
+import static no.nav.foreldrepenger.historikk.meldinger.historikk.dao.HistorikkSpec.harAktør;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.oppslag.OppslagTjeneste;
 
 @Service
 @Transactional(JPA_TM)

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.oppslag;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;

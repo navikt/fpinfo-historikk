@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger.event;
+package no.nav.foreldrepenger.historikk.meldinger.innsending;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger.dao;
+package no.nav.foreldrepenger.historikk.meldinger.historikk.dao;
 
 import static javax.persistence.GenerationType.IDENTITY;
 

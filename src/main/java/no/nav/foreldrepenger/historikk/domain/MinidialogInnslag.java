@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
 
 public class MinidialogInnslag {
 

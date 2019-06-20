@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.historikk;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.minidialog.MinidialogEventProdusent;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController

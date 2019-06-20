@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger.dao;
+package no.nav.foreldrepenger.historikk.meldinger.minidialog.dao;
 
 import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag_.aktiv;
@@ -9,7 +9,7 @@ import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
 
 public final class MinidialogSpec {
 
