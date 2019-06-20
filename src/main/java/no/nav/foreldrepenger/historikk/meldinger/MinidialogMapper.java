@@ -1,0 +1,39 @@
+package no.nav.foreldrepenger.historikk.meldinger;
+
+import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
+import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+
+public final class MinidialogMapper {
+
+    private MinidialogMapper() {
+
+    }
+
+    static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
+        JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId(), m.getMelding(),
+                m.getSaksnr(),
+                m.getKanal().name());
+        dialog.setGyldigTil(m.getGyldigTil());
+        dialog.setHandling(m.getHandling().name());
+        dialog.setAktiv(m.isAktiv());
+        return dialog;
+    }
+
+    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
+        MinidialogInnslag melding = new MinidialogInnslag(m.getAktørId(), m.getMelding(),
+                m.getSaksnr());
+        melding.setEndret(m.getEndret());
+        melding.setOpprettet(m.getOpprettet());
+        melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
+        melding.setId(m.getId());
+        melding.setGyldigTil(m.getGyldigTil());
+        if (m.getHandling() != null) {
+            melding.setHandling(SøknadType.valueOf(m.getHandling()));
+        }
+        melding.setAktiv(m.isAktiv());
+        return melding;
+    }
+
+}
