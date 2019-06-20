@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
 
-import static no.nav.foreldrepenger.historikk.meldinger.historikk.dao.JPAHistorikkInnslag_.aktørId;
-import static no.nav.foreldrepenger.historikk.meldinger.historikk.dao.JPAHistorikkInnslag_.opprettet;
+import static no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag_.aktørId;
+import static no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag_.opprettet;
 
 import java.time.LocalDate;
 
