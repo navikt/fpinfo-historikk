@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.meldinger.MinidialogMapper.fraInnslag;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harAktør;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
@@ -36,11 +36,15 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(InnsendingEvent event) {
-        LOG.info("Deaktiverer eventuelle minidialoger for {}", event.getType());
+        LOG.info("Deaktiverer minidialoger for {}", event.getType());
         if (event.erEttersending()) {
-            return dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
+            int n = dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
+            LOG.info("Deaktiverte {} minidialoger for sak {}", event.getType(), event.getSaksNr());
+            return n;
         }
-        return dao.deaktiver(event.getAktørId(), event.getType().name());
+        int n = dao.deaktiver(event.getAktørId(), event.getType().name());
+        LOG.info("Deaktiverte {} minidialoger", event.getType());
+        return n;
     }
 
     public void lagre(MinidialogInnslag m) {
@@ -56,7 +60,11 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentMineAktiveDialoger() {
-        return hentDialoger(oppslag.hentAktørId());
+        LOG.info("Hentet aktive dialoger");
+        List<MinidialogInnslag> dialoger = hentDialoger(oppslag.hentAktørId());
+        LOG.info("Hentet dialoger {}", dialoger);
+        return dialoger;
+
     }
 
     int deaktiver(String aktørId, SøknadType type) {
@@ -71,35 +79,10 @@ public class MinidialogTjeneste {
                                 .and(erAktiv()))));
     }
 
-    private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
-        JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId(), m.getMelding(),
-                m.getSaksnr(),
-                m.getKanal().name());
-        dialog.setGyldigTil(m.getGyldigTil());
-        dialog.setHandling(m.getHandling().name());
-        dialog.setAktiv(m.isAktiv());
-        return dialog;
-    }
-
-    private static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
-        MinidialogInnslag melding = new MinidialogInnslag(m.getAktørId(), m.getMelding(),
-                m.getSaksnr());
-        melding.setEndret(m.getEndret());
-        melding.setOpprettet(m.getOpprettet());
-        melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
-        melding.setId(m.getId());
-        melding.setGyldigTil(m.getGyldigTil());
-        if (m.getHandling() != null) {
-            melding.setHandling(SøknadType.valueOf(m.getHandling()));
-        }
-        melding.setAktiv(m.isAktiv());
-        return melding;
-    }
-
     private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
         return innslag
                 .stream()
-                .map(MinidialogTjeneste::tilInnslag)
+                .map(MinidialogMapper::tilInnslag)
                 .collect(toList());
     }
 

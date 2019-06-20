@@ -1,7 +1,8 @@
 package no.nav.foreldrepenger.historikk.meldinger;
 
-import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.meldinger.HistorikkMapper.fraEvent;
+import static no.nav.foreldrepenger.historikk.meldinger.HistorikkMapper.konverterFra;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.erEtter;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.HistorikkSpec.harAktør;
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -18,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
 
 @Service
@@ -38,50 +38,33 @@ public class HistorikkTjeneste {
 
     public void lagre(InnsendingEvent event) {
         if (event != null) {
-            LOG.info("Lagrer historikkinnslag fra hendelse {}", event);
+            LOG.info("Lagrer historikkinnslag fra {}", event);
             dao.save(fraEvent(event));
-            LOG.info("Lagret historikkinnslag fra hendelse OK ");
+            LOG.info("Lagret historikkinnslag fra OK ");
         }
-
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
-        return konverterFra(dao.findAll(where(harAktør(oppslag.hentAktørId())), SORT));
+        LOG.info("Henter historikkinnslag");
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(oppslag.hentAktørId())), SORT));
+        LOG.info("Hentet historikkinnslag {}", innslag);
+        return innslag;
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
-        return konverterFra(dao.findAll(where(harAktør(aktørId)), SORT));
+        LOG.info("Hentet historikkinnslag for {}", aktørId);
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(aktørId)), SORT));
+        LOG.info("Hentet historikkinnslag {}", innslag);
+        return innslag;
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate dato) {
-        return konverterFra(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato)), SORT));
-    }
-
-    private static List<HistorikkInnslag> konverterFra(List<JPAHistorikkInnslag> innslag) {
-        return innslag
-                .stream()
-                .map(HistorikkTjeneste::tilHistorikkInnslag)
-                .collect(toList());
-    }
-
-    private static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
-        HistorikkInnslag innslag = new HistorikkInnslag(new AktørId(i.getAktørId()), i.getTekst());
-        innslag.setOpprettet(i.getOpprettet());
-        innslag.setJournalpostId(i.getJournalpostId());
-        innslag.setSaksnr(i.getSaksnr());
-        return innslag;
-
-    }
-
-    private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
-
-        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
-        innslag.setSaksnr(event.getSaksNr());
-        innslag.setJournalpostId(event.getJournalId());
-        innslag.setTekst(event.getType().name());
+        LOG.info("Hentet historikkinnslag fra {}", dato);
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato)), SORT));
+        LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }
 
