@@ -19,8 +19,8 @@ public final class HistorikkSpec {
         return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), aktør.getAktørId());
     }
 
-    public static Specification<JPAHistorikkInnslag> erEtter(LocalDate dato) {
-        return (innslag, cq, cb) -> cb.greaterThan(innslag.get(opprettet), dato.atStartOfDay());
+    public static Specification<JPAHistorikkInnslag> erEtterEllerPå(LocalDate dato) {
+        return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get(opprettet), dato.atStartOfDay());
     }
 
 }

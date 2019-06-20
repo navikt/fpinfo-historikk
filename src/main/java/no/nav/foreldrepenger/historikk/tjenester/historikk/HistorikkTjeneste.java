@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkMapper.fraEvent;
 import static no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkMapper.konverterFra;
-import static no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkSpec.erEtter;
+import static no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkSpec.erEtterEllerPå;
 import static no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkSpec.harAktør;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -64,7 +64,8 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate dato) {
         LOG.info("Hentet historikkinnslag fra {}", dato);
-        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato)), SORT));
+        List<HistorikkInnslag> innslag = konverterFra(
+                dao.findAll(where(harAktør(aktørId)).and(erEtterEllerPå(dato)), SORT));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }
