@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.stereotype.Component;
 
+import no.nav.foreldrepenger.historikk.util.FilterRegistrationUtil;
+
 @Component
 public class HeadersToMDCFilterRegistrationBean extends FilterRegistrationBean<HeadersToMDCFilterBean> {
     private static final Logger LOG = LoggerFactory.getLogger(HeadersToMDCFilterRegistrationBean.class);
