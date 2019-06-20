@@ -38,9 +38,11 @@ public class HistorikkTjeneste {
 
     public void lagre(InnsendingEvent event) {
         if (event != null) {
-            LOG.info("Lagrer {}", event);
+            LOG.info("Lagrer historikkinnslag fra hendelse {}", event);
             dao.save(fraEvent(event));
+            LOG.info("Lagret historikkinnslag fra hendelse OK ");
         }
+
     }
 
     @Transactional(readOnly = true)
