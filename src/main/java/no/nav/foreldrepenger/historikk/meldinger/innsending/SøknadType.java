@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger.event;
+package no.nav.foreldrepenger.historikk.meldinger.innsending;
 
 public enum SøknadType {
     INITIELL_FORELDREPENGER, ETTERSENDING_FORELDREPENGER, ENDRING_FORELDREPENGER,

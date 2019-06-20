@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
@@ -7,7 +7,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.historikk.HistorikkTjeneste;
+import no.nav.foreldrepenger.historikk.meldinger.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service

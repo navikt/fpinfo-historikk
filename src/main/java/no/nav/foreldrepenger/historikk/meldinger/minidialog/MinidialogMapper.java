@@ -1,9 +1,9 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.minidialog;
 
 import no.nav.foreldrepenger.historikk.domain.LeveranseKanal;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.JPAMinidialogInnslag;
 
 public final class MinidialogMapper {
 

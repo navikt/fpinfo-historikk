@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger.event;
+package no.nav.foreldrepenger.historikk.meldinger.innsending;
 
 public enum LeveranseStatus {
     PÅ_VENT, AVSLÅTT, PÅGÅR, INNVILGET, SENDT_OG_FORSØKT_BEHANDLET_FPSAK, IKKE_SENDT_FPSAK, FP_FORDEL_MESSED_UP, GOSYS;

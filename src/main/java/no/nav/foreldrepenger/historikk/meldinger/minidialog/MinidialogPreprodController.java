@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.minidialog;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController

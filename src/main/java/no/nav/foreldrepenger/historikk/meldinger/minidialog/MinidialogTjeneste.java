@@ -1,11 +1,11 @@
-package no.nav.foreldrepenger.historikk.meldinger;
+package no.nav.foreldrepenger.historikk.meldinger.minidialog;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.meldinger.MinidialogMapper.fraInnslag;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erAktiv;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harAktør;
+import static no.nav.foreldrepenger.historikk.meldinger.minidialog.MinidialogMapper.fraInnslag;
+import static no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.MinidialogSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.MinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.MinidialogSpec.harAktør;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -17,9 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag;
-import no.nav.foreldrepenger.historikk.meldinger.event.InnsendingEvent;
-import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
+import no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.oppslag.OppslagTjeneste;
 
 @Service
 @Transactional(JPA_TM)
