@@ -20,6 +20,7 @@ import no.nav.foreldrepenger.historikk.domain.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.meldinger.innsending.SøknadType;
 import no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.JPAMinidialogInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.minidialog.dao.MinidialogRepository;
 import no.nav.foreldrepenger.historikk.meldinger.oppslag.OppslagTjeneste;
 
 @Service
