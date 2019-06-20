@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.HistorikkInnslag;
+import no.nav.foreldrepenger.historikk.meldinger.historikk.dao.HistorikkRepository;
 import no.nav.foreldrepenger.historikk.meldinger.innsending.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.meldinger.oppslag.OppslagTjeneste;
 

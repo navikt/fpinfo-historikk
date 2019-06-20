@@ -28,11 +28,6 @@ public class JacksonUtil {
         }
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [mapper=" + mapper + "]";
-    }
-
     public String writeValueAsString(Object obj) {
         try {
             return mapper.writeValueAsString(obj);
@@ -40,5 +35,10 @@ public class JacksonUtil {
             LOG.warn("Kunne ikke serialisere melding fra {}", obj, e);
             return null;
         }
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [mapper=" + mapper + "]";
     }
 }

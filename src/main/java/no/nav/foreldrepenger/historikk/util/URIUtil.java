@@ -19,16 +19,10 @@ public final class URIUtil {
                 .toUri();
     }
 
-    public static UriComponentsBuilder builder(URI base, String path, HttpHeaders queryParams) {
+    private static UriComponentsBuilder builder(URI base, String path, HttpHeaders queryParams) {
         return UriComponentsBuilder
                 .fromUri(base)
                 .pathSegment(path)
                 .queryParams(queryParams);
-    }
-
-    public static HttpHeaders queryParams(String key, String value) {
-        HttpHeaders queryParams = new HttpHeaders();
-        queryParams.add(key, value);
-        return queryParams;
     }
 }
