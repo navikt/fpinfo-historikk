@@ -24,7 +24,7 @@ public class JPAHistorikkInnslag {
     private String journalpostId;
     private String tekst;
     @CreatedDate
-    private LocalDateTime datoMottatt;
+    private LocalDateTime opprettet;
     private String saksnr;
 
     private JPAHistorikkInnslag() {
@@ -67,12 +67,12 @@ public class JPAHistorikkInnslag {
         this.tekst = tekst;
     }
 
-    public LocalDateTime getDatoMottatt() {
-        return datoMottatt;
+    public LocalDateTime getOpprettet() {
+        return opprettet;
     }
 
-    public void setDatoMottatt(LocalDateTime datoMottatt) {
-        this.datoMottatt = datoMottatt;
+    public void setOpprettet(LocalDateTime opprettet) {
+        this.opprettet = opprettet;
     }
 
     public String getSaksnr() {
@@ -86,7 +86,7 @@ public class JPAHistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
-                + ", tekst=" + tekst + ", datoMottatt=" + datoMottatt + ", saksnr="
+                + ", tekst=" + tekst + ", opprettet=" + opprettet + ", saksnr="
                 + saksnr + "]";
     }
 }
