@@ -16,6 +16,10 @@ public class HistorikkSpec {
         return (innslag, cq, cb) -> cb.equal(innslag.get("aktørId"), aktør.getAktørId());
     }
 
+    public static Specification<JPAHistorikkInnslag> erAktiv() {
+        return (innslag, cq, cb) -> cb.equal(innslag.get("aktiv"), true);
+    }
+
     public static Specification<JPAHistorikkInnslag> erEtter(LocalDate dato) {
         return (innslag, cq, cb) -> cb.greaterThan(innslag.get("datoMottatt"), dato.atStartOfDay());
     }

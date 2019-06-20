@@ -2,7 +2,9 @@ package no.nav.foreldrepenger.historikk.meldinger;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA;
-import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harHandling;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.meldinger.dao.MinidialogSpec.harAktør;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -28,13 +30,6 @@ public class MinidialogTjeneste {
         this.oppslag = oppslag;
     }
 
-    public List<MinidialogInnslag> query(SøknadType type) {
-        return dao.findAll(where(harHandling(type)))
-                .stream()
-                .map(MinidialogTjeneste::tilInnslag)
-                .collect(toList());
-    }
-
     public int deaktiverMineMinidaloger(SøknadType type) {
         return deaktiver(oppslag.hentAktørId(), type);
     }
@@ -49,19 +44,24 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentAktiveDialogerForAktør(AktørId aktørId) {
-        return dao.finnAktiveDialoger(aktørId.getAktørId())
-                .stream()
-                .map(MinidialogTjeneste::tilInnslag)
-                .collect(toList());
+        return hentDialoger(aktørId);
     }
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentMineAktiveDialoger() {
-        return hentAktiveDialogerForAktør(oppslag.hentAktørId());
+        return hentDialoger(oppslag.hentAktørId());
     }
 
     private int deaktiver(AktørId aktørId, SøknadType type) {
         return dao.deaktiver(aktørId.getAktørId(), type.name());
+    }
+
+    private List<MinidialogInnslag> hentDialoger(AktørId aktørId) {
+        return mapAndCollect(
+                dao.findAll(
+                        where(harAktør(aktørId)
+                                .and(erGyldig())
+                                .and(erAktiv()))));
     }
 
     private static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
@@ -87,6 +87,13 @@ public class MinidialogTjeneste {
         }
         melding.setAktiv(m.isAktiv());
         return melding;
+    }
+
+    private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
+        return innslag
+                .stream()
+                .map(MinidialogTjeneste::tilInnslag)
+                .collect(toList());
     }
 
     @Override
