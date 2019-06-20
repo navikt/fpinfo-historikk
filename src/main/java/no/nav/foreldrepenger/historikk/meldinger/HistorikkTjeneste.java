@@ -67,7 +67,7 @@ public class HistorikkTjeneste {
 
     private static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
         HistorikkInnslag innslag = new HistorikkInnslag(new AktørId(i.getAktørId()), i.getTekst());
-        innslag.setDatoMottatt(i.getDatoMottatt());
+        innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         return innslag;
