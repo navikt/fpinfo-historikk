@@ -9,6 +9,8 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 @Transactional(JPA_TM)
 public class MinidialogTjeneste {
 
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
+
     private final MinidialogRepository dao;
     private final OppslagTjeneste oppslag;
 
@@ -32,7 +36,7 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(InnsendingEvent event) {
-
+        LOG.info("Deaktiverer eventuelle minidialoger for {}", event.getType());
         if (event.erEttersending()) {
             return dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
         }
@@ -40,7 +44,9 @@ public class MinidialogTjeneste {
     }
 
     public void lagre(MinidialogInnslag m) {
+        LOG.info("Lagrer minidialog {}", m);
         dao.save(fraInnslag(m));
+        LOG.info("Lagret minidialog OK");
     }
 
     @Transactional(readOnly = true)
