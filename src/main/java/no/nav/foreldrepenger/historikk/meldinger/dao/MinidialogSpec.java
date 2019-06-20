@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.meldinger.dao;
 
+import java.time.LocalDate;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -9,6 +11,14 @@ public class MinidialogSpec {
 
     private MinidialogSpec() {
 
+    }
+
+    public static Specification<JPAMinidialogInnslag> erGyldig() {
+        return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get("gyldigTil"), LocalDate.now());
+    }
+
+    public static Specification<JPAMinidialogInnslag> erAktiv() {
+        return (innslag, cq, cb) -> cb.equal(innslag.get("aktiv"), true);
     }
 
     public static Specification<JPAMinidialogInnslag> harAktør(AktørId aktør) {

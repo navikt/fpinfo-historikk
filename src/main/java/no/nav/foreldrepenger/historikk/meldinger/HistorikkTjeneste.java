@@ -33,26 +33,30 @@ public class HistorikkTjeneste {
         this.oppslag = oppslag;
     }
 
+    public void lagre(InnsendingEvent event) {
+        if (event != null) {
+            LOG.info("Lagrer {}", event);
+            dao.save(fraEvent(event));
+        }
+    }
+
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
-        return hentFor(oppslag.hentAktørId());
+        return mapAndCollect(dao.findAll(where(harAktør(oppslag.hentAktørId()))));
     }
 
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
-        return hentFor(aktørId);
+        return mapAndCollect(dao.findAll(where(harAktør(aktørId))));
     }
 
     @Transactional(readOnly = true)
-    public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate date) {
-        return dao.findAll(where(harAktør(aktørId)).and(erEtter(date)))
-                .stream()
-                .map(HistorikkTjeneste::tilHistorikkInnslag)
-                .collect(toList());
+    public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate dato) {
+        return mapAndCollect(dao.findAll(where(harAktør(aktørId)).and(erEtter(dato))));
     }
 
-    private List<HistorikkInnslag> hentFor(AktørId aktørId) {
-        return dao.findAll(where(harAktør(aktørId)))
+    private static List<HistorikkInnslag> mapAndCollect(List<JPAHistorikkInnslag> innslag) {
+        return innslag
                 .stream()
                 .map(HistorikkTjeneste::tilHistorikkInnslag)
                 .collect(toList());
@@ -65,13 +69,6 @@ public class HistorikkTjeneste {
         innslag.setSaksnr(i.getSaksnr());
         return innslag;
 
-    }
-
-    public void lagre(InnsendingEvent event) {
-        if (event != null) {
-            LOG.info("Lagrer {}", event);
-            dao.save(fraEvent(event));
-        }
     }
 
     private JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
