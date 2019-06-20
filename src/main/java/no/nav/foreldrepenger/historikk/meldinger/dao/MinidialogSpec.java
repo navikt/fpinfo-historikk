@@ -1,30 +1,28 @@
 package no.nav.foreldrepenger.historikk.meldinger.dao;
 
+import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag_.aktiv;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag_.aktørId;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag_.gyldigTil;
 import static no.nav.foreldrepenger.historikk.meldinger.dao.JPAMinidialogInnslag_.handling;
-
-import java.time.LocalDate;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.meldinger.event.SøknadType;
 
-public class MinidialogSpec {
+public final class MinidialogSpec {
 
     private MinidialogSpec() {
 
     }
 
     public static Specification<JPAMinidialogInnslag> erGyldig() {
-        return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get(gyldigTil),
-                LocalDate.now());
+        return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get(gyldigTil), now());
     }
 
     public static Specification<JPAMinidialogInnslag> erAktiv() {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(aktiv), true);
+        return (innslag, cq, cb) -> cb.isTrue(innslag.get(aktiv));
     }
 
     public static Specification<JPAMinidialogInnslag> harAktør(AktørId aktør) {
