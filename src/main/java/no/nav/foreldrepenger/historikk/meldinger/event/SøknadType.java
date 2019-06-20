@@ -10,4 +10,9 @@ public enum SøknadType {
         return UKJENT.equals(this);
     }
 
+    public boolean erEttersending() {
+        return this.equals(ETTERSENDING_ENGANGSSTØNAD) || this.equals(ETTERSENDING_FORELDREPENGER)
+                || this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
+    }
+
 }
