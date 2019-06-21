@@ -14,7 +14,7 @@ port: 8080
 healthcheck:
     liveness:
       initialDelay: 60
-      path: api/actuator/info
+      path: api/actuator/health
     readiness:
       initialDelay: 60
       path:  api/actuator/info
