@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -14,7 +13,6 @@ public class OppslagTjeneste {
         this.connection = connection;
     }
 
-    @Cacheable(cacheNames = "aktør")
     public AktørId hentAktørId() {
         return connection.hentAktørId();
     }
