@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingEvent;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogRepository;
@@ -36,15 +35,15 @@ public class MinidialogTjeneste {
         this.oppslag = oppslag;
     }
 
-    public int deaktiverMinidialoger(InnsendingEvent event) {
-        LOG.info("Deaktiverer minidialoger for {}", event.getType());
-        if (event.erEttersending()) {
-            int n = dao.deaktiverSak(event.getAktørId(), event.getType().name(), event.getSaksNr());
-            LOG.info("Deaktiverte {} minidialoger for sak {}", event.getType(), event.getSaksNr());
+    public int deaktiverMinidialoger(String aktørId, SøknadType type, String saksnr) {
+        LOG.info("Deaktiverer minidialoger for {}", type);
+        if (type.erEttersending()) {
+            int n = dao.deaktiverSak(aktørId, type.name(), saksnr);
+            LOG.info("Deaktiverte {} minidialoger for sak {}", type, saksnr);
             return n;
         }
-        int n = dao.deaktiver(event.getAktørId(), event.getType().name());
-        LOG.info("Deaktiverte {} minidialoger", event.getType());
+        int n = dao.deaktiver(aktørId, type.name());
+        LOG.info("Deaktiverte {} minidialoger for {}", n, type);
         return n;
     }
 

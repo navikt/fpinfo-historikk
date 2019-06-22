@@ -29,7 +29,7 @@ public class InnsendingEventKonsument {
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
         InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
         historikk.lagre(event);
-        dialog.deaktiverMinidialoger(event);
+        dialog.deaktiverMinidialoger(event.getAktørId(), event.getType(), event.getSaksNr());
     }
 
     @Override
