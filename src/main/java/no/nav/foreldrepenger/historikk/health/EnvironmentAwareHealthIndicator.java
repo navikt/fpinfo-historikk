@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment;
 
 import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 
-abstract class EnvironmentAwareHealthIndicator implements HealthIndicator, EnvironmentAware {
+public abstract class EnvironmentAwareHealthIndicator implements HealthIndicator, EnvironmentAware {
     private final PingEndpointAware pingable;
     private Environment env;
 

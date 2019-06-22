@@ -48,7 +48,8 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
         LOG.info("Henter historikkinnslag");
-        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(oppslag.hentAktørId())), SORT));
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(
+                where(harAktør(oppslag.hentAktørId())), SORT));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }
@@ -56,7 +57,8 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(AktørId aktørId) {
         LOG.info("Hentet historikkinnslag for {}", aktørId);
-        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harAktør(aktørId)), SORT));
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(
+                where(harAktør(aktørId)), SORT));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }
@@ -64,8 +66,9 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikkFra(AktørId aktørId, LocalDate dato) {
         LOG.info("Hentet historikkinnslag fra {}", dato);
-        List<HistorikkInnslag> innslag = konverterFra(
-                dao.findAll(where(harAktør(aktørId)).and(erEtterEllerPå(dato)), SORT));
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(
+                where(harAktør(aktørId)).and(erEtterEllerPå(dato)),
+                SORT));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }

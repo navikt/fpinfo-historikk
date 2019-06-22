@@ -1,8 +1,8 @@
-package no.nav.foreldrepenger.historikk.health;
+package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagConnection;
+import no.nav.foreldrepenger.historikk.health.EnvironmentAwareHealthIndicator;
 
 @Component
 public class OppslagHealthIndicator extends EnvironmentAwareHealthIndicator {
