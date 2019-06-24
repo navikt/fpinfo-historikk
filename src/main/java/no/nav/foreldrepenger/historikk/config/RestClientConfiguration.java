@@ -6,6 +6,8 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +31,17 @@ public class RestClientConfiguration {
         LOG.info("Registrerer interceptorer {}", Arrays.toString(interceptors));
         return builder
                 .interceptors(interceptors)
+                .build();
+    }
+
+    @Qualifier("sts")
+    @Bean
+    public RestOperations stsRestTemplate(RestTemplateBuilder builder, @Value("${kafka.username}") String user,
+            @Value("${kafka.password}") String pw) {
+
+        // TODO correlation ID++ filters
+        return builder
+                .basicAuthentication(user, pw)
                 .build();
     }
 
