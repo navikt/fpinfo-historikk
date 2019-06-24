@@ -29,7 +29,7 @@ public class HistorikkController {
     @GetMapping("/me")
     public List<HistorikkInnslag> hentHistorikk() {
         try {
-            LOG.info(sts.accessToken());
+            LOG.info("Access token" + sts.accessToken());
         } catch (Exception e) {
             LOG.warn("No token", e);
         }
