@@ -17,9 +17,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.web.client.RestOperations;
 
+import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
+import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.spring.oidc.SpringOIDCRequestContextHolder;
+import no.nav.security.spring.oidc.validation.interceptor.BearerTokenClientHttpRequestInterceptor;
 
 @Configuration
 public class RestClientConfiguration {
@@ -31,7 +34,7 @@ public class RestClientConfiguration {
     @Bean
     @Primary
     public RestOperations restTemplate(RestTemplateBuilder builder, ClientHttpRequestInterceptor... interceptors) {
-        LOG.info("Registrerer interceptorer {}", Arrays.toString(interceptors));
+        LOG.info("Registrerer interceptorer {} for ikke-STS", Arrays.toString(interceptors));
         return builder
                 .interceptors(interceptors)
                 .build();
@@ -40,10 +43,10 @@ public class RestClientConfiguration {
     @Qualifier(STS)
     @Bean
     public RestOperations stsRestTemplate(RestTemplateBuilder builder, @Value("${kafka.username}") String user,
-            @Value("${kafka.password}") String pw) {
-
-        // TODO correlation ID++ filters
+            @Value("${kafka.password}") String pw, TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
+            BearerTokenClientHttpRequestInterceptor stsInterceptor) {
         return builder
+                .interceptors(stsInterceptor, timingInterceptor, new MDCValuesPropagatingClienHttpRequesInterceptor())
                 .basicAuthentication(user, pw)
                 .build();
     }
