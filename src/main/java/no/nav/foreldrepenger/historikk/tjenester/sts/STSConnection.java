@@ -1,7 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.sts;
 
+import static no.nav.foreldrepenger.historikk.config.RestClientConfiguration.STS;
+
 import java.net.URI;
-import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -12,13 +13,14 @@ import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.TokenRespons;
 
 @Component
 public class STSConnection extends AbstractRestConnection implements PingEndpointAware {
     public static final Logger LOG = LoggerFactory.getLogger(STSConnection.class);
     private final STSConfig cfg;
 
-    public STSConnection(@Qualifier("sts") RestOperations restOperations, STSConfig config) {
+    public STSConnection(@Qualifier(STS) RestOperations restOperations, STSConfig config) {
         super(restOperations);
         this.cfg = config;
     }
@@ -39,12 +41,13 @@ public class STSConnection extends AbstractRestConnection implements PingEndpoin
 
     @Override
     public String name() {
-        return "sts";
+        return STS;
     }
 
     public String hentToken() {
-        Map<String, String> map = getForObject(cfg.tokenURI(), Map.class, true);
-        return Optional.ofNullable(map).map(m -> m.get("access_token")).orElse(null);
+        return Optional.ofNullable(getForObject(cfg.tokenURI(), TokenRespons.class, true))
+                .map(TokenRespons::getToken)
+                .orElse(null);
     }
 
     @Override

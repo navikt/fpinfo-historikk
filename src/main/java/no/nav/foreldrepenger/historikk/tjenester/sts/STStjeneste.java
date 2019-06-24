@@ -1,5 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.sts;
 
+import static no.nav.foreldrepenger.historikk.config.RestClientConfiguration.STS;
+
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +14,7 @@ public class STStjeneste {
         this.connection = connection;
     }
 
-    // @Cacheable("sts")
+    @Cacheable(STS)
     public String accessToken() {
         return connection.hentToken();
     }
