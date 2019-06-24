@@ -23,6 +23,9 @@ import no.nav.security.spring.oidc.SpringOIDCRequestContextHolder;
 
 @Configuration
 public class RestClientConfiguration {
+
+    public static final String STS = "sts";
+
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
 
     @Bean
@@ -34,7 +37,7 @@ public class RestClientConfiguration {
                 .build();
     }
 
-    @Qualifier("sts")
+    @Qualifier(STS)
     @Bean
     public RestOperations stsRestTemplate(RestTemplateBuilder builder, @Value("${kafka.username}") String user,
             @Value("${kafka.password}") String pw) {
