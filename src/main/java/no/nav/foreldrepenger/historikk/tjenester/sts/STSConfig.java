@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.sts;
 
 import static no.nav.foreldrepenger.historikk.util.URIUtil.uri;
 
@@ -7,15 +7,15 @@ import java.util.Optional;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.util.UriComponentsBuilder;
 
-@ConfigurationProperties(prefix = "dokarkiv")
+@ConfigurationProperties(prefix = "sts")
 @Configuration
-public class JournalføringConfig {
+public class STSConfig {
 
-    private static final URI SERVICE = URI.create("http://dokarkiv");
-    private static final String BASE_PATH = "/rest/journalpostapi/v1/";
-    private static final URI DEFAULT_BASE_URI = uri(SERVICE, BASE_PATH);
-    private static final String DEFAULT_PING_PATH = "actuator";
+    private static final URI SERVICE = URI.create("http://security-token-service/rest");
+    private static final String TOKEN_PATH = "/v1/sts/token";
+    private static final String DEFAULT_PING_PATH = ".well-known/openid-configuration";
     private boolean enabled;
     private URI service;
 
@@ -37,5 +37,12 @@ public class JournalføringConfig {
 
     public URI pingURI() {
         return uri(getService(), DEFAULT_PING_PATH);
+    }
+
+    public URI tokenURI() {
+        return UriComponentsBuilder.fromUri(uri(getService(), TOKEN_PATH))
+                .queryParam("grant_type", "client_credentials")
+                .queryParam("scope", "openid")
+                .build().toUri();
     }
 }
