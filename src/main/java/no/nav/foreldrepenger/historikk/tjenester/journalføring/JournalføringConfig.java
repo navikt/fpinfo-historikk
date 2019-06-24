@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import no.nav.foreldrepenger.historikk.util.URIUtil;
 
-@ConfigurationProperties(prefix = "journalføring")
+@ConfigurationProperties(prefix = "journal")
 @Configuration
 public class JournalføringConfig {
 
