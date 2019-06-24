@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.tjenester.sts.STStjeneste;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
@@ -19,20 +18,13 @@ public class HistorikkController {
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkController.class);
 
     private final HistorikkTjeneste historikk;
-    private final STStjeneste sts;
 
-    HistorikkController(HistorikkTjeneste historikk, STStjeneste sts) {
+    HistorikkController(HistorikkTjeneste historikk) {
         this.historikk = historikk;
-        this.sts = sts;
     }
 
     @GetMapping("/me")
     public List<HistorikkInnslag> hentHistorikk() {
-        try {
-            LOG.info("Access token" + sts.accessToken());
-        } catch (Exception e) {
-            LOG.warn("No token", e);
-        }
         return historikk.hentMinHistorikk();
     }
 
