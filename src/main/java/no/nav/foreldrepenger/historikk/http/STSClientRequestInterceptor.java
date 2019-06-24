@@ -11,16 +11,15 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
-
 import no.nav.foreldrepenger.historikk.tjenester.sts.STStjeneste;
 
 @Component
-class BearerTokenClientRequestInterceptor implements ClientHttpRequestInterceptor {
+public class STSClientRequestInterceptor implements ClientHttpRequestInterceptor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BearerTokenClientRequestInterceptor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(STSClientRequestInterceptor.class);
     private final STStjeneste sts;
 
-    public BearerTokenClientRequestInterceptor(STStjeneste sts) {
+    public STSClientRequestInterceptor(STStjeneste sts) {
         this.sts = sts;
     }
 
