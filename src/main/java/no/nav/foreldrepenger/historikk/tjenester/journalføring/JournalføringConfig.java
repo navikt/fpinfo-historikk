@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
 @ConfigurationProperties(prefix = "dokarkiv")
 @Configuration
@@ -37,5 +38,15 @@ public class JournalføringConfig {
 
     public URI pingURI() {
         return uri(getService(), DEFAULT_PING_PATH);
+    }
+
+    public URI journalpostURI(boolean sluttfør) {
+        return uri(DEFAULT_BASE_URI, "journalpost", headers(sluttfør));
+    }
+
+    private HttpHeaders headers(boolean sluttfør) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("forsoekFerdigstill", String.valueOf(sluttfør));
+        return headers;
     }
 }

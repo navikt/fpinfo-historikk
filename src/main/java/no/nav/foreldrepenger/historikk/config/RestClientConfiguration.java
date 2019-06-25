@@ -32,7 +32,6 @@ public class RestClientConfiguration {
 
     public static final String STS = "sts";
     public static final String DOKARKIV = "dokarkiv";
-    public static final String DEFAULT = "default";
 
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
 
@@ -56,7 +55,7 @@ public class RestClientConfiguration {
             @Value("${kafka.password}") String pw,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptor {},{} for STS", timingInterceptor, mdcInterceptor);
+        LOG.info("Registrerer interceptorer {},{} for STS", timingInterceptor, mdcInterceptor);
         return builder
                 .interceptors(timingInterceptor, mdcInterceptor)
                 .basicAuthentication(user, pw)
@@ -68,7 +67,7 @@ public class RestClientConfiguration {
     public RestOperations dokarkivRestTemplate(RestTemplateBuilder builder,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             STSClientRequestInterceptor stsInterceptor, MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptor {},{},{} for dokarkiv", stsInterceptor, timingInterceptor, mdcInterceptor);
+        LOG.info("Registrerer interceptorer {},{},{} for dokarkiv", stsInterceptor, timingInterceptor, mdcInterceptor);
         return builder
                 .interceptors(stsInterceptor, timingInterceptor, mdcInterceptor)
                 .build();

@@ -7,6 +7,7 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
@@ -29,6 +30,10 @@ public class JournalføringConnection extends AbstractRestConnection implements 
         return ping(pingEndpoint());
     }
 
+    public String opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
+        return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost), String.class).getBody();
+    }
+
     @Override
     public URI pingEndpoint() {
         return cfg.pingURI();
@@ -47,4 +52,5 @@ public class JournalføringConnection extends AbstractRestConnection implements 
     public String toString() {
         return getClass().getSimpleName() + " [cfg=" + cfg + "]";
     }
+
 }
