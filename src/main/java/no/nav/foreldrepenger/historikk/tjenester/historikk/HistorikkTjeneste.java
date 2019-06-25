@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkRepository;
+import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
 @Service
@@ -39,10 +41,23 @@ public class HistorikkTjeneste {
 
     public void lagre(InnsendingEvent event) {
         if (event != null) {
-            LOG.info("Lagrer historikkinnslag fra {}", event);
+            LOG.info("Lagrer historikkinnslag fra innsending av {}", event);
             dao.save(fraEvent(event));
-            LOG.info("Lagret historikkinnslag fra OK ");
+            LOG.info("Lagret historikkinnslag OK");
         }
+    }
+
+    public void lagre(MinidialogInnslag minidialog) {
+        LOG.info("Lagrer historikkinnslag fra minidialog  {}", minidialog);
+        dao.save(fraMinidialog(minidialog));
+        LOG.info("Lagret historikkinnslag OK");
+
+    }
+
+    private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag) {
+        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag(innslag.getAktørId(), "Spørsmål fra saksbehandler");
+        historikk.setSaksnr(innslag.getSaksnr());
+        return historikk;
     }
 
     @Transactional(readOnly = true)
@@ -77,4 +92,5 @@ public class HistorikkTjeneste {
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
     }
+
 }
