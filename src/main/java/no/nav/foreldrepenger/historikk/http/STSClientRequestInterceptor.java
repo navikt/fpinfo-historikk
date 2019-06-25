@@ -11,6 +11,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
+
 import no.nav.foreldrepenger.historikk.tjenester.sts.STStjeneste;
 
 @Component
@@ -27,7 +28,7 @@ public class STSClientRequestInterceptor implements ClientHttpRequestInterceptor
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
             ClientHttpRequestExecution execution) throws IOException {
         String token = sts.accessToken();
-        LOG.debug("Adding authorization header with bearer token={}" + token);
+        LOG.debug("Adding authorization header with bearer token={}", token);
         request.getHeaders().add(AUTHORIZATION, "Bearer " + token);
         return execution.execute(request, body);
     }

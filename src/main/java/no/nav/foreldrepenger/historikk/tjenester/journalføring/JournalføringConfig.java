@@ -15,7 +15,6 @@ public class JournalføringConfig {
 
     private static final URI SERVICE = URI.create("http://dokarkiv");
     private static final String BASE_PATH = "/rest/journalpostapi/v1/";
-    private static final URI DEFAULT_BASE_URI = uri(SERVICE, BASE_PATH);
     private static final String DEFAULT_PING_PATH = "actuator";
     private boolean enabled;
     private URI service;

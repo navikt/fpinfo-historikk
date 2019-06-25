@@ -15,6 +15,12 @@ public class MinidialogInnslag {
 
     private long id;
     private final String aktørId;
+    private String fnr;
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
+    }
+
     private final String melding;
     private final String saksnr;
     private LocalDateTime opprettet;
@@ -31,6 +37,10 @@ public class MinidialogInnslag {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saksnr = saksnr;
+    }
+
+    public String getFnr() {
+        return fnr;
     }
 
     public LocalDate getGyldigTil() {

@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.http;
 
+import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CONSUMER_ID;
 import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
@@ -13,6 +14,8 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
+
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Component
 @Order(LOWEST_PRECEDENCE)
@@ -32,6 +35,7 @@ public class MDCValuesPropagatingClienHttpRequesInterceptor implements ClientHtt
             if (value != null) {
                 request.getHeaders().add(key, value);
             }
+            request.getHeaders().add(CALL_ID, MDCUtil.callId());
         }
     }
 }
