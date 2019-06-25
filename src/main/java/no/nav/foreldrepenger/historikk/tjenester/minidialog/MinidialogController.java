@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.ArkivsakSystem;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.Behandlingstema;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.BrukerIdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
@@ -47,7 +47,7 @@ public class MinidialogController implements EnvironmentAware {
                 journalføring.journalfør(
                         new Journalpost(JournalpostType.INNGAAENDE,
                                 new AvsenderMottaker("03016536325", IdType.FNR, "test"),
-                                new Bruker(BrukerIdType.FNR, "03016536325"), Behandlingstema.FORELDREPENGER_VED_FØDSEL,
+                                new Bruker(BrukerIdType.FNR, "03016536325"), BehandlingTema.FORELDREPENGER_VED_FØDSEL,
                                 "tittel",
                                 "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak("42", ArkivsakSystem.GSAK),
                                 Collections.emptyList()),
