@@ -84,7 +84,7 @@ public class Journalpost {
         return getClass().getSimpleName() + "[journalportType=" + journalpostType + ", avsenderMotaker="
                 + avsenderMottaker + ", bruker=" + bruker + ", behandlingstema=" + behandlingstema + ", tittel="
                 + tittel
-                + ", journalførendeEnhet=" + journalfoerendeEnhet + ", externReferanseId=" + externReferanseId
+                + ", journalførendeEnhet=" + journalfoerendeEnhet + ", externReferanseId=" + eksternReferanseId
                 + ", tilleggsOpplysninger=" + tilleggsOpplysninger + ", sak=" + sak + ", dokumenter=" + dokumenter
                 + "]";
     }
