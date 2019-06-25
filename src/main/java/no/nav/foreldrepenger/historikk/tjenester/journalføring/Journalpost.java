@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
 import java.util.List;
 
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 import no.nav.foreldrepenger.historikk.util.Pair;
 
 public class Journalpost {
@@ -64,7 +65,7 @@ public class Journalpost {
     }
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            String behandlingstema, String tittel, String journalfoerendeEnhet, String eksternReferanseId,
+            String behandlingstema, String tittel,
             List<Pair<String, String>> tilleggsopplysninger, Sak sak, List<Dokument> dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
@@ -72,8 +73,8 @@ public class Journalpost {
         this.tema = "FOR";
         this.behandlingstema = behandlingstema;
         this.tittel = tittel;
-        this.journalfoerendeEnhet = journalfoerendeEnhet;
-        this.eksternReferanseId = eksternReferanseId;
+        this.journalfoerendeEnhet = "9999";
+        this.eksternReferanseId = MDCUtil.callIdOrNew();
         this.tilleggsopplysninger = tilleggsopplysninger;
         this.sak = sak;
         this.dokumenter = dokumenter;

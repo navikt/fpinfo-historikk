@@ -4,7 +4,11 @@ public class Sak {
     private final String arkivsaksnummer;
     private final ArkivsakSystem arkivsaksystem;
 
-    public Sak(String arkivsaksnummer, ArkivsakSystem arkivsaksystem) {
+    public Sak(String arkivsaksnummer) {
+        this(arkivsaksnummer, ArkivsakSystem.GSAK);
+    }
+
+    private Sak(String arkivsaksnummer, ArkivsakSystem arkivsaksystem) {
         this.arkivsaksnummer = arkivsaksnummer;
         this.arkivsaksystem = arkivsaksystem;
     }

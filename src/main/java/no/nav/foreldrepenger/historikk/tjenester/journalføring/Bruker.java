@@ -4,7 +4,11 @@ public class Bruker {
     private final BrukerIdType idType;
     private final String id;
 
-    public Bruker(BrukerIdType idType, String id) {
+    public Bruker(String id) {
+        this(id.length() == 11 ? BrukerIdType.FNR : BrukerIdType.ORGNR, id);
+    }
+
+    private Bruker(BrukerIdType idType, String id) {
         this.idType = idType;
         this.id = id;
     }

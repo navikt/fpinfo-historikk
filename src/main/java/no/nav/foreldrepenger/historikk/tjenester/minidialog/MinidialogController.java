@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.ArkivsakSystem;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.BrukerIdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Sak;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
@@ -46,10 +43,10 @@ public class MinidialogController implements EnvironmentAware {
             try {
                 Journalpost journalpost = new Journalpost(JournalpostType.INNGAAENDE,
                         new AvsenderMottaker("03016536325", IdType.FNR, "test"),
-                        new Bruker(BrukerIdType.FNR, "03016536325"),
+                        new Bruker("03016536325"),
                         BehandlingTema.FORELDREPENGER_VED_FØDSEL.getTema(),
                         "tittel",
-                        "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak("42", ArkivsakSystem.GSAK),
+                        Collections.emptyList(), new Sak("42"),
                         Collections.emptyList());
                 LOG.info("Journalfører {}", journalpost);
                 String id = journalføring.journalfør(journalpost, false);
