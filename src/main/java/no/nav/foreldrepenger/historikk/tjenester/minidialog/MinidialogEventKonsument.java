@@ -6,12 +6,14 @@ import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
 import java.util.Collections;
 
+import org.jboss.logging.MDC;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
@@ -26,10 +28,13 @@ import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 public class MinidialogEventKonsument {
     private final MinidialogTjeneste minidialog;
     private final JournalføringTjeneste journalføring;
+    private final HistorikkTjeneste historikk;
     private final JacksonUtil mapper;
 
-    public MinidialogEventKonsument(MinidialogTjeneste minidialog, JournalføringTjeneste journalføring,
+    public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
+            JournalføringTjeneste journalføring,
             JacksonUtil mapper) {
+        this.historikk = historikk;
         this.minidialog = minidialog;
         this.journalføring = journalføring;
         this.mapper = mapper;
@@ -38,12 +43,14 @@ public class MinidialogEventKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
+        MDC.put(NAV_CALL_ID, callId);
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
+        historikk.lagre(innslag);
         journalføring.journalfør(journalpostFra(innslag), true);
     }
 
-    private Journalpost journalpostFra(MinidialogInnslag innslag) {
+    private static Journalpost journalpostFra(MinidialogInnslag innslag) {
         return new Journalpost(JournalpostType.UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), IdType.FNR, "Spørsmål fra saksbehandler"),
                 new Bruker(innslag.getFnr()), innslag.getHandling().tema(),
