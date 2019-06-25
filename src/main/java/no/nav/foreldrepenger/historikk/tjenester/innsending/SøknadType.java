@@ -30,17 +30,17 @@ public enum SøknadType {
                 || this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
     }
 
-    public BehandlingTema tema() {
+    public String tema() {
         if (erSvangerskapspenger()) {
-            return BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
+            return BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER.getTema();
         }
         if (erEngangsstønad()) {
-            return BehandlingTema.ENGANGSSTØNAD;
+            return BehandlingTema.ENGANGSSTØNAD.getTema();
         }
         if (erForeldrepenger()) {
-            return BehandlingTema.FORELDREPENGER;
+            return BehandlingTema.FORELDREPENGER.getTema();
         }
-        return BehandlingTema.FORELDREPENGER;
+        return BehandlingTema.FORELDREPENGER.getTema();
     }
 
 }
