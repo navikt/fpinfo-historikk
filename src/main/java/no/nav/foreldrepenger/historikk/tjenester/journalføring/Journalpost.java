@@ -11,7 +11,7 @@ public class Journalpost {
     private final Bruker bruker;
     private final BehandlingTema behandlingstema;
     private final String tittel;
-    private final String journalførendeEnhet;
+    private final String journalfoerendeEnhet;
     private final String externReferanseId;
     private final String tema;
     List<Pair<String, String>> tilleggsOpplysninger;
@@ -38,8 +38,8 @@ public class Journalpost {
         return tittel;
     }
 
-    public String getJournalførendeEnhet() {
-        return journalførendeEnhet;
+    public String getJournalfoerendeEnhet() {
+        return journalfoerendeEnhet;
     }
 
     public String getExternReferanseId() {
@@ -63,7 +63,7 @@ public class Journalpost {
     }
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            BehandlingTema behandlingstema, String tittel, String journalførendeEnhet, String externReferanseId,
+            BehandlingTema behandlingstema, String tittel, String journalfoerendeEnhet, String externReferanseId,
             List<Pair<String, String>> tilleggsOpplysninger, Sak sak, List<Dokument> dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
@@ -71,7 +71,7 @@ public class Journalpost {
         this.tema = "FOR";
         this.behandlingstema = behandlingstema;
         this.tittel = tittel;
-        this.journalførendeEnhet = journalførendeEnhet;
+        this.journalfoerendeEnhet = journalfoerendeEnhet;
         this.externReferanseId = externReferanseId;
         this.tilleggsOpplysninger = tilleggsOpplysninger;
         this.sak = sak;
@@ -83,7 +83,7 @@ public class Journalpost {
         return getClass().getSimpleName() + "[journalportType=" + journalpostType + ", avsenderMotaker="
                 + avsenderMottaker + ", bruker=" + bruker + ", behandlingstema=" + behandlingstema + ", tittel="
                 + tittel
-                + ", journalførendeEnhet=" + journalførendeEnhet + ", externReferanseId=" + externReferanseId
+                + ", journalførendeEnhet=" + journalfoerendeEnhet + ", externReferanseId=" + externReferanseId
                 + ", tilleggsOpplysninger=" + tilleggsOpplysninger + ", sak=" + sak + ", dokumenter=" + dokumenter
                 + "]";
     }
