@@ -12,7 +12,8 @@ public class Journalpost {
     private final BehandlingTema behandlingstema;
     private final String tittel;
     private final String journalfoerendeEnhet;
-    private final String externReferanseId;
+
+    private final String eksternReferanseId;
     private final String tema;
     List<Pair<String, String>> tilleggsOpplysninger;
     private final Sak sak;
@@ -42,8 +43,8 @@ public class Journalpost {
         return journalfoerendeEnhet;
     }
 
-    public String getExternReferanseId() {
-        return externReferanseId;
+    public String getEksternReferanseId() {
+        return eksternReferanseId;
     }
 
     public String getTema() {
@@ -63,7 +64,7 @@ public class Journalpost {
     }
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            BehandlingTema behandlingstema, String tittel, String journalfoerendeEnhet, String externReferanseId,
+            BehandlingTema behandlingstema, String tittel, String journalfoerendeEnhet, String eksternReferanseId,
             List<Pair<String, String>> tilleggsOpplysninger, Sak sak, List<Dokument> dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
@@ -72,7 +73,7 @@ public class Journalpost {
         this.behandlingstema = behandlingstema;
         this.tittel = tittel;
         this.journalfoerendeEnhet = journalfoerendeEnhet;
-        this.externReferanseId = externReferanseId;
+        this.eksternReferanseId = eksternReferanseId;
         this.tilleggsOpplysninger = tilleggsOpplysninger;
         this.sak = sak;
         this.dokumenter = dokumenter;
