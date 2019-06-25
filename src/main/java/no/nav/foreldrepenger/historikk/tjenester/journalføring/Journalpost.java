@@ -15,7 +15,7 @@ public class Journalpost {
 
     private final String eksternReferanseId;
     private final String tema;
-    List<Pair<String, String>> tilleggsOpplysninger;
+    List<Pair<String, String>> tilleggsopplysninger;
     private final Sak sak;
     private final List<Dokument> dokumenter;
 
@@ -51,8 +51,8 @@ public class Journalpost {
         return tema;
     }
 
-    public List<Pair<String, String>> getTilleggsOpplysninger() {
-        return tilleggsOpplysninger;
+    public List<Pair<String, String>> getTilleggsopplysninger() {
+        return tilleggsopplysninger;
     }
 
     public Sak getSak() {
@@ -65,7 +65,7 @@ public class Journalpost {
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
             BehandlingTema behandlingstema, String tittel, String journalfoerendeEnhet, String eksternReferanseId,
-            List<Pair<String, String>> tilleggsOpplysninger, Sak sak, List<Dokument> dokumenter) {
+            List<Pair<String, String>> tilleggsopplysninger, Sak sak, List<Dokument> dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
         this.bruker = bruker;
@@ -74,7 +74,7 @@ public class Journalpost {
         this.tittel = tittel;
         this.journalfoerendeEnhet = journalfoerendeEnhet;
         this.eksternReferanseId = eksternReferanseId;
-        this.tilleggsOpplysninger = tilleggsOpplysninger;
+        this.tilleggsopplysninger = tilleggsopplysninger;
         this.sak = sak;
         this.dokumenter = dokumenter;
     }
@@ -85,7 +85,7 @@ public class Journalpost {
                 + avsenderMottaker + ", bruker=" + bruker + ", behandlingstema=" + behandlingstema + ", tittel="
                 + tittel
                 + ", journalførendeEnhet=" + journalfoerendeEnhet + ", externReferanseId=" + eksternReferanseId
-                + ", tilleggsOpplysninger=" + tilleggsOpplysninger + ", sak=" + sak + ", dokumenter=" + dokumenter
+                + ", tilleggsopplysninger=" + tilleggsopplysninger + ", sak=" + sak + ", dokumenter=" + dokumenter
                 + "]";
     }
 }
