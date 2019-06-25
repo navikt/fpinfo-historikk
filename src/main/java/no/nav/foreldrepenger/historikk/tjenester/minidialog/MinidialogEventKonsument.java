@@ -12,17 +12,14 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.ArkivsakSystem;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.BrukerIdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Sak;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
@@ -49,9 +46,9 @@ public class MinidialogEventKonsument {
     private Journalpost journalpostFra(MinidialogInnslag innslag) {
         return new Journalpost(JournalpostType.UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), IdType.FNR, "Spørsmål fra saksbehandler"),
-                new Bruker(BrukerIdType.FNR, innslag.getFnr()), innslag.getHandling().tema(),
+                new Bruker(innslag.getFnr()), innslag.getHandling().tema(),
                 "tittel",
-                "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak(innslag.getSaksnr(), ArkivsakSystem.GSAK),
+                Collections.emptyList(), new Sak(innslag.getSaksnr()),
                 Collections.emptyList());
     }
 
