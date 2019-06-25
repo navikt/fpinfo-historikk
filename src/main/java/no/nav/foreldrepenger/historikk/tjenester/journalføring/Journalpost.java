@@ -9,7 +9,7 @@ public class Journalpost {
     private final JournalpostType journalpostType;
     private final AvsenderMottaker avsenderMottaker;
     private final Bruker bruker;
-    private final BehandlingTema behandlingstema;
+    private final String behandlingstema;
     private final String tittel;
     private final String journalfoerendeEnhet;
 
@@ -31,7 +31,7 @@ public class Journalpost {
         return bruker;
     }
 
-    public BehandlingTema getBehandlingstema() {
+    public String getBehandlingstema() {
         return behandlingstema;
     }
 
@@ -64,7 +64,7 @@ public class Journalpost {
     }
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            BehandlingTema behandlingstema, String tittel, String journalfoerendeEnhet, String eksternReferanseId,
+            String behandlingstema, String tittel, String journalfoerendeEnhet, String eksternReferanseId,
             List<Pair<String, String>> tilleggsopplysninger, Sak sak, List<Dokument> dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;

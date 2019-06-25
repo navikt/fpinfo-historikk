@@ -44,14 +44,15 @@ public class MinidialogController implements EnvironmentAware {
     public List<MinidialogInnslag> hentMinidialog() {
         if (EnvUtil.isPreprod(env)) {
             try {
-                journalføring.journalfør(
-                        new Journalpost(JournalpostType.INNGAAENDE,
-                                new AvsenderMottaker("03016536325", IdType.FNR, "test"),
-                                new Bruker(BrukerIdType.FNR, "03016536325"), BehandlingTema.FORELDREPENGER_VED_FØDSEL,
-                                "tittel",
-                                "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak("42", ArkivsakSystem.GSAK),
-                                Collections.emptyList()),
-                        false);
+                Journalpost journalpost = new Journalpost(JournalpostType.INNGAAENDE,
+                        new AvsenderMottaker("03016536325", IdType.FNR, "test"),
+                        new Bruker(BrukerIdType.FNR, "03016536325"),
+                        BehandlingTema.FORELDREPENGER_VED_FØDSEL.getTema(),
+                        "tittel",
+                        "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak("42", ArkivsakSystem.GSAK),
+                        Collections.emptyList());
+                LOG.info("Journalfører " + journalpost);
+                journalføring.journalfør(journalpost, false);
             } catch (Exception e) {
                 LOG.warn("OOPS", e);
             }
