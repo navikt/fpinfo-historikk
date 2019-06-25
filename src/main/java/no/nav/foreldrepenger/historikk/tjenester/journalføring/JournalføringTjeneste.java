@@ -11,6 +11,10 @@ public class JournalføringTjeneste {
         this.connection = connection;
     }
 
+    public void journalfør(Journalpost journalpost, boolean sluttfør) {
+        connection.opprettJournalpost(journalpost, sluttfør);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[connection=" + connection + "]";

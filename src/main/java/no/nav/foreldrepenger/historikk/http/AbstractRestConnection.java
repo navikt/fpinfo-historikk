@@ -7,6 +7,7 @@ import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
@@ -26,6 +27,14 @@ public abstract class AbstractRestConnection {
 
     protected <T> T getForObject(URI uri, Class<T> responseType) {
         return getForObject(uri, responseType, false);
+    }
+
+    protected <T> ResponseEntity<T> postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
+        ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
+        if (respons.hasBody()) {
+            LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
+        }
+        return respons;
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
