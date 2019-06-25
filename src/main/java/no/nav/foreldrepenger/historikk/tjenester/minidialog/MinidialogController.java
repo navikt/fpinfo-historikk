@@ -51,8 +51,9 @@ public class MinidialogController implements EnvironmentAware {
                         "tittel",
                         "NAV", MDCUtil.callId(), Collections.emptyList(), new Sak("42", ArkivsakSystem.GSAK),
                         Collections.emptyList());
-                LOG.info("Journalfører " + journalpost);
-                journalføring.journalfør(journalpost, false);
+                LOG.info("Journalfører {}", journalpost);
+                String id = journalføring.journalfør(journalpost, false);
+                LOG.info("Journalførte, fikk journalpostid {}", id);
             } catch (Exception e) {
                 LOG.warn("OOPS", e);
             }

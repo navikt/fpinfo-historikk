@@ -30,8 +30,9 @@ public class JournalføringConnection extends AbstractRestConnection implements 
         return ping(pingEndpoint());
     }
 
-    public String opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
-        return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost), String.class).getBody();
+    public JournalføringRespons opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
+        return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost), JournalføringRespons.class)
+                .getBody();
     }
 
     @Override
