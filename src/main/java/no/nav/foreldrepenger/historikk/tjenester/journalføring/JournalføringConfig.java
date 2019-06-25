@@ -41,7 +41,7 @@ public class JournalføringConfig {
     }
 
     public URI journalpostURI(boolean sluttfør) {
-        return uri(DEFAULT_BASE_URI, "journalpost", headers(sluttfør));
+        return uri(uri(getService(), BASE_PATH), "journalpost", headers(sluttfør));
     }
 
     private HttpHeaders headers(boolean sluttfør) {
