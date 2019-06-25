@@ -11,8 +11,8 @@ public class JournalføringTjeneste {
         this.connection = connection;
     }
 
-    public void journalfør(Journalpost journalpost, boolean sluttfør) {
-        connection.opprettJournalpost(journalpost, sluttfør);
+    public String journalfør(Journalpost journalpost, boolean sluttfør) {
+        return connection.opprettJournalpost(journalpost, sluttfør).getJournalpostId();
     }
 
     @Override
