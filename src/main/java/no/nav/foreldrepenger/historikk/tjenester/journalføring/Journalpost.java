@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import java.util.Arrays;
 import java.util.List;
 
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
@@ -66,7 +67,7 @@ public class Journalpost {
 
     public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
             String behandlingstema, String tittel,
-            List<Pair<String, String>> tilleggsopplysninger, Sak sak, List<Dokument> dokumenter) {
+            List<Pair<String, String>> tilleggsopplysninger, Sak sak, Dokument... dokumenter) {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
         this.bruker = bruker;
@@ -77,7 +78,7 @@ public class Journalpost {
         this.eksternReferanseId = MDCUtil.callIdOrNew();
         this.tilleggsopplysninger = tilleggsopplysninger;
         this.sak = sak;
-        this.dokumenter = dokumenter;
+        this.dokumenter = Arrays.asList(dokumenter);
     }
 
     @Override

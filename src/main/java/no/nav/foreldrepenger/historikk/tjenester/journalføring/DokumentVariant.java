@@ -8,7 +8,6 @@ public class DokumentVariant {
     private final byte[] fysiskDokument;
 
     public DokumentVariant(FilType filType, VariantFormat variantFormat, byte[] fysiskDokument) {
-        super();
         this.filType = filType;
         this.variantFormat = variantFormat;
         this.fysiskDokument = fysiskDokument;
