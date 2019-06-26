@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class JournalføringRespons {
     private final String journalpostId;
     private final String melding;
-    private final String journalstatus;
+    private final Journalstatus journalstatus;
 
     @JsonCreator
     public JournalføringRespons(@JsonProperty("journalpostId") String journalpostId,
-            @JsonProperty("melding") String melding, @JsonProperty("journalstatus") String journalstatus) {
+            @JsonProperty("melding") String melding, @JsonProperty("journalstatus") Journalstatus journalstatus) {
         this.journalpostId = journalpostId;
         this.melding = melding;
         this.journalstatus = journalstatus;
@@ -24,7 +24,7 @@ public class JournalføringRespons {
         return melding;
     }
 
-    public String getJournalstatus() {
+    public Journalstatus getJournalstatus() {
         return journalstatus;
     }
 
