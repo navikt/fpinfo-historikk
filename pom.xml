@@ -163,6 +163,15 @@
             <artifactId>resilience4j-retry</artifactId>
             <version>0.16.0</version>
         </dependency>
+          <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-rxjava2</artifactId>
+            <version>0.16.0</version>
+        </dependency> 
+         <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
