@@ -6,12 +6,12 @@ import java.util.List;
 public class Dokument {
     private final String tittel;
     private final DokumentKategori dokumentKategori;
-    private final List<DokumentVariant> dokumentVarianter;
+    private final List<DokumentVariant> dokumentvarianter;
 
-    public Dokument(String tittel, DokumentVariant... dokumentVarianter) {
+    public Dokument(String tittel, DokumentVariant... dokumentvarianter) {
         this.tittel = tittel;
         this.dokumentKategori = DokumentKategori.ELEKTRONISK_DIALOG;
-        this.dokumentVarianter = Arrays.asList(dokumentVarianter);
+        this.dokumentvarianter = Arrays.asList(dokumentvarianter);
     }
 
     public String getTittel() {
@@ -22,14 +22,14 @@ public class Dokument {
         return dokumentKategori;
     }
 
-    public List<DokumentVariant> getDokumentVarianter() {
-        return dokumentVarianter;
+    public List<DokumentVariant> getDokumentvarianter() {
+        return dokumentvarianter;
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[tittel=" + tittel + ", dokumentKategori="
-                + dokumentKategori + ", dokumentVarianter=" + dokumentVarianter + "]";
+                + dokumentKategori + ", dokumentvarianter=" + dokumentvarianter + "]";
     }
 
 }
