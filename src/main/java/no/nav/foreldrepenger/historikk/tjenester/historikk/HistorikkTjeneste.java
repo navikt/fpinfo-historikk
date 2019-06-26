@@ -47,16 +47,17 @@ public class HistorikkTjeneste {
         }
     }
 
-    public void lagre(MinidialogInnslag minidialog) {
+    public void lagre(MinidialogInnslag minidialog, String journalPostId) {
         LOG.info("Lagrer historikkinnslag fra minidialog  {}", minidialog);
-        dao.save(fraMinidialog(minidialog));
+        dao.save(fraMinidialog(minidialog, journalPostId));
         LOG.info("Lagret historikkinnslag OK");
 
     }
 
-    private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag) {
+    private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
         JPAHistorikkInnslag historikk = new JPAHistorikkInnslag(innslag.getAktørId(), "Spørsmål fra saksbehandler");
         historikk.setSaksnr(innslag.getSaksnr());
+        historikk.setJournalpostId(journalPostId);
         return historikk;
     }
 
