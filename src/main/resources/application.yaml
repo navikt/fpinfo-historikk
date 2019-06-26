@@ -33,6 +33,17 @@ management:
       diskspace:
          enabled: false
 
+resilience4j.retry:
+    configs:
+        default:
+            maxRetryAttempts: 2
+            waitDuration: 100
+            retryExceptions:
+                - org.springframework.web.client.HttpServerErrorException
+                - java.io.IOException
+    instances:
+        dokarkiv:
+            maxRetryAttempts: 3
 server:
     servlet:
        context-path:  /api
