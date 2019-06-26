@@ -4,14 +4,17 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMap
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
+import org.jboss.logging.MDC;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.config.Constants;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
@@ -33,6 +36,8 @@ public class MinidialogEventKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(String json) {
+        MDC.put(Constants.CALL_ID, MDCUtil.callIdOrNew());
+        MDC.put(Constants.NAV_CALL_ID, MDCUtil.callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
         String journalPostId = journalføring.journalfør(journalpostFra(innslag), false);
