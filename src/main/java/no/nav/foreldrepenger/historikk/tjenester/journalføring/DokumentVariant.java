@@ -3,22 +3,22 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 import java.util.Arrays;
 
 public class DokumentVariant {
-    private final FilType filType;
-    private final VariantFormat variantFormat;
+    private final FilType filtype;
+    private final VariantFormat variantformat;
     private final byte[] fysiskDokument;
 
-    public DokumentVariant(FilType filType, VariantFormat variantFormat, byte[] fysiskDokument) {
-        this.filType = filType;
-        this.variantFormat = variantFormat;
+    public DokumentVariant(FilType filtype, VariantFormat variantformat, byte[] fysiskDokument) {
+        this.filtype = filtype;
+        this.variantformat = variantformat;
         this.fysiskDokument = fysiskDokument;
     }
 
-    public FilType getFilType() {
-        return filType;
+    public FilType getFiltype() {
+        return filtype;
     }
 
-    public VariantFormat getVariantFormat() {
-        return variantFormat;
+    public VariantFormat getVariantformat() {
+        return variantformat;
     }
 
     public byte[] getFysiskDokument() {
@@ -27,7 +27,7 @@ public class DokumentVariant {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[filType=" + filType + ", variantFormat=" + variantFormat
+        return getClass().getSimpleName() + "[filtype=" + filtype + ", variantformat=" + variantformat
                 + ", fysiskDokument=" + Arrays.toString(fysiskDokument) + "]";
     }
 }
