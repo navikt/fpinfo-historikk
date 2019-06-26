@@ -44,7 +44,7 @@ public class MinidialogEventKonsument {
         MDC.put(CALL_ID, callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
-        String journalPostId = journalføring.journalfør(journalpostFra(innslag), false);
+        String journalPostId = journalføring.journalfør(journalpostFra(innslag), true);
         historikk.lagre(innslag, journalPostId);
     }
 
