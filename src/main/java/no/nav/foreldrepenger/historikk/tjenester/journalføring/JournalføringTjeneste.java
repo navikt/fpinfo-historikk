@@ -2,7 +2,10 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
 import org.springframework.stereotype.Service;
 
+import io.github.resilience4j.retry.annotation.Retry;
+
 @Service
+@Retry(name = "dokarkiv")
 public class JournalføringTjeneste {
 
     private final JournalføringConnection connection;

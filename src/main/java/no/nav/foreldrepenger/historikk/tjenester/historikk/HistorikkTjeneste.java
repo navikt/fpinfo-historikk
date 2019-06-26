@@ -54,13 +54,6 @@ public class HistorikkTjeneste {
 
     }
 
-    private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
-        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag(innslag.getAktørId(), "Spørsmål fra saksbehandler");
-        historikk.setSaksnr(innslag.getSaksnr());
-        historikk.setJournalpostId(journalPostId);
-        return historikk;
-    }
-
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentMinHistorikk() {
         LOG.info("Henter historikkinnslag");
@@ -87,6 +80,13 @@ public class HistorikkTjeneste {
                 SORT));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
+    }
+
+    private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
+        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag(innslag.getAktørId(), "Spørsmål fra saksbehandler");
+        historikk.setSaksnr(innslag.getSaksnr());
+        historikk.setJournalpostId(journalPostId);
+        return historikk;
     }
 
     @Override
