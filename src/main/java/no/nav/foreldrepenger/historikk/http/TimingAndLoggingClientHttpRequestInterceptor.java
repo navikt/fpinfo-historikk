@@ -22,17 +22,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.Timer;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Component
 public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
     private static final Logger LOG = LoggerFactory.getLogger(TimingAndLoggingClientHttpRequestInterceptor.class);
 
-    private final TokenUtil tokenUtil;
     private final MeterRegistry registry;
 
-    public TimingAndLoggingClientHttpRequestInterceptor(TokenUtil tokenUtil, MeterRegistry registry) {
-        this.tokenUtil = tokenUtil;
+    public TimingAndLoggingClientHttpRequestInterceptor(MeterRegistry registry) {
         this.registry = registry;
     }
 
@@ -59,8 +56,8 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
         timer.stop();
         t.record(timer.getTime(), MILLISECONDS);
         if (hasError(respons.getStatusCode())) {
-            LOG.warn("{} - {} - ({}). Dette tok {}ms. ({})", request.getMethodValue(), request.getURI(),
-                    respons.getRawStatusCode(), timer.getTime(MILLISECONDS), tokenUtil.getExpiryDate());
+            LOG.warn("{} - {} - ({}). Dette tok {}ms", request.getMethodValue(), request.getURI(),
+                    respons.getRawStatusCode(), timer.getTime(MILLISECONDS));
         } else {
             LOG.info("{} - {} - ({}). Dette tok {}ms", request.getMethodValue(), uri,
                     respons.getStatusCode(), timer.getTime(MILLISECONDS));
@@ -70,10 +67,5 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
 
     protected boolean hasError(HttpStatus code) {
         return code.series() == CLIENT_ERROR || code.series() == SERVER_ERROR;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [tokenUtil=" + tokenUtil + "]";
     }
 }
