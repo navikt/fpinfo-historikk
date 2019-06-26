@@ -5,10 +5,15 @@ import java.util.Collections;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.Dokument;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.DokumentVariant;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.FilType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Sak;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.VariantFormat;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 
 public final class MinidialogMapper {
@@ -33,7 +38,15 @@ public final class MinidialogMapper {
                 new Bruker(innslag.getFnr()), innslag.getHandling().tema(),
                 "tittel",
                 Collections.emptyList(), new Sak(innslag.getSaksnr()),
-                Collections.emptyList());
+                dokumentFra(innslag.getMelding()));
+    }
+
+    private static Dokument dokumentFra(String melding) {
+        return new Dokument("Spørsmål", variant(melding));
+    }
+
+    private static DokumentVariant variant(String melding) {
+        return new DokumentVariant(FilType.PDFA, VariantFormat.ARKIV, new PDFGenerator().generate(melding));
     }
 
     static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {

@@ -1,27 +1,21 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Dokument {
     private final String tittel;
-    private final String brevkode;
     private final DokumentKategori dokumentKategori;
     private final List<DokumentVariant> dokumentVarianter;
 
-    public Dokument(String tittel, String brevkode, DokumentKategori dokumentKategori,
-            List<DokumentVariant> dokumentVarianter) {
+    public Dokument(String tittel, DokumentVariant... dokumentVarianter) {
         this.tittel = tittel;
-        this.brevkode = brevkode;
-        this.dokumentKategori = dokumentKategori;
-        this.dokumentVarianter = dokumentVarianter;
+        this.dokumentKategori = DokumentKategori.ELEKTRONISK_DIALOG;
+        this.dokumentVarianter = Arrays.asList(dokumentVarianter);
     }
 
     public String getTittel() {
         return tittel;
-    }
-
-    public String getBrevkode() {
-        return brevkode;
     }
 
     public DokumentKategori getDokumentKategori() {
@@ -34,7 +28,7 @@ public class Dokument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[tittel=" + tittel + ", brevkode=" + brevkode + ", dokumentKategori="
+        return getClass().getSimpleName() + "[tittel=" + tittel + ", dokumentKategori="
                 + dokumentKategori + ", dokumentVarianter=" + dokumentVarianter + "]";
     }
 
