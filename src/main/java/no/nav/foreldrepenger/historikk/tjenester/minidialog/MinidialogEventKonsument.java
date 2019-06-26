@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.config.Constants;
+import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
@@ -24,6 +25,8 @@ public class MinidialogEventKonsument {
     private final HistorikkTjeneste historikk;
     private final JacksonUtil mapper;
 
+    private static final CallIdGenerator GEN = new CallIdGenerator();
+
     public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
             JournalføringTjeneste journalføring,
             JacksonUtil mapper) {
@@ -36,8 +39,8 @@ public class MinidialogEventKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(String json) {
-        MDC.put(Constants.CALL_ID, MDCUtil.callIdOrNew());
-        MDC.put(Constants.NAV_CALL_ID, MDCUtil.callId());
+        MDC.put(Constants.NAV_CALL_ID, GEN.create());
+        MDC.put(Constants.CALL_ID, MDCUtil.callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
         String journalPostId = journalføring.journalfør(journalpostFra(innslag), false);
