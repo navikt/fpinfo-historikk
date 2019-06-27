@@ -24,14 +24,11 @@ public abstract class AbstractRestConnection {
     }
 
     protected String ping(URI uri) {
-        if (isEnabled) {
-            return getForObject(uri, String.class);
-        }
-        return "OK";
+        return getForObject(uri, String.class);
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType) {
-        return isEnabled ? getForObject(uri, responseType, false) : null;
+        return getForObject(uri, responseType, false);
     }
 
     protected <T> ResponseEntity<T> postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
@@ -69,6 +66,9 @@ public abstract class AbstractRestConnection {
     }
 
     protected <T> ResponseEntity<T> getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
+        if (!isEnabled) {
+            return null;
+        }
         try {
             ResponseEntity<T> respons = restOperations.getForEntity(uri, responseType);
             if (respons.hasBody()) {
@@ -86,6 +86,6 @@ public abstract class AbstractRestConnection {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [restOperations=" + restOperations + "]";
+        return getClass().getSimpleName() + "[restOperations=" + restOperations + ", isEnabled=" + isEnabled + "]";
     }
 }
