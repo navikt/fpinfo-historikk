@@ -27,7 +27,6 @@ public class JPAMinidialogInnslag {
     private String melding;
     private LocalDate gyldigTil;
     private String saksnr;
-    private String kanal;
     private String handling;
     @CreatedDate
     private LocalDateTime opprettet;
@@ -38,11 +37,10 @@ public class JPAMinidialogInnslag {
     private JPAMinidialogInnslag() {
     }
 
-    public JPAMinidialogInnslag(String aktørId, String melding, String saksnr, String kanal) {
+    public JPAMinidialogInnslag(String aktørId, String melding, String saksnr) {
         this.aktørId = aktørId;
         this.melding = melding;
         this.saksnr = saksnr;
-        this.kanal = kanal;
     }
 
     public LocalDateTime getOpprettet() {
@@ -67,10 +65,6 @@ public class JPAMinidialogInnslag {
 
     public void setGyldigTil(LocalDate gyldigTil) {
         this.gyldigTil = gyldigTil;
-    }
-
-    public String getKanal() {
-        return kanal;
     }
 
     public LocalDateTime getEndret() {
@@ -121,14 +115,10 @@ public class JPAMinidialogInnslag {
         this.saksnr = saksnr;
     }
 
-    public void setKanal(String kanal) {
-        this.kanal = kanal;
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding
-                + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", kanal=" + kanal + ", handling=" + handling
+                + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", handling=" + handling
                 + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
     }
 

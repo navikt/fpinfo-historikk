@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import static java.util.Collections.emptyList;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +22,30 @@ public class Journalpost {
     List<Pair<String, String>> tilleggsopplysninger;
     private final Sak sak;
     private final List<Dokument> dokumenter;
+
+    public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
+            String behandlingstema, String tittel,
+            Sak sak, Dokument... dokumenter) {
+        this(journalpostType, avsenderMotaker, bruker, behandlingstema, tittel, emptyList(), sak,
+                dokumenter);
+
+    }
+
+    public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
+            String behandlingstema, String tittel,
+            List<Pair<String, String>> tilleggsopplysninger, Sak sak, Dokument... dokumenter) {
+        this.journalpostType = journalpostType;
+        this.avsenderMottaker = avsenderMotaker;
+        this.bruker = bruker;
+        this.tema = "FOR";
+        this.behandlingstema = behandlingstema;
+        this.tittel = tittel;
+        this.journalfoerendeEnhet = "9999";
+        this.eksternReferanseId = MDCUtil.callIdOrNew();
+        this.tilleggsopplysninger = tilleggsopplysninger;
+        this.sak = sak;
+        this.dokumenter = Arrays.asList(dokumenter);
+    }
 
     public JournalpostType getJournalpostType() {
         return journalpostType;
@@ -63,22 +89,6 @@ public class Journalpost {
 
     public List<Dokument> getDokumenter() {
         return dokumenter;
-    }
-
-    public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            String behandlingstema, String tittel,
-            List<Pair<String, String>> tilleggsopplysninger, Sak sak, Dokument... dokumenter) {
-        this.journalpostType = journalpostType;
-        this.avsenderMottaker = avsenderMotaker;
-        this.bruker = bruker;
-        this.tema = "FOR";
-        this.behandlingstema = behandlingstema;
-        this.tittel = tittel;
-        this.journalfoerendeEnhet = "9999";
-        this.eksternReferanseId = MDCUtil.callIdOrNew();
-        this.tilleggsopplysninger = tilleggsopplysninger;
-        this.sak = sak;
-        this.dokumenter = Arrays.asList(dokumenter);
     }
 
     @Override
