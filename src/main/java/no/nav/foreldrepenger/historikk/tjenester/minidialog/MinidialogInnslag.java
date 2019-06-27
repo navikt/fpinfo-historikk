@@ -17,22 +17,6 @@ public class MinidialogInnslag {
     private boolean janei;
     private String vedlegg;
 
-    public boolean isJanei() {
-        return janei;
-    }
-
-    public void setJanei(boolean janei) {
-        this.janei = janei;
-    }
-
-    public String getVedlegg() {
-        return vedlegg;
-    }
-
-    public void setVedlegg(String vedlegg) {
-        this.vedlegg = vedlegg;
-    }
-
     private final String tekst;
     private final String saksnr;
     private LocalDateTime opprettet;
@@ -76,6 +60,22 @@ public class MinidialogInnslag {
 
     public String getSaksnr() {
         return saksnr;
+    }
+
+    public boolean isJanei() {
+        return janei;
+    }
+
+    public void setJanei(boolean janei) {
+        this.janei = janei;
+    }
+
+    public String getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(String vedlegg) {
+        this.vedlegg = vedlegg;
     }
 
     public long getId() {

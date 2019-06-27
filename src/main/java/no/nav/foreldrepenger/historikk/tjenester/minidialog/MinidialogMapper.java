@@ -2,6 +2,9 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType.UTGAAENDE;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Dokument;
@@ -11,6 +14,8 @@ import no.nav.foreldrepenger.historikk.tjenester.journalføring.Sak;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 
 public final class MinidialogMapper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);
 
     private static final String SPØRSMÅL = "Spørsmål fra saksbehandler";
 
@@ -41,15 +46,16 @@ public final class MinidialogMapper {
                 new Dokument(new DokumentVariant(dokument)));
     }
 
-    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
-        MinidialogInnslag melding = new MinidialogInnslag(m.getAktørId(), m.getTekst(),
-                m.getSaksnr());
-        melding.setEndret(m.getEndret());
-        melding.setOpprettet(m.getOpprettet());
-        melding.setId(m.getId());
-        melding.setGyldigTil(m.getGyldigTil());
-        melding.setHandling(m.getHandling());
-        melding.setAktiv(m.isAktiv());
-        return melding;
+    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
+        LOG.info("Mapper fra innslag {}", i);
+        MinidialogInnslag innslag = new MinidialogInnslag(i.getAktørId(), i.getTekst(), i.getSaksnr());
+        innslag.setEndret(i.getEndret());
+        innslag.setOpprettet(i.getOpprettet());
+        innslag.setId(i.getId());
+        innslag.setGyldigTil(i.getGyldigTil());
+        innslag.setHandling(i.getHandling());
+        innslag.setAktiv(i.isAktiv());
+        LOG.info("Mapper til innslag {}", innslag);
+        return innslag;
     }
 }
