@@ -6,6 +6,10 @@ public class AvsenderMottaker {
     private final IdType idType;
     private final String navn;
 
+    public AvsenderMottaker(String id) {
+        this(id, IdType.FNR, null);
+    }
+
     public AvsenderMottaker(String id, IdType idType, String navn) {
         this.id = id;
         this.idType = idType;

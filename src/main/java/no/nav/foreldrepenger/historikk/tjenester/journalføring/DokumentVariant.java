@@ -1,11 +1,18 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.FilType.PDFA;
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.VariantFormat.ARKIV;
+
 import java.util.Arrays;
 
 public class DokumentVariant {
     private final FilType filtype;
     private final VariantFormat variantformat;
     private final byte[] fysiskDokument;
+
+    public DokumentVariant(byte[] dokument) {
+        this(PDFA, ARKIV, dokument);
+    }
 
     public DokumentVariant(FilType filtype, VariantFormat variantformat, byte[] fysiskDokument) {
         this.filtype = filtype;

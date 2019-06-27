@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
@@ -25,15 +26,17 @@ public class MinidialogEventKonsument {
     private final JournalføringTjeneste journalføring;
     private final HistorikkTjeneste historikk;
     private final JacksonUtil mapper;
+    private final PDFGenerator generator;
 
     private static final CallIdGenerator GEN = new CallIdGenerator();
 
     public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
-            JournalføringTjeneste journalføring,
+            JournalføringTjeneste journalføring, PDFGenerator generator,
             JacksonUtil mapper) {
         this.historikk = historikk;
         this.minidialog = minidialog;
         this.journalføring = journalføring;
+        this.generator = generator;
         this.mapper = mapper;
     }
 
@@ -44,7 +47,8 @@ public class MinidialogEventKonsument {
         MDC.put(CALL_ID, callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
-        String journalPostId = journalføring.journalfør(journalpostFra(innslag), true);
+        String journalPostId = journalføring
+                .journalfør(journalpostFra(innslag, generator.generate(innslag.getMelding())), true);
         historikk.lagre(innslag, journalPostId);
     }
 

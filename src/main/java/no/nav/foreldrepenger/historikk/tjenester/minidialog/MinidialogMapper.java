@@ -1,22 +1,18 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
-import java.util.Collections;
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType.UTGAAENDE;
 
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.AvsenderMottaker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Bruker;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Dokument;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.DokumentVariant;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.FilType;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalpostType;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Sak;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.VariantFormat;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 
 public final class MinidialogMapper {
+
+    private static final String SPØRSMÅL = "Spørsmål fra saksbehandler";
 
     private MinidialogMapper() {
 
@@ -24,29 +20,20 @@ public final class MinidialogMapper {
 
     static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag(m.getAktørId(), m.getMelding(),
-                m.getSaksnr(),
-                m.getKanal().name());
+                m.getSaksnr());
         dialog.setGyldigTil(m.getGyldigTil());
-        dialog.setHandling(m.getHandling().name());
+        dialog.setHandling(m.getHandling());
         dialog.setAktiv(m.isAktiv());
         return dialog;
     }
 
-    static Journalpost journalpostFra(MinidialogInnslag innslag) {
-        return new Journalpost(JournalpostType.UTGAAENDE,
-                new AvsenderMottaker(innslag.getFnr(), IdType.FNR, "Spørsmål fra saksbehandler"),
-                new Bruker(innslag.getFnr()), innslag.getHandling().tema(),
-                "tittel",
-                Collections.emptyList(), new Sak(innslag.getSaksnr()),
-                dokumentFra(innslag.getMelding()));
-    }
-
-    private static Dokument dokumentFra(String melding) {
-        return new Dokument("Spørsmål", variant(melding));
-    }
-
-    private static DokumentVariant variant(String melding) {
-        return new DokumentVariant(FilType.PDFA, VariantFormat.ARKIV, new PDFGenerator().generate(melding));
+    static Journalpost journalpostFra(MinidialogInnslag innslag, byte[] dokument) {
+        return new Journalpost(UTGAAENDE,
+                new AvsenderMottaker(innslag.getFnr()),
+                new Bruker(innslag.getFnr()), null,
+                SPØRSMÅL,
+                new Sak(innslag.getSaksnr()),
+                new Dokument(new DokumentVariant(dokument)));
     }
 
     static MinidialogInnslag tilInnslag(JPAMinidialogInnslag m) {
@@ -54,14 +41,10 @@ public final class MinidialogMapper {
                 m.getSaksnr());
         melding.setEndret(m.getEndret());
         melding.setOpprettet(m.getOpprettet());
-        melding.setKanal(LeveranseKanal.valueOf(m.getKanal()));
         melding.setId(m.getId());
         melding.setGyldigTil(m.getGyldigTil());
-        if (m.getHandling() != null) {
-            melding.setHandling(SøknadType.valueOf(m.getHandling()));
-        }
+        melding.setHandling(m.getHandling());
         melding.setAktiv(m.isAktiv());
         return melding;
     }
-
 }
