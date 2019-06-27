@@ -31,8 +31,12 @@ public class JournalføringConnection extends AbstractRestConnection implements 
     }
 
     public JournalføringRespons opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
-        return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost), JournalføringRespons.class)
-                .getBody();
+        if (isEnabled()) {
+            return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost),
+                    JournalføringRespons.class)
+                            .getBody();
+        }
+        return null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import io.github.resilience4j.retry.annotation.Retry;
@@ -15,7 +17,9 @@ public class JournalføringTjeneste {
     }
 
     public String journalfør(Journalpost journalpost, boolean sluttfør) {
-        return connection.opprettJournalpost(journalpost, sluttfør).getJournalpostId();
+        return Optional.ofNullable(connection.opprettJournalpost(journalpost, sluttfør))
+                .map(JournalføringRespons::getJournalpostId)
+                .orElse(null);
     }
 
     @Override
