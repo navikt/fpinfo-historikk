@@ -42,7 +42,7 @@ public class STSConnection extends AbstractRestConnection implements PingEndpoin
 
     @Override
     public String name() {
-        return STS;
+        return pingEndpoint().getHost();
     }
 
     public String hentToken() {
