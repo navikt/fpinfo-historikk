@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
-import static no.nav.foreldrepenger.historikk.util.URIUtil.uri;
-
 import java.net.URI;
 import java.util.Optional;
 
@@ -9,23 +7,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 
+import no.nav.foreldrepenger.historikk.http.AbstractConfig;
+
 @ConfigurationProperties(prefix = "dokarkiv")
 @Configuration
-public class JournalføringConfig {
+public class JournalføringConfig extends AbstractConfig {
 
     private static final URI SERVICE = URI.create("http://dokarkiv");
     private static final String BASE_PATH = "/rest/journalpostapi/v1/";
     private static final String DEFAULT_PING_PATH = "actuator";
-    private boolean enabled = true;
     private URI service;
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     public void setService(URI service) {
         this.service = service;
@@ -35,6 +26,7 @@ public class JournalføringConfig {
         return Optional.ofNullable(service).orElse(SERVICE);
     }
 
+    @Override
     public URI pingURI() {
         return uri(getService(), DEFAULT_PING_PATH);
     }

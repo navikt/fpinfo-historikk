@@ -1,24 +1,34 @@
-package no.nav.foreldrepenger.historikk.util;
+package no.nav.foreldrepenger.historikk.http;
 
 import java.net.URI;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public final class URIUtil {
-    private URIUtil() {
+public abstract class AbstractConfig {
+
+    protected abstract URI pingURI();
+
+    private boolean enabled = true;
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public static URI uri(String base, String path) {
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    protected URI uri(String base, String path) {
         return uri(URI.create(base), path);
 
     }
 
-    public static URI uri(URI base, String path) {
+    protected URI uri(URI base, String path) {
         return uri(base, path, null);
     }
 
-    public static URI uri(URI base, String path, HttpHeaders queryParams) {
+    protected URI uri(URI base, String path, HttpHeaders queryParams) {
         return builder(base, path, queryParams)
                 .build()
                 .toUri();
@@ -30,4 +40,5 @@ public final class URIUtil {
                 .pathSegment(path)
                 .queryParams(queryParams);
     }
+
 }
