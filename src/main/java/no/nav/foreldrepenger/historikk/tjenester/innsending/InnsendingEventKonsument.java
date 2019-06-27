@@ -2,17 +2,20 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
+import org.jboss.logging.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 public class InnsendingEventKonsument {
+    private static final CallIdGenerator GEN = new CallIdGenerator();
 
     private final HistorikkTjeneste historikk;
     private final MinidialogTjeneste dialog;
@@ -27,6 +30,7 @@ public class InnsendingEventKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
+        MDC.put(NAV_CALL_ID, GEN.create());
         InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
         historikk.lagre(event);
         dialog.deaktiverMinidialoger(event.getAktørId(), event.getType(), event.getSaksNr());
@@ -37,5 +41,4 @@ public class InnsendingEventKonsument {
         return getClass().getSimpleName() + "[historikk=" + historikk + ", dialog=" + dialog + ", mapper=" + mapper
                 + "]";
     }
-
 }
