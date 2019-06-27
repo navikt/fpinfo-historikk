@@ -21,7 +21,7 @@ public class STSConnection extends AbstractRestConnection implements PingEndpoin
     private final STSConfig cfg;
 
     public STSConnection(@Qualifier(STS) RestOperations restOperations, STSConfig config) {
-        super(restOperations);
+        super(restOperations, config.isEnabled());
         this.cfg = config;
     }
 

@@ -15,21 +15,29 @@ import org.springframework.web.client.RestOperations;
 public abstract class AbstractRestConnection {
     private static final String RESPONS = "Respons: {}";
     private final RestOperations restOperations;
+    private final boolean isEnabled;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestConnection.class);
 
-    public AbstractRestConnection(RestOperations restOperations) {
+    public AbstractRestConnection(RestOperations restOperations, boolean isEnabled) {
         this.restOperations = restOperations;
+        this.isEnabled = isEnabled;
     }
 
     protected String ping(URI uri) {
-        return getForObject(uri, String.class);
+        if (isEnabled) {
+            return getForObject(uri, String.class);
+        }
+        return "OK";
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType) {
-        return getForObject(uri, responseType, false);
+        return isEnabled ? getForObject(uri, responseType, false) : null;
     }
 
     protected <T> ResponseEntity<T> postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
+        if (!isEnabled) {
+            return null;
+        }
         ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
         if (respons.hasBody()) {
             LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
@@ -38,6 +46,9 @@ public abstract class AbstractRestConnection {
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
+        if (!isEnabled) {
+            return null;
+        }
         try {
             T respons = restOperations.getForObject(uri, responseType);
             if (respons != null) {
