@@ -4,9 +4,7 @@ import no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema;
 
 public enum SøknadType {
     INITIELL_FORELDREPENGER, ETTERSENDING_FORELDREPENGER,
-    ETTERSENDING_ENGANGSSTØNAD, INITIELL_SVANGERSKAPSPENGER,
-    ETTERSENDING_SVANGERSKAPSPENGER;
-
+    ETTERSENDING_ENGANGSSTØNAD, ETTERSENDING_SVANGERSKAPSPENGER;
     public boolean erEttersending() {
         return this.equals(ETTERSENDING_ENGANGSSTØNAD) || this.equals(ETTERSENDING_FORELDREPENGER)
                 || this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
@@ -22,8 +20,7 @@ public enum SøknadType {
     }
 
     private boolean erSvangerskapspenger() {
-        return this.equals(INITIELL_SVANGERSKAPSPENGER)
-                || this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
+        return this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
     }
 
     public String tema() {
