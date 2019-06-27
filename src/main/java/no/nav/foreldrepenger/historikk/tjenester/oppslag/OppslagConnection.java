@@ -35,6 +35,7 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
         return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
+    @Override
     public boolean isEnabled() {
         return cfg.isEnabled();
     }

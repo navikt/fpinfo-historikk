@@ -40,6 +40,7 @@ public class JournalføringConnection extends AbstractRestConnection implements 
         return cfg.pingURI();
     }
 
+    @Override
     public boolean isEnabled() {
         return cfg.isEnabled();
     }

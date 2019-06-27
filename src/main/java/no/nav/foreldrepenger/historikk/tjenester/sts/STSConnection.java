@@ -35,6 +35,7 @@ public class STSConnection extends AbstractRestConnection implements PingEndpoin
         return cfg.pingURI();
     }
 
+    @Override
     public boolean isEnabled() {
         return cfg.isEnabled();
     }
@@ -45,9 +46,12 @@ public class STSConnection extends AbstractRestConnection implements PingEndpoin
     }
 
     public String hentToken() {
-        return Optional.ofNullable(getForObject(cfg.tokenURI(), TokenRespons.class, true))
-                .map(TokenRespons::getToken)
-                .orElse(null);
+        if (isEnabled()) {
+            return Optional.ofNullable(getForObject(cfg.tokenURI(), TokenRespons.class, true))
+                    .map(TokenRespons::getToken)
+                    .orElse(null);
+        }
+        return null;
     }
 
     @Override
