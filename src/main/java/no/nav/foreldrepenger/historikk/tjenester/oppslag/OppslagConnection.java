@@ -17,7 +17,7 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
     private final OppslagConfig cfg;
 
     public OppslagConnection(RestOperations restOperations, OppslagConfig config) {
-        super(restOperations);
+        super(restOperations, config.isEnabled());
         this.cfg = config;
     }
 

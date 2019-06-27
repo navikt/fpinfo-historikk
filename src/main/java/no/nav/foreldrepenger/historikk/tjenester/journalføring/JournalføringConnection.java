@@ -21,7 +21,7 @@ public class JournalføringConnection extends AbstractRestConnection implements 
 
     public JournalføringConnection(@Qualifier(DOKARKIV) RestOperations restOperations,
             JournalføringConfig config) {
-        super(restOperations);
+        super(restOperations, config.isEnabled());
         this.cfg = config;
     }
 
@@ -31,12 +31,9 @@ public class JournalføringConnection extends AbstractRestConnection implements 
     }
 
     public JournalføringRespons opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
-        if (isEnabled()) {
-            return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost),
-                    JournalføringRespons.class)
-                            .getBody();
-        }
-        return null;
+        return postForEntity(cfg.journalpostURI(sluttfør), new HttpEntity<>(journalpost),
+                JournalføringRespons.class)
+                        .getBody();
     }
 
     @Override
