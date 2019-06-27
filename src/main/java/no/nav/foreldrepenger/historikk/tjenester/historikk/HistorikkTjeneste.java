@@ -83,7 +83,9 @@ public class HistorikkTjeneste {
     }
 
     private static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
-        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag(innslag.getAktørId(), "Spørsmål fra saksbehandler");
+        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag();
+        historikk.setAktørId(innslag.getAktørId());
+        historikk.setTekst("Spørsmål fra saksbehandler");
         historikk.setSaksnr(innslag.getSaksnr());
         historikk.setJournalpostId(journalPostId);
         return historikk;

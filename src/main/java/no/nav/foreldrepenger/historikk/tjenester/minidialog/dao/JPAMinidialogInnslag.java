@@ -16,7 +16,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "melding")
+@Table(name = "minidialog")
 @EntityListeners(AuditingEntityListener.class)
 public class JPAMinidialogInnslag {
 
@@ -24,23 +24,36 @@ public class JPAMinidialogInnslag {
     @GeneratedValue(strategy = IDENTITY)
     private int id;
     private String aktørId;
-    private String melding;
+    private String fnr;
+    private boolean janei;
+    private String vedlegg;
+    private String tekst;
     private LocalDate gyldigTil;
-    private String saksnr;
     private String handling;
+    private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
     @LastModifiedDate
     private LocalDateTime endret;
     private boolean aktiv;
 
-    private JPAMinidialogInnslag() {
+    public JPAMinidialogInnslag() {
     }
 
-    public JPAMinidialogInnslag(String aktørId, String melding, String saksnr) {
-        this.aktørId = aktørId;
-        this.melding = melding;
-        this.saksnr = saksnr;
+    public String getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
+    }
+
+    public boolean isJanei() {
+        return janei;
+    }
+
+    public void setJanei(boolean janei) {
+        this.janei = janei;
     }
 
     public LocalDateTime getOpprettet() {
@@ -79,8 +92,8 @@ public class JPAMinidialogInnslag {
         return aktørId;
     }
 
-    public String getMelding() {
-        return melding;
+    public String getTekst() {
+        return tekst;
     }
 
     public int getId() {
@@ -107,19 +120,27 @@ public class JPAMinidialogInnslag {
         this.aktørId = aktørId;
     }
 
-    public void setMelding(String melding) {
-        this.melding = melding;
+    public void setTekst(String tekst) {
+        this.tekst = tekst;
     }
 
     public void setSaksnr(String saksnr) {
         this.saksnr = saksnr;
     }
 
+    public String getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(String vedlegg) {
+        this.vedlegg = vedlegg;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding
-                + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", handling=" + handling
-                + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", janei=" + janei
+                + ", vedlegg=" + vedlegg + ", tekst=" + tekst + ", gyldigTil=" + gyldigTil + ", handling=" + handling
+                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
     }
 
 }
