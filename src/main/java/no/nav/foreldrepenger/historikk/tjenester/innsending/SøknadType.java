@@ -1,18 +1,24 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema;
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.ENGANGSSTØNAD;
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDREPENGER;
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
 public enum SøknadType {
-    INITIELL_FORELDREPENGER, ETTERSENDING_FORELDREPENGER,
-    ETTERSENDING_ENGANGSSTØNAD, ETTERSENDING_SVANGERSKAPSPENGER;
+    INITIELL_FORELDREPENGER,
+    ETTERSENDING_FORELDREPENGER,
+    ETTERSENDING_ENGANGSSTØNAD,
+    ETTERSENDING_SVANGERSKAPSPENGER;
+
     public boolean erEttersending() {
-        return this.equals(ETTERSENDING_ENGANGSSTØNAD) || this.equals(ETTERSENDING_FORELDREPENGER)
-                || this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
+        return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
+                this.equals(ETTERSENDING_FORELDREPENGER) ||
+                this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
     }
 
     private boolean erForeldrepenger() {
-        return this.equals(INITIELL_FORELDREPENGER)
-                || this.equals(ETTERSENDING_FORELDREPENGER);
+        return this.equals(INITIELL_FORELDREPENGER) ||
+                this.equals(ETTERSENDING_FORELDREPENGER);
     }
 
     private boolean erEngangsstønad() {
@@ -25,15 +31,15 @@ public enum SøknadType {
 
     public String tema() {
         if (erSvangerskapspenger()) {
-            return BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER.getTema();
+            return FORELDRE_OG_SVANGERSKAPSPENGER.getTema();
         }
         if (erEngangsstønad()) {
-            return BehandlingTema.ENGANGSSTØNAD.getTema();
+            return ENGANGSSTØNAD.getTema();
         }
         if (erForeldrepenger()) {
-            return BehandlingTema.FORELDREPENGER.getTema();
+            return FORELDREPENGER.getTema();
         }
-        return BehandlingTema.FORELDREPENGER.getTema();
+        return FORELDREPENGER.getTema();
     }
 
 }
