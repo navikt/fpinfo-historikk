@@ -16,7 +16,7 @@ public class STSConfig {
     private static final URI SERVICE = URI.create("http://security-token-service/rest");
     private static final String TOKEN_PATH = "/v1/sts/token";
     private static final String DEFAULT_PING_PATH = ".well-known/openid-configuration";
-    private boolean enabled;
+    private boolean enabled = true;
     private URI service;
 
     public boolean isEnabled() {

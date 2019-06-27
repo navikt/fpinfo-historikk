@@ -7,4 +7,6 @@ public interface PingEndpointAware extends Pingable {
     URI pingEndpoint();
 
     String name();
+
+    boolean isEnabled();
 }

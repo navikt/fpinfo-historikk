@@ -6,6 +6,10 @@ management:
    endpoint:
      health:
         show-details: always
+        
+sts.enabled: false
+historikk.oppslag.enabled: false
+dokarkiv.enabled: false        
 kafka :
    username: username
    password: password
