@@ -93,9 +93,9 @@ public class InnsendingEvent {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalId=" + journalId + ", referanseId="
-                + referanseId + ", saksNr=" + saksNr + ", leveranseStatus=" + leveranseStatus + ", type=" + type
-                + ", versjon=" + versjon + ", gyldigTil=" + gyldigTil + ", vedlegg=" + vedlegg + "]";
+        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", fnr=" + fnr + ", journalId=" + journalId
+                + ", referanseId=" + referanseId + ", saksNr=" + saksNr + ", leveranseStatus=" + leveranseStatus
+                + ", type=" + type + ", versjon=" + versjon + ", gyldigTil=" + gyldigTil + ", vedlegg=" + vedlegg + "]";
     }
 
 }

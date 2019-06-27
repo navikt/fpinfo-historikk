@@ -38,12 +38,13 @@ public class MinidialogEventProdusent {
 
     @Transactional(KAFKA_TM)
     public void sendMinidialogHendelse(MinidialogInnslag hendelse) {
+        LOG.info("Sender hendelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, topicNavn)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
-        LOG.info("Sender hendelse {}", message);
+        LOG.info("Sender melding {}", message);
         send(message);
     }
 
@@ -52,7 +53,7 @@ public class MinidialogEventProdusent {
 
             @Override
             public void onSuccess(SendResult<String, String> result) {
-                LOG.info("Sendte hendelse {} med offset{}", message,
+                LOG.info("Sendte melding {} med offset {}", message,
                         result.getRecordMetadata().offset());
             }
 

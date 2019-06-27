@@ -12,14 +12,6 @@ public class HistorikkInnslag {
     private final AktørId aktørId;
     private String fnr;
 
-    public String getFnr() {
-        return fnr;
-    }
-
-    public void setFnr(String fnr) {
-        this.fnr = fnr;
-    }
-
     private String journalpostId;
     private String saksnr;
     private final String tekst;
@@ -33,6 +25,14 @@ public class HistorikkInnslag {
 
     public AktørId getAktørId() {
         return aktørId;
+    }
+
+    public String getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
     }
 
     public String getJournalpostId() {
