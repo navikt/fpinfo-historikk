@@ -10,10 +10,20 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 public class HistorikkInnslag {
 
     private final AktørId aktørId;
+    private String fnr;
+
+    public String getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
+    }
+
     private String journalpostId;
+    private String saksnr;
     private final String tekst;
     private LocalDateTime opprettet;
-    private String saksnr;
 
     @JsonCreator
     public HistorikkInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst) {
@@ -55,7 +65,8 @@ public class HistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", journalpostId=" + journalpostId + ", tekst="
-                + tekst + ", opprettet=" + opprettet + ", saksnr=" + saksnr + "]";
+        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
+                + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + "]";
     }
+
 }

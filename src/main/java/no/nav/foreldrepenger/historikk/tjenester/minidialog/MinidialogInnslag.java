@@ -14,27 +14,44 @@ public class MinidialogInnslag {
     private long id;
     private final String aktørId;
     private String fnr;
+    private boolean janei;
+    private String vedlegg;
 
-    public void setFnr(String fnr) {
-        this.fnr = fnr;
+    public boolean isJanei() {
+        return janei;
     }
 
-    private final String melding;
+    public void setJanei(boolean janei) {
+        this.janei = janei;
+    }
+
+    public String getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(String vedlegg) {
+        this.vedlegg = vedlegg;
+    }
+
+    private final String tekst;
     private final String saksnr;
     private LocalDateTime opprettet;
     private LocalDateTime endret;
-    private LeveranseKanal kanal;
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate gyldigTil;
     private String handling;
     private boolean aktiv;
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("aktørId") String aktørId, @JsonProperty("melding") String melding,
+    public MinidialogInnslag(@JsonProperty("aktørId") String aktørId, @JsonProperty("tekst") String tekst,
             @JsonProperty("saksnr") String saksnr) {
         this.aktørId = aktørId;
-        this.melding = melding;
+        this.tekst = tekst;
         this.saksnr = saksnr;
+    }
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
     }
 
     public String getFnr() {
@@ -49,20 +66,12 @@ public class MinidialogInnslag {
         this.gyldigTil = gyldigTil;
     }
 
-    public LeveranseKanal getKanal() {
-        return kanal;
-    }
-
-    public void setKanal(LeveranseKanal kanal) {
-        this.kanal = kanal;
-    }
-
     public String getAktørId() {
         return aktørId;
     }
 
-    public String getMelding() {
-        return melding;
+    public String getTekst() {
+        return tekst;
     }
 
     public String getSaksnr() {
@@ -111,9 +120,10 @@ public class MinidialogInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", melding=" + melding + ", saknr="
-                + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", kanal=" + kanal + ", gyldigTil="
-                + gyldigTil + ", handling=" + handling + ", aktiv=" + aktiv + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", janei=" + janei
+                + ", vedlegg=" + vedlegg + ", tekst=" + tekst + ", saksnr=" + saksnr + ", opprettet=" + opprettet
+                + ", endret=" + endret + ", gyldigTil=" + gyldigTil + ", handling=" + handling + ", aktiv=" + aktiv
+                + "]";
     }
 
 }

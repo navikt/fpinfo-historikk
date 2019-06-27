@@ -21,18 +21,22 @@ public class JPAHistorikkInnslag {
     @GeneratedValue(strategy = IDENTITY)
     private int id;
     private String aktørId;
+    private String fnr;
     private String journalpostId;
+    private String saksnr;
     private String tekst;
     @CreatedDate
     private LocalDateTime opprettet;
-    private String saksnr;
 
-    private JPAHistorikkInnslag() {
+    public JPAHistorikkInnslag() {
     }
 
-    public JPAHistorikkInnslag(String aktørId, String tekst) {
-        this.aktørId = aktørId;
-        this.tekst = tekst;
+    public String getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(String fnr) {
+        this.fnr = fnr;
     }
 
     public int getId() {
@@ -85,8 +89,8 @@ public class JPAHistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
-                + ", tekst=" + tekst + ", opprettet=" + opprettet + ", saksnr="
-                + saksnr + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
+                + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + "]";
     }
+
 }

@@ -24,7 +24,9 @@ public final class HistorikkMapper {
 
     static JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
 
-        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag(event.getAktørId(), event.getType().name());
+        JPAHistorikkInnslag innslag = new JPAHistorikkInnslag();
+        innslag.setAktørId(event.getAktørId());
+        innslag.setFnr(event.getFnr());
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
         innslag.setTekst(event.getType().name());

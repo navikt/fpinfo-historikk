@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class InnsendingEvent {
 
     private final String aktørId;
+    private final String fnr;
     private final String journalId;
     private final String referanseId;
     private final String saksNr;
@@ -22,13 +23,15 @@ public class InnsendingEvent {
     private List<String> vedlegg;
 
     @JsonCreator
-    public InnsendingEvent(@JsonProperty("aktørId") String aktørId, @JsonProperty("journalId") String journalId,
+    public InnsendingEvent(@JsonProperty("aktørId") String aktørId, @JsonProperty("fnr") String fnr,
+            @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr, @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
             @JsonProperty("type") SøknadType type, @JsonProperty("versjon") String versjon,
             @JsonProperty("gyldigTil") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate gyldigTil,
             @JsonProperty("vedlegg") List<String> vedlegg) {
         this.aktørId = aktørId;
+        this.fnr = fnr;
         this.journalId = journalId;
         this.referanseId = referanseId;
         this.saksNr = saksNr;
@@ -36,6 +39,14 @@ public class InnsendingEvent {
         this.type = type;
         this.versjon = versjon;
         this.gyldigTil = gyldigTil;
+        this.vedlegg = vedlegg;
+    }
+
+    public String getFnr() {
+        return fnr;
+    }
+
+    public void setVedlegg(List<String> vedlegg) {
         this.vedlegg = vedlegg;
     }
 
