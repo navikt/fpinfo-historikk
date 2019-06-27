@@ -20,16 +20,19 @@ info:
       build:
          time: '@timestamp@'
 
-management:
-    metrics:
+
+management:     
+   metrics:
        web:
           server:
              auto-time-requests: true
-    endpoints:
+   endpoints:
        web:
           exposure:
              include:  info, health, metrics, prometheus
-    health:
+   health:
+      refresh:
+         enabled: false
       diskspace:
          enabled: false
 
