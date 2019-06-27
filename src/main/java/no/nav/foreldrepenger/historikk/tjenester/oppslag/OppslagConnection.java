@@ -42,7 +42,7 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
 
     @Override
     public String name() {
-        return "fpsoknad-oppslag";
+        return pingEndpoint().getHost();
     }
 
     @Override

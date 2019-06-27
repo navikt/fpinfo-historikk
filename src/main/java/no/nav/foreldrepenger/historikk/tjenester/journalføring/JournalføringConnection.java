@@ -51,7 +51,7 @@ public class JournalføringConnection extends AbstractRestConnection implements 
 
     @Override
     public String name() {
-        return "dokarkiv";
+        return pingEndpoint().getHost();
     }
 
     @Override
