@@ -17,6 +17,10 @@ public class OppslagTjeneste {
         return connection.hentAktørId();
     }
 
+    public String hentNavn(String fnr) {
+        return connection.hentNavn(fnr);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[connection=" + connection + "]";

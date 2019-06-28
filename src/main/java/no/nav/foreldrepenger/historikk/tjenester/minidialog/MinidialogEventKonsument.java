@@ -17,12 +17,14 @@ import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
 public class MinidialogEventKonsument {
     private final MinidialogTjeneste minidialog;
+    private final OppslagTjeneste oppslag;
     private final JournalføringTjeneste journalføring;
     private final HistorikkTjeneste historikk;
     private final JacksonUtil mapper;
@@ -30,10 +32,11 @@ public class MinidialogEventKonsument {
 
     private static final CallIdGenerator GEN = new CallIdGenerator();
 
-    public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
+    public MinidialogEventKonsument(HistorikkTjeneste historikk, OppslagTjeneste oppslag, MinidialogTjeneste minidialog,
             JournalføringTjeneste journalføring, PDFGenerator generator,
             JacksonUtil mapper) {
         this.historikk = historikk;
+        this.oppslag = oppslag;
         this.minidialog = minidialog;
         this.journalføring = journalføring;
         this.generator = generator;
@@ -47,7 +50,9 @@ public class MinidialogEventKonsument {
         MDC.put(CALL_ID, callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
-        String id = journalføring.journalfør(journalpostFra(innslag, generator.generate(innslag.getTekst())), true);
+        String id = journalføring.journalfør(
+                journalpostFra(innslag, oppslag.hentNavn(innslag.getFnr()), generator.generate(innslag.getTekst())),
+                true);
         historikk.lagre(innslag, id);
     }
 
