@@ -17,15 +17,6 @@ public class MinidialogInnslag {
     private boolean janei;
     private String vedlegg;
     private String navn;
-
-    public String getNavn() {
-        return navn;
-    }
-
-    public void setNavn(String navn) {
-        this.navn = navn;
-    }
-
     private final String tekst;
     private final String saksnr;
     private LocalDateTime opprettet;
@@ -41,6 +32,14 @@ public class MinidialogInnslag {
         this.aktørId = aktørId;
         this.tekst = tekst;
         this.saksnr = saksnr;
+    }
+
+    public String getNavn() {
+        return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
     }
 
     public void setFnr(String fnr) {
