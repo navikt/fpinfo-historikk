@@ -34,6 +34,12 @@ public abstract class AbstractConfig {
                 .toUri();
     }
 
+    protected HttpHeaders queryParams(String key, String value) {
+        HttpHeaders queryParams = new HttpHeaders();
+        queryParams.add(key, value);
+        return queryParams;
+    }
+
     private static UriComponentsBuilder builder(URI base, String path, HttpHeaders queryParams) {
         return UriComponentsBuilder
                 .fromUri(base)

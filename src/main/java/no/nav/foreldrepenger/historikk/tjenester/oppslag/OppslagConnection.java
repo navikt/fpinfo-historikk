@@ -35,6 +35,10 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
         return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
+    public String hentNavn(String fnr) {
+        return getForObject(cfg.navnURI(fnr), String.class);
+    }
+
     @Override
     public boolean isEnabled() {
         return cfg.isEnabled();
@@ -49,4 +53,5 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
     public String toString() {
         return getClass().getSimpleName() + " [cfg=" + cfg + "]";
     }
+
 }
