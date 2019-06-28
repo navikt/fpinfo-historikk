@@ -16,6 +16,15 @@ public class MinidialogInnslag {
     private String fnr;
     private boolean janei;
     private String vedlegg;
+    private String navn;
+
+    public String getNavn() {
+        return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
 
     private final String tekst;
     private final String saksnr;
@@ -121,9 +130,9 @@ public class MinidialogInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", janei=" + janei
-                + ", vedlegg=" + vedlegg + ", tekst=" + tekst + ", saksnr=" + saksnr + ", opprettet=" + opprettet
-                + ", endret=" + endret + ", gyldigTil=" + gyldigTil + ", handling=" + handling + ", aktiv=" + aktiv
-                + "]";
+                + ", vedlegg=" + vedlegg + ", navn=" + navn + ", tekst=" + tekst + ", saksnr=" + saksnr + ", opprettet="
+                + opprettet + ", endret=" + endret + ", gyldigTil=" + gyldigTil + ", handling=" + handling + ", aktiv="
+                + aktiv + "]";
     }
 
 }
