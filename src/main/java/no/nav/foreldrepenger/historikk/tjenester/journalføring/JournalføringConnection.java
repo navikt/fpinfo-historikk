@@ -5,19 +5,15 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalst
 
 import java.net.URI;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
-import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 
 @Component
 public class JournalføringConnection extends AbstractRestConnection implements PingEndpointAware {
-    private static final Logger LOG = LoggerFactory.getLogger(JournalføringConnection.class);
     private final JournalføringConfig cfg;
 
     public JournalføringConnection(@Qualifier(DOKARKIV) RestOperations restOperations,
@@ -36,12 +32,11 @@ public class JournalføringConnection extends AbstractRestConnection implements 
                 JournalføringRespons.class);
         if (respons != null) {
             if (!respons.getJournalstatus().equals(ENDELIG)) {
-                throw new UnexpectedResponseException(
-                        "Respons status" + respons.getJournalstatus() + " (" + respons.getMelding() + ")");
+                return null;
             }
             return respons.getJournalpostId();
         }
-        throw new UnexpectedResponseException("Fikk ingen respons fra " + cfg.journalpostURI(sluttfør));
+        return null;
     }
 
     @Override
