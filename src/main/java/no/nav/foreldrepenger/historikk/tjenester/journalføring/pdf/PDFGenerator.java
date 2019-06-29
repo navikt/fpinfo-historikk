@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedInputException;
 @Component
 public class PDFGenerator {
 
-    public byte[] generate(String tekst) {
+    public byte[] generate(String overskrift, String tekst) {
 
         try (PDDocument document = new PDDocument();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream()) {

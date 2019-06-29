@@ -51,7 +51,7 @@ public class MinidialogEventKonsument {
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
         String id = journalføring.sluttfør(
-                journalpostFra(innslag, generator.generate(innslag.getTekst())));
+                journalpostFra(innslag, generator.generate("Overskrift TBD", innslag.getTekst())));
         historikk.lagre(innslag, id);
     }
 

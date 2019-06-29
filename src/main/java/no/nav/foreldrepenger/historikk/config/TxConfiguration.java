@@ -8,7 +8,9 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 
@@ -21,13 +23,13 @@ public class TxConfiguration {
     @Primary
     @Bean(name = "transactionManager")
     public ChainedTransactionManager chainedTM(JpaTransactionManager jpaTM,
-            KafkaTransactionManager<String, String> kafkaTM) {
+            KafkaTransactionManager<Object, Object> kafkaTM) {
         return new ChainedTransactionManager(kafkaTM, jpaTM);
     }
 
     @Bean(name = KAFKA_TM)
-    public KafkaTransactionManager<String, String> kafkaTM(ProducerFactory<String, String> pf) {
-        KafkaTransactionManager<String, String> tm = new KafkaTransactionManager<>(pf);
+    public KafkaTransactionManager<Object, Object> kafkaTM(ProducerFactory<Object, Object> pf) {
+        KafkaTransactionManager<Object, Object> tm = new KafkaTransactionManager<>(pf);
         tm.setNestedTransactionAllowed(true);
         return tm;
     }
@@ -37,11 +39,18 @@ public class TxConfiguration {
         return new JpaTransactionManager();
     }
 
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory(
-            ConsumerFactory<String, String> cf, KafkaTransactionManager<String, String> tm) {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
+            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm) {
+        ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.getContainerProperties().setTransactionManager(tm);
         return factory;
+    }
+
+    @Bean
+    public AfterRollbackProcessor<Object, Object> rollbackProcessor() {
+        return new DefaultAfterRollbackProcessor<>((record, exception) -> {
+        }, 1);
     }
 }
