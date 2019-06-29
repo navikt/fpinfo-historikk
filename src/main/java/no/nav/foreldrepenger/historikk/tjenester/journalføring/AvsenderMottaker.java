@@ -9,7 +9,7 @@ public class AvsenderMottaker {
     private final String navn;
 
     public AvsenderMottaker(String id, String navn) {
-        this(id, FNR, null);
+        this(id, FNR, navn);
     }
 
     public AvsenderMottaker(String id, IdType idType, String navn) {
