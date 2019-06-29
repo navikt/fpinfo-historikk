@@ -10,6 +10,8 @@ import no.nav.foreldrepenger.historikk.util.Pair;
 
 public class Journalpost {
 
+    private static final String AUTOMATISK = "9999";
+    private static final String FORELDREPENGER = "FOR";
     private final JournalpostType journalpostType;
     private final AvsenderMottaker avsenderMottaker;
     private final Bruker bruker;
@@ -37,10 +39,10 @@ public class Journalpost {
         this.journalpostType = journalpostType;
         this.avsenderMottaker = avsenderMotaker;
         this.bruker = bruker;
-        this.tema = "FOR";
+        this.tema = FORELDREPENGER;
         this.behandlingstema = behandlingstema;
         this.tittel = tittel;
-        this.journalfoerendeEnhet = "9999";
+        this.journalfoerendeEnhet = AUTOMATISK;
         this.eksternReferanseId = MDCUtil.callIdOrNew();
         this.tilleggsopplysninger = tilleggsopplysninger;
         this.sak = sak;
