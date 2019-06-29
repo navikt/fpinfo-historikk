@@ -31,19 +31,23 @@ public abstract class AbstractRestConnection {
         return getForObject(uri, responseType, false);
     }
 
-    protected <T> ResponseEntity<T> postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
+    protected <T> T postForEntity(URI uri, Object payload, Class<T> responseType) {
+        return postForEntity(uri, new HttpEntity<>(payload), responseType);
+    }
+
+    protected <T> T postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
         if (!isEnabled) {
+            LOG.info("Service er ikke aktiv, poster ikke til {}", uri);
             return null;
         }
         ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
-        if (respons.hasBody()) {
-            LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
-        }
-        return respons;
+        LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
+        return respons.getBody();
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled) {
+            LOG.info("Service er ikke aktiv, henter ikke fra {}", uri);
             return null;
         }
         try {
@@ -61,20 +65,20 @@ public abstract class AbstractRestConnection {
         }
     }
 
-    protected <T> ResponseEntity<T> getForEntity(URI uri, Class<T> responseType) {
+    protected <T> T getForEntity(URI uri, Class<T> responseType) {
         return getForEntity(uri, responseType, true);
     }
 
-    protected <T> ResponseEntity<T> getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
+    protected <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled) {
+            LOG.info("Service er ikke aktiv, henter ikke entitet fra {}", uri);
             return null;
         }
         try {
             ResponseEntity<T> respons = restOperations.getForEntity(uri, responseType);
-            if (respons.hasBody()) {
-                LOG.trace(CONFIDENTIAL, RESPONS, respons.getBody());
-            }
-            return respons;
+            LOG.trace(CONFIDENTIAL, RESPONS, respons.getBody());
+            return respons.getBody();
+
         } catch (HttpClientErrorException e) {
             if (NOT_FOUND.equals(e.getStatusCode()) && !doThrow) {
                 LOG.info("Fant ingen entity, returnerer null");
