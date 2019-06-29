@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import javax.inject.Inject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -11,14 +13,20 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
+import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class TxConfiguration {
 
     public static final String KAFKA_TM = "kafkaTM";
     public static final String JPA_TM = "jpaTM";
+
+    @Inject
+    private ObjectMapper mapper;
 
     @Primary
     @Bean(name = "transactionManager")
@@ -44,6 +52,7 @@ public class TxConfiguration {
             ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm) {
         ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
+        factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setTransactionManager(tm);
         return factory;
     }
