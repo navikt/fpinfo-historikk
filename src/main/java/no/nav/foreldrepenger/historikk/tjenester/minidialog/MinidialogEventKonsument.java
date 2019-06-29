@@ -50,15 +50,15 @@ public class MinidialogEventKonsument {
         MDC.put(CALL_ID, callId());
         MinidialogInnslag innslag = mapper.convertTo(json, MinidialogInnslag.class);
         minidialog.lagre(innslag);
-        String id = journalføring.journalfør(
-                journalpostFra(innslag,
-                        generator.generate(innslag.getTekst())),
-                true);
+        String id = journalføring.sluttfør(
+                journalpostFra(innslag, generator.generate(innslag.getTekst())));
         historikk.lagre(innslag, id);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + minidialog + ", mapper=" + mapper + "]";
+        return getClass().getSimpleName() + "[minidialog=" + minidialog + ", oppslag=" + oppslag + ", journalføring="
+                + journalføring + ", historikk=" + historikk + ", mapper=" + mapper + ", generator=" + generator + "]";
     }
+
 }

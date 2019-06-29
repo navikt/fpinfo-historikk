@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,11 +18,11 @@ public class JournalføringTjeneste {
         this.connection = connection;
     }
 
-    public String journalfør(Journalpost journalpost, boolean sluttfør) {
+    public String sluttfør(Journalpost journalpost) {
         LOG.info("Oppretter journalpost {}", journalpost);
-        return Optional.ofNullable(connection.opprettJournalpost(journalpost, sluttfør))
-                .map(JournalføringRespons::getJournalpostId)
-                .orElse(null);
+        String id = connection.opprettJournalpost(journalpost, true);
+        LOG.info("Opprettet journalpost med id {} OK", id);
+        return id;
     }
 
     @Override
