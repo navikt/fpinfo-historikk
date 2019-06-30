@@ -8,11 +8,12 @@ import java.util.List;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 import no.nav.security.oidc.api.Unprotected;
 
@@ -30,18 +31,19 @@ public class MinidialogPreprodController {
     }
 
     @GetMapping("/aktive")
-    public List<MinidialogInnslag> hentAktiveDialogerForAktør(@RequestParam("aktørId") AktørId aktørId) {
-        return minidialog.hentAktiveDialogerForAktør(aktørId);
+    public List<MinidialogInnslag> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
+        return minidialog.hentAktiveDialogerForFnr(fnr);
     }
 
     @PostMapping("/produser")
-    public void produser(MinidialogInnslag hendelse) {
+    public void produser(@RequestBody MinidialogInnslag hendelse) {
         produsent.sendMinidialogHendelse(hendelse);
     }
 
     @PostMapping("/merk")
-    public int deaktiverMinidialoger(AktørId aktørId, Hendelse type) {
-        return minidialog.deaktiver(aktørId.getAktørId(), type);
+    public int deaktiverMinidialoger(@RequestParam("fnr") Fødselsnummer fnr,
+            @RequestParam("hendelse") Hendelse hendelse) {
+        return minidialog.deaktiver(fnr, hendelse);
     }
 
     @Override

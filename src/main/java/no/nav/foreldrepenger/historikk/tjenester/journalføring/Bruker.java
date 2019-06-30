@@ -1,17 +1,18 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BrukerIdType.FNR;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BrukerIdType.ORGNR;
+
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 public class Bruker {
     private final BrukerIdType idType;
-    private final String id;
+    private final Fødselsnummer id;
 
-    public Bruker(String id) {
-        this(id.length() == 11 ? FNR : ORGNR, id);
+    public Bruker(Fødselsnummer id) {
+        this(FNR, id);
     }
 
-    private Bruker(BrukerIdType idType, String id) {
+    private Bruker(BrukerIdType idType, Fødselsnummer id) {
         this.idType = idType;
         this.id = id;
     }
@@ -20,7 +21,7 @@ public class Bruker {
         return idType;
     }
 
-    public String getId() {
+    public Fødselsnummer getId() {
         return id;
     }
 

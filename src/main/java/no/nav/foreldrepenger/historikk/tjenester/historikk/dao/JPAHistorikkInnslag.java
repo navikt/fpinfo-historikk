@@ -4,6 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,9 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+
 @Entity
 @Table(name = "historikk")
 @EntityListeners(AuditingEntityListener.class)
@@ -20,8 +24,10 @@ public class JPAHistorikkInnslag {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
-    private String aktørId;
-    private String fnr;
+    @Embedded
+    private AktørId aktørId;
+    @Embedded
+    private Fødselsnummer fnr;
     private String journalpostId;
     private String saksnr;
     private String tekst;
@@ -31,11 +37,11 @@ public class JPAHistorikkInnslag {
     public JPAHistorikkInnslag() {
     }
 
-    public String getFnr() {
+    public Fødselsnummer getFnr() {
         return fnr;
     }
 
-    public void setFnr(String fnr) {
+    public void setFnr(Fødselsnummer fnr) {
         this.fnr = fnr;
     }
 
@@ -47,11 +53,11 @@ public class JPAHistorikkInnslag {
         this.id = id;
     }
 
-    public String getAktørId() {
+    public AktørId getAktørId() {
         return aktørId;
     }
 
-    public void setAktørId(String aktørId) {
+    public void setAktørId(AktørId aktørId) {
         this.aktørId = aktørId;
     }
 

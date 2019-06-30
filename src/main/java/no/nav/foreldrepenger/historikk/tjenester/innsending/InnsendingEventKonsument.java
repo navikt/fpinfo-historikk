@@ -8,37 +8,30 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 public class InnsendingEventKonsument {
-    private static final CallIdGenerator GEN = new CallIdGenerator();
 
     private final HistorikkTjeneste historikk;
     private final MinidialogTjeneste dialog;
-    private final JacksonUtil mapper;
 
-    public InnsendingEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste dialog, JacksonUtil mapper) {
+    public InnsendingEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
-        this.mapper = mapper;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(String json, @Header(required = false, value = NAV_CALL_ID) String callId) {
-        MDC.put(NAV_CALL_ID, GEN.create());
-        InnsendingEvent event = mapper.convertTo(json, InnsendingEvent.class);
+    public void listen(InnsendingEvent event, @Header(required = false, value = NAV_CALL_ID) String callId) {
+        MDC.put(NAV_CALL_ID, event.getReferanseId());
         historikk.lagre(event);
-        dialog.deaktiverMinidialoger(event.getAktørId(), event.getType(), event.getSaksNr());
+        dialog.deaktiverMinidialoger(event.getFnr(), event.getHendelse(), event.getSaksNr());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[historikk=" + historikk + ", dialog=" + dialog + ", mapper=" + mapper
-                + "]";
+        return getClass().getSimpleName() + "[historikk=" + historikk + ", dialog=" + dialog + "]";
     }
 }

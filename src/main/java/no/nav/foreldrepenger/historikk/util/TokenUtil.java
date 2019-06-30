@@ -49,7 +49,7 @@ public class TokenUtil {
     }
 
     public Fødselsnummer autentisertFNR() {
-        return new Fødselsnummer(autentisertBruker());
+        return Fødselsnummer.valueOf(autentisertBruker());
     }
 
     private static Supplier<? extends OIDCTokenValidatorException> unauthenticated(String msg) {

@@ -6,11 +6,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 public class HistorikkInnslag {
 
     private final AktørId aktørId;
-    private String fnr;
+    private Fødselsnummer fnr;
 
     private String journalpostId;
     private String saksnr;
@@ -27,11 +28,11 @@ public class HistorikkInnslag {
         return aktørId;
     }
 
-    public String getFnr() {
+    public Fødselsnummer getFnr() {
         return fnr;
     }
 
-    public void setFnr(String fnr) {
+    public void setFnr(Fødselsnummer fnr) {
         this.fnr = fnr;
     }
 

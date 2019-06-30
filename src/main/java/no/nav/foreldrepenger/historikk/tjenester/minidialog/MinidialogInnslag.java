@@ -9,13 +9,15 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
 public class MinidialogInnslag {
 
     private long id;
-    private final String aktørId;
-    private String fnr;
+    private final AktørId aktørId;
+    private Fødselsnummer fnr;
     private boolean janei;
     private String vedlegg;
     private String navn;
@@ -29,7 +31,7 @@ public class MinidialogInnslag {
     private boolean aktiv;
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("aktørId") String aktørId, @JsonProperty("tekst") String tekst,
+    public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst,
             @JsonProperty("saksnr") String saksnr) {
         this.aktørId = aktørId;
         this.tekst = tekst;
@@ -44,11 +46,11 @@ public class MinidialogInnslag {
         this.navn = navn;
     }
 
-    public void setFnr(String fnr) {
+    public void setFnr(Fødselsnummer fnr) {
         this.fnr = fnr;
     }
 
-    public String getFnr() {
+    public Fødselsnummer getFnr() {
         return fnr;
     }
 
@@ -60,7 +62,7 @@ public class MinidialogInnslag {
         this.gyldigTil = gyldigTil;
     }
 
-    public String getAktørId() {
+    public AktørId getAktørId() {
         return aktørId;
     }
 

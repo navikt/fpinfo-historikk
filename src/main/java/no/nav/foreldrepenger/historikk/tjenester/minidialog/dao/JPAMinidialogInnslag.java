@@ -6,6 +6,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
@@ -17,6 +19,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
 @Entity
@@ -27,13 +31,16 @@ public class JPAMinidialogInnslag {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
-    private String aktørId;
-    private String fnr;
+    @Embedded
+    private AktørId aktørId;
+    @Embedded
+    private Fødselsnummer fnr;
     private boolean janei;
     private String vedlegg;
     private String tekst;
     private LocalDate gyldigTil;
     @Enumerated(STRING)
+    @Column(name = "handling")
     private Hendelse hendelse;
     private String saksnr;
     @CreatedDate
@@ -45,11 +52,11 @@ public class JPAMinidialogInnslag {
     public JPAMinidialogInnslag() {
     }
 
-    public String getFnr() {
+    public Fødselsnummer getFnr() {
         return fnr;
     }
 
-    public void setFnr(String fnr) {
+    public void setFnr(Fødselsnummer fnr) {
         this.fnr = fnr;
     }
 
@@ -93,7 +100,7 @@ public class JPAMinidialogInnslag {
         this.endret = endret;
     }
 
-    public String getAktørId() {
+    public AktørId getAktørId() {
         return aktørId;
     }
 
@@ -121,7 +128,7 @@ public class JPAMinidialogInnslag {
         this.id = id;
     }
 
-    public void setAktørId(String aktørId) {
+    public void setAktørId(AktørId aktørId) {
         this.aktørId = aktørId;
     }
 
