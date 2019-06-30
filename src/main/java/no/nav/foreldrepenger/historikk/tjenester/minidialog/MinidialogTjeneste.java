@@ -40,7 +40,7 @@ public class MinidialogTjeneste {
         LOG.info("Deaktiverer minidialoger for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(fnr, hendelse, saksnr);
-            LOG.info("Deaktiverte {} minidialoger for sak {}", hendelse, saksnr);
+            LOG.info("Deaktiverte {} minidialoger for sak {} etter hendelse {}", n, saksnr, hendelse);
             return n;
         }
         int n = dao.deaktiver(fnr, hendelse);
@@ -55,29 +55,24 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
-        return hentDialoger(fnr);
+    public List<MinidialogInnslag> hentMineAktiveDialoger() {
+        return hentAktiveDialogerForFnr(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentMineAktiveDialoger() {
-        LOG.info("Hentet aktive dialoger");
-        List<MinidialogInnslag> dialoger = hentDialoger(tokenUtil.autentisertFNR());
+    public List<MinidialogInnslag> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
+        LOG.info("Henter aktive dialoger for {}", fnr);
+        List<MinidialogInnslag> dialoger = mapAndCollect(
+                dao.findAll(
+                        where(harFnr(fnr)
+                                .and((erGyldig().or(erGyldigTilNull())))
+                                .and(erAktiv()))));
         LOG.info("Hentet dialoger {}", dialoger);
         return dialoger;
-
     }
 
     int deaktiver(Fødselsnummer fnr, Hendelse type) {
         return dao.deaktiver(fnr, type);
-    }
-
-    private List<MinidialogInnslag> hentDialoger(Fødselsnummer fødselsnummer) {
-        return mapAndCollect(
-                dao.findAll(
-                        where(harFnr(fødselsnummer)
-                                .and((erGyldig().or(erGyldigTilNull())))
-                                .and(erAktiv()))));
     }
 
     private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {

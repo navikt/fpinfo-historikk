@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.config;
 
 public final class Constants {
+    public static final String SELVBETJENING = "selvbetjening";
     public static final String UKJENT_KODEVERKSVERDI = "-";
     public static final String NAV_CONSUMER_ID = "Nav-Consumer-Id";
     public static final String NAV_CALL_ID = "Nav-CallId";

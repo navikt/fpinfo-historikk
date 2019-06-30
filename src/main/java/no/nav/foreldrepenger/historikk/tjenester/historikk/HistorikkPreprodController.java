@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingEvent;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogEventProdusent;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -24,17 +23,14 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 @Api(value = "Endpoint for message management", protocols = "http,https")
 public class HistorikkPreprodController {
-    private final MinidialogEventProdusent produsent;
     private final HistorikkTjeneste historikk;
 
-    HistorikkPreprodController(MinidialogEventProdusent produsent,
-            HistorikkTjeneste historikk) {
-        this.produsent = produsent;
+    HistorikkPreprodController(HistorikkTjeneste historikk) {
         this.historikk = historikk;
     }
 
     @PostMapping("/historikk/lagre")
-    public void lagreHistorikk(InnsendingEvent event) {
+    public void lagreHistorikk(SøknadInnsendingEvent event) {
         historikk.lagre(event);
     }
 
@@ -45,6 +41,6 @@ public class HistorikkPreprodController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [produsent=" + produsent + "]";
+        return getClass().getSimpleName() + " [historikk=" + historikk + "]";
     }
 }

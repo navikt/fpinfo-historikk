@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkRepository;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
@@ -37,7 +37,7 @@ public class HistorikkTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public void lagre(InnsendingEvent event) {
+    public void lagre(SøknadInnsendingEvent event) {
         if (event != null) {
             LOG.info("Lagrer historikkinnslag fra innsending av {}", event);
             dao.save(fraEvent(event));

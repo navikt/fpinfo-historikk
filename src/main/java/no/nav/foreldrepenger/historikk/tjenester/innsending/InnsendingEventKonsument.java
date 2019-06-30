@@ -24,7 +24,7 @@ public class InnsendingEventKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(InnsendingEvent event, @Header(required = false, value = NAV_CALL_ID) String callId) {
+    public void listen(SøknadInnsendingEvent event, @Header(required = false, value = NAV_CALL_ID) String callId) {
         MDC.put(NAV_CALL_ID, event.getReferanseId());
         historikk.lagre(event);
         dialog.deaktiverMinidialoger(event.getFnr(), event.getHendelse(), event.getSaksNr());

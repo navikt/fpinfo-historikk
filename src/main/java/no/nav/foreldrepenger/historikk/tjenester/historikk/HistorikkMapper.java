@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingEvent;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
 
 public final class HistorikkMapper {
 
@@ -29,7 +29,7 @@ public final class HistorikkMapper {
         return innslag;
     }
 
-    static JPAHistorikkInnslag fraEvent(InnsendingEvent event) {
+    static JPAHistorikkInnslag fraEvent(SøknadInnsendingEvent event) {
         LOG.info("Mapper fra event {}", event);
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag();
         innslag.setAktørId(event.getAktørId());
