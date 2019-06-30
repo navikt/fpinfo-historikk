@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog.dao;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,6 +16,8 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
 
 @Entity
 @Table(name = "minidialog")
@@ -29,7 +33,8 @@ public class JPAMinidialogInnslag {
     private String vedlegg;
     private String tekst;
     private LocalDate gyldigTil;
-    private String handling;
+    @Enumerated(STRING)
+    private SøknadType handling;
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
@@ -104,11 +109,11 @@ public class JPAMinidialogInnslag {
         return saksnr;
     }
 
-    public String getHandling() {
+    public SøknadType getHandling() {
         return handling;
     }
 
-    public void setHandling(String handling) {
+    public void setHandling(SøknadType handling) {
         this.handling = handling;
     }
 

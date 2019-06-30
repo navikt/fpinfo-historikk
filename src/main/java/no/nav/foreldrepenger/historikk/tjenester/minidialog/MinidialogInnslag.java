@@ -9,6 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
+
 public class MinidialogInnslag {
 
     private long id;
@@ -23,7 +25,7 @@ public class MinidialogInnslag {
     private LocalDateTime endret;
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate gyldigTil;
-    private String handling;
+    private SøknadType handling;
     private boolean aktiv;
 
     @JsonCreator
@@ -102,11 +104,11 @@ public class MinidialogInnslag {
         this.aktiv = aktiv;
     }
 
-    public String getHandling() {
+    public SøknadType getHandling() {
         return handling;
     }
 
-    public void setHandling(String handling) {
+    public void setHandling(SøknadType handling) {
         this.handling = handling;
     }
 
