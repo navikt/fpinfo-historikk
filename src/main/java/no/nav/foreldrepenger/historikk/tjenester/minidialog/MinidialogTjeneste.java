@@ -38,11 +38,11 @@ public class MinidialogTjeneste {
     public int deaktiverMinidialoger(String aktørId, SøknadType type, String saksnr) {
         LOG.info("Deaktiverer minidialoger for {}", type);
         if (type.erEttersending()) {
-            int n = dao.deaktiverSak(aktørId, type.name(), saksnr);
+            int n = dao.deaktiverSak(aktørId, type, saksnr);
             LOG.info("Deaktiverte {} minidialoger for sak {}", type, saksnr);
             return n;
         }
-        int n = dao.deaktiver(aktørId, type.name());
+        int n = dao.deaktiver(aktørId, type);
         LOG.info("Deaktiverte {} minidialoger for {}", n, type);
         return n;
     }
@@ -68,7 +68,7 @@ public class MinidialogTjeneste {
     }
 
     int deaktiver(String aktørId, SøknadType type) {
-        return dao.deaktiver(aktørId, type.name());
+        return dao.deaktiver(aktørId, type);
     }
 
     private List<MinidialogInnslag> hentDialoger(AktørId aktørId) {
