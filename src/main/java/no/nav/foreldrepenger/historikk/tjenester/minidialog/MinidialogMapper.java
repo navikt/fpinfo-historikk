@@ -24,6 +24,7 @@ public final class MinidialogMapper {
     }
 
     static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
+        LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
         dialog.setAktørId(m.getAktørId());
         dialog.setFnr(m.getFnr());
@@ -34,6 +35,7 @@ public final class MinidialogMapper {
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setHandling(m.getHandling());
         dialog.setAktiv(m.isAktiv());
+        LOG.info("Mappet til {}", dialog);
         return dialog;
     }
 
@@ -50,6 +52,7 @@ public final class MinidialogMapper {
         LOG.info("Mapper fra innslag {}", i);
         MinidialogInnslag innslag = new MinidialogInnslag(i.getAktørId(), i.getTekst(), i.getSaksnr());
         innslag.setEndret(i.getEndret());
+        innslag.setFnr(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setId(i.getId());
         innslag.setGyldigTil(i.getGyldigTil());

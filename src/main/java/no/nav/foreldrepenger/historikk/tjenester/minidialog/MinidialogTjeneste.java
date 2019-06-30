@@ -5,7 +5,8 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.harAktør;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erGyldigTilNull;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -15,11 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogRepository;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
@@ -28,21 +29,21 @@ public class MinidialogTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
     private final MinidialogRepository dao;
-    private final OppslagTjeneste oppslag;
+    private final TokenUtil tokenUtil;
 
-    public MinidialogTjeneste(MinidialogRepository dao, OppslagTjeneste oppslag) {
+    public MinidialogTjeneste(MinidialogRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
-        this.oppslag = oppslag;
+        this.tokenUtil = tokenUtil;
     }
 
-    public int deaktiverMinidialoger(String aktørId, Hendelse hendelse, String saksnr) {
-        LOG.info("Deaktiverer minidialoger for {} etter hendelse {}", aktørId, hendelse);
+    public int deaktiverMinidialoger(Fødselsnummer fnr, Hendelse hendelse, String saksnr) {
+        LOG.info("Deaktiverer minidialoger for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
-            int n = dao.deaktiverSak(aktørId, hendelse, saksnr);
+            int n = dao.deaktiverSak(fnr, hendelse, saksnr);
             LOG.info("Deaktiverte {} minidialoger for sak {}", hendelse, saksnr);
             return n;
         }
-        int n = dao.deaktiver(aktørId, hendelse);
+        int n = dao.deaktiver(fnr, hendelse);
         LOG.info("Deaktiverte {} minidialoger for {}", n, hendelse);
         return n;
     }
@@ -54,28 +55,28 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogerForAktør(AktørId aktørId) {
-        return hentDialoger(aktørId);
+    public List<MinidialogInnslag> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
+        return hentDialoger(fnr);
     }
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentMineAktiveDialoger() {
         LOG.info("Hentet aktive dialoger");
-        List<MinidialogInnslag> dialoger = hentDialoger(oppslag.hentAktørId());
+        List<MinidialogInnslag> dialoger = hentDialoger(tokenUtil.autentisertFNR());
         LOG.info("Hentet dialoger {}", dialoger);
         return dialoger;
 
     }
 
-    int deaktiver(String aktørId, Hendelse type) {
-        return dao.deaktiver(aktørId, type);
+    int deaktiver(Fødselsnummer fnr, Hendelse type) {
+        return dao.deaktiver(fnr, type);
     }
 
-    private List<MinidialogInnslag> hentDialoger(AktørId aktørId) {
+    private List<MinidialogInnslag> hentDialoger(Fødselsnummer fødselsnummer) {
         return mapAndCollect(
                 dao.findAll(
-                        where(harAktør(aktørId)
-                                .and(erGyldig())
+                        where(harFnr(fødselsnummer)
+                                .and((erGyldig().or(erGyldigTilNull())))
                                 .and(erAktiv()))));
     }
 
@@ -88,7 +89,7 @@ public class MinidialogTjeneste {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [dao=" + dao + ", oppslag=" + oppslag + "]";
+        return getClass().getSimpleName() + " [dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
 
 }

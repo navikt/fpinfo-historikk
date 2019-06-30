@@ -1,15 +1,20 @@
 package no.nav.foreldrepenger.historikk.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
+
+import javax.persistence.Embeddable;
+
 import com.fasterxml.jackson.annotation.JsonValue;
 
+@Embeddable
 public class AktørId {
 
-    private final String aktørId;
+    private String aktørId;
 
-    @JsonCreator
-    public AktørId(@JsonProperty("aktørId") String aktørId) {
+    public AktørId() {
+    }
+
+    public void setAktørId(String aktørId) {
         this.aktørId = aktørId;
     }
 
@@ -19,7 +24,32 @@ public class AktørId {
     }
 
     public static AktørId valueOf(String aktørId) {
-        return new AktørId(aktørId);
+        AktørId id = new AktørId();
+        id.setAktørId(aktørId);
+        return id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(aktørId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AktørId other = (AktørId) obj;
+        if (aktørId == null) {
+            if (other.aktørId != null)
+                return false;
+        } else if (!aktørId.equals(other.aktørId))
+            return false;
+        return true;
     }
 
     @Override

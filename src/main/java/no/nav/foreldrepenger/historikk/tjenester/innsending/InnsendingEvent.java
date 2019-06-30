@@ -9,40 +9,43 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+
 public class InnsendingEvent {
 
-    private final String aktørId;
-    private final String fnr;
+    private final AktørId aktørId;
+    private final Fødselsnummer fnr;
     private final String journalId;
     private final String referanseId;
     private final String saksNr;
     private final LeveranseStatus leveranseStatus;
-    private final Hendelse type;
-    private final String versjon;
+    private final Hendelse hendelse;
     private final LocalDate gyldigTil;
     private List<String> vedlegg;
 
     @JsonCreator
-    public InnsendingEvent(@JsonProperty("aktørId") String aktørId, @JsonProperty("fnr") String fnr,
+    public InnsendingEvent(@JsonProperty("aktørId") String aktørId,
+            @JsonProperty("fnr") String fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
-            @JsonProperty("saksNr") String saksNr, @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
-            @JsonProperty("type") Hendelse type, @JsonProperty("versjon") String versjon,
+            @JsonProperty("saksNr") String saksNr,
+            @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
+            @JsonProperty("hendelse") Hendelse hendelse,
             @JsonProperty("gyldigTil") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate gyldigTil,
             @JsonProperty("vedlegg") List<String> vedlegg) {
-        this.aktørId = aktørId;
-        this.fnr = fnr;
+        this.aktørId = AktørId.valueOf(aktørId);
+        this.fnr = Fødselsnummer.valueOf(fnr);
         this.journalId = journalId;
         this.referanseId = referanseId;
         this.saksNr = saksNr;
         this.leveranseStatus = leveranseStatus;
-        this.type = type;
-        this.versjon = versjon;
+        this.hendelse = hendelse;
         this.gyldigTil = gyldigTil;
         this.vedlegg = vedlegg;
     }
 
-    public String getFnr() {
+    public Fødselsnummer getFnr() {
         return fnr;
     }
 
@@ -54,7 +57,7 @@ public class InnsendingEvent {
         return gyldigTil;
     }
 
-    public String getAktørId() {
+    public AktørId getAktørId() {
         return aktørId;
     }
 
@@ -74,12 +77,8 @@ public class InnsendingEvent {
         return leveranseStatus;
     }
 
-    public Hendelse getType() {
-        return type;
-    }
-
-    public String getVersjon() {
-        return versjon;
+    public Hendelse getHendelse() {
+        return hendelse;
     }
 
     public List<String> getVedlegg() {
@@ -88,14 +87,13 @@ public class InnsendingEvent {
 
     @JsonIgnore
     public boolean erEttersending() {
-        return getType().erEttersending();
+        return getHendelse().erEttersending();
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[aktørId=" + aktørId + ", fnr=" + fnr + ", journalId=" + journalId
                 + ", referanseId=" + referanseId + ", saksNr=" + saksNr + ", leveranseStatus=" + leveranseStatus
-                + ", type=" + type + ", versjon=" + versjon + ", gyldigTil=" + gyldigTil + ", vedlegg=" + vedlegg + "]";
+                + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", vedlegg=" + vedlegg + "]";
     }
-
 }
