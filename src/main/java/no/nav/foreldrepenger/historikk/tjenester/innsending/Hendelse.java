@@ -4,7 +4,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Behandlin
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDREPENGER;
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
-public enum SøknadType {
+public enum Hendelse {
     INITIELL_ENGANGSSTØNAD,
     INITIELL_FORELDREPENGER,
     INITIELL_SVANGERSKAPSPENGER,

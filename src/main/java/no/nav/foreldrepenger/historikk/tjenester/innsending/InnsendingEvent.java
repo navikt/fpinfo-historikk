@@ -17,7 +17,7 @@ public class InnsendingEvent {
     private final String referanseId;
     private final String saksNr;
     private final LeveranseStatus leveranseStatus;
-    private final SøknadType type;
+    private final Hendelse type;
     private final String versjon;
     private final LocalDate gyldigTil;
     private List<String> vedlegg;
@@ -27,7 +27,7 @@ public class InnsendingEvent {
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr, @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
-            @JsonProperty("type") SøknadType type, @JsonProperty("versjon") String versjon,
+            @JsonProperty("type") Hendelse type, @JsonProperty("versjon") String versjon,
             @JsonProperty("gyldigTil") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate gyldigTil,
             @JsonProperty("vedlegg") List<String> vedlegg) {
         this.aktørId = aktørId;
@@ -74,7 +74,7 @@ public class InnsendingEvent {
         return leveranseStatus;
     }
 
-    public SøknadType getType() {
+    public Hendelse getType() {
         return type;
     }
 

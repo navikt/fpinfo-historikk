@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -40,7 +40,7 @@ public class MinidialogPreprodController {
     }
 
     @PostMapping("/merk")
-    public int deaktiverMinidialoger(AktørId aktørId, SøknadType type) {
+    public int deaktiverMinidialoger(AktørId aktørId, Hendelse type) {
         return minidialog.deaktiver(aktørId.getAktørId(), type);
     }
 

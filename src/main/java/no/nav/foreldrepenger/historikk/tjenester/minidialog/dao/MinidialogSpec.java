@@ -4,12 +4,12 @@ import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.aktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.aktørId;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.gyldigTil;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.handling;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.hendelse;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
 public final class MinidialogSpec {
 
@@ -29,8 +29,8 @@ public final class MinidialogSpec {
         return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), aktør.getAktørId());
     }
 
-    public static Specification<JPAMinidialogInnslag> harHandling(SøknadType type) {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(handling), type.name());
+    public static Specification<JPAMinidialogInnslag> harHandling(Hendelse h) {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(hendelse), h);
     }
 
 }
