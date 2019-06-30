@@ -17,7 +17,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadType;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
 @Entity
 @Table(name = "minidialog")
@@ -34,7 +34,7 @@ public class JPAMinidialogInnslag {
     private String tekst;
     private LocalDate gyldigTil;
     @Enumerated(STRING)
-    private SøknadType handling;
+    private Hendelse hendelse;
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
@@ -109,12 +109,12 @@ public class JPAMinidialogInnslag {
         return saksnr;
     }
 
-    public SøknadType getHandling() {
-        return handling;
+    public Hendelse getHendelse() {
+        return hendelse;
     }
 
-    public void setHandling(SøknadType handling) {
-        this.handling = handling;
+    public void setHandling(Hendelse hendelse) {
+        this.hendelse = hendelse;
     }
 
     public void setId(int id) {
@@ -144,7 +144,7 @@ public class JPAMinidialogInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", janei=" + janei
-                + ", vedlegg=" + vedlegg + ", tekst=" + tekst + ", gyldigTil=" + gyldigTil + ", handling=" + handling
+                + ", vedlegg=" + vedlegg + ", tekst=" + tekst + ", gyldigTil=" + gyldigTil + ", hendelse=" + hendelse
                 + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
     }
 
