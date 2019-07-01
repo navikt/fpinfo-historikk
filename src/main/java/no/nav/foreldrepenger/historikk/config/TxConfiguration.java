@@ -14,7 +14,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
@@ -65,7 +64,7 @@ public class TxConfiguration implements KafkaListenerConfigurer {
 
     @Bean
     public AfterRollbackProcessor<Object, Object> rollbackProcessor(KafkaTemplate<Object, Object> template) {
-        return new DefaultAfterRollbackProcessor<>(new DeadLetterPublishingRecoverer(template), 1);
+        return new DefaultAfterRollbackProcessor<>(/* new DeadLetterPublishingRecoverer(template), */ 1);
     }
 
     @Override
