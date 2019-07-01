@@ -1,10 +1,11 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
+import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +26,7 @@ public class MinidialogInnslag {
     private final String saksnr;
     private LocalDateTime opprettet;
     private LocalDateTime endret;
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
     private Hendelse handling;
     private boolean aktiv;

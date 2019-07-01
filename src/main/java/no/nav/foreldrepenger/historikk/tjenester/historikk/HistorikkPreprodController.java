@@ -7,14 +7,12 @@ import java.util.List;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -27,11 +25,6 @@ public class HistorikkPreprodController {
 
     HistorikkPreprodController(HistorikkTjeneste historikk) {
         this.historikk = historikk;
-    }
-
-    @PostMapping("/historikk/lagre")
-    public void lagreHistorikk(SøknadInnsendingEvent event) {
-        historikk.lagre(event);
     }
 
     @GetMapping("/historikk/hent")

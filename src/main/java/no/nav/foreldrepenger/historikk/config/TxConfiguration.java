@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import javax.inject.Inject;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -25,9 +23,6 @@ public class TxConfiguration {
     public static final String KAFKA_TM = "kafkaTM";
     public static final String JPA_TM = "jpaTM";
 
-    @Inject
-    private ObjectMapper mapper;
-
     @Primary
     @Bean(name = "transactionManager")
     public ChainedTransactionManager chainedTM(JpaTransactionManager jpaTM,
@@ -49,7 +44,7 @@ public class TxConfiguration {
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
-            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm) {
+            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper) {
         ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
