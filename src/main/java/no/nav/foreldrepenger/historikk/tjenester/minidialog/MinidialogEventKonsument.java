@@ -6,9 +6,12 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMap
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
+import javax.validation.Valid;
+
 import org.jboss.logging.MDC;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +40,7 @@ public class MinidialogEventKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(MinidialogInnslag innslag) {
+    public void listen(@Payload @Valid MinidialogInnslag innslag) {
         MDC.put(NAV_CALL_ID, innslag.getReferanseId());
         MDC.put(CALL_ID, innslag.getReferanseId());
         minidialog.lagre(innslag);
