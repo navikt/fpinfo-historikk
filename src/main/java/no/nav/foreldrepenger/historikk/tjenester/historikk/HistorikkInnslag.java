@@ -10,17 +10,21 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 public class HistorikkInnslag {
 
-    private final AktørId aktørId;
-    private Fødselsnummer fnr;
+    private final String tekst;
+    private final Fødselsnummer fnr;
+    private AktørId aktørId;
     private String journalpostId;
     private String saksnr;
-    private final String tekst;
     private LocalDateTime opprettet;
 
     @JsonCreator
-    public HistorikkInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst) {
-        this.aktørId = aktørId;
+    public HistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst) {
+        this.fnr = fnr;
         this.tekst = tekst;
+    }
+
+    public void setAktørId(AktørId aktørId) {
+        this.aktørId = aktørId;
     }
 
     public AktørId getAktørId() {
@@ -29,10 +33,6 @@ public class HistorikkInnslag {
 
     public Fødselsnummer getFnr() {
         return fnr;
-    }
-
-    public void setFnr(Fødselsnummer fnr) {
-        this.fnr = fnr;
     }
 
     public String getJournalpostId() {

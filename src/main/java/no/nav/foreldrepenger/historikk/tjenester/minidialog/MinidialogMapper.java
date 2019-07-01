@@ -50,13 +50,13 @@ public final class MinidialogMapper {
 
     static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogInnslag innslag = new MinidialogInnslag(i.getAktørId(), i.getTekst(), i.getSaksnr());
+        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getTekst(), i.getHendelse());
         innslag.setEndret(i.getEndret());
-        innslag.setFnr(i.getFnr());
+        innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setId(i.getId());
         innslag.setGyldigTil(i.getGyldigTil());
-        innslag.setHandling(i.getHendelse());
+        innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());
         LOG.info("Mapper til innslag {}", innslag);
         return innslag;

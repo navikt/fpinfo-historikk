@@ -71,10 +71,6 @@ public class MinidialogTjeneste {
         return dialoger;
     }
 
-    int deaktiver(Fødselsnummer fnr, Hendelse type) {
-        return dao.deaktiver(fnr, type);
-    }
-
     private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
         return innslag
                 .stream()

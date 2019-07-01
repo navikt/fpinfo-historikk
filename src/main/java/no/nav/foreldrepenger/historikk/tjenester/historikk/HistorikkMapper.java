@@ -31,11 +31,11 @@ public final class HistorikkMapper {
 
     static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        HistorikkInnslag innslag = new HistorikkInnslag(i.getAktørId(), i.getTekst());
+        HistorikkInnslag innslag = new HistorikkInnslag(i.getFnr(), i.getTekst());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
-        innslag.setFnr(i.getFnr());
+        innslag.setAktørId(i.getAktørId());
         LOG.info("Mapper til innslag {}", innslag);
         return innslag;
     }
