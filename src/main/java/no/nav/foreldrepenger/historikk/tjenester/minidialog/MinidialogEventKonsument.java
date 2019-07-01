@@ -18,22 +18,19 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
 @Service
 @Profile({ DEV, PREPROD })
 public class MinidialogEventKonsument {
-    private final MinidialogTjeneste minidialog;
-    private final OppslagTjeneste oppslag;
+    private final MinidialogTjeneste dialog;
     private final JournalføringTjeneste journalføring;
     private final HistorikkTjeneste historikk;
     private final PDFGenerator generator;
 
-    public MinidialogEventKonsument(HistorikkTjeneste historikk, OppslagTjeneste oppslag, MinidialogTjeneste minidialog,
+    public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
             JournalføringTjeneste journalføring, PDFGenerator generator) {
         this.historikk = historikk;
-        this.oppslag = oppslag;
-        this.minidialog = minidialog;
+        this.dialog = minidialog;
         this.journalføring = journalføring;
         this.generator = generator;
     }
@@ -43,7 +40,7 @@ public class MinidialogEventKonsument {
     public void listen(@Payload @Valid MinidialogInnslag innslag) {
         MDC.put(NAV_CALL_ID, innslag.getReferanseId());
         MDC.put(CALL_ID, innslag.getReferanseId());
-        minidialog.lagre(innslag);
+        dialog.lagre(innslag);
         String id = journalføring.sluttfør(
                 journalpostFra(innslag, generator.generate("Overskrift TBD", innslag.getTekst())));
         historikk.lagre(innslag, id);
@@ -51,7 +48,7 @@ public class MinidialogEventKonsument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + minidialog + ", oppslag=" + oppslag + ", journalføring="
+        return getClass().getSimpleName() + "[minidialog=" + dialog + ", journalføring="
                 + journalføring + ", historikk=" + historikk + ", generator=" + generator + "]";
     }
 

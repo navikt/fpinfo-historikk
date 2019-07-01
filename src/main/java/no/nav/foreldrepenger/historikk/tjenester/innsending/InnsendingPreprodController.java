@@ -16,19 +16,19 @@ import no.nav.security.oidc.api.Unprotected;
 @RequestMapping(value = "/innsending/preprod")
 @Unprotected
 public class InnsendingPreprodController {
-    private final InnsendingEventProdusent produsent;
+    private final InnsendingEventProdusent innsending;
 
-    InnsendingPreprodController(InnsendingEventProdusent produsent) {
-        this.produsent = produsent;
+    InnsendingPreprodController(InnsendingEventProdusent innsending) {
+        this.innsending = innsending;
     }
 
-    @PostMapping("/produser")
+    @PostMapping("/sendInn")
     public void produser(@RequestBody SøknadInnsendingEvent event) {
-        produsent.sendInn(event);
+        innsending.sendInn(event);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [produsent=" + produsent + "]";
+        return getClass().getSimpleName() + " [innsending=" + innsending + "]";
     }
 }
