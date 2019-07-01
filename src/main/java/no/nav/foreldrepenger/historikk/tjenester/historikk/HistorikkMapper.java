@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 
 public final class HistorikkMapper {
 
@@ -16,6 +17,16 @@ public final class HistorikkMapper {
 
     private HistorikkMapper() {
 
+    }
+
+    static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
+        JPAHistorikkInnslag historikk = new JPAHistorikkInnslag();
+        historikk.setAktørId(innslag.getAktørId());
+        historikk.setFnr(innslag.getFnr());
+        historikk.setTekst("Spørsmål fra saksbehandler");
+        historikk.setSaksnr(innslag.getSaksnr());
+        historikk.setJournalpostId(journalPostId);
+        return historikk;
     }
 
     static HistorikkInnslag tilHistorikkInnslag(JPAHistorikkInnslag i) {
