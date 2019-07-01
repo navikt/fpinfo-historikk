@@ -1,11 +1,14 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.transaction.ChainedTransactionManager;
+import org.springframework.kafka.annotation.KafkaListenerConfigurer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
@@ -14,14 +17,18 @@ import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
-public class TxConfiguration {
+public class TxConfiguration implements KafkaListenerConfigurer {
 
     public static final String KAFKA_TM = "kafkaTM";
     public static final String JPA_TM = "jpaTM";
+
+    @Autowired
+    private LocalValidatorFactoryBean validator;
 
     @Primary
     @Bean(name = "transactionManager")
@@ -56,5 +63,10 @@ public class TxConfiguration {
     public AfterRollbackProcessor<Object, Object> rollbackProcessor() {
         return new DefaultAfterRollbackProcessor<>((record, exception) -> {
         }, 1);
+    }
+
+    @Override
+    public void configureKafkaListeners(KafkaListenerEndpointRegistrar registrar) {
+        registrar.setValidator(this.validator);
     }
 }
