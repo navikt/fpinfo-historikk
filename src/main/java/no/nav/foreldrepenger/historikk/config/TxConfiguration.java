@@ -10,9 +10,11 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
@@ -51,18 +53,19 @@ public class TxConfiguration implements KafkaListenerConfigurer {
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
-            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper) {
+            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper,
+            AfterRollbackProcessor<Object, Object> afterRollbackProcessor) {
         ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setTransactionManager(tm);
+        factory.setAfterRollbackProcessor(afterRollbackProcessor);
         return factory;
     }
 
     @Bean
-    public AfterRollbackProcessor<Object, Object> rollbackProcessor() {
-        return new DefaultAfterRollbackProcessor<>((record, exception) -> {
-        }, 1);
+    public AfterRollbackProcessor<Object, Object> rollbackProcessor(KafkaTemplate<Object, Object> template) {
+        return new DefaultAfterRollbackProcessor<>(new DeadLetterPublishingRecoverer(template), 1);
     }
 
     @Override
