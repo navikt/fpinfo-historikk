@@ -8,28 +8,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.AbstractEvent;
+import no.nav.foreldrepenger.historikk.tjenester.InnsendingEvent;
 
-public class SøknadInnsendingEvent extends AbstractEvent {
+public class SøknadInnsendingEvent extends InnsendingEvent {
 
     private final LeveranseStatus leveranseStatus;
-    private List<String> vedlegg;
+    private final List<String> vedlegg;
 
     @JsonCreator
-    public SøknadInnsendingEvent(@JsonProperty("aktørId") String aktørId,
-            @JsonProperty("fnr") String fnr,
+    public SøknadInnsendingEvent(@JsonProperty("aktørId") AktørId aktørId,
+            @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") Hendelse hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg) {
-        super(AktørId.valueOf(aktørId), Fødselsnummer.valueOf(fnr), journalId, referanseId, saksNr, hendelse);
+        super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
         this.leveranseStatus = leveranseStatus;
-        this.vedlegg = vedlegg;
-    }
-
-    public void setVedlegg(List<String> vedlegg) {
         this.vedlegg = vedlegg;
     }
 
@@ -49,10 +45,8 @@ public class SøknadInnsendingEvent extends AbstractEvent {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", journalId="
-                + getJournalId()
-                + ", referanseId=" + getReferanseId() + ", saksNr=" + getSaksNr() + ", leveranseStatus="
-                + leveranseStatus
-                + ", hendelse=" + getHendelse()
+                + getJournalId() + ", referanseId=" + getReferanseId() + ", saksNr=" + getSaksNr()
+                + ", leveranseStatus=" + leveranseStatus + ", hendelse=" + getHendelse()
                 + ", vedlegg=" + vedlegg + "]";
     }
 }

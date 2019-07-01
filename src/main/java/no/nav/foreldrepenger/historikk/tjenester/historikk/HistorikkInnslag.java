@@ -12,7 +12,6 @@ public class HistorikkInnslag {
 
     private final AktørId aktørId;
     private Fødselsnummer fnr;
-
     private String journalpostId;
     private String saksnr;
     private final String tekst;

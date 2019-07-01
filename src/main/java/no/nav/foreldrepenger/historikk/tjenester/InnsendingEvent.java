@@ -4,7 +4,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
-public class AbstractEvent {
+public class InnsendingEvent {
 
     private final AktørId aktørId;
     private final Fødselsnummer fnr;
@@ -13,7 +13,7 @@ public class AbstractEvent {
     private final String saksNr;
     private final Hendelse hendelse;
 
-    public AbstractEvent(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
+    public InnsendingEvent(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
             Hendelse hendelse) {
         this.aktørId = aktørId;
         this.fnr = fnr;
