@@ -30,6 +30,15 @@ public class MinidialogInnslag {
     private LocalDate gyldigTil;
     private Hendelse handling;
     private boolean aktiv;
+    private String referanseId;
+
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
+    }
 
     @JsonCreator
     public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst,

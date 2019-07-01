@@ -5,7 +5,6 @@ import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpostFra;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
-import static no.nav.foreldrepenger.historikk.util.MDCUtil.callId;
 
 import org.jboss.logging.MDC;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +12,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
@@ -28,8 +26,6 @@ public class MinidialogEventKonsument {
     private final HistorikkTjeneste historikk;
     private final PDFGenerator generator;
 
-    private static final CallIdGenerator GEN = new CallIdGenerator();
-
     public MinidialogEventKonsument(HistorikkTjeneste historikk, OppslagTjeneste oppslag, MinidialogTjeneste minidialog,
             JournalføringTjeneste journalføring, PDFGenerator generator) {
         this.historikk = historikk;
@@ -42,8 +38,8 @@ public class MinidialogEventKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(MinidialogInnslag innslag) {
-        MDC.put(NAV_CALL_ID, GEN.create());
-        MDC.put(CALL_ID, callId());
+        MDC.put(NAV_CALL_ID, innslag.getReferanseId());
+        MDC.put(CALL_ID, innslag.getReferanseId());
         minidialog.lagre(innslag);
         String id = journalføring.sluttfør(
                 journalpostFra(innslag, generator.generate("Overskrift TBD", innslag.getTekst())));
