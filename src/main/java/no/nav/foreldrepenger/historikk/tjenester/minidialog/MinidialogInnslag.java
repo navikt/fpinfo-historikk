@@ -5,6 +5,8 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -18,27 +20,22 @@ public class MinidialogInnslag {
 
     private long id;
     private final AktørId aktørId;
+    @NotNull
     private Fødselsnummer fnr;
     private boolean janei;
     private String vedlegg;
     private String navn;
+    @NotNull
     private final String tekst;
     private final String saksnr;
     private LocalDateTime opprettet;
     private LocalDateTime endret;
     @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
+    @NotNull
     private Hendelse handling;
     private boolean aktiv;
     private String referanseId;
-
-    public String getReferanseId() {
-        return referanseId;
-    }
-
-    public void setReferanseId(String referanseId) {
-        this.referanseId = referanseId;
-    }
 
     @JsonCreator
     public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst,
@@ -138,6 +135,14 @@ public class MinidialogInnslag {
 
     public void setEndret(LocalDateTime endret) {
         this.endret = endret;
+    }
+
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
     }
 
     @Override
