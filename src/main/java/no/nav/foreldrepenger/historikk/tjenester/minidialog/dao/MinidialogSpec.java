@@ -31,8 +31,8 @@ public final class MinidialogSpec {
         return (innslag, cq, cb) -> cb.isTrue(innslag.get(aktiv));
     }
 
-    public static Specification<JPAMinidialogInnslag> harAktør(AktørId aktør) {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), aktør);
+    public static Specification<JPAMinidialogInnslag> harAktør(AktørId a) {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), a);
     }
 
     public static Specification<JPAMinidialogInnslag> harFnr(Fødselsnummer fødselsnummer) {

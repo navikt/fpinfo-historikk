@@ -37,14 +37,14 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(Fødselsnummer fnr, Hendelse hendelse, String saksnr) {
-        LOG.info("Deaktiverer minidialoger for {} etter hendelse {}", fnr, hendelse);
+        LOG.info("Deaktiverer minidialog(er) for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(fnr, hendelse, saksnr);
-            LOG.info("Deaktiverte {} minidialoger for sak {} etter hendelse {}", n, saksnr, hendelse);
+            LOG.info("Deaktiverte {} minidialog(er) for sak {} etter hendelse {}", n, saksnr, hendelse);
             return n;
         }
         int n = dao.deaktiver(fnr, hendelse);
-        LOG.info("Deaktiverte {} minidialoger for {}", n, hendelse);
+        LOG.info("Deaktiverte {} minidialog(er) for {}", n, hendelse);
         return n;
     }
 
@@ -67,7 +67,7 @@ public class MinidialogTjeneste {
                         where(harFnr(fnr)
                                 .and((erGyldig().or(erGyldigTilNull())))
                                 .and(erAktiv()))));
-        LOG.info("Hentet dialoger {}", dialoger);
+        LOG.info("Hentet {} dialog(er) {}", dialoger.size(), dialoger);
         return dialoger;
     }
 
