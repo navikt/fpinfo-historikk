@@ -27,7 +27,7 @@ public class HistorikkPreprodController {
         this.historikk = historikk;
     }
 
-    @GetMapping("/historikk/hent")
+    @GetMapping("/hent")
     public List<HistorikkInnslag> hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) {
         return historikk.hentHistorikk(fnr);
     }

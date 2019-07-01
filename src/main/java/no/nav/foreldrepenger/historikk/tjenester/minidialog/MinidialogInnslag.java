@@ -12,37 +12,40 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
 public class MinidialogInnslag {
 
-    private long id;
-    private final AktørId aktørId;
     @NotNull
-    private Fødselsnummer fnr;
+    private final Fødselsnummer fnr;
+    @NotNull
+    private final String tekst;
+    private final Hendelse handling;
     private boolean janei;
     private String vedlegg;
     private String navn;
-    @NotNull
-    private final String tekst;
-    private final String saksnr;
+    @ApiModelProperty(hidden = true)
+    private long id;
+    private AktørId aktørId;
+    private String saksnr;
+    @ApiModelProperty(hidden = true)
     private LocalDateTime opprettet;
+    @ApiModelProperty(hidden = true)
     private LocalDateTime endret;
     @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
-    @NotNull
-    private Hendelse handling;
     private boolean aktiv;
     private String referanseId;
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("tekst") String tekst,
-            @JsonProperty("saksnr") String saksnr) {
-        this.aktørId = aktørId;
+    public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst,
+            @JsonProperty("handling") Hendelse handling) {
+        this.fnr = fnr;
         this.tekst = tekst;
-        this.saksnr = saksnr;
+        this.handling = handling;
     }
 
     public String getNavn() {
@@ -53,12 +56,12 @@ public class MinidialogInnslag {
         this.navn = navn;
     }
 
-    public void setFnr(Fødselsnummer fnr) {
-        this.fnr = fnr;
-    }
-
     public Fødselsnummer getFnr() {
         return fnr;
+    }
+
+    public void setAktørId(AktørId aktørId) {
+        this.aktørId = aktørId;
     }
 
     public LocalDate getGyldigTil() {
@@ -117,12 +120,12 @@ public class MinidialogInnslag {
         return handling;
     }
 
-    public void setHandling(Hendelse handling) {
-        this.handling = handling;
-    }
-
     public LocalDateTime getOpprettet() {
         return opprettet;
+    }
+
+    public void setSaksnr(String saksnr) {
+        this.saksnr = saksnr;
     }
 
     public void setOpprettet(LocalDateTime opprettet) {
