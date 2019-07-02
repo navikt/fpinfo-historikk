@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
+import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 
@@ -31,12 +32,12 @@ public class JournalføringConnection extends AbstractRestConnection implements 
         JournalføringRespons respons = postForEntity(cfg.journalpostURI(sluttfør), journalpost,
                 JournalføringRespons.class);
         if (respons != null) {
-            if (!respons.getJournalstatus().equals(ENDELIG)) {
-                return null;
+            if (!ENDELIG.equals(respons.getJournalstatus())) {
+                throw new UnexpectedResponseException("Kunne ikke journalføre (" + respons.getMelding() + ")");
             }
             return respons.getJournalpostId();
         }
-        return null;
+        throw new UnexpectedResponseException("Kunne ikke journalføre, ingen respons");
     }
 
     @Override
