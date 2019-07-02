@@ -48,21 +48,21 @@ public class MinidialogTjeneste {
         return n;
     }
 
-    public void lagre(MinidialogInnslag m) {
+    public void lagre(MinidialogHendelse m) {
         LOG.info("Lagrer minidialog {}", m);
         dao.save(fraInnslag(m));
         LOG.info("Lagret minidialog OK");
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentMineAktiveDialoger() {
+    public List<MinidialogHendelse> hentMineAktiveDialoger() {
         return hentAktiveDialogerForFnr(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
+    public List<MinidialogHendelse> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
         LOG.info("Henter aktive dialoger for {}", fnr);
-        List<MinidialogInnslag> dialoger = mapAndCollect(
+        List<MinidialogHendelse> dialoger = mapAndCollect(
                 dao.findAll(
                         where(harFnr(fnr)
                                 .and((erGyldig().or(erGyldigTilNull())))
@@ -71,7 +71,7 @@ public class MinidialogTjeneste {
         return dialoger;
     }
 
-    private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
+    private static List<MinidialogHendelse> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
         return innslag
                 .stream()
                 .map(MinidialogMapper::tilInnslag)

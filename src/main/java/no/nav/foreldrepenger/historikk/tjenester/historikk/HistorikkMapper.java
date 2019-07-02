@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
 public final class HistorikkMapper {
 
@@ -19,7 +19,7 @@ public final class HistorikkMapper {
 
     }
 
-    static JPAHistorikkInnslag fraMinidialog(MinidialogInnslag innslag, String journalPostId) {
+    static JPAHistorikkInnslag fraMinidialog(MinidialogHendelse innslag, String journalPostId) {
         JPAHistorikkInnslag historikk = new JPAHistorikkInnslag();
         historikk.setAktørId(innslag.getAktørId());
         historikk.setFnr(innslag.getFnr());
@@ -40,7 +40,7 @@ public final class HistorikkMapper {
         return innslag;
     }
 
-    static JPAHistorikkInnslag fraEvent(SøknadInnsendingEvent event) {
+    static JPAHistorikkInnslag fraEvent(SøknadInnsendingHendelse event) {
         LOG.info("Mapper fra event {}", event);
         JPAHistorikkInnslag innslag = new JPAHistorikkInnslag();
         innslag.setAktørId(event.getAktørId());

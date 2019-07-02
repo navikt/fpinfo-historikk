@@ -14,7 +14,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.InnsendingEvent;
 
-public class SøknadInnsendingEvent extends InnsendingEvent {
+public class SøknadInnsendingHendelse extends InnsendingEvent {
 
     @NotNull
     private final LeveranseStatus leveranseStatus;
@@ -22,7 +22,7 @@ public class SøknadInnsendingEvent extends InnsendingEvent {
     private final List<String> vedlegg;
 
     @JsonCreator
-    public SøknadInnsendingEvent(@JsonProperty("aktørId") AktørId aktørId,
+    public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
