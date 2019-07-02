@@ -40,16 +40,6 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
         return postForEntity(uri, new HttpEntity<>(payload), responseType);
     }
 
-    protected <T> T postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
-        if (!isEnabled()) {
-            LOG.info("Service er ikke aktiv, poster ikke til {}", uri);
-            return null;
-        }
-        ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
-        LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
-        return respons.getBody();
-    }
-
     protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke fra {}", uri);
@@ -91,6 +81,16 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
             }
             throw e;
         }
+    }
+
+    private <T> T postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
+        if (!isEnabled()) {
+            LOG.info("Service er ikke aktiv, poster ikke til {}", uri);
+            return null;
+        }
+        ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
+        LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
+        return respons.getBody();
     }
 
     @Override
