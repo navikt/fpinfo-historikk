@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.ISSUER;
-import static no.nav.foreldrepenger.historikk.util.StreamUtil.not;
 
 import java.util.Date;
 import java.util.Objects;
@@ -76,7 +75,7 @@ public class TokenUtil {
     public String getToken() {
         return Optional.ofNullable(context())
                 .map(c -> c.getToken(ISSUER))
-                .filter(not(Objects::isNull))
+                .filter(Objects::nonNull)
                 .map(TokenContext::getIdToken)
                 .orElseThrow(unauthenticated("Fant ikke ID-token"));
     }
