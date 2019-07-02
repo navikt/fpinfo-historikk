@@ -44,11 +44,11 @@ public class InnsendingEventProdusent {
                 .setHeader(TOPIC, topicNavn)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
-        LOG.info("Sender melding {}", message);
         send(message);
     }
 
     private void send(Message<String> message) {
+        LOG.info("Sender melding {}", message);
         kafkaOperations.send(message).addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
             @Override

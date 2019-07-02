@@ -25,15 +25,19 @@ public class Journalpost {
     private final Sak sak;
     private final List<Dokument> dokumenter;
 
-    public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
-            String behandlingstema, String tittel,
-            Sak sak, Dokument... dokumenter) {
+    public Journalpost(JournalpostType journalpostType,
+            AvsenderMottaker avsenderMotaker,
+            Bruker bruker,
+            String behandlingstema,
+            String tittel,
+            Sak sak,
+            Dokument... dokumenter) {
         this(journalpostType, avsenderMotaker, bruker, behandlingstema, tittel, emptyList(), sak,
                 dokumenter);
 
     }
 
-    public Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
+    private Journalpost(JournalpostType journalpostType, AvsenderMottaker avsenderMotaker, Bruker bruker,
             String behandlingstema, String tittel,
             List<Pair<String, String>> tilleggsopplysninger, Sak sak, Dokument... dokumenter) {
         this.journalpostType = journalpostType;

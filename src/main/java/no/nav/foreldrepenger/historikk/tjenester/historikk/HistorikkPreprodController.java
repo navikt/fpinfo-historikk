@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.security.oidc.api.Unprotected;
 
@@ -20,7 +19,6 @@ import no.nav.security.oidc.api.Unprotected;
 @Profile({ DEV, PREPROD })
 @RequestMapping(path = HistorikkController.HISTORIKK + "/preprod", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-@Api(value = "Endpoint for message management", protocols = "http,https")
 public class HistorikkPreprodController {
     private final HistorikkTjeneste historikk;
 

@@ -14,7 +14,7 @@ public class AvsenderMottaker {
         this(id, FNR, navn);
     }
 
-    public AvsenderMottaker(Fødselsnummer id, IdType idType, String navn) {
+    private AvsenderMottaker(Fødselsnummer id, IdType idType, String navn) {
         this.id = id;
         this.idType = idType;
         this.navn = navn;

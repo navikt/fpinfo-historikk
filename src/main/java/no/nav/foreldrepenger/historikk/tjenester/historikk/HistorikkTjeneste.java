@@ -41,11 +41,10 @@ public class HistorikkTjeneste {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", event);
         dao.save(fraEvent(event));
         LOG.info("Lagret historikkinnslag OK");
-
     }
 
     public void lagre(MinidialogInnslag minidialog, String journalPostId) {
-        LOG.info("Lagrer historikkinnslag fra minidialog  {}", minidialog);
+        LOG.info("Lagrer historikkinnslag fra minidialog {}", minidialog);
         dao.save(fraMinidialog(minidialog, journalPostId));
         LOG.info("Lagret historikkinnslag OK");
     }
