@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.http;
+package no.nav.foreldrepenger.historikk.tjenester.sts;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -11,8 +11,6 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
-
-import no.nav.foreldrepenger.historikk.tjenester.sts.STStjeneste;
 
 @Component
 public class STSClientRequestInterceptor implements ClientHttpRequestInterceptor {

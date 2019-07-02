@@ -20,8 +20,8 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
-import no.nav.foreldrepenger.historikk.http.STSClientRequestInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
+import no.nav.foreldrepenger.historikk.tjenester.sts.STSClientRequestInterceptor;
 import no.nav.security.oidc.context.OIDCRequestContextHolder;
 import no.nav.security.oidc.context.OIDCValidationContext;
 import no.nav.security.spring.oidc.SpringOIDCRequestContextHolder;

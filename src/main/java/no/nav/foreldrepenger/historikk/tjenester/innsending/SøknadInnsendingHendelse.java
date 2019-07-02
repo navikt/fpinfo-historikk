@@ -12,9 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.InnsendingEvent;
 
-public class SøknadInnsendingHendelse extends InnsendingEvent {
+public class SøknadInnsendingHendelse extends InnsendingHendelse {
 
     @NotNull
     private final LeveranseStatus leveranseStatus;
