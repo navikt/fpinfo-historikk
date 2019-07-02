@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import org.apache.kafka.common.TopicPartition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.listener.AfterRollbackProcessor;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
@@ -64,7 +66,10 @@ public class TxConfiguration implements KafkaListenerConfigurer {
 
     @Bean
     public AfterRollbackProcessor<Object, Object> rollbackProcessor(KafkaTemplate<Object, Object> template) {
-        return new DefaultAfterRollbackProcessor<>(/* new DeadLetterPublishingRecoverer(template), */ 1);
+        return new DefaultAfterRollbackProcessor<>(
+                new DeadLetterPublishingRecoverer(template,
+                        (record, exception) -> new TopicPartition(record.topic() + "-dlt", 0)),
+                1);
     }
 
     @Override
