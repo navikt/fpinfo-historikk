@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.jboss.logging.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +26,7 @@ public class InnsendingEventKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(@Payload @Valid SøknadInnsendingEvent event,
-            @Header(required = false, value = NAV_CALL_ID) String callId) {
+    public void listen(@Payload @Valid SøknadInnsendingEvent event) {
         MDC.put(NAV_CALL_ID, event.getReferanseId());
         historikk.lagre(event);
         dialog.deaktiverMinidialoger(event.getFnr(), event.getHendelse(), event.getSaksNr());
