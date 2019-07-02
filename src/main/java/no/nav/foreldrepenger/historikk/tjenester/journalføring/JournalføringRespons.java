@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class JournalføringRespons {
+class JournalføringRespons {
     private final String journalpostId;
     private final String melding;
     private final Journalstatus journalstatus;
