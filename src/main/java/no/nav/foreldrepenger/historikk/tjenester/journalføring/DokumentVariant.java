@@ -14,7 +14,7 @@ public class DokumentVariant {
         this(PDFA, ARKIV, dokument);
     }
 
-    public DokumentVariant(FilType filtype, VariantFormat variantformat, byte[] fysiskDokument) {
+    private DokumentVariant(FilType filtype, VariantFormat variantformat, byte[] fysiskDokument) {
         this.filtype = filtype;
         this.variantformat = variantformat;
         this.fysiskDokument = fysiskDokument;

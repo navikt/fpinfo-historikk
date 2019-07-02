@@ -1,11 +1,13 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
+import static no.nav.foreldrepenger.historikk.tjenester.journalføring.ArkivsakSystem.GSAK;
+
 public class Sak {
     private final String arkivsaksnummer;
     private final ArkivsakSystem arkivsaksystem;
 
     public Sak(String arkivsaksnummer) {
-        this(arkivsaksnummer, ArkivsakSystem.GSAK);
+        this(arkivsaksnummer, GSAK);
     }
 
     private Sak(String arkivsaksnummer, ArkivsakSystem arkivsaksystem) {
