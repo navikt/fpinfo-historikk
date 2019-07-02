@@ -23,15 +23,15 @@ import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MinidialogEventKonsument {
+public class MinidialogHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogEventKonsument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
     private final MinidialogTjeneste dialog;
     private final JournalføringTjeneste journalføring;
     private final HistorikkTjeneste historikk;
     private final PDFGenerator generator;
 
-    public MinidialogEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
+    public MinidialogHendelseKonsument(HistorikkTjeneste historikk, MinidialogTjeneste minidialog,
             JournalføringTjeneste journalføring, PDFGenerator generator) {
         this.historikk = historikk;
         this.dialog = minidialog;
@@ -41,14 +41,14 @@ public class MinidialogEventKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(@Payload @Valid MinidialogInnslag innslag) {
-        LOG.info("Mottok innslag {}", innslag);
-        MDC.put(NAV_CALL_ID, innslag.getReferanseId());
-        MDC.put(CALL_ID, innslag.getReferanseId());
-        dialog.lagre(innslag);
+    public void listen(@Payload @Valid MinidialogHendelse hendelse) {
+        LOG.info("Mottok innslag {}", hendelse);
+        MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
+        MDC.put(CALL_ID, hendelse.getReferanseId());
+        dialog.lagre(hendelse);
         String id = journalføring.sluttfør(
-                journalpostFra(innslag, generator.generate("Spørsmål fra saksbehandler", innslag.getTekst())));
-        historikk.lagre(innslag, id);
+                journalpostFra(hendelse, generator.generate("Spørsmål fra saksbehandler", hendelse.getTekst())));
+        historikk.lagre(hendelse, id);
     }
 
     @Override

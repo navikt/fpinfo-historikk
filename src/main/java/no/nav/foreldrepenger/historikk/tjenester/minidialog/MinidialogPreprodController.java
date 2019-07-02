@@ -23,20 +23,20 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 public class MinidialogPreprodController {
     private final MinidialogTjeneste minidialog;
-    private final MinidialogEventProdusent produsent;
+    private final MinidialogHendelseProdusent produsent;
 
-    MinidialogPreprodController(MinidialogTjeneste minidialog, MinidialogEventProdusent produsent) {
+    MinidialogPreprodController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent) {
         this.minidialog = minidialog;
         this.produsent = produsent;
     }
 
     @GetMapping("/aktive")
-    public List<MinidialogInnslag> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<MinidialogHendelse> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
         return minidialog.hentAktiveDialogerForFnr(fnr);
     }
 
     @PostMapping("/produser")
-    public void produser(@RequestBody MinidialogInnslag hendelse) {
+    public void produser(@RequestBody MinidialogHendelse hendelse) {
         produsent.sendMinidialogHendelse(hendelse);
     }
 

@@ -16,25 +16,25 @@ import no.nav.foreldrepenger.historikk.tjenester.historikk.HistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 
 @Service
-public class InnsendingEventKonsument {
+public class InnsendingHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InnsendingEventKonsument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
     private final HistorikkTjeneste historikk;
     private final MinidialogTjeneste dialog;
 
-    public InnsendingEventKonsument(HistorikkTjeneste historikk, MinidialogTjeneste dialog) {
+    public InnsendingHendelseKonsument(HistorikkTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void listen(@Payload @Valid SøknadInnsendingEvent event) {
-        LOG.info("Mottok event {}", event);
-        MDC.put(NAV_CALL_ID, event.getReferanseId());
-        historikk.lagre(event);
-        dialog.deaktiverMinidialoger(event.getFnr(), event.getHendelse(), event.getSaksNr());
+    public void listen(@Payload @Valid SøknadInnsendingHendelse hendelse) {
+        LOG.info("Mottok event {}", hendelse);
+        MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
+        historikk.lagre(hendelse);
+        dialog.deaktiverMinidialoger(hendelse.getFnr(), hendelse.getHendelse(), hendelse.getSaksNr());
     }
 
     @Override

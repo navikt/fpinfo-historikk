@@ -23,7 +23,7 @@ public final class MinidialogMapper {
 
     }
 
-    static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
+    static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m) {
         LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
         dialog.setAktørId(m.getAktørId());
@@ -39,7 +39,7 @@ public final class MinidialogMapper {
         return dialog;
     }
 
-    static Journalpost journalpostFra(MinidialogInnslag innslag, byte[] dokument) {
+    static Journalpost journalpostFra(MinidialogHendelse innslag, byte[] dokument) {
         return new Journalpost(UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), innslag.getNavn()),
                 new Bruker(innslag.getFnr()), null,
@@ -48,9 +48,9 @@ public final class MinidialogMapper {
                 new Dokument(new DokumentVariant(dokument)));
     }
 
-    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
+    static MinidialogHendelse tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getTekst(), i.getHendelse());
+        MinidialogHendelse innslag = new MinidialogHendelse(i.getFnr(), i.getTekst(), i.getHendelse());
         innslag.setEndret(i.getEndret());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());

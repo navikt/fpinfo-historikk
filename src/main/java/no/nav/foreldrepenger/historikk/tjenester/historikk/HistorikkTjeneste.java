@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkRepository;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingEvent;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
@@ -37,13 +37,13 @@ public class HistorikkTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public void lagre(SøknadInnsendingEvent event) {
+    public void lagre(SøknadInnsendingHendelse event) {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", event);
         dao.save(fraEvent(event));
         LOG.info("Lagret historikkinnslag OK");
     }
 
-    public void lagre(MinidialogInnslag minidialog, String journalPostId) {
+    public void lagre(MinidialogHendelse minidialog, String journalPostId) {
         LOG.info("Lagrer historikkinnslag fra minidialog {}", minidialog);
         dao.save(fraMinidialog(minidialog, journalPostId));
         LOG.info("Lagret historikkinnslag OK");

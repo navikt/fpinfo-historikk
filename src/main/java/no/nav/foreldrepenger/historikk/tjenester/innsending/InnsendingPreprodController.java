@@ -16,15 +16,15 @@ import no.nav.security.oidc.api.Unprotected;
 @RequestMapping(value = "/innsending/preprod")
 @Unprotected
 public class InnsendingPreprodController {
-    private final InnsendingEventProdusent innsending;
+    private final InnsendingHendelseProdusent innsending;
 
-    InnsendingPreprodController(InnsendingEventProdusent innsending) {
+    InnsendingPreprodController(InnsendingHendelseProdusent innsending) {
         this.innsending = innsending;
     }
 
     @PostMapping("/sendInn")
-    public void produser(@RequestBody SøknadInnsendingEvent event) {
-        innsending.sendInn(event);
+    public void produser(@RequestBody SøknadInnsendingHendelse event) {
+        innsending.sendInnsendingHendlese(event);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
@@ -23,32 +23,32 @@ import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
 @Profile({ DEV, PREPROD })
-public class MinidialogEventProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogEventProdusent.class);
+public class InnsendingHendelseProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseProdusent.class);
     private final String topicNavn;
     private final KafkaOperations<String, String> kafkaOperations;
     private final JacksonUtil mapper;
 
-    public MinidialogEventProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.topic}") String topicNavn, JacksonUtil mapper) {
+    public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+            @Value("${historikk.kafka.meldinger.søknad_topic}") String topicNavn, JacksonUtil mapper) {
         this.topicNavn = topicNavn;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
     }
 
     @Transactional(KAFKA_TM)
-    public void sendMinidialogHendelse(MinidialogInnslag hendelse) {
-        LOG.info("Sender hendelse {}", hendelse);
+    public void sendInnsendingHendelse(SøknadInnsendingHendelse hendelse) {
+        LOG.info("Sender event {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, topicNavn)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
-        LOG.info("Sender melding {}", message);
         send(message);
     }
 
     private void send(Message<String> message) {
+        LOG.info("Sender melding {}", message);
         kafkaOperations.send(message).addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
             @Override
