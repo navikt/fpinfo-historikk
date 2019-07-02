@@ -11,21 +11,15 @@ import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
-import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 
 @Component
-public class JournalføringConnection extends AbstractRestConnection implements PingEndpointAware {
+public class JournalføringConnection extends AbstractRestConnection {
     private final JournalføringConfig cfg;
 
     public JournalføringConnection(@Qualifier(DOKARKIV) RestOperations restOperations,
             JournalføringConfig config) {
-        super(restOperations, config.isEnabled());
+        super(restOperations, config);
         this.cfg = config;
-    }
-
-    @Override
-    public String ping() {
-        return ping(pingEndpoint());
     }
 
     public String opprettJournalpost(Journalpost journalpost, boolean sluttfør) {
@@ -43,16 +37,6 @@ public class JournalføringConnection extends AbstractRestConnection implements 
     @Override
     public URI pingEndpoint() {
         return cfg.pingURI();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return cfg.isEnabled();
-    }
-
-    @Override
-    public String name() {
-        return pingEndpoint().getHost();
     }
 
     @Override

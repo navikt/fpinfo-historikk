@@ -9,21 +9,15 @@ import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
-import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 
 @Component
-public class OppslagConnection extends AbstractRestConnection implements PingEndpointAware {
+public class OppslagConnection extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(OppslagConnection.class);
     private final OppslagConfig cfg;
 
     public OppslagConnection(RestOperations restOperations, OppslagConfig config) {
-        super(restOperations, config.isEnabled());
+        super(restOperations, config);
         this.cfg = config;
-    }
-
-    @Override
-    public String ping() {
-        return ping(pingEndpoint());
     }
 
     @Override
@@ -42,11 +36,6 @@ public class OppslagConnection extends AbstractRestConnection implements PingEnd
     @Override
     public boolean isEnabled() {
         return cfg.isEnabled();
-    }
-
-    @Override
-    public String name() {
-        return pingEndpoint().getHost();
     }
 
     @Override
