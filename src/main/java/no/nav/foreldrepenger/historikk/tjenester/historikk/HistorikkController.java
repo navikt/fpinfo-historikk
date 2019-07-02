@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = "/historikk")
+@RequestMapping(value = HistorikkController.HISTORIKK)
 @ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
 public class HistorikkController {
+
+    public static final String HISTORIKK = "/historikk";
 
     private final HistorikkTjeneste historikk;
 

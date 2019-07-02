@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogController.MINIDIALOG;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
 
@@ -18,7 +19,7 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ DEV, PREPROD })
-@RequestMapping(value = "/minidialog/preprod")
+@RequestMapping(value = MINIDIALOG + "/preprod")
 @Unprotected
 public class MinidialogPreprodController {
     private final MinidialogTjeneste minidialog;

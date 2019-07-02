@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ DEV, PREPROD })
-@RequestMapping(value = "/historikk/preprod")
+@RequestMapping(path = HistorikkController.HISTORIKK + "/preprod", produces = APPLICATION_JSON_VALUE)
 @Unprotected
 @Api(value = "Endpoint for message management", protocols = "http,https")
 public class HistorikkPreprodController {
