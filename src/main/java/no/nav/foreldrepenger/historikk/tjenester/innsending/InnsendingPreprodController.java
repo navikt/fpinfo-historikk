@@ -23,8 +23,8 @@ public class InnsendingPreprodController {
     }
 
     @PostMapping("/sendInn")
-    public void produser(@RequestBody SøknadInnsendingHendelse event) {
-        innsending.sendInnsendingHendlese(event);
+    public void produser(@RequestBody SøknadInnsendingHendelse hendelse) {
+        innsending.sendInnsendingHendelse(hendelse);
     }
 
     @Override
