@@ -37,7 +37,7 @@ public class JournalføringConnection extends AbstractRestConnection implements 
             }
             return respons.getJournalpostId();
         }
-        throw new UnexpectedResponseException("Kunne ikke journalføre, ingen respons");
+        throw new UnexpectedResponseException("Kunne ikke journalføre ingen respons");
     }
 
     @Override
