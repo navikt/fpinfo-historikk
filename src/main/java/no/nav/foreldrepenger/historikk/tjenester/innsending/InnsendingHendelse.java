@@ -1,12 +1,11 @@
-package no.nav.foreldrepenger.historikk.tjenester;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import javax.validation.constraints.NotNull;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
 
-public class InnsendingEvent {
+public class InnsendingHendelse {
 
     private final AktørId aktørId;
     @NotNull
@@ -17,7 +16,7 @@ public class InnsendingEvent {
     @NotNull
     private final Hendelse hendelse;
 
-    public InnsendingEvent(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
+    public InnsendingHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
             Hendelse hendelse) {
         this.aktørId = aktørId;
         this.fnr = fnr;

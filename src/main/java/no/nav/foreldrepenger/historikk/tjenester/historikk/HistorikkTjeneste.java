@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.TokenUtil;
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.HistorikkRepository;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
