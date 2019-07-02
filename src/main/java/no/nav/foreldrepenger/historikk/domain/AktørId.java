@@ -40,18 +40,23 @@ public class AktørId {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         AktørId other = (AktørId) obj;
         if (aktørId == null) {
-            if (other.aktørId != null)
+            if (other.aktørId != null) {
                 return false;
-        } else if (!aktørId.equals(other.aktørId))
+            }
+        } else if (!aktørId.equals(other.aktørId)) {
             return false;
+        }
         return true;
     }
 

@@ -12,37 +12,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
-import no.nav.foreldrepenger.historikk.http.PingEndpointAware;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.TokenRespons;
 
 @Component
-public class STSConnection extends AbstractRestConnection implements PingEndpointAware {
+public class STSConnection extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(STSConnection.class);
     private final STSConfig cfg;
 
     public STSConnection(@Qualifier(STS) RestOperations restOperations, STSConfig config) {
-        super(restOperations, config.isEnabled());
+        super(restOperations, config);
         this.cfg = config;
-    }
-
-    @Override
-    public String ping() {
-        return ping(pingEndpoint());
     }
 
     @Override
     public URI pingEndpoint() {
         return cfg.pingURI();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return cfg.isEnabled();
-    }
-
-    @Override
-    public String name() {
-        return pingEndpoint().getHost();
     }
 
     public String hentToken() {

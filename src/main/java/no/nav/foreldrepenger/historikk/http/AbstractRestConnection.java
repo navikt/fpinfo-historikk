@@ -12,15 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
-public abstract class AbstractRestConnection {
+public abstract class AbstractRestConnection implements PingEndpointAware {
     private static final String RESPONS = "Respons: {}";
     private final RestOperations restOperations;
-    private final boolean isEnabled;
+    private final AbstractConfig config;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestConnection.class);
 
-    public AbstractRestConnection(RestOperations restOperations, boolean isEnabled) {
+    public AbstractRestConnection(RestOperations restOperations, AbstractConfig config) {
         this.restOperations = restOperations;
-        this.isEnabled = isEnabled;
+        this.config = config;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return config.isEnabled();
     }
 
     protected String ping(URI uri) {
@@ -36,7 +41,7 @@ public abstract class AbstractRestConnection {
     }
 
     protected <T> T postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {
-        if (!isEnabled) {
+        if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, poster ikke til {}", uri);
             return null;
         }
@@ -46,7 +51,7 @@ public abstract class AbstractRestConnection {
     }
 
     protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
-        if (!isEnabled) {
+        if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke fra {}", uri);
             return null;
         }
@@ -70,7 +75,7 @@ public abstract class AbstractRestConnection {
     }
 
     protected <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
-        if (!isEnabled) {
+        if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke entitet fra {}", uri);
             return null;
         }
@@ -89,7 +94,17 @@ public abstract class AbstractRestConnection {
     }
 
     @Override
+    public String ping() {
+        return ping(pingEndpoint());
+    }
+
+    @Override
+    public String name() {
+        return pingEndpoint().getHost();
+    }
+
+    @Override
     public String toString() {
-        return getClass().getSimpleName() + "[restOperations=" + restOperations + ", isEnabled=" + isEnabled + "]";
+        return getClass().getSimpleName() + "[restOperations=" + restOperations + ", isEnabled=" + isEnabled() + "]";
     }
 }

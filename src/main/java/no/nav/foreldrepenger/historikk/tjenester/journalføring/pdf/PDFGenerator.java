@@ -25,7 +25,7 @@ public class PDFGenerator {
 
             contentStream.setFont(PDType1Font.COURIER, 12);
             contentStream.beginText();
-            // contentStream.showText(tekst);
+            contentStream.showText(tekst);
             contentStream.endText();
             contentStream.close();
             document.save(baos);

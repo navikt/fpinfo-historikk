@@ -29,18 +29,23 @@ public class Fødselsnummer {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Fødselsnummer other = (Fødselsnummer) obj;
         if (fnr == null) {
-            if (other.fnr != null)
+            if (other.fnr != null) {
                 return false;
-        } else if (!fnr.equals(other.fnr))
+            }
+        } else if (!fnr.equals(other.fnr)) {
             return false;
+        }
         return true;
     }
 
