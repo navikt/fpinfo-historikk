@@ -22,22 +22,29 @@ public class MinidialogInnslag {
     @NotNull
     private final Fødselsnummer fnr;
     @NotNull
+    @ApiModelProperty(example = "Husk å søke")
     private final String tekst;
+    @ApiModelProperty(example = "ETTERSENDING_FORELDREPENGER")
     private final Hendelse handling;
     private boolean janei;
+    @ApiModelProperty(hidden = true)
     private String vedlegg;
+    @ApiModelProperty(example = "Navn Navnesen")
     private String navn;
     @ApiModelProperty(hidden = true)
     private long id;
     private AktørId aktørId;
+    @ApiModelProperty(example = "42")
     private String saksnr;
     @ApiModelProperty(hidden = true)
     private LocalDateTime opprettet;
     @ApiModelProperty(hidden = true)
     private LocalDateTime endret;
+    @ApiModelProperty(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
     private boolean aktiv;
+    @ApiModelProperty(example = "1234567890")
     private String referanseId;
 
     @JsonCreator

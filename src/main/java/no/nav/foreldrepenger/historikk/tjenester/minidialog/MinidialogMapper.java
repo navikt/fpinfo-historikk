@@ -58,7 +58,7 @@ public final class MinidialogMapper {
         innslag.setGyldigTil(i.getGyldigTil());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());
-        LOG.info("Mapper til innslag {}", innslag);
+        LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
 }
