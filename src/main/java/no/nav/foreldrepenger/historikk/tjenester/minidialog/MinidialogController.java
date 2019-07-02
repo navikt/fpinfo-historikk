@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = "/minidialog")
+@RequestMapping(value = MinidialogController.MINIDIALOG)
 @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
 public class MinidialogController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogController.class);
+    static final String MINIDIALOG = "/minidialog";
     private final MinidialogTjeneste minidialog;
 
     MinidialogController(MinidialogTjeneste minidialog) {

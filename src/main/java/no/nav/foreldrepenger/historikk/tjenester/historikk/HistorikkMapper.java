@@ -23,7 +23,7 @@ public final class HistorikkMapper {
         JPAHistorikkInnslag historikk = new JPAHistorikkInnslag();
         historikk.setAktørId(innslag.getAktørId());
         historikk.setFnr(innslag.getFnr());
-        historikk.setTekst("Spørsmål fra saksbehandler");
+        historikk.setTekst(innslag.getTekst());
         historikk.setSaksnr(innslag.getSaksnr());
         historikk.setJournalpostId(journalPostId);
         return historikk;
@@ -36,7 +36,7 @@ public final class HistorikkMapper {
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
-        LOG.info("Mapper til innslag {}", innslag);
+        LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
 
