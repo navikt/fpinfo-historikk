@@ -1,11 +1,11 @@
 package no.nav.foreldrepenger.historikk.http;
 
+import static no.nav.foreldrepenger.historikk.http.FilterRegistrationUtil.always;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.stereotype.Component;
-
-import no.nav.foreldrepenger.historikk.util.FilterRegistrationUtil;
 
 @Component
 public class HeadersToMDCFilterRegistrationBean extends FilterRegistrationBean<HeadersToMDCFilterBean> {
@@ -13,7 +13,7 @@ public class HeadersToMDCFilterRegistrationBean extends FilterRegistrationBean<H
 
     public HeadersToMDCFilterRegistrationBean(HeadersToMDCFilterBean headersFilter) {
         setFilter(headersFilter);
-        setUrlPatterns(FilterRegistrationUtil.always());
+        setUrlPatterns(always());
         LOG.info("Registrert filter {}", this.getClass().getSimpleName());
     }
 }

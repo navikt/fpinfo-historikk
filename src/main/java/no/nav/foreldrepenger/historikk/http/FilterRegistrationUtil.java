@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.util;
+package no.nav.foreldrepenger.historikk.http;
 
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class FilterRegistrationUtil {
+final class FilterRegistrationUtil {
 
     private static final String ALWAYS = "/*";
 

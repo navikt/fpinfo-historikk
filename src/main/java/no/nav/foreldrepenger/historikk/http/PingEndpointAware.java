@@ -8,5 +8,4 @@ public interface PingEndpointAware extends Pingable {
 
     String name();
 
-    boolean isEnabled();
 }
