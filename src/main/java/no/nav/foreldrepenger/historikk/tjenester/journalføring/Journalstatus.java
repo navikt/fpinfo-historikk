@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
-public enum Journalstatus {
+enum Journalstatus {
     ENDELIG, OD, D, MIDLERTIDIG
 
 }
