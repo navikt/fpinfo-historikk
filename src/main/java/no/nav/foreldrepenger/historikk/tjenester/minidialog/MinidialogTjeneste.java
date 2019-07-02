@@ -5,7 +5,7 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erGyldigTilNull;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -44,7 +44,7 @@ public class MinidialogTjeneste {
             return n;
         }
         int n = dao.deaktiver(fnr, hendelse);
-        LOG.info("Deaktiverte {} minidialog(er) for {}", n, hendelse);
+        LOG.info("Deaktiverte {} minidialog(er) etter hendelse {}", n, hendelse);
         return n;
     }
 
@@ -55,17 +55,17 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogHendelse> hentMineAktiveDialoger() {
-        return hentAktiveDialogerForFnr(tokenUtil.autentisertFNR());
+    public List<MinidialogHendelse> hentAktiveDialoger() {
+        return hentAktiveDialoger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogHendelse> hentAktiveDialogerForFnr(Fødselsnummer fnr) {
+    public List<MinidialogHendelse> hentAktiveDialoger(Fødselsnummer fnr) {
         LOG.info("Henter aktive dialoger for {}", fnr);
         List<MinidialogHendelse> dialoger = mapAndCollect(
                 dao.findAll(
                         where(harFnr(fnr)
-                                .and((erGyldig().or(erGyldigTilNull())))
+                                .and((erGyldig().or(gyldigErNull())))
                                 .and(erAktiv()))));
         LOG.info("Hentet {} dialog(er) {}", dialoger.size(), dialoger);
         return dialoger;

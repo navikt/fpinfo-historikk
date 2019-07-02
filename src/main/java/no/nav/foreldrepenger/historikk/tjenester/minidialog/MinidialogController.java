@@ -22,7 +22,7 @@ public class MinidialogController {
 
     @GetMapping("/me")
     public List<MinidialogHendelse> hentMinidialog() {
-        return minidialog.hentMineAktiveDialoger();
+        return minidialog.hentAktiveDialoger();
     }
 
     @Override

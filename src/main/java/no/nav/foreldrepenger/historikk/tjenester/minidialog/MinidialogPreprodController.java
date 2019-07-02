@@ -32,7 +32,7 @@ public class MinidialogPreprodController {
 
     @GetMapping("/aktive")
     public List<MinidialogHendelse> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
-        return minidialog.hentAktiveDialogerForFnr(fnr);
+        return minidialog.hentAktiveDialoger(fnr);
     }
 
     @PostMapping("/produser")
