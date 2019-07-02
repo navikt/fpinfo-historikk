@@ -42,7 +42,7 @@ public class MinidialogEventKonsument {
         MDC.put(CALL_ID, innslag.getReferanseId());
         dialog.lagre(innslag);
         String id = journalføring.sluttfør(
-                journalpostFra(innslag, generator.generate("Overskrift TBD", innslag.getTekst())));
+                journalpostFra(innslag, generator.generate("Spørsmål fra saksbehandler", innslag.getTekst())));
         historikk.lagre(innslag, id);
     }
 
