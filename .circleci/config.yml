@@ -18,7 +18,7 @@ jobs:
           paths:
             - ~/.m2
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
-       - run: mvn test 
+       - run: mvn package 
        - run:
            name: Save test results
            command: |
