@@ -2,7 +2,7 @@ version: 2
 orbs:
   nais: navikt/nais-deployment:1.1.1
   
- jobs:
+jobs:
    build:
      working_directory: ~/fpinfo-historikk 
      docker:
@@ -32,7 +32,7 @@ orbs:
        - store_artifacts:
           path: ~/test-results/junit  
           
- workflow:
+workflow:
   deploy-docker-and-nais:
     jobs:
       - nais/deploy:
