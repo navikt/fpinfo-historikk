@@ -41,5 +41,5 @@ jobs:
 
        - store_artifacts:
           path: ~/test-results/junit 
-       - nais/deploy
+       - nais/deploy:
           
