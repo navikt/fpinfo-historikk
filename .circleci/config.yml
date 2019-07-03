@@ -15,6 +15,6 @@ jobs:
           paths:
             - ~/.m2
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
-       - run: mvn package 
+       - run: mvn test 
        - store_test_results: 
           path: target/surefire-reports
