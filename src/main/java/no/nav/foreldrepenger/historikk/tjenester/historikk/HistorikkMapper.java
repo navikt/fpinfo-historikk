@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnsl
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
-public final class HistorikkMapper {
+final class HistorikkMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkMapper.class);
 
