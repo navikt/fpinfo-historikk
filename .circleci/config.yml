@@ -1,14 +1,14 @@
 version: 2
-orbs:
-  nais: navikt/nais-deployment:1.1.1
-  workflow:
-  deploy-docker-and-nais:
-    jobs:
+jobs:
      build:
      working_directory: ~/fpinfo-historikk 
      docker:
        - image: circleci/openjdk:8u171-jdk
-     steps:
+orbs:
+  nais: navikt/nais-deployment:1.1.1
+  workflow:
+   deploy-docker-and-nais:  
+     jobs:
        - checkout
        - restore_cache: 
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
