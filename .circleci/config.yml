@@ -9,10 +9,10 @@ jobs:
        - restore_cache: 
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
       
-       - run: mvn dependency:go-offline # gets the project dependencies
+       - run: mvn dependency:go-offline
       
        - save_cache:
           paths:
             - ~/.m2
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
-       - run: echo "A first hello"
+       - run: mvn package 
