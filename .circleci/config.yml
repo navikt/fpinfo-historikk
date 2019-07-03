@@ -35,7 +35,8 @@ jobs:
        - nais/docker-deploy:
           image: navikt/fpinfo-historikk
           
-workflow:
+workflows:
+ version: 2
   deploy-nais:
     jobs:
       - build:
