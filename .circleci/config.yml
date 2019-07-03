@@ -32,7 +32,7 @@ jobs:
        - store_artifacts:
           path: ~/test-results/junit  
           
-       - nais/push-docker-image-only:
+       - nais/docker-deploy:
           image: navikt/fpinfo-historikk
           
 workflow:
