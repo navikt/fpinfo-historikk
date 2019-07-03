@@ -36,7 +36,7 @@ jobs:
           image: navikt/fpinfo-historikk
           
 workflows:
- version: 2
+   version: 2
    deploy-nais:
      jobs:
       - build:
