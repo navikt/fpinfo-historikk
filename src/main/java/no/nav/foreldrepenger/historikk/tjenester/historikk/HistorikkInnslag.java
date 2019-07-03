@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public class HistorikkInnslag {
+class HistorikkInnslag {
 
     private final String tekst;
     private final Fødselsnummer fnr;
