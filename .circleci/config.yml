@@ -1,6 +1,17 @@
 version: 2
 orbs:
   nais: navikt/nais-deployment:1.1.1
+  workflow:
+  deploy-docker-and-nais:
+    jobs:
+      - nais/deploy:
+          context: NAIS deployment
+          repo: navikt/fpinfo-historikk
+          image: navikt/fpinfo-historikk
+          github-app-id: 20250
+          nais-template: nais.yaml
+          environment: dev-fss
+          team: teamforeldrepenger
 jobs:
    build:
      working_directory: ~/fpinfo-historikk 
@@ -29,4 +40,5 @@ jobs:
           path: ~/test-results
 
        - store_artifacts:
-          path: ~/test-results/junit         
+          path: ~/test-results/junit 
+          
