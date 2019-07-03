@@ -4,16 +4,7 @@ orbs:
   workflow:
   deploy-docker-and-nais:
     jobs:
-      - nais/deploy:
-          context: NAIS deployment
-          repo: navikt/fpinfo-historikk
-          image: navikt/fpinfo-historikk
-          github-app-id: 20250
-          nais-template: nais.yaml
-          environment: dev-fss
-          team: teamforeldrepenger
-jobs:
-   build:
+     build:
      working_directory: ~/fpinfo-historikk 
      docker:
        - image: circleci/openjdk:8u171-jdk
@@ -40,4 +31,15 @@ jobs:
           path: ~/test-results
 
        - store_artifacts:
-          path: ~/test-results/junit           
+          path: ~/test-results/junit    
+       - nais/deploy:
+          requires:
+            - store_artifacts
+          context: NAIS deployment
+          repo: navikt/fpinfo-historikk
+          image: navikt/fpinfo-historikk
+          github-app-id: 20250
+          nais-template: nais.yaml
+          environment: dev-fss
+          team: teamforeldrepenger
+         
