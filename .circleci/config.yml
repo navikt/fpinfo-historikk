@@ -35,6 +35,8 @@ jobs:
 workflow:
   deploy-docker-and-nais:
     jobs:
+      - build:
+          context: NAIS deployment
       - nais/deploy:
           context: NAIS deployment
           repo: navikt/fpinfo-historikk
