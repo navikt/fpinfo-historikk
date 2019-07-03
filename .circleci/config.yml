@@ -1,8 +1,18 @@
 version: 2
 jobs:
    build:
+     working_directory: ~/fpinfo-historikk 
      docker:
       - image: circleci/openjdk:8-jdk-browsers
      steps:
        - checkout
+       - restore_cache: 
+          key: fpinfo-historikk-{{ checksum "pom.xml" }}
+      
+      - run: mvn dependency:go-offline # gets the project dependencies
+      
+      - save_cache: # saves the project dependencies
+          paths:
+            - ~/.m2
+          key: fpinfo-historikk-{{ checksum "pom.xml" }}
        - run: echo "A first hello"
