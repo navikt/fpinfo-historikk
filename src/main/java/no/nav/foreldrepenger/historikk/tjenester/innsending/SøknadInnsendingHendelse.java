@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,7 +28,7 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
-            @JsonProperty("hendelse") Hendelse hendelse,
+            @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg) {
         super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
         this.leveranseStatus = leveranseStatus;
