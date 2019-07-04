@@ -39,8 +39,6 @@ workflows:
    version: 2
    deploy-nais:
      jobs:
-      - attach_workspace:
-          at: ~/.circeci 
       - build:
           context: NAIS deployment
       - nais/deploy:
