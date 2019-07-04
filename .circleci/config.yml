@@ -8,10 +8,7 @@ jobs:
      docker:
        - image: circleci/openjdk:8u171-jdk
      steps:
-       - checkout
-       
-       - nais/decrypt-private-key:
-       
+       - checkout       
        - restore_cache: 
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
       
@@ -42,6 +39,7 @@ workflows:
    version: 2
    deploy-nais:
      jobs:
+      - nais/decrypt-private-key:
       - build:
           context: NAIS deployment
       - nais/deploy:
