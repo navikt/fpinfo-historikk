@@ -6,7 +6,7 @@ metadata:
   labels:
     team: {{team}}
 spec:
-  image: https://cloud.docker.com/u/navikt/repository/docker/navikt/fpinfo-historikk:{{version}}
+  image: https://cloud.docker.com/u/navikt/repository/docker/navikt:{{version}}
   port: 8080
   replicas:
       min: 2
