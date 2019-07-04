@@ -36,6 +36,7 @@ jobs:
           root: ~/fpinfo-historikk 
           paths:
             - ./.circleci  
+            - ./target
           
 workflows:
    version: 2
