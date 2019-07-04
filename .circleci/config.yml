@@ -32,11 +32,9 @@ jobs:
        - store_artifacts:
           path: ~/test-results/junit  
 
-       - persist_to_workspace:
-          root: ~/fpinfo-historikk 
-          paths:
-            - ./.circleci  
-            - ./target
+       - nais/docker-deploy:	
+          image: navikt/fpinfo-historikk	
+
           
 workflows:
    version: 2
@@ -45,7 +43,7 @@ workflows:
       - build:
           context: NAIS deployment
       - nais/deploy:
-          build-and-push-docker-image: true
+          build-and-push-docker-image: false
           context: NAIS deployment
           repo: navikt/fpinfo-historikk
           image: navikt/fpinfo-historikk
