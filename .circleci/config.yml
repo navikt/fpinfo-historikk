@@ -9,8 +9,8 @@ jobs:
        - image: circleci/openjdk:8u171-jdk
      steps:
        - checkout
-       -run 
-         command:  openssl aes-256-cbc -K $OPENSSL_KEY -iv $OPENSSL_IV -in .circleci/github.key.pem.enc -out .circleci/github.key.pem -d
+       - run 
+          command:  openssl aes-256-cbc -K $OPENSSL_KEY -iv $OPENSSL_IV -in .circleci/github.key.pem.enc -out .circleci/github.key.pem -d
        - restore_cache: 
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
       
