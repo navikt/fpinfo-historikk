@@ -33,7 +33,9 @@ jobs:
           path: ~/test-results/junit  
 
        - persist_to_workspace:
-          root: ~/.circeci    
+          root: ~ 
+          paths:
+           - .circeci  
           
 workflows:
    version: 2
