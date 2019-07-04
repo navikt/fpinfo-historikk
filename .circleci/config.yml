@@ -47,7 +47,7 @@ workflows:
           repo: navikt/fpinfo-historikk
           image: navikt/fpinfo-historikk
           github-app-id: 20250
-          nais-template: nais.yaml
+          nais-template: naiserator.yaml
           environment: dev-fss
           team: teamforeldrepenger
           requires:
