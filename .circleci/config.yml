@@ -51,5 +51,8 @@ workflows:
           nais-template: naiserator.yaml
           environment: dev-fss
           team: teamforeldrepenger
+          filters:
+            branches:
+              only: master
           requires:
             - build
