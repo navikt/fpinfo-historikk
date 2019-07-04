@@ -32,18 +32,14 @@ jobs:
        - store_artifacts:
           path: ~/test-results/junit  
           
-       - nais/docker-deploy:
-          image: navikt/fpinfo-historikk
-          
 workflows:
    version: 2
    deploy-nais:
      jobs:
       - build:
           context: NAIS deployment
-      - decrypt-private-key
       - nais/deploy:
-          build-and-push-docker-image: false
+          build-and-push-docker-image: true
           context: NAIS deployment
           repo: navikt/fpinfo-historikk
           image: navikt/fpinfo-historikk
