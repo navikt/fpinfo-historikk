@@ -33,7 +33,7 @@ public class RestClientConfiguration {
     public static final String STS = "sts";
     public static final String DOKARKIV = "dokarkiv";
 
-    @Value("${jalla:default}")
+    @Value("${no_nav_security_oidc_issuer_selvbetjening_acceptedaudience1:default}")
     private String jalla;
 
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
@@ -44,7 +44,7 @@ public class RestClientConfiguration {
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Jalla er " + jalla);
+        LOG.info("no_nav_security_oidc_issuer_selvbetjening_acceptedaudience1 er " + jalla);
         LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
                 mdcInterceptor);
         return builder
