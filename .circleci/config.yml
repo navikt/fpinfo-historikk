@@ -38,7 +38,7 @@ jobs:
           
 workflows:
    version: 2
-   deploy-nais:
+   deploy-nais-dev:
      jobs:
       - build:
           context: NAIS deployment
