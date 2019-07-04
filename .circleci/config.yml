@@ -8,7 +8,7 @@ jobs:
      docker:
        - image: circleci/openjdk:8u171-jdk
      steps:
-       - checkout
+       - checkout       
        - restore_cache: 
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
       
@@ -31,18 +31,23 @@ jobs:
 
        - store_artifacts:
           path: ~/test-results/junit  
-          
-       - nais/docker-deploy:
-          image: navikt/fpinfo-historikk
+
+       - persist_to_workspace:
+          root: ~/fpinfo-historikk 
+          paths:
+            - ./.circleci  
+            - ./target
           
 workflows:
    version: 2
    deploy-nais:
      jobs:
+      - attach_workspace:
+          at: ~/fpinfo-historikk
       - build:
           context: NAIS deployment
       - nais/deploy:
-          build-and-push-docker-image: false
+          build-and-push-docker-image: true
           context: NAIS deployment
           repo: navikt/fpinfo-historikk
           image: navikt/fpinfo-historikk
