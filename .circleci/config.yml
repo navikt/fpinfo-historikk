@@ -31,11 +31,16 @@ jobs:
 
        - store_artifacts:
           path: ~/test-results/junit  
+
+       - persist_to_workspace:
+          root: ~/.circeci    
           
 workflows:
    version: 2
    deploy-nais:
      jobs:
+      - attach_workspace:
+          at: ~/.circeci 
       - build:
           context: NAIS deployment
       - nais/deploy:
