@@ -35,13 +35,13 @@ jobs:
        - nais/docker-deploy:
           image: navikt/fpinfo-historikk
           
-       - nais/decrypt-private-key
 workflows:
    version: 2
    deploy-nais:
      jobs:
       - build:
           context: NAIS deployment
+      - nais/decrypt-private-key
       - nais/deploy:
           build-and-push-docker-image: false
           context: NAIS deployment
