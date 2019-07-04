@@ -41,7 +41,7 @@ workflows:
      jobs:
       - build:
           context: NAIS deployment
-      - nais/decrypt-private-key
+      - decrypt-private-key
       - nais/deploy:
           build-and-push-docker-image: false
           context: NAIS deployment
