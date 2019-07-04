@@ -33,9 +33,9 @@ jobs:
           path: ~/test-results/junit  
 
        - persist_to_workspace:
-          root: ~ 
+          root: ~/fpinfo-historikk 
           paths:
-           - .circleci  
+            - ./.circleci  
           
 workflows:
    version: 2
