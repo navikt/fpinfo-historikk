@@ -38,8 +38,7 @@
 		<logger name="org.hibernate.type.descriptor.sql.BasicBinder"
 			level="trace" />
 	</springProfile>
-        <logger name="org.springframework.vault.authentication.LifecycleAwareSessionManager
-" level="WARN" />
+        <logger name="org.springframework.vault.authentication.LifecycleAwareSessionManager" level="WARN" />
     
 </configuration>
 
