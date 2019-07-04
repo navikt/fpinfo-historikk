@@ -8,8 +8,6 @@ metadata:
 spec:
   image: repo.adeo.no:5443/fpinfo-historikk:{{version}}
   port: 8080
-  ingresses: 
-    - "https://foreldrepengesoknad-q.nav.no"
   replicas:
       min: 2
       max: 2
