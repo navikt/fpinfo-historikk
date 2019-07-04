@@ -42,6 +42,8 @@ workflows:
    version: 2
    deploy-nais:
      jobs:
+      - attach_workspace:
+          at: ~/fpinfo-historikk
       - build:
           context: NAIS deployment
       - nais/deploy:
