@@ -25,11 +25,6 @@ jobs:
             echo "Setting version $VERSION"
             mvn versions:set -DnewVersion="$VERSION"
             mvn versions:commit
-       - run: 
-          name: "Push new version"
-          command: |
-              git commit -am "set version [skip ci]"
-              git push origin master
        - run: mvn package 
        - run: 
            name: Save test results
