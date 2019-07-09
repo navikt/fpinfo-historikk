@@ -35,7 +35,7 @@ jobs:
               git commit -am "set version [skip ci]"
               git push origin master
             
-       - run: mvn package 
+       - run: mvn clean package 
        
        - run:
            name: Save test results
