@@ -16,9 +16,9 @@ historikk:
          søknad_topic : fpsoknad-mottak
 info:
    app:
-      version: '@project.version@'
+      version: @project.version@
       build:
-         time: '@timestamp@'
+         time: @timestamp@
 
 
 management:     
