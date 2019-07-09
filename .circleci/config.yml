@@ -33,7 +33,7 @@ jobs:
           name: "Committing version"
           command: | 
               git commit -am "set version [skip ci]"
-              git push origin master
+              git push -q https://${GITHUB_PERSONAL_TOKEN}@github.com/navikt/fpinfo-historikk.git master
             
        - run: mvn package 
        
