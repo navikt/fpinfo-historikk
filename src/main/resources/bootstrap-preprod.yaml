@@ -15,5 +15,5 @@ spring:
          generic:
              enabled: true
              backend: kv/preprod/fss
-             application-name: fpinfo-historikk/default #Change "default to t10, q1 etc"
+             application-name: fpinfo-historikk/default
              default-context: fpinfo-historikk/default 
