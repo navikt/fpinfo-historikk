@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.historikk;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
@@ -16,13 +16,13 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
-@Profile({ DEV, PREPROD })
+@Profile({ LOCAL, DEV })
 @RequestMapping(path = HistorikkController.HISTORIKK + "/preprod", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-public class HistorikkPreprodController {
+public class HistorikkDevController {
     private final HistorikkTjeneste historikk;
 
-    HistorikkPreprodController(HistorikkTjeneste historikk) {
+    HistorikkDevController(HistorikkTjeneste historikk) {
         this.historikk = historikk;
     }
 

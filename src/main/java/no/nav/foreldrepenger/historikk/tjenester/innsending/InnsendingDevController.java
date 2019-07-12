@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
-@Profile({ DEV, PREPROD })
+@Profile({ LOCAL, DEV })
 @RequestMapping(value = "/innsending/preprod")
 @Unprotected
-public class InnsendingPreprodController {
+public class InnsendingDevController {
     private final InnsendingHendelseProdusent innsending;
 
-    InnsendingPreprodController(InnsendingHendelseProdusent innsending) {
+    InnsendingDevController(InnsendingHendelseProdusent innsending) {
         this.innsending = innsending;
     }
 
