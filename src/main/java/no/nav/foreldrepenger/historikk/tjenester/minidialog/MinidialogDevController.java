@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogController.MINIDIALOG;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import java.util.List;
 
@@ -18,14 +18,14 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
-@Profile({ DEV, PREPROD })
+@Profile({ LOCAL, DEV })
 @RequestMapping(value = MINIDIALOG + "/preprod")
 @Unprotected
-public class MinidialogPreprodController {
+public class MinidialogDevController {
     private final MinidialogTjeneste minidialog;
     private final MinidialogHendelseProdusent produsent;
 
-    MinidialogPreprodController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent) {
+    MinidialogDevController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent) {
         this.minidialog = minidialog;
         this.produsent = produsent;
     }

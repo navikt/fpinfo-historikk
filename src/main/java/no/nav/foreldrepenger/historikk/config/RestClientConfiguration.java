@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import java.io.IOException;
 
@@ -74,7 +74,7 @@ public class RestClientConfiguration {
     }
 
     @Bean
-    @Profile(DEV)
+    @Profile(LOCAL)
     @ConditionalOnMissingBean(SpringOIDCRequestContextHolder.class)
     OIDCRequestContextHolder dummyContextHolderForDev() {
         return new OIDCRequestContextHolder() {
@@ -102,7 +102,7 @@ public class RestClientConfiguration {
     }
 
     @Bean
-    @Profile(DEV)
+    @Profile(LOCAL)
     @ConditionalOnMissingBean(BearerTokenClientHttpRequestInterceptor.class)
     BearerTokenClientHttpRequestInterceptor dummyBearerTokenClientHttpRequestInterceptor(OIDCRequestContextHolder ctx) {
         return new BearerTokenClientHttpRequestInterceptor(ctx) {

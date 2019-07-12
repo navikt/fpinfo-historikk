@@ -4,7 +4,7 @@
 		class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
-	<springProfile name="dev">
+	<springProfile name="local">
 		<appender name="stdout"
 			class="ch.qos.logback.core.ConsoleAppender">
 			<layout class="ch.qos.logback.classic.PatternLayout">
@@ -25,7 +25,7 @@
 			<OnMatch>DENY</OnMatch>
 		</turboFilter>
 	</springProfile>
-	<springProfile name="dev,preprod">
+	<springProfile name="dev,local">
 		<logger name="no.nav.foreldrepenger" level="trace" />
 		<logger name="org.flywaydb" level="info" />
 		<logger name="org.springframework.kafka" level="info" />

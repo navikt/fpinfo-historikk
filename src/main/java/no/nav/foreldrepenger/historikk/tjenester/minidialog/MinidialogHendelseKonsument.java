@@ -4,7 +4,7 @@ import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpostFra;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import javax.validation.Valid;
 
@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTj
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
 
 @Service
-@Profile({ DEV, PREPROD })
+@Profile({ LOCAL, DEV })
 public class MinidialogHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);

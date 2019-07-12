@@ -1,0 +1,42 @@
+management:
+   endpoints:
+      web:
+         exposure:
+            include:  '*'
+   endpoint:
+     health:
+        show-details: always
+        
+sts.enabled: false
+historikk.oppslag.enabled: false
+dokarkiv.enabled: false        
+kafka :
+   username: username
+   password: password
+spring:
+   jpa:
+      show-sql: false
+      properties:
+         hibernate:
+            format_sql=false
+      hibernate:
+         ddl-auto: create
+   flyway:
+      enabled: false
+   http:
+      log-request-details: false
+   kafka: 
+      consumer:
+         enable-auto-commit: false
+         bootstrap-servers: localhost:9092
+         group-id: group_id
+         
+         auto-offset-reset: earliest
+         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+       
+      producer:
+         bootstrap-servers: localhost:9092
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+         transaction-id-prefix: tx.

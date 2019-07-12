@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PREPROD;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static no.nav.foreldrepenger.historikk.util.MDCUtil.callIdOrNew;
 import static org.springframework.kafka.support.KafkaHeaders.TOPIC;
 
@@ -22,7 +22,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import no.nav.foreldrepenger.historikk.util.JacksonUtil;
 
 @Service
-@Profile({ DEV, PREPROD })
+@Profile({ LOCAL, DEV })
 public class MinidialogHendelseProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseProdusent.class);
     private final String topicNavn;
