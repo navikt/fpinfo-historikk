@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.nav.bris</groupId>
     <artifactId>fpinfo-historikk</artifactId>
-    <version>1.2019.07.12-22.01-da4c262cd38d</version>
+    <version>1.2019.07.12-22.11-12ffa7516159</version>
 
     <properties>
         <oidc-spring-support.version>0.2.18</oidc-spring-support.version>
