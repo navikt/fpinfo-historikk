@@ -5,9 +5,7 @@ import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -31,10 +29,7 @@ public class ClusterAwareSpringProfileSetter
     public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication application) {
         String cluster = clusterFra(env.getProperty(NAIS_CLUSTER_NAME, LOCAL));
         LOG.info("Vi er i cluster " + cluster);
-        List<String> aktive = new ArrayList<>(Arrays.asList(env.getActiveProfiles()));
         LOG.info("Aktive profiler før " + Arrays.toString(env.getActiveProfiles()));
-        aktive.add(cluster);
-        aktive.add("wohoo");
         env.setActiveProfiles(cluster, "wohoo");
         LOG.info("Aktive profiler etterpå " + Arrays.toString(env.getActiveProfiles()));
     }
