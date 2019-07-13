@@ -33,7 +33,7 @@ public class ClusterAwareSpringProfileSetter
         LOG.info("Vi er i cluster " + cluster);
         env.getPropertySources().addLast(new MapPropertySource(CLUSTER, ImmutableMap.of(
                 ACTIVE_PROFILES_PROPERTY_NAME, cluster, "test.jalla", "42")));
-        LOG.info("JALLA " + env.getProperty("test.jalla"));
+        LOG.info("Active profile " + env.getProperty(ACTIVE_PROFILES_PROPERTY_NAME));
     }
 
     private static String clusterFra(String cluster) {
