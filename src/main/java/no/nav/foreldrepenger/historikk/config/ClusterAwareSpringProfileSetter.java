@@ -37,6 +37,8 @@ public class ClusterAwareSpringProfileSetter
         LOG.info("Vi er i cluster " + cluster);
         List<String> aktive = new ArrayList<>(Arrays.asList(env.getActiveProfiles()));
         aktive.add(cluster);
+        aktive.add("wohoo");
+        LOG.info("Aktive profiler før " + env.getProperty(ACTIVE_PROFILES_PROPERTY_NAME));
         env.getPropertySources().addLast(new MapPropertySource(CLUSTER, ImmutableMap.of(
                 ACTIVE_PROFILES_PROPERTY_NAME, aktive, "test.jalla", "42")));
         LOG.info("Aktive profiler etterpå " + env.getProperty(ACTIVE_PROFILES_PROPERTY_NAME));
