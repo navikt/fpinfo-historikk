@@ -24,11 +24,11 @@ public class ClusterAwareSpringProfileSetter
         implements ApplicationListener<ApplicationEvent>, EnvironmentPostProcessor {
 
     private static final String NAIS_CLUSTER_NAME = "nais.cluster.name";
-    private static final String CLUSTER = "cluster";
     private static final DeferredLog LOG = new DeferredLog();
 
     @Override
-    public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication application) {
+    public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
+        app.setLogStartupInfo(true);
         String cluster = clusterFra(env.getProperty(NAIS_CLUSTER_NAME, LOCAL));
         LOG.info("Vi er i cluster " + cluster);
         List<String> aktive = new ArrayList<>(Arrays.asList(env.getActiveProfiles()));
