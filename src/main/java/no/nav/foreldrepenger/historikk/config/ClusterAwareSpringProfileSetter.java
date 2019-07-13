@@ -20,7 +20,8 @@ import com.google.common.collect.ImmutableMap;
 
 @Order(LOWEST_PRECEDENCE)
 @Component
-public class ClusterAwareProfileSetter implements ApplicationListener<ApplicationEvent>, EnvironmentPostProcessor {
+public class ClusterAwareSpringProfileSetter
+        implements ApplicationListener<ApplicationEvent>, EnvironmentPostProcessor {
 
     private static final String NAIS_CLUSTER_NAME = "nais.cluster.name";
     private static final String CLUSTER = "cluster";
@@ -31,7 +32,8 @@ public class ClusterAwareProfileSetter implements ApplicationListener<Applicatio
         String cluster = clusterFra(env.getProperty(NAIS_CLUSTER_NAME, LOCAL));
         LOG.info("Vi er i cluster " + cluster);
         env.getPropertySources().addLast(new MapPropertySource(CLUSTER, ImmutableMap.of(
-                ACTIVE_PROFILES_PROPERTY_NAME, cluster)));
+                ACTIVE_PROFILES_PROPERTY_NAME, cluster, "test.jalla", "42")));
+        LOG.info("JALLA " + env.getProperty("test.jalla"));
     }
 
     private static String clusterFra(String cluster) {
@@ -47,7 +49,7 @@ public class ClusterAwareProfileSetter implements ApplicationListener<Applicatio
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        LOG.replayTo(ClusterAwareProfileSetter.class);
+        LOG.replayTo(ClusterAwareSpringProfileSetter.class);
     }
 
 }
