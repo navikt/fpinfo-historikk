@@ -35,7 +35,6 @@ public class ClusterAwareSpringProfileSetter
         LOG.info("Aktive profiler før " + aktive);
         aktive.add(cluster);
         aktive.add("wohoo");
-        aktive.toArray();
         env.setActiveProfiles(aktive.stream().toArray(String[]::new));
         LOG.info("Aktive profiler etterpå " + Arrays.toString(env.getActiveProfiles()));
     }
