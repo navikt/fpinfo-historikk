@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.nav.bris</groupId>
     <artifactId>fpinfo-historikk</artifactId>
-    <version>1.2019.07.12-22.47-4ae611d27396</version>
+    <version>0-SNAPSHOT</version>
 
     <properties>
         <oidc-spring-support.version>0.2.18</oidc-spring-support.version>
@@ -38,8 +38,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>
