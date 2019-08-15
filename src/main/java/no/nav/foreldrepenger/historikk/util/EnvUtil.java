@@ -16,19 +16,19 @@ public final class EnvUtil {
     private EnvUtil() {
     }
 
-    public static boolean isDevOrPreprod(Environment env) {
-        return isDev(env) || isPreprod(env);
+    public static boolean isDevOrLocal(Environment env) {
+        return isDev(env) || isLocal(env);
     }
 
-    public static boolean isPreprod(Environment env) {
+    public static boolean isLocal(Environment env) {
         return env.acceptsProfiles(of(DEV));
     }
 
     public static boolean isDev(Environment env) {
-        return env.acceptsProfiles(of(LOCAL));
+        return env.acceptsProfiles(of(DEV));
     }
 
     public static boolean isProd(Environment env) {
-        return !isDevOrPreprod(env);
+        return !isDevOrLocal(env);
     }
 }

@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.health;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.isDevOrPreprod;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.isDevOrLocal;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
@@ -36,14 +36,14 @@ public abstract class EnvironmentAwareHealthIndicator implements HealthIndicator
     }
 
     private Health up() {
-        return isDevOrPreprod(env) ? Health.up()
+        return isDevOrLocal(env) ? Health.up()
                 .withDetail(pingable.name(), pingable.pingEndpoint())
                 .build()
                 : Health.up().build();
     }
 
     private Health down(Exception e) {
-        return isDevOrPreprod(env)
+        return isDevOrLocal(env)
                 ? Health.down()
                         .withDetail(pingable.name(), pingable.pingEndpoint())
                         .withException(e)
@@ -53,6 +53,6 @@ public abstract class EnvironmentAwareHealthIndicator implements HealthIndicator
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [pingable=" + pingable + "isDevOrPreprod " + isDevOrPreprod(env) + "]";
+        return getClass().getSimpleName() + " [pingable=" + pingable + "isDevOrLocal " + isDevOrLocal(env) + "]";
     }
 }
