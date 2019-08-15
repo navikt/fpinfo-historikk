@@ -8,7 +8,7 @@ import org.springframework.boot.logging.DeferredLog;
 
 public class ClusterAwareSpringProfileResolver {
 
-    private static final String NAIS_CLUSTER_NAME = "nais.cluster.name";
+    private static final String NAIS_CLUSTER_NAME = "nais_cluster_name";
     private static final DeferredLog LOG = new DeferredLog();
 
     public String getProfile() {
