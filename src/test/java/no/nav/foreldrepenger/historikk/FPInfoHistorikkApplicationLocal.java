@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 import java.io.IOException;
@@ -14,6 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver;
+
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableKafka
@@ -24,7 +25,7 @@ public class FPInfoHistorikkApplicationLocal {
 
     public static void main(String[] args) throws IOException {
         new SpringApplicationBuilder(FPInfoHistorikkApplicationLocal.class)
-                .profiles(LOCAL)
+                .profiles(new ClusterAwareSpringProfileResolver().getProfile())
                 .main(FPInfoHistorikkApplicationLocal.class)
                 .run(args);
     }

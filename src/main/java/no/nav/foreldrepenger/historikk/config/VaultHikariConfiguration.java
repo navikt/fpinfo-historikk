@@ -18,7 +18,7 @@ import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@ConditionalOnProperty(value = "spring.cloud.vault.database.enabled")
+@ConditionalOnProperty(value = "spring.cloud.vault.enabled")
 public class VaultHikariConfiguration implements InitializingBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfiguration.class.getName());
     private final SecretLeaseContainer container;
