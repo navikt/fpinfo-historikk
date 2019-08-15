@@ -9,10 +9,7 @@ jobs:
      docker:
        - image: circleci/openjdk:11-jdk
      steps:
-       - add_ssh_keys:
-          fingerprints:
-            -  "56:6c:26:ef:25:3f:72:ff:d9:ec:17:23:a9:2f:3a:ab" 
-            
+      
        - run: 
            name: Checkout config 
            command: git clone git@github.com:navikt/foreldrepenger-infra.git 
