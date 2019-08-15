@@ -32,11 +32,8 @@ public class ClusterAwareSpringProfileSetter
         String cluster = clusterFra(env.getProperty(NAIS_CLUSTER_NAME, LOCAL));
         LOG.info("Vi er i cluster " + cluster);
         List<String> aktive = new ArrayList<>(Arrays.asList(env.getActiveProfiles()));
-        LOG.info("Aktive profiler før " + aktive);
         aktive.add(cluster);
-        aktive.add("wohoo");
         env.setActiveProfiles(aktive.stream().toArray(String[]::new));
-        LOG.info("Aktive profiler etterpå " + Arrays.toString(env.getActiveProfiles()));
     }
 
     private static String clusterFra(String cluster) {
