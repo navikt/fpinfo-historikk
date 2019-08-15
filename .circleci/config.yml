@@ -11,7 +11,7 @@ jobs:
      steps:
        - add_ssh_keys:
           fingerprints:
-            -  "SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8" 
+            -  "56:6c:26:ef:25:3f:72:ff:d9:ec:17:23:a9:2f:3a:ab" 
             
        - run: 
            name: Checkout config 
