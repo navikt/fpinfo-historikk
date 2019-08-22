@@ -27,11 +27,7 @@ jobs:
           
        - run: 
            name: Bygge 
-           command: mvn clean package 
-      
-       - run:
-           name: Sonar 
-           command : mvn sonar:sonar -Dsonar.projectKey=navikt_fpinfo-historikk  -Dsonar.organization=navit -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR       
+           command: mvn clean package sonar:sonar -Dsonar.projectKey=navikt_fpinfo-historikk  -Dsonar.organization=navit -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR 
       
        - run:
            name: Flytte testresultater
