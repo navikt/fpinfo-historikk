@@ -10,7 +10,11 @@ jobs:
        - image: circleci/openjdk:11-jdk
      steps:
            
-       - checkout       
+       - checkout   
+       - run : 
+          name : Set environment variables
+          command : echo "export RELEASE_VERSION=\"$MAJOR_VERSION-$CIRCLE_BUILD_NUM-$(git rev-parse --short HEAD)\"" >> $BASH_ENV
+             
       
        - restore_cache: 
           name: Hente cache 
@@ -25,10 +29,17 @@ jobs:
             - ~/.m2
           key: fpinfo-historikk-{{ checksum "pom.xml" }}
           
+       - run :
+          name : Set maven versjon
+          command : mvn versions:set -B -DnewVersion=$RELEASE_VERSION 
        - run: 
-           name: Bygge 
-           command: mvn clean package sonar:sonar -Dsonar.projectKey=navikt_fpinfo-historikk  -Dsonar.organization=navit -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR 
-      
+          name: Bygge 
+          command: mvn -Dsonar.projectKey=navikt_$CIRCLE_PROJECT_REPONAME -Dsonar.organization=navit -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR clean package sonar:sonar 
+          
+       - run :
+          name : Revert maven versjon
+          command :  mvn versions:revert
+          
        - run:
            name: Flytte testresultater
            command: |
