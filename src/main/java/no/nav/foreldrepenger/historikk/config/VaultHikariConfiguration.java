@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import static org.springframework.vault.core.lease.LeaseEndpoints.SysLeases;
 import static org.springframework.vault.core.lease.domain.RequestedSecret.rotating;
 
 import java.util.Map;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.vault.core.lease.LeaseEndpoints;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
 import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
@@ -20,7 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.enabled")
 public class VaultHikariConfiguration implements InitializingBean {
-    private static final Logger LOG = LoggerFactory.getLogger(VaultHikariConfiguration.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(VaultHikariConfiguration.class);
     private final SecretLeaseContainer container;
     private final HikariDataSource ds;
     private final VaultDatabaseProperties props;
@@ -34,7 +34,7 @@ public class VaultHikariConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
+        container.setLeaseEndpoints(SysLeases);
         String path = props.getBackend() + "/creds/" + props.getRole();
         LOG.info("Henter hemmelighet fra {}", path);
         RequestedSecret secret = rotating(path);
