@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
-@ConfigurationProperties(prefix = "dokarkiv")
+@ConfigurationProperties(prefix = "dokarkiv", ignoreInvalidFields = true, ignoreUnknownFields = true)
 @Configuration
 public class JournalføringConfig extends AbstractConfig {
 

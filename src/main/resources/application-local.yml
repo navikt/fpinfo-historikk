@@ -17,7 +17,11 @@ historikk:
 dokarkiv:
   enabled: false        
 
-spring:
+kafka:
+   username: username
+   password: password
+   
+spring: 
    application:
      admin:
        enabled: true 
