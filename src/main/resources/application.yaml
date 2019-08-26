@@ -63,7 +63,7 @@ spring:
        spec: maximumSize=100,expireAfterAccess=3600s
   
   datasource:
-    url: jdbc:postgresql://a01dbvl010.adeo.no:5432/fpinfo-historikk-prod
+    url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
     hikari:
       maximum-pool-size: 2         
   

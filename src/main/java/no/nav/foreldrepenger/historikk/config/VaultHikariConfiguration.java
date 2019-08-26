@@ -20,7 +20,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.enabled")
 public class VaultHikariConfiguration implements InitializingBean {
-    private static final Logger LOGGER = LoggerFactory.getLogger(VaultHikariConfiguration.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(VaultHikariConfiguration.class.getName());
     private final SecretLeaseContainer container;
     private final HikariDataSource ds;
     private final VaultDatabaseProperties props;
@@ -36,11 +36,11 @@ public class VaultHikariConfiguration implements InitializingBean {
     public void afterPropertiesSet() {
         container.setLeaseEndpoints(LeaseEndpoints.SysLeases);
         String path = props.getBackend() + "/creds/" + props.getRole();
-        LOGGER.info("Henter hemmelighet fra {}", path);
+        LOG.info("Henter hemmelighet fra {}", path);
         RequestedSecret secret = rotating(path);
         container.addLeaseListener(leaseEvent -> {
             if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent)) {
-                LOGGER.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
+                LOG.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
                 Map<String, Object> secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
                 String username = secrets.get("username").toString();
                 String password = secrets.get("password").toString();
