@@ -1,12 +1,13 @@
 package no.nav.foreldrepenger.historikk;
 
+import static no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver.profiles;
+
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.kafka.annotation.EnableKafka;
 
-import no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver;
 import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 
 @EnableOIDCTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
@@ -17,7 +18,7 @@ import no.nav.security.spring.oidc.api.EnableOIDCTokenValidation;
 public class FPInfoHistorikkApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
-                .profiles(new ClusterAwareSpringProfileResolver().getProfile())
+                .profiles(profiles())
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
     }
