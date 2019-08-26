@@ -35,12 +35,9 @@
 		<logger name="org.apache.kafka.transaction" level="info" />
 		<logger name="org.hibernate.SQL" level="trace" />
 		<logger name="org.springframework.kafka.listener.DeadLetterPublishingRecoverer" level="trace" />
-		<logger name="org.hibernate.type.descriptor.sql.BasicBinder"
-			level="trace" />
+		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
 	</springProfile>
-	<springProfile name="default">
-        <logger name="org.springframework.vault" level="trace" />
-        <logger name="org.springframework.jdbc" level="trace" />
-    </springProfile>
+    <logger name="org.springframework.vault" level="trace" />
+    <logger name="org.springframework.jdbc" level="trace" />
 </configuration>
 
