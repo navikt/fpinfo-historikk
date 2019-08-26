@@ -5,7 +5,7 @@ spring:
          uri: https://vault.adeo.no
          database:
             enabled: true
-            role: fpinfo-historikk-prod-admin
+            role: fpinfo-historikk-prod-readonly
             backend: postgresql/prod-fss
          authentication: KUBERNETES
          kubernetes:
