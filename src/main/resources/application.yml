@@ -69,7 +69,7 @@ spring:
   
   flyway:
     baselineOnMigrate: false
-    enabled: true    
+    enabled: false    
 
   jackson:
     default-property-inclusion:  non-absent

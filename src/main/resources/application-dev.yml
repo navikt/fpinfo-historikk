@@ -11,6 +11,8 @@ dokarkiv:
    service: https://dokarkiv-q1.nais.preprod.local
             
 spring:
+   flyway:
+     enabled: true
    http:
       log-request-details: true
    datasource:
@@ -26,7 +28,7 @@ spring:
       consumer: 
          enable-auto-commit: false
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
-         group-id: group_id2 
+         group-id: group_id
          auto-offset-reset: earliest
          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
