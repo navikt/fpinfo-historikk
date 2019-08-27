@@ -11,9 +11,9 @@ spring:
          kubernetes:
             role: fpinfo-historikk
             kubernetes-path: kubernetes/prod/fss
-            service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token        
+            service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
          generic:
             enabled: true
             backend: kv/prod/fss
             application-name: fpinfo-historikk/default
-            default-context: fpinfo-historikk/default 
+            default-context: fpinfo-historikk/default
