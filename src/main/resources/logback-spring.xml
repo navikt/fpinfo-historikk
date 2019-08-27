@@ -37,7 +37,7 @@
 		<logger name="org.springframework.kafka.listener.DeadLetterPublishingRecoverer" level="trace" />
 		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
 	</springProfile>
-	<logger name="com.zaxxer.hikari" level="trace" />
-    <logger name="org.springframework" level="trace" />
+	<logger name="com.zaxxer.hikari" level="info" />
+    <logger name="org.springframework" level="info" />
 </configuration>
 
