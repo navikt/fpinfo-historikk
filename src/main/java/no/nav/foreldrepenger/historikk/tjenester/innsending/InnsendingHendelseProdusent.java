@@ -58,8 +58,8 @@ public class InnsendingHendelseProdusent {
             }
 
             @Override
-            public void onFailure(Throwable ex) {
-                LOG.warn("Kunne ikke sende melding {}", message, ex);
+            public void onFailure(Throwable e) {
+                LOG.warn("Kunne ikke sende melding {}", message, e);
             }
         });
     }
