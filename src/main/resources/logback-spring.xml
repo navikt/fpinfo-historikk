@@ -40,5 +40,6 @@
 	<logger name="com.zaxxer.hikari" level="info" />
 	<logger name="org.springframework.kafka" level="trace" />
     <logger name="org.springframework.vault" level="trace" />
+    <logger name="org.apache.kafka" level="trace" />  
 </configuration>
 
