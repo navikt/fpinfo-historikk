@@ -27,10 +27,10 @@ public final class ClusterAwareSpringProfileResolver {
         if (cluster == null) {
             return LOCAL;
         }
-        if (cluster.equals(DEV)) {
+        if (cluster.contains(DEV)) {
             return DEV;
         }
-        if (cluster.equals(PROD)) {
+        if (cluster.contains(PROD)) {
             return PROD;
         }
         throw new IllegalArgumentException("Ukjent cluster " + cluster + " , kan ikke bestemme Spring-profil");
