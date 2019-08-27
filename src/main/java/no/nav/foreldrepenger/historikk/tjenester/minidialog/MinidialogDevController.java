@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogController.MINIDIALOG;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEVFSS;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
-@Profile({ LOCAL, DEV })
+@Profile({ LOCAL, DEVFSS })
 @RequestMapping(value = MINIDIALOG + "/preprod")
 @Unprotected
 public class MinidialogDevController {

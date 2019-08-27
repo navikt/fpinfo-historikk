@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEVFSS;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import org.springframework.context.annotation.Profile;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
-@Profile({ LOCAL, DEV })
+@Profile({ LOCAL, DEVFSS })
 @RequestMapping(value = "/innsending/preprod")
 @Unprotected
 public class InnsendingDevController {
