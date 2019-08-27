@@ -38,8 +38,8 @@
 		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
 	</springProfile>
 	<logger name="com.zaxxer.hikari" level="info" />
-	<logger name="org.springframework.kafka" level="trace" />
-    <logger name="org.springframework.vault" level="trace" />
+	<logger name="org.springframework.kafka" level="info" />
+    <logger name="org.springframework.vault" level="info" />
     <logger name="org.apache.kafka" level="trace" />  
 </configuration>
 
