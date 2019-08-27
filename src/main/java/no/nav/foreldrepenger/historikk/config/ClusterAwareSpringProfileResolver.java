@@ -1,9 +1,9 @@
 package no.nav.foreldrepenger.historikk.config;
 
 import static java.util.Collections.singletonList;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEVFSS;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.PRODFSS;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.PROD;
 
 public final class ClusterAwareSpringProfileResolver {
 
@@ -27,11 +27,11 @@ public final class ClusterAwareSpringProfileResolver {
         if (cluster == null) {
             return LOCAL;
         }
-        if (cluster.equals(DEVFSS)) {
-            return DEVFSS;
+        if (cluster.equals(DEV)) {
+            return DEV;
         }
-        if (cluster.equals(PRODFSS)) {
-            return PRODFSS;
+        if (cluster.equals(PROD)) {
+            return PROD;
         }
         throw new IllegalArgumentException("Ukjent cluster " + cluster + " , kan ikke bestemme Spring-profil");
     }

@@ -7,10 +7,9 @@ import org.slf4j.MarkerFactory;
 import org.springframework.core.env.Environment;
 
 public final class EnvUtil {
-    public static final String DEFAULT = "default";
-    public static final String DEVFSS = "dev-fss";
+    public static final String DEV = "dev";
     public static final String LOCAL = "local";
-    public static final String PRODFSS = "prod-fss";
+    public static final String PROD = "prod";
     public static final String INCLUSTER = "!" + LOCAL;
     public static final Marker CONFIDENTIAL = MarkerFactory.getMarker("CONFIDENTIAL");
 
@@ -22,11 +21,11 @@ public final class EnvUtil {
     }
 
     public static boolean isLocal(Environment env) {
-        return env.acceptsProfiles(of(DEVFSS));
+        return env.acceptsProfiles(of(DEV));
     }
 
     public static boolean isDev(Environment env) {
-        return env.acceptsProfiles(of(DEVFSS));
+        return env.acceptsProfiles(of(DEV));
     }
 
     public static boolean isProd(Environment env) {
