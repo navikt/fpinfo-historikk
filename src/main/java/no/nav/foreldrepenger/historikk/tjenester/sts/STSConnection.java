@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
@@ -15,6 +16,7 @@ import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.TokenRespons;
 
 @Component
+@ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
 public class STSConnection extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(STSConnection.class);
     private final STSConfig cfg;

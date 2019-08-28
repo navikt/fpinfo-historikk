@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,7 @@ public class RestClientConfiguration {
     }
 
     @Qualifier(STS)
+    @ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
     @Bean
     public RestOperations stsRestTemplate(RestTemplateBuilder builder,
             @Value("${kafka.username}") String user,
@@ -63,6 +65,7 @@ public class RestClientConfiguration {
     }
 
     @Qualifier(DOKARKIV)
+    @ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
     @Bean
     public RestOperations dokarkivRestTemplate(RestTemplateBuilder builder,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,

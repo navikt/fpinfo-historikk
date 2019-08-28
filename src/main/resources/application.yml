@@ -4,6 +4,10 @@ no.nav:
    security:
       oidc:
          issuers: selvbetjening
+dokarkiv:
+  enabled: true
+sts:
+  enabled: true           
 historikk:
    oppslag:
       enabled: true

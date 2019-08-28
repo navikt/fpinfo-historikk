@@ -6,6 +6,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalst
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
@@ -13,6 +14,7 @@ import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 
 @Component
+@ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
 public class JournalføringConnection extends AbstractRestConnection {
     private final JournalføringConfig cfg;
 
