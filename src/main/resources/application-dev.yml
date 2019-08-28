@@ -16,13 +16,6 @@ spring:
    http:
       log-request-details: true
    kafka:
-      properties:
-         security:
-            protocol: SASL_SSL
-         sasl:
-            mechanism: PLAIN
-            jaas:
-               config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
       consumer:
          enable-auto-commit: false
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
