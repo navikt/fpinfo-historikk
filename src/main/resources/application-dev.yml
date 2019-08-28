@@ -1,3 +1,6 @@
+dokarkiv:
+   service: https://dokarkiv-q1.nais.preprod.local
+
 management:
    endpoints:
       web:
@@ -5,16 +8,13 @@ management:
             include: '*'
    endpoint:
       health:
-         show-details: always
-dokarkiv:
-   service: https://dokarkiv-q1.nais.preprod.local
+         show-details: always   
+
 spring:
-   flyway:
-      enabled: true
-   http:
-      log-request-details: true
    datasource:
       url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
+   http:
+      log-request-details: true
    kafka:
       properties:
          security:
