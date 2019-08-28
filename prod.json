@@ -1,5 +1,5 @@
 {
-  "ingress" : "https://fpinfo-historikk.nais.oera.local",
+  "ingress" : "https://fpinfo-historikk.nais.adeo.no",
   "application_name": "fpinfo-historikk",
   "env": {
     "no_nav_security_oidc_issuer_selvbetjening_discoveryurl": "https://login.microsoftonline.com/navnob2c.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten"
