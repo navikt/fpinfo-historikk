@@ -2,12 +2,14 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import io.github.resilience4j.retry.annotation.Retry;
 
 @Service
 @Retry(name = "dokarkiv")
+@ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
 public class JournalføringTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(JournalføringTjeneste.class);

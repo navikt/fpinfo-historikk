@@ -13,17 +13,16 @@ historikk:
       enabled: false
 dokarkiv:
    enabled: false
-kafka:
-   username: username
-   password: password
 spring:
    application:
       admin:
          enabled: true
+   datasource:
+      url: jdbc:hsqldb:mem:testdb      
    jpa:
       show-sql: false
       properties:
-         hibernate: format_sql=false
+         hibernate: format_sql=true
       hibernate:
          ddl-auto: create
    flyway:
@@ -31,15 +30,10 @@ spring:
    http:
       log-request-details: false
    kafka:
+      properties:
+         security:
+            protocol: PLAINTEXT 
       consumer:
-         enable-auto-commit: false
          bootstrap-servers: localhost:9092
-         group-id: group_id
-         auto-offset-reset: earliest
-         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       producer:
          bootstrap-servers: localhost:9092
-         key-serializer: org.apache.kafka.common.serialization.StringSerializer
-         value-serializer: org.apache.kafka.common.serialization.StringSerializer
-         transaction-id-prefix: tx.
