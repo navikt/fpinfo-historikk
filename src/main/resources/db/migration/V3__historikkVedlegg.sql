@@ -1,3 +1,4 @@
 CREATE TABLE HISTORIKKVEDLEGG (
     id  SERIAL PRIMARY KEY,
-    vedlegg_id VARCHAR (50);
+    vedlegg_id VARCHAR (50)
+ );
