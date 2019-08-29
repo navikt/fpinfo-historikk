@@ -57,8 +57,7 @@ public class HistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<HistorikkInnslag> hentHistorikk(Fødselsnummer fnr) {
         LOG.info("Henter historikkinnslag for {}", fnr);
-        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(
-                where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<HistorikkInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet historikkinnslag {}", innslag);
         return innslag;
     }

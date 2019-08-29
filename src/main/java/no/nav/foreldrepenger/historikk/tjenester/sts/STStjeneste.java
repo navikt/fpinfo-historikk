@@ -21,5 +21,4 @@ public class STStjeneste {
     public String toString() {
         return getClass().getSimpleName() + "[connection=" + connection + "]";
     }
-
 }
