@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
 
 import static javax.persistence.FetchType.LAZY;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +16,8 @@ public class JPAHistorikkVedlegg {
     @Id
     @GeneratedValue
     private int id;
-    private String vedleggId;
+    @Column(name = "vedlegg_id")
+    private String vedlegg;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "vedlegg")
     private JPAHistorikkInnslag innslag;
@@ -32,11 +34,11 @@ public class JPAHistorikkVedlegg {
     }
 
     public String getVedleggId() {
-        return vedleggId;
+        return vedlegg;
     }
 
     public void setVedleggId(String vedleggId) {
-        this.vedleggId = vedleggId;
+        this.vedlegg = vedleggId;
     }
 
     public JPAHistorikkInnslag getInnslag() {
@@ -49,7 +51,7 @@ public class JPAHistorikkVedlegg {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", vedleggId=" + vedleggId + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", vedleggId=" + vedlegg + "]";
     }
 
 }
