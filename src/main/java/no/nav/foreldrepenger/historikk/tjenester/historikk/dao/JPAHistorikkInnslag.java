@@ -25,13 +25,6 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 @Table(name = "historikk")
 @EntityListeners(AuditingEntityListener.class)
 public class JPAHistorikkInnslag {
-    public List<JPAHistorikkVedlegg> getVedlegg() {
-        return vedlegg;
-    }
-
-    public void setVedlegg(List<JPAHistorikkVedlegg> vedlegg) {
-        this.vedlegg = vedlegg;
-    }
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -54,6 +47,14 @@ public class JPAHistorikkInnslag {
     public void addVedlegg(JPAHistorikkVedlegg v) {
         vedlegg.add(v);
         v.setInnslag(this);
+    }
+
+    public List<JPAHistorikkVedlegg> getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(List<JPAHistorikkVedlegg> vedlegg) {
+        this.vedlegg = vedlegg;
     }
 
     public Fødselsnummer getFnr() {
