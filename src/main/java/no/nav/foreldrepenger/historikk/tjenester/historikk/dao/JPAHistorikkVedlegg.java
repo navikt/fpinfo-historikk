@@ -1,7 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
 
+import static javax.persistence.FetchType.LAZY;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,7 +16,7 @@ public class JPAHistorikkVedlegg {
     @GeneratedValue
     private int id;
     private String vedleggId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "vedlegg")
     private JPAHistorikkInnslag innslag;
 
