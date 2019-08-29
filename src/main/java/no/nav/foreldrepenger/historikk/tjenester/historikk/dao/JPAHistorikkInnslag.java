@@ -3,12 +3,16 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -21,6 +25,14 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 @Table(name = "historikk")
 @EntityListeners(AuditingEntityListener.class)
 public class JPAHistorikkInnslag {
+    public List<JPAHistorikkVedlegg> getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(List<JPAHistorikkVedlegg> vedlegg) {
+        this.vedlegg = vedlegg;
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -33,8 +45,15 @@ public class JPAHistorikkInnslag {
     private String tekst;
     @CreatedDate
     private LocalDateTime opprettet;
+    @OneToMany(mappedBy = "innslag", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JPAHistorikkVedlegg> vedlegg = new ArrayList<>();
 
     public JPAHistorikkInnslag() {
+    }
+
+    public void addVedlegg(JPAHistorikkVedlegg v) {
+        vedlegg.add(v);
+        v.setInnslag(this);
     }
 
     public Fødselsnummer getFnr() {
@@ -96,7 +115,8 @@ public class JPAHistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + "]";
+                + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + ", vedlegg="
+                + vedlegg + "]";
     }
 
 }

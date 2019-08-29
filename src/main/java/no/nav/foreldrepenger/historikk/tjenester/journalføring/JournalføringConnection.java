@@ -45,5 +45,4 @@ public class JournalføringConnection extends AbstractRestConnection {
     public String toString() {
         return getClass().getSimpleName() + " [cfg=" + cfg + "]";
     }
-
 }

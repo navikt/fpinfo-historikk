@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse.UKJENT;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ class HistorikkInnslag {
     private String journalpostId;
     private String saksnr;
     private LocalDateTime opprettet;
+    private List<String> vedlegg;
 
     @JsonCreator
     public HistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
@@ -44,6 +46,14 @@ class HistorikkInnslag {
             LOG.warn("Kunne ikke utlede hendelse fra {}", hendelse);
             return UKJENT;
         }
+    }
+
+    public List<String> getVedlegg() {
+        return vedlegg;
+    }
+
+    public void setVedlegg(List<String> vedlegg) {
+        this.vedlegg = vedlegg;
     }
 
     public void setAktørId(AktørId aktørId) {

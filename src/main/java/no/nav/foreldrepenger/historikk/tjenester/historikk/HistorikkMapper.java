@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.historikk.dao.JPAHistorikkVedlegg;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.SøknadInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
@@ -36,6 +37,10 @@ final class HistorikkMapper {
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
+        innslag.setVedlegg(i.getVedlegg()
+                .stream()
+                .map(JPAHistorikkVedlegg::getVedleggId)
+                .collect(toList()));
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
@@ -48,8 +53,18 @@ final class HistorikkMapper {
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
         innslag.setTekst(event.getHendelse().name());
+        event.getVedlegg()
+                .stream()
+                .map(HistorikkMapper::fraVedlegg)
+                .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
+    }
+
+    private static JPAHistorikkVedlegg fraVedlegg(String id) {
+        JPAHistorikkVedlegg vedlegg = new JPAHistorikkVedlegg();
+        vedlegg.setVedleggId(id);
+        return vedlegg;
     }
 
     static List<HistorikkInnslag> konverterFra(List<JPAHistorikkInnslag> innslag) {
