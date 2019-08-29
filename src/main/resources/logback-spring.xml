@@ -35,7 +35,7 @@
 		<logger name="org.apache.kafka.transaction" level="info" />
 		<logger name="org.hibernate.SQL" level="trace" />
 		<logger name="org.springframework.kafka.listener.DeadLetterPublishingRecoverer" level="trace" />
-		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
+		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="false" />
 	</springProfile>
 </configuration>
 
