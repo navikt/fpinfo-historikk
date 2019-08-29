@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,8 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
     private final LeveranseStatus leveranseStatus;
     @Nullable
     private final List<String> vedlegg;
+    @Nullable
+    private final LocalDate førsteBehandlingsdato;
 
     @JsonCreator
     public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
@@ -29,10 +32,12 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
-            @JsonProperty("vedlegg") List<String> vedlegg) {
+            @JsonProperty("vedlegg") List<String> vedlegg,
+            @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
         super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
         this.leveranseStatus = leveranseStatus;
         this.vedlegg = vedlegg;
+        this.førsteBehandlingsdato = førsteBehandlingsdato;
     }
 
     public LeveranseStatus getLeveranseStatus() {
@@ -48,11 +53,14 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
         return getHendelse().erEttersending();
     }
 
+    public LocalDate getFørsteBehandlingsdato() {
+        return førsteBehandlingsdato;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", journalId="
-                + getJournalId() + ", referanseId=" + getReferanseId() + ", saksNr=" + getSaksNr()
-                + ", leveranseStatus=" + leveranseStatus + ", hendelse=" + getHendelse()
-                + ", vedlegg=" + vedlegg + "]";
+        return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
+                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + "]";
     }
+
 }

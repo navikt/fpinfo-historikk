@@ -37,12 +37,16 @@ final class HistorikkMapper {
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
-        innslag.setVedlegg(i.getVedlegg()
-                .stream()
-                .map(JPAHistorikkVedlegg::getVedleggId)
-                .collect(toList()));
+        innslag.setVedlegg(tilVedlegg(i));
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
+    }
+
+    private static List<String> tilVedlegg(JPAHistorikkInnslag innslag) {
+        return innslag.getVedlegg()
+                .stream()
+                .map(JPAHistorikkVedlegg::getVedleggId)
+                .collect(toList());
     }
 
     static JPAHistorikkInnslag fraEvent(SøknadInnsendingHendelse event) {
