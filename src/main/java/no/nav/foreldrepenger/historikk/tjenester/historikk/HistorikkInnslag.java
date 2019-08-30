@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk;
 
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse.UKJENT;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,7 @@ class HistorikkInnslag {
     private String saksnr;
     private LocalDateTime opprettet;
     private List<String> vedlegg;
+    private LocalDate behandlingsdato;
 
     @JsonCreator
     public HistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
@@ -46,6 +48,14 @@ class HistorikkInnslag {
             LOG.warn("Kunne ikke utlede hendelse fra {}", hendelse);
             return UKJENT;
         }
+    }
+
+    public LocalDate getBehandlingsdato() {
+        return behandlingsdato;
+    }
+
+    public void setBehandlingsdato(LocalDate behandlingsdato) {
+        this.behandlingsdato = behandlingsdato;
     }
 
     public List<String> getVedlegg() {
@@ -98,8 +108,9 @@ class HistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet + "]";
+        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + fnr + ", aktørId=" + aktørId
+                + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", vedlegg="
+                + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
     }
 
 }

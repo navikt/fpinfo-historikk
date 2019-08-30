@@ -1,0 +1,1 @@
+ALTER TABLE HISTORIKK ADD behandlingsdato DATE;
