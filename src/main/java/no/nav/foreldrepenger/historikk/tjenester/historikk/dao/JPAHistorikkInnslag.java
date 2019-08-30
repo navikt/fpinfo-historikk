@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,17 @@ public class JPAHistorikkInnslag {
     private LocalDateTime opprettet;
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
     private List<JPAHistorikkVedlegg> vedlegg = new ArrayList<>();
+    private LocalDate behandlingsdato;
 
     public JPAHistorikkInnslag() {
+    }
+
+    public LocalDate getBehandlingsdato() {
+        return behandlingsdato;
+    }
+
+    public void setBehandlingsdato(LocalDate behandlingsdato) {
+        this.behandlingsdato = behandlingsdato;
     }
 
     public void addVedlegg(JPAHistorikkVedlegg v) {
@@ -117,7 +127,7 @@ public class JPAHistorikkInnslag {
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
                 + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + ", vedlegg="
-                + vedlegg + "]";
+                + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
     }
 
 }

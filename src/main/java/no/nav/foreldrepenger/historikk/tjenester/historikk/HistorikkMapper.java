@@ -38,6 +38,7 @@ final class HistorikkMapper {
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
         innslag.setVedlegg(tilVedlegg(i));
+        innslag.setBehandlingsdato(i.getBehandlingsdato());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
@@ -57,6 +58,7 @@ final class HistorikkMapper {
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
         innslag.setTekst(event.getHendelse().name());
+        innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
         event.getVedlegg()
                 .stream()
                 .map(HistorikkMapper::fraVedlegg)
