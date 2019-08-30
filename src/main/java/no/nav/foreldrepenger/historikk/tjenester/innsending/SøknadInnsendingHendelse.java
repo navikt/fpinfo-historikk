@@ -60,7 +60,9 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
-                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + "]";
+                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", getAktørId()=" + getAktørId() + ", fnr="
+                + getFnr() + ", journalId=" + getJournalId() + ", referanseId=" + getReferanseId()
+                + ", saksnr=" + getSaksNr() + ", hendelse=" + getHendelse() + "]";
     }
 
 }
