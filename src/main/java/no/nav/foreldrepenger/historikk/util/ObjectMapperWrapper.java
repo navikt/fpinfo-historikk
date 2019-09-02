@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.historikk.util;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,8 +10,6 @@ import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedInputException;
 
 @Component
 public class ObjectMapperWrapper {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ObjectMapperWrapper.class);
 
     private final ObjectMapper delegate;
 
