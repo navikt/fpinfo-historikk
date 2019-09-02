@@ -18,6 +18,8 @@ spring:
       admin:
          enabled: true
    datasource:
+      hikari:
+        connection-test-query: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
       url: jdbc:hsqldb:mem:testdb      
    jpa:
       show-sql: false

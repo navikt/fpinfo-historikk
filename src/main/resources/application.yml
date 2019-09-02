@@ -60,6 +60,7 @@ spring:
    datasource:
       url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
       hikari:
+         connection-test-query: SELECT 1
          maximum-pool-size: 2
    flyway:
       baselineOnMigrate: false
