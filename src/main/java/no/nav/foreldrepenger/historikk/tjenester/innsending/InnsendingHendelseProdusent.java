@@ -19,19 +19,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import no.nav.foreldrepenger.historikk.util.JacksonUtil;
+import no.nav.foreldrepenger.historikk.util.JacksonMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
 public class InnsendingHendelseProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseProdusent.class);
-    private final String topicNavn;
+    private final String søknadTopic;
     private final KafkaOperations<String, String> kafkaOperations;
-    private final JacksonUtil mapper;
+    private final JacksonMapperWrapper mapper;
 
     public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.søknad_topic}") String topicNavn, JacksonUtil mapper) {
-        this.topicNavn = topicNavn;
+            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic, JacksonMapperWrapper mapper) {
+        this.søknadTopic = søknadTopic;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
     }
@@ -41,7 +41,7 @@ public class InnsendingHendelseProdusent {
         LOG.info("Sender event {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
-                .setHeader(TOPIC, topicNavn)
+                .setHeader(TOPIC, søknadTopic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
         send(message);
@@ -66,7 +66,7 @@ public class InnsendingHendelseProdusent {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[topicNavn=" + topicNavn + ", kafkaOperations=" + kafkaOperations
+        return getClass().getSimpleName() + "[søknadTopic=" + søknadTopic + ", kafkaOperations=" + kafkaOperations
                 + ", mapper=" + mapper + "]";
     }
 
