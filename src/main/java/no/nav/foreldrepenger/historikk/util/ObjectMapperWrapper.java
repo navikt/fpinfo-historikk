@@ -11,13 +11,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedInputException;
 
 @Component
-public class JacksonMapperWrapper {
+public class ObjectMapperWrapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JacksonMapperWrapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectMapperWrapper.class);
 
     private final ObjectMapper delegate;
 
-    public JacksonMapperWrapper(ObjectMapper delegate) {
+    public ObjectMapperWrapper(ObjectMapper delegate) {
         this.delegate = delegate;
     }
 

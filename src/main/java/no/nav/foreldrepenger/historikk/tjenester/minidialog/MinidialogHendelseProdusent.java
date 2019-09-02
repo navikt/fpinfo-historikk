@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import no.nav.foreldrepenger.historikk.util.JacksonMapperWrapper;
+import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
@@ -27,10 +27,10 @@ public class MinidialogHendelseProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseProdusent.class);
     private final String topicNavn;
     private final KafkaOperations<String, String> kafkaOperations;
-    private final JacksonMapperWrapper mapper;
+    private final ObjectMapperWrapper mapper;
 
     public MinidialogHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.topic}") String topicNavn, JacksonMapperWrapper mapper) {
+            @Value("${historikk.kafka.meldinger.topic}") String topicNavn, ObjectMapperWrapper mapper) {
         this.topicNavn = topicNavn;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
