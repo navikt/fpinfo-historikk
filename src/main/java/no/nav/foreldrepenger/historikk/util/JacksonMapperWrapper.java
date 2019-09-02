@@ -21,7 +21,7 @@ public class JacksonMapperWrapper {
         this.delegate = delegate;
     }
 
-    public <T> T convertTo(String json, Class<T> clazz) {
+    public <T> T readValue(String json, Class<T> clazz) {
         try {
             return delegate.readValue(json, clazz);
         } catch (IOException e) {
