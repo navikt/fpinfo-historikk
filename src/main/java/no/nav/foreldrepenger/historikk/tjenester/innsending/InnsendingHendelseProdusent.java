@@ -44,7 +44,7 @@ public class InnsendingHendelseProdusent {
 
     @Transactional(KAFKA_TM)
     public void sendInnsendingHendelse(SøknadInnsendingHendelse hendelse) {
-        LOG.info("Sender event {}", hendelse);
+        LOG.info("Sender heńdelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, søknadTopic)
@@ -55,7 +55,7 @@ public class InnsendingHendelseProdusent {
 
     @Transactional(KAFKA_TM)
     public void sendInnsendingHendelse(InntektsmeldingHendelse hendelse) {
-        LOG.info("Sender event {}", hendelse);
+        LOG.info("Sender heńdelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, inntektsmeldingTopic)

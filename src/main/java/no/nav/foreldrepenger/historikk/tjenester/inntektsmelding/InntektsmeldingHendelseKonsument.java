@@ -13,17 +13,15 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
-
 @Service
 @ConditionalOnProperty(name = "historikk.inntektsmelding.enabled", havingValue = "true")
 public class InntektsmeldingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHendelseKonsument.class);
 
-    private final SøknadsHistorikkTjeneste historikk;
+    private final InntektsmeldingHistorikkTjeneste historikk;
 
-    public InntektsmeldingHendelseKonsument(SøknadsHistorikkTjeneste historikk) {
+    public InntektsmeldingHendelseKonsument(InntektsmeldingHistorikkTjeneste historikk) {
         this.historikk = historikk;
     }
 
