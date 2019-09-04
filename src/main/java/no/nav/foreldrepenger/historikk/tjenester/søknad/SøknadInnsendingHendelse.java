@@ -15,12 +15,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
-import no.nav.foreldrepenger.historikk.tjenester.InnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 public class SøknadInnsendingHendelse extends InnsendingHendelse {
 
     @NotNull
-    private final LeveranseStatus leveranseStatus;
+    private final SøknadsLeveranseStatus leveranseStatus;
     @Nullable
     private final List<String> vedlegg;
     @Nullable
@@ -32,7 +32,7 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
-            @JsonProperty("leveranseStatus") LeveranseStatus leveranseStatus,
+            @JsonProperty("leveranseStatus") SøknadsLeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
@@ -42,7 +42,7 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
         this.førsteBehandlingsdato = førsteBehandlingsdato;
     }
 
-    public LeveranseStatus getLeveranseStatus() {
+    public SøknadsLeveranseStatus getLeveranseStatus() {
         return leveranseStatus;
     }
 
