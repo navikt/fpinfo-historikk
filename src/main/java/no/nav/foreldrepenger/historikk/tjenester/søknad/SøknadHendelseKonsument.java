@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
@@ -12,20 +12,17 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
 
 @Service
-public class HendelseKonsument {
+public class SøknadHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HendelseKonsument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadHendelseKonsument.class);
 
     private final SøknadsHistorikkTjeneste historikk;
     private final MinidialogTjeneste dialog;
 
-    public HendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste dialog) {
+    public SøknadHendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
     }
@@ -37,14 +34,6 @@ public class HendelseKonsument {
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         historikk.lagre(hendelse);
         dialog.deaktiverMinidialoger(hendelse.getFnr(), hendelse.getHendelse(), hendelse.getSaksNr());
-    }
-
-    @Transactional
-    @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void behandleInnteksmelding(@Payload @Valid InntektsmeldingHendelse hendelse) {
-        LOG.info("Mottok hendelse om inntektsmelding {}", hendelse);
-        MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
-        historikk.lagre(hendelse);
     }
 
     @Override
