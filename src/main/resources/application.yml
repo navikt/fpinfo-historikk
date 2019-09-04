@@ -9,6 +9,8 @@ dokarkiv:
 sts:
   enabled: true           
 historikk:
+   inntektsmelding:
+      enabled: false
    oppslag:
       enabled: true
    kafka:
