@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.historikk.dao;
+package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -25,7 +25,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 @Entity
 @Table(name = "historikk")
 @EntityListeners(AuditingEntityListener.class)
-public class JPAHistorikkInnslag {
+public class JPASøknadsHistorikkInnslag {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,10 +40,10 @@ public class JPAHistorikkInnslag {
     @CreatedDate
     private LocalDateTime opprettet;
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
-    private List<JPAHistorikkVedlegg> vedlegg = new ArrayList<>();
+    private List<JPASøknadsHistorikkVedlegg> vedlegg = new ArrayList<>();
     private LocalDate behandlingsdato;
 
-    public JPAHistorikkInnslag() {
+    public JPASøknadsHistorikkInnslag() {
     }
 
     public LocalDate getBehandlingsdato() {
@@ -54,16 +54,16 @@ public class JPAHistorikkInnslag {
         this.behandlingsdato = behandlingsdato;
     }
 
-    public void addVedlegg(JPAHistorikkVedlegg v) {
+    public void addVedlegg(JPASøknadsHistorikkVedlegg v) {
         vedlegg.add(v);
         v.setInnslag(this);
     }
 
-    public List<JPAHistorikkVedlegg> getVedlegg() {
+    public List<JPASøknadsHistorikkVedlegg> getVedlegg() {
         return vedlegg;
     }
 
-    public void setVedlegg(List<JPAHistorikkVedlegg> vedlegg) {
+    public void setVedlegg(List<JPASøknadsHistorikkVedlegg> vedlegg) {
         this.vedlegg = vedlegg;
     }
 

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.InnsendingHendelse;
 
 public class SøknadInnsendingHendelse extends InnsendingHendelse {
 

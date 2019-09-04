@@ -15,6 +15,7 @@ historikk:
       meldinger:
          topic: fpinfo-historikk
          søknad_topic: fpsoknad-mottak
+         inntektsmelding_topic: inntektsmeldinger_fpfordel
 info:
    app:
       version: '@project.version@'

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
 public class MinidialogHendelse {
 

@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
 @Entity
 @Table(name = "minidialog")

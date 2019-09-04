@@ -1,11 +1,11 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester;
 
 import javax.validation.constraints.NotNull;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public class InnsendingHendelse {
+public abstract class InnsendingHendelse {
 
     private final AktørId aktørId;
     @NotNull

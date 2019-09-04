@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester;
+package no.nav.foreldrepenger.historikk.util;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.ISSUER;
 

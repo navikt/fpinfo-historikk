@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
 @Transactional(JPA_TM)
 public interface MinidialogRepository

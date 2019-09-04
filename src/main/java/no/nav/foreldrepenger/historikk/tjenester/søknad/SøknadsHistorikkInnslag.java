@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.historikk;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse.UKJENT;
+import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,11 +15,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
-class HistorikkInnslag {
+class SøknadsHistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HistorikkInnslag.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkInnslag.class);
     private final Hendelse hendelse;
     private final Fødselsnummer fnr;
     private AktørId aktørId;
@@ -30,14 +30,14 @@ class HistorikkInnslag {
     private LocalDate behandlingsdato;
 
     @JsonCreator
-    public HistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
+    public SøknadsHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
         this.fnr = fnr;
         this.hendelse = hendelseFra(hendelse);
     }
 
     private Hendelse hendelseFra(String hendelse) {
         return Optional.ofNullable(hendelse)
-                .map(HistorikkInnslag::tilHendelse)
+                .map(SøknadsHistorikkInnslag::tilHendelse)
                 .orElse(UKJENT);
     }
 

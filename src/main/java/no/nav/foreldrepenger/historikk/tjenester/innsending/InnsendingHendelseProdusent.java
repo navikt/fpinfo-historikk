@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
@@ -26,12 +28,16 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 public class InnsendingHendelseProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseProdusent.class);
     private final String søknadTopic;
+    private final String inntektsmeldingTopic;
     private final KafkaOperations<String, String> kafkaOperations;
     private final ObjectMapperWrapper mapper;
 
     public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic, ObjectMapperWrapper mapper) {
+            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic,
+            @Value("${historikk.kafka.meldinger.inntektsmelding_topic}") String inntektsmeldingTopic,
+            ObjectMapperWrapper mapper) {
         this.søknadTopic = søknadTopic;
+        this.inntektsmeldingTopic = inntektsmeldingTopic;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
     }
@@ -42,6 +48,17 @@ public class InnsendingHendelseProdusent {
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, søknadTopic)
+                .setHeader(NAV_CALL_ID, callIdOrNew())
+                .build();
+        send(message);
+    }
+
+    @Transactional(KAFKA_TM)
+    public void sendInnsendingHendelse(InntektsmeldingHendelse hendelse) {
+        LOG.info("Sender event {}", hendelse);
+        Message<String> message = MessageBuilder
+                .withPayload(mapper.writeValueAsString(hendelse))
+                .setHeader(TOPIC, inntektsmeldingTopic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
         send(message);
