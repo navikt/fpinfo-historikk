@@ -9,6 +9,8 @@ management:
 sts:
    enabled: false
 historikk:
+   inntektsmelding:
+      enabled: true
    oppslag:
       enabled: false
 dokarkiv:

@@ -40,6 +40,14 @@ public enum Hendelse {
                 this.equals(ENDRING_SVANGERSKAPSPENGER);
     }
 
+    public static Hendelse tilHendelse(String hendelse) {
+        try {
+            return valueOf(hendelse);
+        } catch (Exception e) {
+            return UKJENT;
+        }
+    }
+
     public String tema() {
         if (erSvangerskapspenger()) {
             return FORELDRE_OG_SVANGERSKAPSPENGER.getTema();

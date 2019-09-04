@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Arbeidsgiver;
 
 @Entity
 @Table(name = "inntektsmelding")
@@ -33,6 +34,8 @@ public class JPAInntektsmelding {
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
+    @Embedded
+    private Arbeidsgiver arbeidsgiver;
 
     public JPAInntektsmelding() {
     }
@@ -83,6 +86,14 @@ public class JPAInntektsmelding {
 
     public void setSaksnr(String saksnr) {
         this.saksnr = saksnr;
+    }
+
+    public Arbeidsgiver getArbeidsgiver() {
+        return arbeidsgiver;
+    }
+
+    public void setArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+        this.arbeidsgiver = arbeidsgiver;
     }
 
     @Override

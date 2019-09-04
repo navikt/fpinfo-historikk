@@ -8,9 +8,13 @@ import no.nav.foreldrepenger.historikk.util.annoteringer.Orgnr;
 @Valid
 @Embeddable
 public class Arbeidsgiver {
-    private final String navn;
+    private String navn;
     @Orgnr
-    private final String orgnummer;
+    private String orgnummer;
+
+    private Arbeidsgiver() {
+
+    }
 
     public Arbeidsgiver(String navn, String orgnummer) {
         this.navn = navn;

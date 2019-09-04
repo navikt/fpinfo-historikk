@@ -17,9 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingRepository;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
@@ -32,20 +29,12 @@ public class SøknadsHistorikkTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkTjeneste.class);
 
     private final SøknadsHistorikkRepository søknadDao;
-    private final InntektsmeldingRepository inntektsmeldingDao;
     private final TokenUtil tokenUtil;
 
-    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao, InntektsmeldingRepository inntektsmeldingDao,
+    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao,
             TokenUtil tokenUtil) {
         this.søknadDao = søknadDao;
-        this.inntektsmeldingDao = inntektsmeldingDao;
         this.tokenUtil = tokenUtil;
-    }
-
-    public void lagre(InntektsmeldingHendelse hendelse) {
-        LOG.info("Lagrer inntektsmelding fra innsending av {}", hendelse);
-        inntektsmeldingDao.save(InntektsmeldingMapper.fraInntektsmeldingHendelse(hendelse));
-        LOG.info("Lagret inntektsmelding OK");
     }
 
     public void lagre(SøknadInnsendingHendelse hendelse) {
@@ -67,15 +56,15 @@ public class SøknadsHistorikkTjeneste {
 
     @Transactional(readOnly = true)
     public List<SøknadsHistorikkInnslag> hentSøknader(Fødselsnummer fnr) {
-        LOG.info("Henter historikkinnslag for {}", fnr);
+        LOG.info("Henter søknadshistorikk for {}", fnr);
         List<SøknadsHistorikkInnslag> innslag = konverterFra(søknadDao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet historikkinnslag {}", innslag);
+        LOG.info("Hentet søknadshistorikk {}", innslag);
         return innslag;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[søknadDao=" + søknadDao + ", inntektsmeldingDao=" + inntektsmeldingDao
+        return getClass().getSimpleName() + "[søknadDao=" + søknadDao
                 + ", tokenUtil=" + tokenUtil + "]";
     }
 

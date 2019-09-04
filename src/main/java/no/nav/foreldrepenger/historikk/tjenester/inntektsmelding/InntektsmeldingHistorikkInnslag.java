@@ -1,10 +1,8 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -17,44 +15,25 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
-class SøknadsHistorikkInnslag {
+class InntektsmeldingHistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkInnslag.class);
-    private final Hendelse hendelse;
+    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHistorikkInnslag.class);
     private final Fødselsnummer fnr;
     private AktørId aktørId;
     private String journalpostId;
     private String saksnr;
     private LocalDateTime opprettet;
-    private List<String> vedlegg;
-    private LocalDate behandlingsdato;
+    private Arbeidsgiver arbeidsgiver;
 
     @JsonCreator
-    public SøknadsHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
+    public InntektsmeldingHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr) {
         this.fnr = fnr;
-        this.hendelse = hendelseFra(hendelse);
     }
 
     private Hendelse hendelseFra(String hendelse) {
         return Optional.ofNullable(hendelse)
                 .map(Hendelse::tilHendelse)
                 .orElse(UKJENT);
-    }
-
-    public LocalDate getBehandlingsdato() {
-        return behandlingsdato;
-    }
-
-    public void setBehandlingsdato(LocalDate behandlingsdato) {
-        this.behandlingsdato = behandlingsdato;
-    }
-
-    public List<String> getVedlegg() {
-        return vedlegg;
-    }
-
-    public void setVedlegg(List<String> vedlegg) {
-        this.vedlegg = vedlegg;
     }
 
     public void setAktørId(AktørId aktørId) {
@@ -77,12 +56,16 @@ class SøknadsHistorikkInnslag {
         this.journalpostId = journalpostId;
     }
 
-    public Hendelse getHendelse() {
-        return hendelse;
-    }
-
     public LocalDateTime getOpprettet() {
         return opprettet;
+    }
+
+    public Arbeidsgiver getArbeidsgiver() {
+        return arbeidsgiver;
+    }
+
+    public void setArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+        this.arbeidsgiver = arbeidsgiver;
     }
 
     public void setOpprettet(LocalDateTime opprettet) {
@@ -99,9 +82,9 @@ class SøknadsHistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + fnr + ", aktørId=" + aktørId
-                + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", vedlegg="
-                + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
+        return getClass().getSimpleName() + "[fnr=" + fnr + ", aktørId=" + aktørId + ", journalpostId="
+                + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", arbeidsgiver=" + arbeidsgiver
+                + "]";
     }
 
 }
