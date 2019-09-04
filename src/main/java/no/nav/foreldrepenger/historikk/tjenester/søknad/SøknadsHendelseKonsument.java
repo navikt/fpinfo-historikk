@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 
 @Service
-public class SøknadHendelseKonsument {
+public class SøknadsHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadHendelseKonsument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHendelseKonsument.class);
 
     private final SøknadsHistorikkTjeneste historikk;
     private final MinidialogTjeneste dialog;
 
-    public SøknadHendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste dialog) {
+    public SøknadsHendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
     }

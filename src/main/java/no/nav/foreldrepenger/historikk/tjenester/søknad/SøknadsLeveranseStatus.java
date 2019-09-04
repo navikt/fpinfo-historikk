@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
-public enum LeveranseStatus {
+public enum SøknadsLeveranseStatus {
     PÅ_VENT,
     AVSLÅTT,
     PÅGÅR,
