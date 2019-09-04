@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.historikk;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.SELVBETJENING;
 
@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = HistorikkController.HISTORIKK)
+@RequestMapping(value = SøknadsHistorikkController.HISTORIKK)
 @ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
-public class HistorikkController {
+public class SøknadsHistorikkController {
 
     public static final String HISTORIKK = "/historikk";
 
-    private final HistorikkTjeneste historikk;
+    private final SøknadsHistorikkTjeneste historikk;
 
-    HistorikkController(HistorikkTjeneste historikk) {
+    SøknadsHistorikkController(SøknadsHistorikkTjeneste historikk) {
         this.historikk = historikk;
     }
 
     @GetMapping("/me")
-    public List<HistorikkInnslag> hentHistorikk() {
+    public List<SøknadsHistorikkInnslag> hentHistorikk() {
         return historikk.hentMinHistorikk();
     }
 

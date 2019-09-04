@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.historikk;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
@@ -17,18 +17,18 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = HistorikkController.HISTORIKK + "/preprod", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = SøknadsHistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-public class HistorikkDevController {
-    private final HistorikkTjeneste historikk;
+public class SøknadsHistorikkDevController {
+    private final SøknadsHistorikkTjeneste historikk;
 
-    HistorikkDevController(HistorikkTjeneste historikk) {
+    SøknadsHistorikkDevController(SøknadsHistorikkTjeneste historikk) {
         this.historikk = historikk;
     }
 
     @GetMapping("/hent")
-    public List<HistorikkInnslag> hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) {
-        return historikk.hentHistorikk(fnr);
+    public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
+        return historikk.hentSøknader(fnr);
     }
 
     @Override
