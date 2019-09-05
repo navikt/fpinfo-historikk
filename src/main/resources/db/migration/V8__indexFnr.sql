@@ -1,0 +1,2 @@
+CREATE INDEX idx_fnr_im ON INNTEKTSMELDING(fnr);
+CREATE INDEX idx_fnr_hist ON HISTORIKK(fnr);
