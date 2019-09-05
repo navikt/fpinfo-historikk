@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import javax.validation.constraints.NotNull;
 

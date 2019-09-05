@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.InnsendingHendelse;
 
 @Valid
 public class InntektsmeldingHendelse extends InnsendingHendelse {

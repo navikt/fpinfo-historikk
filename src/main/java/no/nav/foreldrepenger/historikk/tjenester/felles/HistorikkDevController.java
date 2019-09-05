@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
@@ -64,7 +64,7 @@ public class HistorikkDevController {
 
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return historikk.hentInntektsmeldinger(fnr);
+        return inntektsmelding.hentInntektsmeldinger(fnr);
     }
 
     @Override

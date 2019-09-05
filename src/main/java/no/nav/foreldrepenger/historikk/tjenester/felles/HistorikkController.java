@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.SELVBETJENING;
 
@@ -27,7 +27,7 @@ public class HistorikkController {
 
     @GetMapping("/me")
     public List<SøknadsHistorikkInnslag> hentSøknadHistorikk() {
-        return historikk.hentSøknadHistorikk();
+        return historikk.hentSøknader();
     }
 
     @Override
