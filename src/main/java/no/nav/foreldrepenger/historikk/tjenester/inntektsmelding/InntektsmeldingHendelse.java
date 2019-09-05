@@ -21,8 +21,8 @@ public class InntektsmeldingHendelse extends InnsendingHendelse {
     @JsonCreator
     public InntektsmeldingHendelse(@JsonProperty("aktørId") AktørId aktørId, Fødselsnummer fnr, String journalId,
             String referanseId,
-            String saksNr, Hendelse hendelse, LocalDate innsendingsDato, Arbeidsgiver arbeidsgiver) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
+            String saksNr, LocalDate innsendingsDato, Arbeidsgiver arbeidsgiver) {
+        super(aktørId, fnr, journalId, referanseId, saksNr, Hendelse.INNTEKTSMELDING);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
     }

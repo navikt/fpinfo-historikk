@@ -25,14 +25,14 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class InnsendingHendelseProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseProdusent.class);
+public class HistorikkHendelseProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(HistorikkHendelseProdusent.class);
     private final String søknadTopic;
     private final String inntektsmeldingTopic;
     private final KafkaOperations<String, String> kafkaOperations;
     private final ObjectMapperWrapper mapper;
 
-    public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+    public HistorikkHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic,
             @Value("${historikk.kafka.meldinger.inntektsmelding_topic}") String inntektsmeldingTopic,
             ObjectMapperWrapper mapper) {

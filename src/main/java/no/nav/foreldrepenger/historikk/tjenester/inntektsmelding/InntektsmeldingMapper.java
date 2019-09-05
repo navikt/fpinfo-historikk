@@ -41,7 +41,7 @@ public final class InntektsmeldingMapper {
         return innslag;
     }
 
-    static List<InntektsmeldingHistorikkInnslag> konverterFra(List<JPAInntektsmelding> innslag) {
+    public static List<InntektsmeldingHistorikkInnslag> konverterFra(List<JPAInntektsmelding> innslag) {
         return innslag
                 .stream()
                 .map(InntektsmeldingMapper::tilHistorikkInnslag)
