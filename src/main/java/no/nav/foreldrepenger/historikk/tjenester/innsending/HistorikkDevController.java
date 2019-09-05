@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
@@ -31,20 +32,29 @@ import no.nav.security.oidc.api.Unprotected;
 public class HistorikkDevController {
     private final HistorikkHendelseProdusent produsent;
     private final SøknadsHistorikkTjeneste historikk;
+    private final InntektsmeldingHistorikkTjeneste inntektsmelding;
 
-    HistorikkDevController(HistorikkHendelseProdusent produsent, SøknadsHistorikkTjeneste historikk) {
+    HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmelding,
+            SøknadsHistorikkTjeneste historikk) {
         this.produsent = produsent;
         this.historikk = historikk;
+        this.inntektsmelding = inntektsmelding;
+
     }
 
     @PostMapping("/sendSøknad")
-    public void produser(@RequestBody SøknadInnsendingHendelse hendelse) {
+    public void produserSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
         produsent.sendInnsendingHendelse(hendelse);
     }
 
     @PostMapping("/sendInntektsmelding")
-    public void produser(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
+    public void produserInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
         produsent.sendInnsendingHendelse(hendelse);
+    }
+
+    @PostMapping("/lagreInntektsmelding")
+    public void lagreInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
+        inntektsmelding.lagre(hendelse);
     }
 
     @GetMapping("/søknader")
