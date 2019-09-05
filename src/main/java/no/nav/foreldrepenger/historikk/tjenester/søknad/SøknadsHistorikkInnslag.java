@@ -13,25 +13,20 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.HistorikkInnslag;
 
-public class SøknadsHistorikkInnslag {
+public class SøknadsHistorikkInnslag extends HistorikkInnslag {
 
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkInnslag.class);
     private final Hendelse hendelse;
-    private final Fødselsnummer fnr;
-    private AktørId aktørId;
-    private String journalpostId;
-    private String saksnr;
-    private LocalDateTime opprettet;
     private List<String> vedlegg;
     private LocalDate behandlingsdato;
 
     @JsonCreator
     public SøknadsHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
-        this.fnr = fnr;
+        super(fnr);
         this.hendelse = hendelseFra(hendelse);
     }
 
@@ -57,26 +52,6 @@ public class SøknadsHistorikkInnslag {
         this.vedlegg = vedlegg;
     }
 
-    public void setAktørId(AktørId aktørId) {
-        this.aktørId = aktørId;
-    }
-
-    public AktørId getAktørId() {
-        return aktørId;
-    }
-
-    public Fødselsnummer getFnr() {
-        return fnr;
-    }
-
-    public String getJournalpostId() {
-        return journalpostId;
-    }
-
-    public void setJournalpostId(String journalpostId) {
-        this.journalpostId = journalpostId;
-    }
-
     public Hendelse getHendelse() {
         return hendelse;
     }
@@ -89,18 +64,11 @@ public class SøknadsHistorikkInnslag {
         this.opprettet = opprettet;
     }
 
-    public String getSaksnr() {
-        return saksnr;
-    }
-
-    public void setSaksnr(String saksnr) {
-        this.saksnr = saksnr;
-    }
-
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + fnr + ", aktørId=" + aktørId
-                + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", vedlegg="
+        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + getFnr() + ", aktørId=" + getAktørId()
+                + ", journalpostId=" + getJournalpostId() + ", saksnr=" + getSaksnr() + ", opprettet=" + opprettet
+                + ", vedlegg="
                 + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
     }
 

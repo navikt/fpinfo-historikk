@@ -25,6 +25,8 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
     private final List<String> vedlegg;
     @Nullable
     private final LocalDate førsteBehandlingsdato;
+    @NotNull
+    private final Hendelse hendelse;
 
     @JsonCreator
     public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
@@ -36,10 +38,15 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
             @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
+        super(aktørId, fnr, journalId, referanseId, saksNr);
         this.leveranseStatus = leveranseStatus;
         this.vedlegg = vedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;
+        this.hendelse = hendelse;
+    }
+
+    public Hendelse getHendelse() {
+        return hendelse;
     }
 
     public SøknadsLeveranseStatus getLeveranseStatus() {
@@ -52,7 +59,7 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
 
     @JsonIgnore
     public boolean erEttersending() {
-        return getHendelse().erEttersending();
+        return hendelse.erEttersending();
     }
 
     public LocalDate getFørsteBehandlingsdato() {
@@ -64,7 +71,7 @@ public class SøknadInnsendingHendelse extends InnsendingHendelse {
         return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
                 + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", getAktørId()=" + getAktørId() + ", fnr="
                 + getFnr() + ", journalId=" + getJournalId() + ", referanseId=" + getReferanseId()
-                + ", saksnr=" + getSaksNr() + ", hendelse=" + getHendelse() + "]";
+                + ", saksnr=" + getSaksNr() + ", hendelse=" + hendelse + "]";
     }
 
 }

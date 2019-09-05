@@ -4,7 +4,6 @@ import javax.validation.constraints.NotNull;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
 public abstract class InnsendingHendelse {
 
@@ -14,17 +13,13 @@ public abstract class InnsendingHendelse {
     private final String journalId;
     private final String referanseId;
     private final String saksNr;
-    @NotNull
-    private final Hendelse hendelse;
 
-    public InnsendingHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
-            Hendelse hendelse) {
+    public InnsendingHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr) {
         this.aktørId = aktørId;
         this.fnr = fnr;
         this.journalId = journalId;
         this.referanseId = referanseId;
         this.saksNr = saksNr;
-        this.hendelse = hendelse;
     }
 
     public AktørId getAktørId() {
@@ -45,10 +40,6 @@ public abstract class InnsendingHendelse {
 
     public String getSaksNr() {
         return saksNr;
-    }
-
-    public Hendelse getHendelse() {
-        return hendelse;
     }
 
 }
