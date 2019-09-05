@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.HistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class InntektsmeldingHistorikkInnslag extends HistorikkInnslag {
 
