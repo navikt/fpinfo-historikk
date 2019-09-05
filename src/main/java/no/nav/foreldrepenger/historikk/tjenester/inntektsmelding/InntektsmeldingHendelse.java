@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Valid
@@ -22,7 +21,7 @@ public class InntektsmeldingHendelse extends InnsendingHendelse {
     public InntektsmeldingHendelse(@JsonProperty("aktørId") AktørId aktørId, Fødselsnummer fnr, String journalId,
             String referanseId,
             String saksNr, LocalDate innsendingsDato, Arbeidsgiver arbeidsgiver) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, Hendelse.INNTEKTSMELDING);
+        super(aktørId, fnr, journalId, referanseId, saksNr);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
     }
@@ -39,8 +38,7 @@ public class InntektsmeldingHendelse extends InnsendingHendelse {
     public String toString() {
         return getClass().getSimpleName() + "[innsendingsDato=" + innsendingsDato + ", arbeidsgiver=" + arbeidsgiver
                 + ", aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", journalId=" + getJournalId()
-                + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksNr() + ", hendelse="
-                + getHendelse() + "]";
+                + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksNr() + "]";
     }
 
 }
