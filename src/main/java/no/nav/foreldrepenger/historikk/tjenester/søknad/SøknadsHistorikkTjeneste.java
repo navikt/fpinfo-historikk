@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingRepository;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingHistorikkSpec;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
@@ -29,11 +33,13 @@ public class SøknadsHistorikkTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkTjeneste.class);
 
     private final SøknadsHistorikkRepository søknadDao;
+    private final InntektsmeldingRepository inntektsmeldingDao;
     private final TokenUtil tokenUtil;
 
-    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao,
+    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao, InntektsmeldingRepository inntektsmeldingDao,
             TokenUtil tokenUtil) {
         this.søknadDao = søknadDao;
+        this.inntektsmeldingDao = inntektsmeldingDao;
         this.tokenUtil = tokenUtil;
     }
 
@@ -50,7 +56,7 @@ public class SøknadsHistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadsHistorikkInnslag> hentMinHistorikk() {
+    public List<SøknadsHistorikkInnslag> hentSøknadHistorikk() {
         return hentSøknader(tokenUtil.autentisertFNR());
     }
 
@@ -59,6 +65,15 @@ public class SøknadsHistorikkTjeneste {
         LOG.info("Henter søknadshistorikk for {}", fnr);
         List<SøknadsHistorikkInnslag> innslag = konverterFra(søknadDao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);
+        return innslag;
+    }
+
+    @Transactional(readOnly = true)
+    public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
+        LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
+        List<InntektsmeldingHistorikkInnslag> innslag = InntektsmeldingMapper.konverterFra(
+                inntektsmeldingDao.findAll(where(InntektsmeldingHistorikkSpec.harFnr(fnr)), SORT_OPPRETTET_ASC));
+        LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
 

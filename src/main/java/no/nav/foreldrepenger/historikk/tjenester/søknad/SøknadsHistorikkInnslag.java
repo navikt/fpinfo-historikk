@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
-class SøknadsHistorikkInnslag {
+public class SøknadsHistorikkInnslag {
 
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkInnslag.class);
     private final Hendelse hendelse;
