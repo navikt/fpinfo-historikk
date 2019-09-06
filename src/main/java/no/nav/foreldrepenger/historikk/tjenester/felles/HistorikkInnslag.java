@@ -1,11 +1,26 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 
-public abstract class HistorikkInnslag {
+@JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
+@JsonSubTypes({
+        @Type(value = SøknadsHistorikkInnslag.class, name = "søknad"),
+        @Type(value = InntektsmeldingHistorikkInnslag.class, name = "inntekt")
+})
+public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
+
     private final Fødselsnummer fnr;
     private AktørId aktørId;
     private String journalpostId;
@@ -50,6 +65,11 @@ public abstract class HistorikkInnslag {
 
     public void setJournalpostId(String journalpostId) {
         this.journalpostId = journalpostId;
+    }
+
+    @Override
+    public int compareTo(HistorikkInnslag o) {
+        return opprettet.compareTo(o.getOpprettet());
     }
 
 }

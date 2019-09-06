@@ -1,10 +1,12 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
+import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -31,14 +33,14 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 public class HistorikkDevController {
     private final HistorikkHendelseProdusent produsent;
-    private final SøknadsHistorikkTjeneste historikk;
-    private final InntektsmeldingHistorikkTjeneste inntektsmelding;
+    private final SøknadsHistorikkTjeneste søknader;
+    private final InntektsmeldingHistorikkTjeneste inntektsmeldinger;
 
-    HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmelding,
-            SøknadsHistorikkTjeneste historikk) {
+    HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmeldinger,
+            SøknadsHistorikkTjeneste søknader) {
         this.produsent = produsent;
-        this.historikk = historikk;
-        this.inntektsmelding = inntektsmelding;
+        this.søknader = søknader;
+        this.inntektsmeldinger = inntektsmeldinger;
 
     }
 
@@ -54,22 +56,29 @@ public class HistorikkDevController {
 
     @PostMapping("/lagreInntektsmelding")
     public void lagreInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        inntektsmelding.lagre(hendelse);
+        inntektsmeldinger.lagre(hendelse);
     }
 
     @GetMapping("/søknader")
     public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
-        return historikk.hentSøknader(fnr);
+        return søknader.hentSøknader(fnr);
     }
 
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return inntektsmelding.hentInntektsmeldinger(fnr);
+        return inntektsmeldinger.hentInntektsmeldinger(fnr);
+    }
+
+    @GetMapping("/historikk")
+    public List<? extends HistorikkInnslag> hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) {
+        return Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(), søknader.hentSøknader(fnr).stream())
+                .sorted()
+                .collect(toList());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", historikk=" + historikk + "]";
+        return getClass().getSimpleName() + "[produsent=" + produsent + ", historikk=" + søknader + "]";
     }
 
 }

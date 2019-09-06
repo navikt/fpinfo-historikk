@@ -39,7 +39,7 @@ public class InntektsmeldingHistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingHistorikkInnslag> hentMinHistorikk() {
+    public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger() {
         return hentInntektsmeldinger(tokenUtil.autentisertFNR());
     }
 
