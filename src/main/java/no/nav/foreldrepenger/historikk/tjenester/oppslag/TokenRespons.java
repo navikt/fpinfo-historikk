@@ -3,6 +3,8 @@ package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import no.nav.foreldrepenger.historikk.util.StringUtil;
+
 public class TokenRespons {
 
     private final String token;
@@ -31,8 +33,8 @@ public class TokenRespons {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[token=" + token + ", tokenType=" + tokenType + ", expiresIn="
-                + expiresIn + "]";
+        return getClass().getSimpleName() + "[token=" + StringUtil.limit(token) + ", tokenType=" + tokenType
+                + ", expiresIn=" + expiresIn + "]";
     }
 
 }
