@@ -11,15 +11,13 @@ import io.github.resilience4j.retry.annotation.Retry;
 @Retry(name = "dokarkiv")
 @ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "false")
 public class LoggingJournalføringTjeneste implements Journalføring {
-
+    private static final String ID = "42";
     private static final Logger LOG = LoggerFactory.getLogger(LoggingJournalføringTjeneste.class);
 
     @Override
     public String sluttfør(Journalpost journalpost) {
         LOG.info("Oppretter journalpost {}", journalpost);
-        String id = "42";
-        LOG.info("Opprettet journalpost med id {} OK", id);
-        return id;
+        LOG.info("Opprettet journalpost med id {} OK", ID);
+        return ID;
     }
-
 }

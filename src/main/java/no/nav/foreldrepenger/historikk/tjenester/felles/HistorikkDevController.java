@@ -71,11 +71,6 @@ public class HistorikkDevController {
         minidialoger.lagre(hendelse);
     }
 
-    @PostMapping("/sendMinidialog")
-    public void sendMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
-        minidialogProdusent.sendMinidialogHendelse(hendelse);
-    }
-
     @GetMapping("/søknader")
     public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknader.hentSøknader(fnr);
