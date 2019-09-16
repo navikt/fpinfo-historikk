@@ -7,7 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkVedlegg;
 
@@ -19,12 +19,12 @@ final class SøknadsHistorikkMapper {
 
     }
 
-    static JPASøknadsHistorikkInnslag fraMinidialog(MinidialogHendelse innslag, String journalPostId) {
+    static JPASøknadsHistorikkInnslag fraMinidialog(MinidialogInnslag i, String journalPostId) {
         JPASøknadsHistorikkInnslag historikk = new JPASøknadsHistorikkInnslag();
-        historikk.setAktørId(innslag.getAktørId());
-        historikk.setFnr(innslag.getFnr());
-        historikk.setTekst(innslag.getTekst());
-        historikk.setSaksnr(innslag.getSaksnr());
+        historikk.setAktørId(i.getAktørId());
+        historikk.setFnr(i.getFnr());
+        historikk.setTekst(i.getTekst());
+        historikk.setSaksnr(i.getSaksnr());
         historikk.setJournalpostId(journalPostId);
         return historikk;
     }

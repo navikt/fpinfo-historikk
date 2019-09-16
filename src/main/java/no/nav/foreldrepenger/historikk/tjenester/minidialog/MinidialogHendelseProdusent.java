@@ -37,7 +37,7 @@ public class MinidialogHendelseProdusent {
     }
 
     @Transactional(KAFKA_TM)
-    public void sendMinidialogHendelse(MinidialogHendelse hendelse) {
+    public void sendMinidialogHendelse(MinidialogInnslag hendelse) {
         LOG.info("Mottatt hendelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))

@@ -15,20 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
-public class MinidialogHendelse {
+public class MinidialogInnslag {
 
     @NotNull
     private final Fødselsnummer fnr;
     @NotNull
     @ApiModelProperty(example = "Husk å søke")
     private final String tekst;
-    @ApiModelProperty(example = "ETTERSENDING_FORELDREPENGER")
-    private final Hendelse handling;
-    private boolean janei;
-    @ApiModelProperty(hidden = true)
-    private String vedlegg;
     @ApiModelProperty(example = "Navn Navnesen")
     private String navn;
     @ApiModelProperty(hidden = true)
@@ -48,11 +42,9 @@ public class MinidialogHendelse {
     private String referanseId;
 
     @JsonCreator
-    public MinidialogHendelse(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst,
-            @JsonProperty("handling") Hendelse handling) {
+    public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst) {
         this.fnr = fnr;
         this.tekst = tekst;
-        this.handling = handling;
     }
 
     public String getNavn() {
@@ -91,22 +83,6 @@ public class MinidialogHendelse {
         return saksnr;
     }
 
-    public boolean isJanei() {
-        return janei;
-    }
-
-    public void setJanei(boolean janei) {
-        this.janei = janei;
-    }
-
-    public String getVedlegg() {
-        return vedlegg;
-    }
-
-    public void setVedlegg(String vedlegg) {
-        this.vedlegg = vedlegg;
-    }
-
     public long getId() {
         return id;
     }
@@ -121,10 +97,6 @@ public class MinidialogHendelse {
 
     public void setAktiv(boolean aktiv) {
         this.aktiv = aktiv;
-    }
-
-    public Hendelse getHandling() {
-        return handling;
     }
 
     public LocalDateTime getOpprettet() {
@@ -157,10 +129,9 @@ public class MinidialogHendelse {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", janei=" + janei
-                + ", vedlegg=" + vedlegg + ", navn=" + navn + ", tekst=" + tekst + ", saksnr=" + saksnr + ", opprettet="
-                + opprettet + ", endret=" + endret + ", gyldigTil=" + gyldigTil + ", handling=" + handling + ", aktiv="
-                + aktiv + "]";
+        return getClass().getSimpleName() + "[fnr=" + fnr + ", tekst=" + tekst + ", navn=" + navn + ", id=" + id
+                + ", aktørId=" + aktørId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret
+                + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv + ", referanseId=" + referanseId + "]";
     }
 
 }
