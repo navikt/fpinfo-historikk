@@ -2,8 +2,10 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 
@@ -29,6 +32,12 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 
     public HistorikkInnslag(Fødselsnummer fnr) {
         this.fnr = fnr;
+    }
+
+    protected Hendelse hendelseFra(String hendelse) {
+        return Optional.ofNullable(hendelse)
+                .map(Hendelse::tilHendelse)
+                .orElse(UKJENT);
     }
 
     public String getSaksnr() {

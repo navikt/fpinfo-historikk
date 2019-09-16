@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
@@ -37,13 +37,13 @@ public class SøknadsHistorikkTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public void lagre(SøknadInnsendingHendelse hendelse) {
+    public void lagre(SøknadsInnsendingHendelse hendelse) {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
         søknadDao.save(fraHendelse(hendelse));
         LOG.info("Lagret historikkinnslag OK");
     }
 
-    public void lagre(MinidialogInnslag minidialog, String journalPostId) {
+    public void lagre(MinidialogHendelse minidialog, String journalPostId) {
         LOG.info("Lagrer historikkinnslag fra minidialog {}", minidialog);
         søknadDao.save(fraMinidialog(minidialog, journalPostId));
         LOG.info("Lagret historikkinnslag OK");

@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public class MinidialogInnslag {
+public class MinidialogHendelse {
 
     @NotNull
     private final Fødselsnummer fnr;
@@ -42,7 +42,7 @@ public class MinidialogInnslag {
     private String referanseId;
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst) {
+    public MinidialogHendelse(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst) {
         this.fnr = fnr;
         this.tekst = tekst;
     }

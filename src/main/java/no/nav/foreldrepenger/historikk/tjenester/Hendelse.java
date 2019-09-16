@@ -5,6 +5,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Behandlin
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
 public enum Hendelse {
+    TILBAKEKREVING,
     VEDTAK,
     INNTEKTSMELDING,
     INITIELL_ENGANGSSTØNAD,
