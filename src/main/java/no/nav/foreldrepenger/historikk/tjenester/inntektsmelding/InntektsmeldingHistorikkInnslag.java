@@ -1,9 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
-
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class InntektsmeldingHistorikkInnslag extends HistorikkInnslag {
@@ -22,12 +17,6 @@ public class InntektsmeldingHistorikkInnslag extends HistorikkInnslag {
     @JsonCreator
     public InntektsmeldingHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr) {
         super(fnr);
-    }
-
-    private Hendelse hendelseFra(String hendelse) {
-        return Optional.ofNullable(hendelse)
-                .map(Hendelse::tilHendelse)
-                .orElse(UKJENT);
     }
 
     public Arbeidsgiver getArbeidsgiver() {

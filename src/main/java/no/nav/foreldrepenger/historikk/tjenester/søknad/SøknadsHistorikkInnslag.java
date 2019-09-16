@@ -1,11 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
-import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +26,6 @@ public class SøknadsHistorikkInnslag extends HistorikkInnslag {
         this.hendelse = hendelseFra(hendelse);
     }
 
-    private Hendelse hendelseFra(String hendelse) {
-        return Optional.ofNullable(hendelse)
-                .map(Hendelse::tilHendelse)
-                .orElse(UKJENT);
-    }
-
     public LocalDate getBehandlingsdato() {
         return behandlingsdato;
     }
@@ -56,20 +46,11 @@ public class SøknadsHistorikkInnslag extends HistorikkInnslag {
         return hendelse;
     }
 
-    public LocalDateTime getOpprettet() {
-        return opprettet;
-    }
-
-    public void setOpprettet(LocalDateTime opprettet) {
-        this.opprettet = opprettet;
-    }
-
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + getFnr() + ", aktørId=" + getAktørId()
                 + ", journalpostId=" + getJournalpostId() + ", saksnr=" + getSaksnr() + ", opprettet=" + opprettet
-                + ", vedlegg="
-                + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
+                + ", vedlegg=" + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
     }
 
 }

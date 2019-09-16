@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
 
-public class SøknadInnsendingHendelse extends HistorikkHendelse {
+public class SøknadsInnsendingHendelse extends HistorikkHendelse {
 
     @NotNull
     private final SøknadsLeveranseStatus leveranseStatus;
@@ -29,7 +29,7 @@ public class SøknadInnsendingHendelse extends HistorikkHendelse {
     private final Hendelse hendelse;
 
     @JsonCreator
-    public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
+    public SøknadsInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,

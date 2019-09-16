@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsInnsendingHendelse;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -35,17 +37,19 @@ public class HistorikkDevController {
     private final HistorikkHendelseProdusent produsent;
     private final SøknadsHistorikkTjeneste søknader;
     private final InntektsmeldingHistorikkTjeneste inntektsmeldinger;
+    private final MinidialogTjeneste minidialoger;
 
     HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmeldinger,
-            SøknadsHistorikkTjeneste søknader) {
+            SøknadsHistorikkTjeneste søknader, MinidialogTjeneste minidialoger) {
         this.produsent = produsent;
         this.søknader = søknader;
         this.inntektsmeldinger = inntektsmeldinger;
+        this.minidialoger = minidialoger;
 
     }
 
     @PostMapping("/sendSøknad")
-    public void produserSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
+    public void produserSøknad(@RequestBody SøknadsInnsendingHendelse hendelse) {
         produsent.sendInnsendingHendelse(hendelse);
     }
 
@@ -59,14 +63,19 @@ public class HistorikkDevController {
         inntektsmeldinger.lagre(hendelse);
     }
 
+    @PostMapping("/lagreMinidialog")
+    public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
+        minidialoger.lagre(hendelse);
+    }
+
     @GetMapping("/søknader")
     public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknader.hentSøknader(fnr);
     }
 
-    @GetMapping("/inntektsmeldinger")
-    public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return inntektsmeldinger.hentInntektsmeldinger(fnr);
+    @GetMapping("/minidialoger")
+    public List<MinidialogHistorikkInnslag> hentMinidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
+        return minidialoger.hentMinidialoger(fnr);
     }
 
     @GetMapping("/historikk")

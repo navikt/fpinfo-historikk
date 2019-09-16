@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsInnsendingHendelse;
 import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
@@ -43,7 +43,7 @@ public class HistorikkHendelseProdusent {
     }
 
     @Transactional(KAFKA_TM)
-    public void sendInnsendingHendelse(SøknadInnsendingHendelse hendelse) {
+    public void sendInnsendingHendelse(SøknadsInnsendingHendelse hendelse) {
         LOG.info("Sender heńdelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))

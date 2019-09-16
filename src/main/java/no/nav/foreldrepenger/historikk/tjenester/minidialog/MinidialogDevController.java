@@ -31,12 +31,12 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/aktive")
-    public List<MinidialogInnslag> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<MinidialogHendelse> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
         return minidialog.hentAktiveDialoger(fnr);
     }
 
     @PostMapping("/produser")
-    public void produser(@RequestBody MinidialogInnslag hendelse) {
+    public void produser(@RequestBody MinidialogHendelse hendelse) {
         produsent.sendMinidialogHendelse(hendelse);
     }
 
