@@ -23,7 +23,6 @@ import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelseProdusent;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
@@ -83,16 +82,14 @@ public class HistorikkDevController {
     }
 
     @GetMapping("/minidialoger")
-    public List<MinidialogHistorikkInnslag> hentMinidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return minidialoger.hentMinidialoger(fnr);
+    public List<MinidialogHendelse> hentMinidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
+        return minidialoger.hentAktiveDialoger(fnr);
     }
 
     @GetMapping("/historikk")
     public List<? extends HistorikkInnslag> hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) {
-        return Stream
-                .concat(minidialoger.hentMinidialoger(fnr).stream(),
-                        Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(),
-                                søknader.hentSøknader(fnr).stream()))
+        return Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(),
+                søknader.hentSøknader(fnr).stream())
                 .sorted()
                 .collect(toList());
     }
