@@ -22,6 +22,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelseProdusent;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
@@ -37,13 +38,16 @@ public class HistorikkDevController {
     private final SøknadsHistorikkTjeneste søknader;
     private final InntektsmeldingHistorikkTjeneste inntektsmeldinger;
     private final MinidialogTjeneste minidialoger;
+    private final MinidialogHendelseProdusent minidialogProdusent;
 
     HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmeldinger,
-            SøknadsHistorikkTjeneste søknader, MinidialogTjeneste minidialoger) {
+            SøknadsHistorikkTjeneste søknader, MinidialogTjeneste minidialoger,
+            MinidialogHendelseProdusent minidialogProdusent) {
         this.produsent = produsent;
         this.søknader = søknader;
         this.inntektsmeldinger = inntektsmeldinger;
         this.minidialoger = minidialoger;
+        this.minidialogProdusent = minidialogProdusent;
 
     }
 
@@ -65,6 +69,11 @@ public class HistorikkDevController {
     @PostMapping("/lagreMinidialog")
     public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
         minidialoger.lagre(hendelse);
+    }
+
+    @PostMapping("/sendMinidialog")
+    public void sendMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
+        minidialogProdusent.sendMinidialogHendelse(hendelse);
     }
 
     @GetMapping("/søknader")
