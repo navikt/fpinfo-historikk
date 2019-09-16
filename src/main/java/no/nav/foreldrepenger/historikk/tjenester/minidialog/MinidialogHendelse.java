@@ -21,7 +21,7 @@ public class MinidialogHendelse {
     @NotNull
     private final Fødselsnummer fnr;
     @NotNull
-    @ApiModelProperty(example = "Husk å søke")
+    @ApiModelProperty(example = "TILBAKEKREVING")
     private final String tekst;
     @ApiModelProperty(example = "Navn Navnesen")
     private String navn;
