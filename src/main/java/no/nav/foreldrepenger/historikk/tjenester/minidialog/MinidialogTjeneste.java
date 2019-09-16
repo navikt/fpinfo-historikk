@@ -83,9 +83,4 @@ public class MinidialogTjeneste {
         return getClass().getSimpleName() + " [dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
 
-    public List<MinidialogHistorikkInnslag> hentMinidialoger(Fødselsnummer fnr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
