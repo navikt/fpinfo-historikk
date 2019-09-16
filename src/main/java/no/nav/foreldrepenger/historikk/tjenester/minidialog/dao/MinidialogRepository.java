@@ -10,18 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 
 @Transactional(JPA_TM)
 public interface MinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.saksnr = :saksnr and m.hendelse = :hendelse")
-    int deaktiverSak(@Param("fnr") Fødselsnummer fnr, @Param("hendelse") Hendelse hendelse,
-            @Param("saksnr") String saksnr);
+    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.saksnr = :saksnr")
+    int deaktiverSak(@Param("fnr") Fødselsnummer fnr, @Param("saksnr") String saksnr);
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.hendelse = :hendelse")
-    int deaktiver(@Param("fnr") Fødselsnummer fnr, @Param("hendelse") Hendelse hendelse);
+    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr")
+    int deaktiver(@Param("fnr") Fødselsnummer fnr);
 }

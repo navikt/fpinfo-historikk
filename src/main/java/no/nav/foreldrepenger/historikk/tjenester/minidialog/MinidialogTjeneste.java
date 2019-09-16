@@ -39,11 +39,11 @@ public class MinidialogTjeneste {
     public int deaktiverMinidialoger(Fødselsnummer fnr, Hendelse hendelse, String saksnr) {
         LOG.info("Deaktiverer minidialog(er) for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
-            int n = dao.deaktiverSak(fnr, hendelse, saksnr);
+            int n = dao.deaktiverSak(fnr, saksnr);
             LOG.info("Deaktiverte {} minidialog(er) for sak {} etter hendelse {}", n, saksnr, hendelse);
             return n;
         }
-        int n = dao.deaktiver(fnr, hendelse);
+        int n = dao.deaktiver(fnr);
         LOG.info("Deaktiverte {} minidialog(er) etter hendelse {}", n, hendelse);
         return n;
     }
