@@ -22,6 +22,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelseProdusent;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
@@ -38,13 +39,16 @@ public class HistorikkDevController {
     private final SøknadsHistorikkTjeneste søknader;
     private final InntektsmeldingHistorikkTjeneste inntektsmeldinger;
     private final MinidialogTjeneste minidialoger;
+    private final MinidialogHendelseProdusent minidialogProdusent;
 
     HistorikkDevController(HistorikkHendelseProdusent produsent, InntektsmeldingHistorikkTjeneste inntektsmeldinger,
-            SøknadsHistorikkTjeneste søknader, MinidialogTjeneste minidialoger) {
+            SøknadsHistorikkTjeneste søknader, MinidialogTjeneste minidialoger,
+            MinidialogHendelseProdusent minidialogProdusent) {
         this.produsent = produsent;
         this.søknader = søknader;
         this.inntektsmeldinger = inntektsmeldinger;
         this.minidialoger = minidialoger;
+        this.minidialogProdusent = minidialogProdusent;
 
     }
 
@@ -68,6 +72,11 @@ public class HistorikkDevController {
         minidialoger.lagre(hendelse);
     }
 
+    @PostMapping("/sendMinidialog")
+    public void sendMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
+        minidialogProdusent.sendMinidialogHendelse(hendelse);
+    }
+
     @GetMapping("/søknader")
     public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknader.hentSøknader(fnr);
@@ -80,7 +89,10 @@ public class HistorikkDevController {
 
     @GetMapping("/historikk")
     public List<? extends HistorikkInnslag> hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) {
-        return Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(), søknader.hentSøknader(fnr).stream())
+        return Stream
+                .concat(minidialoger.hentMinidialoger(fnr).stream(),
+                        Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(),
+                                søknader.hentSøknader(fnr).stream()))
                 .sorted()
                 .collect(toList());
     }
