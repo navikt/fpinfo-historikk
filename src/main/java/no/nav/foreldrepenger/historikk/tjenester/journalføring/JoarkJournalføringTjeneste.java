@@ -10,16 +10,17 @@ import io.github.resilience4j.retry.annotation.Retry;
 @Service
 @Retry(name = "dokarkiv")
 @ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
-public class JournalføringTjeneste {
+public class JoarkJournalføringTjeneste implements Journalføring {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JournalføringTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JoarkJournalføringTjeneste.class);
 
     private final JournalføringConnection connection;
 
-    public JournalføringTjeneste(JournalføringConnection connection) {
+    public JoarkJournalføringTjeneste(JournalføringConnection connection) {
         this.connection = connection;
     }
 
+    @Override
     public String sluttfør(Journalpost journalpost) {
         LOG.info("Oppretter journalpost {}", journalpost);
         String id = connection.opprettJournalpost(journalpost, true);

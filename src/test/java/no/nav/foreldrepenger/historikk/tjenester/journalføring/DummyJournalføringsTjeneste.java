@@ -5,12 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.JournalføringTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.journalføring.JoarkJournalføringTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
 
 @Primary
 @Service
-public class DummyJournalføringsTjeneste extends JournalføringTjeneste {
+public class DummyJournalføringsTjeneste extends JoarkJournalføringTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(DummyJournalføringsTjeneste.class);
 
