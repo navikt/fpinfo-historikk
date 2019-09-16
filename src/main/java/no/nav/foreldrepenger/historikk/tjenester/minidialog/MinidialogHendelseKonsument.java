@@ -45,10 +45,10 @@ public class MinidialogHendelseKonsument {
         LOG.info("Mottok innslag {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         MDC.put(CALL_ID, hendelse.getReferanseId());
-        dialog.lagre(hendelse);
         String id = journalføring.sluttfør(
                 journalpostFra(hendelse, generator.generate("Spørsmål fra saksbehandler", hendelse.getTekst())));
-        historikk.lagre(hendelse, id);
+        hendelse.setSaksnr(id);
+        dialog.lagre(hendelse);
     }
 
     @Override
