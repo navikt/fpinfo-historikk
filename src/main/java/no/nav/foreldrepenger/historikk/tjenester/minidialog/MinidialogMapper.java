@@ -23,23 +23,20 @@ public final class MinidialogMapper {
 
     }
 
-    static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m) {
+    static JPAMinidialogInnslag fraInnslag(MinidialogInnslag m) {
         LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
         dialog.setAktørId(m.getAktørId());
         dialog.setFnr(m.getFnr());
-        dialog.setJanei(m.isJanei());
-        dialog.setVedlegg(m.getVedlegg());
         dialog.setTekst(m.getTekst());
         dialog.setSaksnr(m.getSaksnr());
         dialog.setGyldigTil(m.getGyldigTil());
-        dialog.setHandling(m.getHandling());
         dialog.setAktiv(m.isAktiv());
         LOG.info("Mappet til {}", dialog);
         return dialog;
     }
 
-    static Journalpost journalpostFra(MinidialogHendelse innslag, byte[] dokument) {
+    static Journalpost journalpostFra(MinidialogInnslag innslag, byte[] dokument) {
         return new Journalpost(UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), innslag.getNavn()),
                 new Bruker(innslag.getFnr()), null,
@@ -48,9 +45,9 @@ public final class MinidialogMapper {
                 new Dokument(new DokumentVariant(dokument)));
     }
 
-    static MinidialogHendelse tilInnslag(JPAMinidialogInnslag i) {
+    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogHendelse innslag = new MinidialogHendelse(i.getFnr(), i.getTekst(), i.getHendelse());
+        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getTekst());
         innslag.setEndret(i.getEndret());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());

@@ -41,7 +41,7 @@ public class MinidialogHendelseKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(@Payload @Valid MinidialogHendelse hendelse) {
+    public void listen(@Payload @Valid MinidialogInnslag hendelse) {
         LOG.info("Mottok innslag {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         MDC.put(CALL_ID, hendelse.getReferanseId());
