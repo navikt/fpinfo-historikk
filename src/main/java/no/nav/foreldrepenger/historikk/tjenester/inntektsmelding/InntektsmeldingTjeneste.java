@@ -18,15 +18,15 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class InntektsmeldingHistorikkTjeneste {
+public class InntektsmeldingTjeneste {
 
     private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
-    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHistorikkTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingTjeneste.class);
 
     private final InntektsmeldingRepository inntektsmeldingDao;
     private final TokenUtil tokenUtil;
 
-    public InntektsmeldingHistorikkTjeneste(InntektsmeldingRepository inntektsmeldingDao,
+    public InntektsmeldingTjeneste(InntektsmeldingRepository inntektsmeldingDao,
             TokenUtil tokenUtil) {
         this.inntektsmeldingDao = inntektsmeldingDao;
         this.tokenUtil = tokenUtil;
@@ -39,14 +39,14 @@ public class InntektsmeldingHistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger() {
+    public List<InntektsmeldingInnslag> hentInntektsmeldinger() {
         return hentInntektsmeldinger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingHistorikkInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
+    public List<InntektsmeldingInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
-        List<InntektsmeldingHistorikkInnslag> innslag = InntektsmeldingMapper.konverterFra(
+        List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.konverterFra(
                 inntektsmeldingDao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;

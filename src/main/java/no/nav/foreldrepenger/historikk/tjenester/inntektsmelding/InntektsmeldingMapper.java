@@ -29,9 +29,9 @@ public final class InntektsmeldingMapper {
         return inntektsmelding;
     }
 
-    static InntektsmeldingHistorikkInnslag tilHistorikkInnslag(JPAInntektsmelding i) {
+    static InntektsmeldingInnslag tilHistorikkInnslag(JPAInntektsmelding i) {
         LOG.info("Mapper fra inntektsmelding {}", i);
-        InntektsmeldingHistorikkInnslag innslag = new InntektsmeldingHistorikkInnslag(i.getFnr());
+        InntektsmeldingInnslag innslag = new InntektsmeldingInnslag(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -41,7 +41,7 @@ public final class InntektsmeldingMapper {
         return innslag;
     }
 
-    public static List<InntektsmeldingHistorikkInnslag> konverterFra(List<JPAInntektsmelding> innslag) {
+    public static List<InntektsmeldingInnslag> konverterFra(List<JPAInntektsmelding> innslag) {
         return innslag
                 .stream()
                 .map(InntektsmeldingMapper::tilHistorikkInnslag)

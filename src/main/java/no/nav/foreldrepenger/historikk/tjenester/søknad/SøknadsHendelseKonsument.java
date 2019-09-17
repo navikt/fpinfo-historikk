@@ -19,10 +19,10 @@ public class SøknadsHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHendelseKonsument.class);
 
-    private final SøknadsHistorikkTjeneste historikk;
+    private final SøknadsTjeneste historikk;
     private final MinidialogTjeneste dialog;
 
-    public SøknadsHendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste dialog) {
+    public SøknadsHendelseKonsument(SøknadsTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
     }

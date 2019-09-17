@@ -19,14 +19,14 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = SøknadHistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = SøknadsController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-public class SøknadHistorikkDevController {
-    private final SøknadHistorikkHendelseProdusent produsent;
-    private final SøknadsHistorikkTjeneste søknad;
+public class SøknadsDevController {
+    private final SøknadsHendelseProdusent produsent;
+    private final SøknadsTjeneste søknad;
 
-    SøknadHistorikkDevController(SøknadHistorikkHendelseProdusent produsent,
-            SøknadsHistorikkTjeneste søknad) {
+    SøknadsDevController(SøknadsHendelseProdusent produsent,
+            SøknadsTjeneste søknad) {
         this.produsent = produsent;
         this.søknad = søknad;
     }
@@ -42,7 +42,7 @@ public class SøknadHistorikkDevController {
     }
 
     @GetMapping("/søknader")
-    public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<SøknadsInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknad.hentSøknader(fnr);
     }
 

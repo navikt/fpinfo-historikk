@@ -13,15 +13,15 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
-public class SøknadsHistorikkInnslag extends HistorikkInnslag {
+public class SøknadsInnslag extends HistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkInnslag.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsInnslag.class);
     private final Hendelse hendelse;
     private List<String> vedlegg;
     private LocalDate behandlingsdato;
 
     @JsonCreator
-    public SøknadsHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
+    public SøknadsInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
         super(fnr);
         this.hendelse = hendelseFra(hendelse);
     }

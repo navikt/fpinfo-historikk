@@ -9,13 +9,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
-public class InntektsmeldingHistorikkInnslag extends HistorikkInnslag {
+public class InntektsmeldingInnslag extends HistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHistorikkInnslag.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingInnslag.class);
     private Arbeidsgiver arbeidsgiver;
 
     @JsonCreator
-    public InntektsmeldingHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr) {
+    public InntektsmeldingInnslag(@JsonProperty("fnr") Fødselsnummer fnr) {
         super(fnr);
     }
 
