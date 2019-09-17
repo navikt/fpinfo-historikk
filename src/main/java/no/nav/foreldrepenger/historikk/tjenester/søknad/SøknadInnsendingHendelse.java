@@ -17,10 +17,10 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
 
-public class SøknadsInnsendingHendelse extends HistorikkHendelse {
+public class SøknadInnsendingHendelse extends HistorikkHendelse {
 
     @NotNull
-    private final SøknadsLeveranseStatus leveranseStatus;
+    private final SøknadLeveranseStatus leveranseStatus;
     @Nullable
     private final List<String> vedlegg;
     @Nullable
@@ -29,12 +29,12 @@ public class SøknadsInnsendingHendelse extends HistorikkHendelse {
     private final Hendelse hendelse;
 
     @JsonCreator
-    public SøknadsInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
+    public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
-            @JsonProperty("leveranseStatus") SøknadsLeveranseStatus leveranseStatus,
+            @JsonProperty("leveranseStatus") SøknadLeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
@@ -49,7 +49,7 @@ public class SøknadsInnsendingHendelse extends HistorikkHendelse {
         return hendelse;
     }
 
-    public SøknadsLeveranseStatus getLeveranseStatus() {
+    public SøknadLeveranseStatus getLeveranseStatus() {
         return leveranseStatus;
     }
 

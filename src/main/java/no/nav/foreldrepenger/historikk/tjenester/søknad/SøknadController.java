@@ -12,37 +12,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = SøknadsController.HISTORIKK)
+@RequestMapping(value = SøknadController.HISTORIKK)
 @ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
-public class SøknadsController {
+public class SøknadController {
 
     public static final String HISTORIKK = "/historikk";
 
-    private final SøknadsTjeneste søknad;
+    private final SøknadTjeneste søknad;
     private final InntektsmeldingTjeneste inntektsmelding;
+    private final MinidialogTjeneste minidialog;
 
-    SøknadsController(SøknadsTjeneste søknad, InntektsmeldingTjeneste inntektsmelding) {
+    SøknadController(SøknadTjeneste søknad, InntektsmeldingTjeneste inntektsmelding, MinidialogTjeneste minidialog) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;
+        this.minidialog = minidialog;
     }
 
     @GetMapping("/me")
-    public List<SøknadsInnslag> hentSøknader() {
+    public List<SøknadInnslag> hentSøknader() {
         return søknad.hentSøknader();
     }
 
     @GetMapping("/me/all")
     public List<? extends HistorikkInnslag> hentHistorikk() {
-        return concat(inntektsmelding.hentInntektsmeldinger().stream(), søknad.hentSøknader().stream())
-                .sorted()
-                .collect(toList());
+        return concat(minidialog.hentAktiveDialoger().stream(),
+                concat(inntektsmelding.hentInntektsmeldinger().stream(), søknad.hentSøknader().stream()))
+                        .sorted()
+                        .collect(toList());
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[søknad=" + søknad + ", inntektsmelding=" + inntektsmelding + "]";
-    }
 }

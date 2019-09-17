@@ -10,17 +10,17 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkVedlegg;
 
-final class SøknadsMapper {
+final class SøknadMapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadMapper.class);
 
-    private SøknadsMapper() {
+    private SøknadMapper() {
 
     }
 
-    static SøknadsInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
+    static SøknadInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        SøknadsInnslag innslag = new SøknadsInnslag(i.getFnr(), i.getTekst());
+        SøknadInnslag innslag = new SøknadInnslag(i.getFnr(), i.getTekst());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -38,7 +38,7 @@ final class SøknadsMapper {
                 .collect(toList());
     }
 
-    static JPASøknadsHistorikkInnslag fraHendelse(SøknadsInnsendingHendelse event) {
+    static JPASøknadsHistorikkInnslag fraHendelse(SøknadInnsendingHendelse event) {
         LOG.info("Mapper fra hendelse {}", event);
         JPASøknadsHistorikkInnslag innslag = new JPASøknadsHistorikkInnslag();
         innslag.setAktørId(event.getAktørId());
@@ -49,7 +49,7 @@ final class SøknadsMapper {
         innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
         event.getVedlegg()
                 .stream()
-                .map(SøknadsMapper::fraVedlegg)
+                .map(SøknadMapper::fraVedlegg)
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
@@ -61,10 +61,10 @@ final class SøknadsMapper {
         return vedlegg;
     }
 
-    static List<SøknadsInnslag> konverterFra(List<JPASøknadsHistorikkInnslag> innslag) {
+    static List<SøknadInnslag> konverterFra(List<JPASøknadsHistorikkInnslag> innslag) {
         return innslag
                 .stream()
-                .map(SøknadsMapper::tilHistorikkInnslag)
+                .map(SøknadMapper::tilHistorikkInnslag)
                 .collect(toList());
     }
 }

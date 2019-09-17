@@ -46,9 +46,9 @@ public final class MinidialogMapper {
                 new Dokument(new DokumentVariant(dokument)));
     }
 
-    static MinidialogHistorikkInnslag tilInnslag(JPAMinidialogInnslag i) {
+    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogHistorikkInnslag innslag = new MinidialogHistorikkInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil(),
+        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil(),
                 i.getJournalpostId());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
