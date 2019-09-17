@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
 
-public class SøknadInnsendingHendelse extends HistorikkHendelse {
+public class SøknadInnsendingHendelse extends Hendelse {
 
     @NotNull
     private final SøknadLeveranseStatus leveranseStatus;
@@ -26,7 +26,7 @@ public class SøknadInnsendingHendelse extends HistorikkHendelse {
     @Nullable
     private final LocalDate førsteBehandlingsdato;
     @NotNull
-    private final Hendelse hendelse;
+    private final HendelseType hendelse;
 
     @JsonCreator
     public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
@@ -35,7 +35,7 @@ public class SøknadInnsendingHendelse extends HistorikkHendelse {
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") SøknadLeveranseStatus leveranseStatus,
-            @JsonProperty("hendelse") @JsonAlias("type") Hendelse hendelse,
+            @JsonProperty("hendelse") @JsonAlias("type") HendelseType hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
         super(aktørId, fnr, journalId, referanseId, saksNr);
@@ -45,7 +45,7 @@ public class SøknadInnsendingHendelse extends HistorikkHendelse {
         this.hendelse = hendelse;
     }
 
-    public Hendelse getHendelse() {
+    public HendelseType getHendelse() {
         return hendelse;
     }
 

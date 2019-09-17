@@ -43,7 +43,7 @@ public class InntektsmeldingDevController {
 
     @PostMapping("/sendInntektsmelding")
     public void sendInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        produsent.sendInnsendingHendelse(hendelse);
+        produsent.sendHendelse(hendelse);
     }
 
     @GetMapping("/inntektsmeldinger")

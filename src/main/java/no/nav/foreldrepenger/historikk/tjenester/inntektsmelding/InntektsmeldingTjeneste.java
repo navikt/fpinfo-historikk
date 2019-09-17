@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingRepository;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
@@ -24,10 +24,10 @@ public class InntektsmeldingTjeneste {
     private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingTjeneste.class);
 
-    private final InntektsmeldingRepository inntektsmeldingDao;
+    private final JPAInntektsmeldingRepository inntektsmeldingDao;
     private final TokenUtil tokenUtil;
 
-    public InntektsmeldingTjeneste(InntektsmeldingRepository inntektsmeldingDao,
+    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository inntektsmeldingDao,
             TokenUtil tokenUtil) {
         this.inntektsmeldingDao = inntektsmeldingDao;
         this.tokenUtil = tokenUtil;

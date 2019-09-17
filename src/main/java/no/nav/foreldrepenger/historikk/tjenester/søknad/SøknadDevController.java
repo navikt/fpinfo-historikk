@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -26,18 +25,15 @@ import no.nav.security.oidc.api.Unprotected;
 public class SøknadDevController {
     private final SøknadHendelseProdusent produsent;
     private final SøknadTjeneste søknad;
-    private final InntektsmeldingTjeneste inntektsmelding;
 
-    SøknadDevController(SøknadHendelseProdusent produsent,
-            SøknadTjeneste søknad, InntektsmeldingTjeneste inntektsmelding) {
+    SøknadDevController(SøknadHendelseProdusent produsent, SøknadTjeneste søknad) {
         this.produsent = produsent;
         this.søknad = søknad;
-        this.inntektsmelding = inntektsmelding;
     }
 
     @PostMapping("/sendSøknad")
     public void produserSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
-        produsent.sendSøknadHendelse(hendelse);
+        produsent.sendHendelse(hendelse);
     }
 
     @PostMapping("/lagreSøknad")

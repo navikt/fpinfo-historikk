@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
 
-public class MinidialogHendelse extends HistorikkHendelse {
+public class MinidialogHendelse extends Hendelse {
 
     @ApiModelProperty(hidden = true)
     private long id;
@@ -30,14 +30,14 @@ public class MinidialogHendelse extends HistorikkHendelse {
     private LocalDate gyldigTil;
     private boolean aktiv;
     @NotNull
-    private final Hendelse hendelse;
+    private final HendelseType hendelse;
     private final String tekst;
     @ApiModelProperty(example = "Navn Navnesen")
     private final String navn;
 
     @JsonCreator
     public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
-            Hendelse hendelse, String tekst, String navn) {
+            HendelseType hendelse, String tekst, String navn) {
         super(aktørId, fnr, journalId, referanseId, saksNr);
         this.hendelse = hendelse;
         this.tekst = tekst;
@@ -56,7 +56,7 @@ public class MinidialogHendelse extends HistorikkHendelse {
         return gyldigTil;
     }
 
-    public Hendelse getHendelse() {
+    public HendelseType getHendelse() {
         return hendelse;
     }
 

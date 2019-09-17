@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(JPA_TM)
-public interface InntektsmeldingRepository
+public interface JPAInntektsmeldingRepository
         extends JpaRepository<JPAInntektsmelding, Long>, JpaSpecificationExecutor<JPAInntektsmelding> {
 
 }
