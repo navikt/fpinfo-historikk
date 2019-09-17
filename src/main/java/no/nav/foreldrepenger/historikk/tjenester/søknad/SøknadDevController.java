@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -25,11 +26,13 @@ import no.nav.security.oidc.api.Unprotected;
 public class SøknadDevController {
     private final SøknadHendelseProdusent produsent;
     private final SøknadTjeneste søknad;
+    private final InntektsmeldingTjeneste inntektsmelding;
 
     SøknadDevController(SøknadHendelseProdusent produsent,
-            SøknadTjeneste søknad) {
+            SøknadTjeneste søknad, InntektsmeldingTjeneste inntektsmelding) {
         this.produsent = produsent;
         this.søknad = søknad;
+        this.inntektsmelding = inntektsmelding;
     }
 
     @PostMapping("/sendSøknad")
@@ -43,16 +46,9 @@ public class SøknadDevController {
     }
 
     @GetMapping("/søknader")
-    public List<SøknadInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<SøknadInnslag> søknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknad.hentSøknader(fnr);
     }
-
-    /*
-     * @GetMapping("/historikk") public List<? extends HistorikkInnslag>
-     * hentHistorikk(@RequestParam("fnr") Fødselsnummer fnr) { return
-     * Stream.concat(inntektsmeldinger.hentInntektsmeldinger(fnr).stream(),
-     * søknad.hentSøknader(fnr).stream()) .sorted() .collect(toList()); }
-     */
 
     @Override
     public String toString() {
