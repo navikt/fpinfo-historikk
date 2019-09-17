@@ -6,6 +6,8 @@ import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,18 +32,23 @@ public class MinidialogDevController {
         this.produsent = produsent;
     }
 
-    @GetMapping("/aktive")
-    public List<MinidialogHendelse> hentAktiveDialogerForFnr(@RequestParam("fnr") Fødselsnummer fnr) {
+    @PostMapping("/sendMinidialog")
+    public void sendMinidialog(@RequestBody MinidialogHendelse hendelse) {
+        produsent.sendMinidialogHendelse(hendelse);
+    }
+
+    @GetMapping("/minidialoger")
+    public List<MinidialogHendelse> hentMinidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
         return minidialog.hentAktiveDialoger(fnr);
     }
 
-    @PostMapping("/produser")
-    public void produser(@RequestBody MinidialogHendelse hendelse) {
-        produsent.sendMinidialogHendelse(hendelse);
+    @PostMapping("/lagreMinidialog")
+    public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
+        minidialog.lagre(hendelse);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [minidialog=" + minidialog + "]";
+        return getClass().getSimpleName() + "[minidialog=" + minidialog + ", produsent=" + produsent + "]";
     }
 }
