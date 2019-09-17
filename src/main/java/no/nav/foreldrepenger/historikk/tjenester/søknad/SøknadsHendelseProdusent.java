@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
+package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
@@ -23,26 +23,26 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class InntektsmeldingHistorikkHendelseProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHistorikkHendelseProdusent.class);
-    private final String inntektsmeldingTopic;
+public class SøknadsHendelseProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHendelseProdusent.class);
+    private final String søknadTopic;
     private final KafkaOperations<String, String> kafkaOperations;
     private final ObjectMapperWrapper mapper;
 
-    public InntektsmeldingHistorikkHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.inntektsmelding_topic}") String inntektsmeldingTopic,
+    public SøknadsHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+            @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic,
             ObjectMapperWrapper mapper) {
-        this.inntektsmeldingTopic = inntektsmeldingTopic;
+        this.søknadTopic = søknadTopic;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
     }
 
     @Transactional(KAFKA_TM)
-    public void sendInnsendingHendelse(InntektsmeldingHendelse hendelse) {
+    public void sendSøknadHendelse(SøknadsInnsendingHendelse hendelse) {
         LOG.info("Sender heńdelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
-                .setHeader(TOPIC, inntektsmeldingTopic)
+                .setHeader(TOPIC, søknadTopic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build();
         send(message);
@@ -67,7 +67,8 @@ public class InntektsmeldingHistorikkHendelseProdusent {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[kafkaOperations=" + kafkaOperations + ", mapper=" + mapper + "]";
+        return getClass().getSimpleName() + "[søknadTopic=" + søknadTopic + ", kafkaOperations=" + kafkaOperations
+                + ", mapper=" + mapper + "]";
     }
 
 }

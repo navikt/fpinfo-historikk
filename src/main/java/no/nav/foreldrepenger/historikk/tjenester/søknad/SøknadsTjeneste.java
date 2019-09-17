@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkMapper.konverterFra;
+import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsMapper.fraHendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsMapper.konverterFra;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkSpec.harFnr;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -21,15 +21,15 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class SøknadsHistorikkTjeneste {
+public class SøknadsTjeneste {
 
     private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsTjeneste.class);
 
     private final SøknadsHistorikkRepository dao;
     private final TokenUtil tokenUtil;
 
-    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository dao, TokenUtil tokenUtil) {
+    public SøknadsTjeneste(SøknadsHistorikkRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
@@ -41,14 +41,14 @@ public class SøknadsHistorikkTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadsHistorikkInnslag> hentSøknader() {
+    public List<SøknadsInnslag> hentSøknader() {
         return hentSøknader(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadsHistorikkInnslag> hentSøknader(Fødselsnummer fnr) {
+    public List<SøknadsInnslag> hentSøknader(Fødselsnummer fnr) {
         LOG.info("Henter søknadshistorikk for {}", fnr);
-        List<SøknadsHistorikkInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<SøknadsInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);
         return innslag;
     }

@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadHistorikkController;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsController;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = SøknadHistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = SøknadsController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
 
-    private final InntektsmeldingHistorikkTjeneste inntektsmelding;
-    private final InntektsmeldingHistorikkHendelseProdusent produsent;
+    private final InntektsmeldingTjeneste inntektsmelding;
+    private final InntektsmeldingHendelseProdusent produsent;
 
-    InntektsmeldingDevController(InntektsmeldingHistorikkTjeneste inntektsmelding,
-            InntektsmeldingHistorikkHendelseProdusent produsent) {
+    InntektsmeldingDevController(InntektsmeldingTjeneste inntektsmelding,
+            InntektsmeldingHendelseProdusent produsent) {
         this.inntektsmelding = inntektsmelding;
         this.produsent = produsent;
 
@@ -47,7 +47,7 @@ public class InntektsmeldingDevController {
     }
 
     @GetMapping("/inntektsmeldinger")
-    public List<InntektsmeldingHistorikkInnslag> inntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
         return inntektsmelding.hentInntektsmeldinger(fnr);
     }
 

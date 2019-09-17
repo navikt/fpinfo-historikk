@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalføring;
 import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsTjeneste;
 
 @Service
 @Profile({ LOCAL, DEV })
@@ -28,10 +28,10 @@ public class MinidialogHendelseKonsument {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
     private final MinidialogTjeneste dialog;
     private final Journalføring journalføring;
-    private final SøknadsHistorikkTjeneste historikk;
+    private final SøknadsTjeneste historikk;
     private final PDFGenerator generator;
 
-    public MinidialogHendelseKonsument(SøknadsHistorikkTjeneste historikk, MinidialogTjeneste minidialog,
+    public MinidialogHendelseKonsument(SøknadsTjeneste historikk, MinidialogTjeneste minidialog,
             Journalføring journalføring, PDFGenerator generator) {
         this.historikk = historikk;
         this.dialog = minidialog;

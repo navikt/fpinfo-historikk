@@ -10,17 +10,17 @@ import org.slf4j.LoggerFactory;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkVedlegg;
 
-final class SøknadsHistorikkMapper {
+final class SøknadsMapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadsMapper.class);
 
-    private SøknadsHistorikkMapper() {
+    private SøknadsMapper() {
 
     }
 
-    static SøknadsHistorikkInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
+    static SøknadsInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        SøknadsHistorikkInnslag innslag = new SøknadsHistorikkInnslag(i.getFnr(), i.getTekst());
+        SøknadsInnslag innslag = new SøknadsInnslag(i.getFnr(), i.getTekst());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -49,7 +49,7 @@ final class SøknadsHistorikkMapper {
         innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
         event.getVedlegg()
                 .stream()
-                .map(SøknadsHistorikkMapper::fraVedlegg)
+                .map(SøknadsMapper::fraVedlegg)
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
@@ -61,10 +61,10 @@ final class SøknadsHistorikkMapper {
         return vedlegg;
     }
 
-    static List<SøknadsHistorikkInnslag> konverterFra(List<JPASøknadsHistorikkInnslag> innslag) {
+    static List<SøknadsInnslag> konverterFra(List<JPASøknadsHistorikkInnslag> innslag) {
         return innslag
                 .stream()
-                .map(SøknadsHistorikkMapper::tilHistorikkInnslag)
+                .map(SøknadsMapper::tilHistorikkInnslag)
                 .collect(toList());
     }
 }

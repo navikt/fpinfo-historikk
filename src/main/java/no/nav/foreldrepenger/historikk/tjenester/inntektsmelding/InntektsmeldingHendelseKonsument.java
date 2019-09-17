@@ -19,9 +19,9 @@ public class InntektsmeldingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHendelseKonsument.class);
 
-    private final InntektsmeldingHistorikkTjeneste historikk;
+    private final InntektsmeldingTjeneste historikk;
 
-    public InntektsmeldingHendelseKonsument(InntektsmeldingHistorikkTjeneste historikk) {
+    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste historikk) {
         this.historikk = historikk;
     }
 

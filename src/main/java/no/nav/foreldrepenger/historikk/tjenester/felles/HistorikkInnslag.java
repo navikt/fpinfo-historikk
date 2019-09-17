@@ -14,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsInnslag;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
-        @Type(value = SøknadsHistorikkInnslag.class, name = "søknad"),
-        @Type(value = InntektsmeldingHistorikkInnslag.class, name = "inntekt")
+        @Type(value = SøknadsInnslag.class, name = "søknad"),
+        @Type(value = InntektsmeldingInnslag.class, name = "inntekt")
 })
 public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 

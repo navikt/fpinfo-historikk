@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingHistorikkTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.security.oidc.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = SøknadHistorikkController.HISTORIKK)
+@RequestMapping(value = SøknadsController.HISTORIKK)
 @ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
-public class SøknadHistorikkController {
+public class SøknadsController {
 
     public static final String HISTORIKK = "/historikk";
 
-    private final SøknadsHistorikkTjeneste søknad;
-    private final InntektsmeldingHistorikkTjeneste inntektsmelding;
+    private final SøknadsTjeneste søknad;
+    private final InntektsmeldingTjeneste inntektsmelding;
 
-    SøknadHistorikkController(SøknadsHistorikkTjeneste søknad, InntektsmeldingHistorikkTjeneste inntektsmelding) {
+    SøknadsController(SøknadsTjeneste søknad, InntektsmeldingTjeneste inntektsmelding) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;
     }
 
     @GetMapping("/me")
-    public List<SøknadsHistorikkInnslag> hentSøknader() {
+    public List<SøknadsInnslag> hentSøknader() {
         return søknad.hentSøknader();
     }
 
