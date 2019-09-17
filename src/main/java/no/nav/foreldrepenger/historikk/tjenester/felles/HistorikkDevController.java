@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
-import static no.nav.foreldrepenger.historikk.config.Constants.SELVBETJENING;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -19,12 +18,12 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadTjeneste;
-import no.nav.security.oidc.api.ProtectedWithClaims;
+import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
 @RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
-@ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
+@Unprotected
 public class HistorikkDevController {
 
     public static final String HISTORIKK = "/historikk";
