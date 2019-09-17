@@ -50,7 +50,7 @@ public class SøknadHistorikkDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", historikk=" + søknad + "]";
+        return getClass().getSimpleName() + "[produsent=" + produsent + ", søknad=" + søknad + "]";
     }
 
 }
