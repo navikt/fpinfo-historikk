@@ -15,21 +15,21 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 
 @Service
-public class SøknadsHendelseKonsument {
+public class SøknadHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHendelseKonsument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadHendelseKonsument.class);
 
-    private final SøknadsTjeneste historikk;
+    private final SøknadTjeneste historikk;
     private final MinidialogTjeneste dialog;
 
-    public SøknadsHendelseKonsument(SøknadsTjeneste historikk, MinidialogTjeneste dialog) {
+    public SøknadHendelseKonsument(SøknadTjeneste historikk, MinidialogTjeneste dialog) {
         this.historikk = historikk;
         this.dialog = dialog;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void behandleSøknad(@Payload @Valid SøknadsInnsendingHendelse hendelse) {
+    public void behandleSøknad(@Payload @Valid SøknadInnsendingHendelse hendelse) {
         LOG.info("Mottok hendelse om søknad {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         historikk.lagre(hendelse);

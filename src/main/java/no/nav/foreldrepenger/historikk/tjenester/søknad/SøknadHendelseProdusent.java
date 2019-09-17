@@ -23,13 +23,13 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class SøknadsHendelseProdusent {
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadsHendelseProdusent.class);
+public class SøknadHendelseProdusent {
+    private static final Logger LOG = LoggerFactory.getLogger(SøknadHendelseProdusent.class);
     private final String søknadTopic;
     private final KafkaOperations<String, String> kafkaOperations;
     private final ObjectMapperWrapper mapper;
 
-    public SøknadsHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+    public SøknadHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic,
             ObjectMapperWrapper mapper) {
         this.søknadTopic = søknadTopic;
@@ -38,7 +38,7 @@ public class SøknadsHendelseProdusent {
     }
 
     @Transactional(KAFKA_TM)
-    public void sendSøknadHendelse(SøknadsInnsendingHendelse hendelse) {
+    public void sendSøknadHendelse(SøknadInnsendingHendelse hendelse) {
         LOG.info("Sender heńdelse {}", hendelse);
         Message<String> message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))

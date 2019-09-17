@@ -38,7 +38,7 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/minidialoger")
-    public List<MinidialogHistorikkInnslag> minidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<MinidialogInnslag> minidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
         return minidialog.hentAktiveDialoger(fnr);
     }
 

@@ -19,30 +19,30 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = SøknadsController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = SøknadController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-public class SøknadsDevController {
-    private final SøknadsHendelseProdusent produsent;
-    private final SøknadsTjeneste søknad;
+public class SøknadDevController {
+    private final SøknadHendelseProdusent produsent;
+    private final SøknadTjeneste søknad;
 
-    SøknadsDevController(SøknadsHendelseProdusent produsent,
-            SøknadsTjeneste søknad) {
+    SøknadDevController(SøknadHendelseProdusent produsent,
+            SøknadTjeneste søknad) {
         this.produsent = produsent;
         this.søknad = søknad;
     }
 
     @PostMapping("/sendSøknad")
-    public void produserSøknad(@RequestBody SøknadsInnsendingHendelse hendelse) {
+    public void produserSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
         produsent.sendSøknadHendelse(hendelse);
     }
 
     @PostMapping("/lagreSøknad")
-    public void lagreSøknad(@RequestBody SøknadsInnsendingHendelse hendelse) {
+    public void lagreSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
         søknad.lagre(hendelse);
     }
 
     @GetMapping("/søknader")
-    public List<SøknadsInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<SøknadInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknad.hentSøknader(fnr);
     }
 
