@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
 
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag_.fnr;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag_.opprettet;
+import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadInnslag_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadInnslag_.opprettet;
 
 import java.time.LocalDate;
 
