@@ -1,1 +1,1 @@
-ALTER TABLE MINIDIALOG ADD journalpost_id varchar2(50);
+ALTER TABLE MINIDIALOG ADD journalpost_id VARCHAR(50);
