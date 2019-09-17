@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
-import static no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse.UKJENT;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.UKJENT;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -36,9 +36,9 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
         this.fnr = fnr;
     }
 
-    protected Hendelse hendelseFra(String hendelse) {
+    protected HendelseType hendelseFra(String hendelse) {
         return Optional.ofNullable(hendelse)
-                .map(Hendelse::tilHendelse)
+                .map(HendelseType::tilHendelse)
                 .orElse(UKJENT);
     }
 

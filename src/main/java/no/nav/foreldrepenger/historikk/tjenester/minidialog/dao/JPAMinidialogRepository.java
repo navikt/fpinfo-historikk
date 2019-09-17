@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Transactional(JPA_TM)
-public interface MinidialogRepository
+public interface JPAMinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
 
     @Modifying

@@ -9,9 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public final class SøknadSpec {
+public final class JPASøknadSpec {
 
-    private SøknadSpec() {
+    private JPASøknadSpec() {
 
     }
 

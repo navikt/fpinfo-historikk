@@ -9,10 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 
 @Valid
-public class InntektsmeldingHendelse extends HistorikkHendelse {
+public class InntektsmeldingHendelse extends Hendelse {
 
     private final LocalDate innsendingsDato;
     private final Arbeidsgiver arbeidsgiver;

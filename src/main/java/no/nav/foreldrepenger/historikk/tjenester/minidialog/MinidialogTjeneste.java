@@ -3,10 +3,10 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erAktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.gyldigErNull;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.MinidialogRepository;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
@@ -28,15 +28,15 @@ public class MinidialogTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
-    private final MinidialogRepository dao;
+    private final JPAMinidialogRepository dao;
     private final TokenUtil tokenUtil;
 
-    public MinidialogTjeneste(MinidialogRepository dao, TokenUtil tokenUtil) {
+    public MinidialogTjeneste(JPAMinidialogRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
 
-    public int deaktiverMinidialoger(Fødselsnummer fnr, Hendelse hendelse, String saksnr) {
+    public int deaktiverMinidialoger(Fødselsnummer fnr, HendelseType hendelse, String saksnr) {
         LOG.info("Deaktiverer minidialog(er) for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(fnr, saksnr);

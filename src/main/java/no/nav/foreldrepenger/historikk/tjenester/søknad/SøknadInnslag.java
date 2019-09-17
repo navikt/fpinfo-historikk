@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class SøknadInnslag extends HistorikkInnslag {
 
     private static final Logger LOG = LoggerFactory.getLogger(SøknadInnslag.class);
-    private final Hendelse hendelse;
+    private final HendelseType hendelse;
     private List<String> vedlegg;
     private LocalDate behandlingsdato;
 
@@ -42,7 +42,7 @@ public class SøknadInnslag extends HistorikkInnslag {
         this.vedlegg = vedlegg;
     }
 
-    public Hendelse getHendelse() {
+    public HendelseType getHendelse() {
         return hendelse;
     }
 

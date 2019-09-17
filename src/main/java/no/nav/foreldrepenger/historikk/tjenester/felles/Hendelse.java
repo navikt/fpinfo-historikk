@@ -1,65 +1,45 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.ENGANGSSTØNAD;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDREPENGER;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
+import javax.validation.constraints.NotNull;
 
-public enum Hendelse {
-    TILBAKEKREVING,
-    VEDTAK,
-    INNTEKTSMELDING,
-    INITIELL_ENGANGSSTØNAD,
-    INITIELL_FORELDREPENGER,
-    INITIELL_SVANGERSKAPSPENGER,
-    ETTERSENDING_FORELDREPENGER,
-    ETTERSENDING_ENGANGSSTØNAD,
-    ETTERSENDING_SVANGERSKAPSPENGER,
-    ENDRING_FORELDREPENGER,
-    ENDRING_SVANGERSKAPSPENGER,
-    UKJENT;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-    public boolean erEttersending() {
-        return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
-                this.equals(ETTERSENDING_FORELDREPENGER) ||
-                this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
+public abstract class Hendelse {
+
+    private final AktørId aktørId;
+    @NotNull
+    private final Fødselsnummer fnr;
+    private final String journalId;
+    private final String referanseId;
+    private final String saksNr;
+
+    public Hendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr) {
+        this.aktørId = aktørId;
+        this.fnr = fnr;
+        this.journalId = journalId;
+        this.referanseId = referanseId;
+        this.saksNr = saksNr;
     }
 
-    private boolean erForeldrepenger() {
-        return this.equals(INITIELL_FORELDREPENGER) ||
-                this.equals(ETTERSENDING_FORELDREPENGER) ||
-                this.equals(ENDRING_FORELDREPENGER);
+    public AktørId getAktørId() {
+        return aktørId;
     }
 
-    private boolean erEngangsstønad() {
-        return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
-                this.equals(INITIELL_ENGANGSSTØNAD);
+    public Fødselsnummer getFnr() {
+        return fnr;
     }
 
-    private boolean erSvangerskapspenger() {
-        return this.equals(ETTERSENDING_SVANGERSKAPSPENGER) ||
-                this.equals(INITIELL_SVANGERSKAPSPENGER) ||
-                this.equals(ENDRING_SVANGERSKAPSPENGER);
+    public String getJournalId() {
+        return journalId;
     }
 
-    public static Hendelse tilHendelse(String hendelse) {
-        try {
-            return valueOf(hendelse);
-        } catch (Exception e) {
-            return UKJENT;
-        }
+    public String getReferanseId() {
+        return referanseId;
     }
 
-    public String tema() {
-        if (erSvangerskapspenger()) {
-            return FORELDRE_OG_SVANGERSKAPSPENGER.getTema();
-        }
-        if (erEngangsstønad()) {
-            return ENGANGSSTØNAD.getTema();
-        }
-        if (erForeldrepenger()) {
-            return FORELDREPENGER.getTema();
-        }
-        return FORELDREPENGER.getTema();
+    public String getSaksNr() {
+        return saksNr;
     }
 
 }

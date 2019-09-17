@@ -9,9 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public final class MinidialogSpec {
+public final class JPAMinidialogSpec {
 
-    private MinidialogSpec() {
+    private JPAMinidialogSpec() {
 
     }
 

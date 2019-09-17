@@ -19,10 +19,10 @@ public class InntektsmeldingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHendelseKonsument.class);
 
-    private final InntektsmeldingTjeneste historikk;
+    private final InntektsmeldingTjeneste inntektsmelding;
 
-    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste historikk) {
-        this.historikk = historikk;
+    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste inntektsmelding) {
+        this.inntektsmelding = inntektsmelding;
     }
 
     @Transactional
@@ -30,11 +30,11 @@ public class InntektsmeldingHendelseKonsument {
     public void behandleInnteksmelding(@Payload @Valid InntektsmeldingHendelse hendelse) {
         LOG.info("Mottok hendelse om inntektsmelding {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
-        historikk.lagre(hendelse);
+        inntektsmelding.lagre(hendelse);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[historikk=" + historikk + "]";
+        return getClass().getSimpleName() + "[inntektsmelding=" + inntektsmelding + "]";
     }
 }

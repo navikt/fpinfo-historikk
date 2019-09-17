@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.søknad;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.konverterFra;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadSpec.harFnr;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadRepository;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
@@ -26,10 +26,10 @@ public class SøknadTjeneste {
     private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
     private static final Logger LOG = LoggerFactory.getLogger(SøknadTjeneste.class);
 
-    private final SøknadRepository dao;
+    private final JPASøknadRepository dao;
     private final TokenUtil tokenUtil;
 
-    public SøknadTjeneste(SøknadRepository dao, TokenUtil tokenUtil) {
+    public SøknadTjeneste(JPASøknadRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
