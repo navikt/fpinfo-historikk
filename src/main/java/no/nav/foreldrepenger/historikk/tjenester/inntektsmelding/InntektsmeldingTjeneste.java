@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
@@ -39,7 +40,7 @@ public class InntektsmeldingTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingInnslag> hentInntektsmeldinger() {
+    public List<InntektsmeldingInnslag> inntektsmeldinger() {
         return hentInntektsmeldinger(tokenUtil.autentisertFNR());
     }
 

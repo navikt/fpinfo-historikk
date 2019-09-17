@@ -41,7 +41,7 @@ public class SøknadTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadInnslag> hentSøknader() {
+    public List<SøknadInnslag> søknader() {
         return hentSøknader(tokenUtil.autentisertFNR());
     }
 
