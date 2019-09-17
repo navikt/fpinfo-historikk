@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(JPA_TM)
-public interface SøknadsHistorikkRepository
-        extends JpaRepository<JPASøknadsHistorikkInnslag, Long>, JpaSpecificationExecutor<JPASøknadsHistorikkInnslag> {
+public interface SøknadRepository
+        extends JpaRepository<JPASøknadInnslag, Long>, JpaSpecificationExecutor<JPASøknadInnslag> {
 
 }

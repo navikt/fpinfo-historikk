@@ -7,8 +7,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkVedlegg;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadVedlegg;
 
 final class SøknadMapper {
 
@@ -18,7 +18,7 @@ final class SøknadMapper {
 
     }
 
-    static SøknadInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
+    static SøknadInnslag tilHistorikkInnslag(JPASøknadInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
         SøknadInnslag innslag = new SøknadInnslag(i.getFnr(), i.getTekst());
         innslag.setOpprettet(i.getOpprettet());
@@ -31,16 +31,16 @@ final class SøknadMapper {
         return innslag;
     }
 
-    private static List<String> tilVedlegg(JPASøknadsHistorikkInnslag innslag) {
+    private static List<String> tilVedlegg(JPASøknadInnslag innslag) {
         return innslag.getVedlegg()
                 .stream()
-                .map(JPASøknadsHistorikkVedlegg::getVedleggId)
+                .map(JPASøknadVedlegg::getVedleggId)
                 .collect(toList());
     }
 
-    static JPASøknadsHistorikkInnslag fraHendelse(SøknadInnsendingHendelse event) {
+    static JPASøknadInnslag fraHendelse(SøknadInnsendingHendelse event) {
         LOG.info("Mapper fra hendelse {}", event);
-        JPASøknadsHistorikkInnslag innslag = new JPASøknadsHistorikkInnslag();
+        JPASøknadInnslag innslag = new JPASøknadInnslag();
         innslag.setAktørId(event.getAktørId());
         innslag.setFnr(event.getFnr());
         innslag.setSaksnr(event.getSaksNr());
@@ -55,13 +55,13 @@ final class SøknadMapper {
         return innslag;
     }
 
-    private static JPASøknadsHistorikkVedlegg fraVedlegg(String id) {
-        JPASøknadsHistorikkVedlegg vedlegg = new JPASøknadsHistorikkVedlegg();
+    private static JPASøknadVedlegg fraVedlegg(String id) {
+        JPASøknadVedlegg vedlegg = new JPASøknadVedlegg();
         vedlegg.setVedleggId(id);
         return vedlegg;
     }
 
-    static List<SøknadInnslag> konverterFra(List<JPASøknadsHistorikkInnslag> innslag) {
+    static List<SøknadInnslag> konverterFra(List<JPASøknadInnslag> innslag) {
         return innslag
                 .stream()
                 .map(SøknadMapper::tilHistorikkInnslag)

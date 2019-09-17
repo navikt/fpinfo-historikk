@@ -9,17 +9,17 @@ import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public final class SøknadsHistorikkSpec {
+public final class SøknadSpec {
 
-    private SøknadsHistorikkSpec() {
+    private SøknadSpec() {
 
     }
 
-    public static Specification<JPASøknadsHistorikkInnslag> harFnr(Fødselsnummer f) {
+    public static Specification<JPASøknadInnslag> harFnr(Fødselsnummer f) {
         return (innslag, cq, cb) -> cb.equal(innslag.get(fnr), f);
     }
 
-    public static Specification<JPASøknadsHistorikkInnslag> erEtterEllerPå(LocalDate dato) {
+    public static Specification<JPASøknadInnslag> erEtterEllerPå(LocalDate dato) {
         return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get(opprettet), dato.atStartOfDay());
     }
 

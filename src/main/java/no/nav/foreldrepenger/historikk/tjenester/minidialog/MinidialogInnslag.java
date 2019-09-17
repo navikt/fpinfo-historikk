@@ -17,15 +17,21 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogInnslag.class);
     private final Hendelse hendelse;
     private final LocalDate gyldigTil;
+    private final String tekst;
 
     @JsonCreator
     public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("hendelse") String hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
-            @JsonProperty("journalpostId") String journalpostId) {
+            @JsonProperty("journalpostId") String journalpostId, @JsonProperty("tekst") String tekst) {
         super(fnr);
         this.hendelse = hendelseFra(hendelse);
         this.gyldigTil = gyldigTil;
+        this.tekst = tekst;
         super.setJournalpostId(journalpostId);
+    }
+
+    public String getTekst() {
+        return tekst;
     }
 
     public LocalDate getGyldigTil() {
