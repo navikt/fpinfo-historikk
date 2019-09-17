@@ -1,0 +1,1 @@
+ALTER TABLE MINIDIALOG ADD COLUMN hendelse varchar2(50);

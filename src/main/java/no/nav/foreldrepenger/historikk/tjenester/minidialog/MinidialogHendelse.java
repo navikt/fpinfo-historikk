@@ -10,26 +10,17 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkHendelse;
 
-public class MinidialogHendelse {
+public class MinidialogHendelse extends HistorikkHendelse {
 
-    @NotNull
-    private final Fødselsnummer fnr;
-    @NotNull
-    @ApiModelProperty(example = "TILBAKEKREVING")
-    private final String tekst;
-    @ApiModelProperty(example = "Navn Navnesen")
-    private String navn;
     @ApiModelProperty(hidden = true)
     private long id;
-    private AktørId aktørId;
-    @ApiModelProperty(example = "42")
-    private String saksnr;
     @ApiModelProperty(hidden = true)
     private LocalDateTime opprettet;
     @ApiModelProperty(hidden = true)
@@ -38,49 +29,39 @@ public class MinidialogHendelse {
     @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
     private boolean aktiv;
-    @ApiModelProperty(example = "1234567890")
-    private String referanseId;
+    @NotNull
+    private final Hendelse hendelse;
+    private final String tekst;
+    @ApiModelProperty(example = "Navn Navnesen")
+    private final String navn;
 
     @JsonCreator
-    public MinidialogHendelse(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("tekst") String tekst) {
-        this.fnr = fnr;
+    public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
+            Hendelse hendelse, String tekst, String navn) {
+        super(aktørId, fnr, journalId, referanseId, saksNr);
+        this.hendelse = hendelse;
         this.tekst = tekst;
+        this.navn = navn;
     }
 
     public String getNavn() {
         return navn;
     }
 
-    public void setNavn(String navn) {
-        this.navn = navn;
-    }
-
-    public Fødselsnummer getFnr() {
-        return fnr;
-    }
-
-    public void setAktørId(AktørId aktørId) {
-        this.aktørId = aktørId;
+    public String getTekst() {
+        return tekst;
     }
 
     public LocalDate getGyldigTil() {
         return gyldigTil;
     }
 
+    public Hendelse getHendelse() {
+        return hendelse;
+    }
+
     public void setGyldigTil(LocalDate gyldigTil) {
         this.gyldigTil = gyldigTil;
-    }
-
-    public AktørId getAktørId() {
-        return aktørId;
-    }
-
-    public String getTekst() {
-        return tekst;
-    }
-
-    public String getSaksnr() {
-        return saksnr;
     }
 
     public long getId() {
@@ -103,10 +84,6 @@ public class MinidialogHendelse {
         return opprettet;
     }
 
-    public void setSaksnr(String saksnr) {
-        this.saksnr = saksnr;
-    }
-
     public void setOpprettet(LocalDateTime opprettet) {
         this.opprettet = opprettet;
     }
@@ -117,21 +94,6 @@ public class MinidialogHendelse {
 
     public void setEndret(LocalDateTime endret) {
         this.endret = endret;
-    }
-
-    public String getReferanseId() {
-        return referanseId;
-    }
-
-    public void setReferanseId(String referanseId) {
-        this.referanseId = referanseId;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[fnr=" + fnr + ", tekst=" + tekst + ", navn=" + navn + ", id=" + id
-                + ", aktørId=" + aktørId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret
-                + ", gyldigTil=" + gyldigTil + ", aktiv=" + aktiv + ", referanseId=" + referanseId + "]";
     }
 
 }

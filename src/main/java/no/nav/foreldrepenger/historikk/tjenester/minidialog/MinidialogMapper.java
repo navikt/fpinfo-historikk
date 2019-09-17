@@ -17,8 +17,6 @@ public final class MinidialogMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);
 
-    private static final String SPØRSMÅL = "Spørsmål fra saksbehandler";
-
     private MinidialogMapper() {
 
     }
@@ -29,7 +27,7 @@ public final class MinidialogMapper {
         dialog.setAktørId(m.getAktørId());
         dialog.setFnr(m.getFnr());
         dialog.setTekst(m.getTekst());
-        dialog.setSaksnr(m.getSaksnr());
+        dialog.setSaksnr(m.getSaksNr());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(m.isAktiv());
         dialog.setJournalpostId(journalpostId);
@@ -41,8 +39,8 @@ public final class MinidialogMapper {
         return new Journalpost(UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), innslag.getNavn()),
                 new Bruker(innslag.getFnr()), null,
-                SPØRSMÅL,
-                new Sak(innslag.getSaksnr()),
+                innslag.getTekst(),
+                new Sak(innslag.getSaksNr()),
                 new Dokument(new DokumentVariant(dokument)));
     }
 
