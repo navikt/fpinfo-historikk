@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.concat;
 import static no.nav.foreldrepenger.historikk.config.Constants.SELVBETJENING;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,28 +21,28 @@ public class SøknadHistorikkController {
 
     public static final String HISTORIKK = "/historikk";
 
-    private final SøknadsHistorikkTjeneste søknader;
-    private final InntektsmeldingHistorikkTjeneste inntektsmeldinger;
+    private final SøknadsHistorikkTjeneste søknad;
+    private final InntektsmeldingHistorikkTjeneste inntektsmelding;
 
-    SøknadHistorikkController(SøknadsHistorikkTjeneste søknader, InntektsmeldingHistorikkTjeneste inntektsmeldinger) {
-        this.søknader = søknader;
-        this.inntektsmeldinger = inntektsmeldinger;
+    SøknadHistorikkController(SøknadsHistorikkTjeneste søknad, InntektsmeldingHistorikkTjeneste inntektsmelding) {
+        this.søknad = søknad;
+        this.inntektsmelding = inntektsmelding;
     }
 
     @GetMapping("/me")
     public List<SøknadsHistorikkInnslag> hentSøknader() {
-        return søknader.hentSøknader();
+        return søknad.hentSøknader();
     }
 
     @GetMapping("/me/all")
     public List<? extends HistorikkInnslag> hentHistorikk() {
-        return Stream.concat(inntektsmeldinger.hentInntektsmeldinger().stream(), søknader.hentSøknader().stream())
+        return concat(inntektsmelding.hentInntektsmeldinger().stream(), søknad.hentSøknader().stream())
                 .sorted()
                 .collect(toList());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [søknader=" + søknader + "]";
+        return getClass().getSimpleName() + "[søknad=" + søknad + ", inntektsmelding=" + inntektsmelding + "]";
     }
 }
