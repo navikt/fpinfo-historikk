@@ -46,8 +46,8 @@ public final class MinidialogMapper {
 
     static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil(),
-                i.getJournalpostId());
+        MinidialogInnslag innslag = new MinidialogInnslag(i.getFnr(), i.getHendelse(), i.getGyldigTil(),
+                i.getJournalpostId(), i.getTekst());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());

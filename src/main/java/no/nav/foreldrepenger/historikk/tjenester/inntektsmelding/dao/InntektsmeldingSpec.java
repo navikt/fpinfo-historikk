@@ -6,9 +6,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public final class InntektsmeldingHistorikkSpec {
+public final class InntektsmeldingSpec {
 
-    private InntektsmeldingHistorikkSpec() {
+    private InntektsmeldingSpec() {
 
     }
 

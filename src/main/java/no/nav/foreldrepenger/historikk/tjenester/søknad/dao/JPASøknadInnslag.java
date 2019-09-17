@@ -25,7 +25,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 @Entity
 @Table(name = "historikk")
 @EntityListeners(AuditingEntityListener.class)
-public class JPASøknadsHistorikkInnslag {
+public class JPASøknadInnslag {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -40,10 +40,10 @@ public class JPASøknadsHistorikkInnslag {
     @CreatedDate
     private LocalDateTime opprettet;
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
-    private List<JPASøknadsHistorikkVedlegg> vedlegg = new ArrayList<>();
+    private List<JPASøknadVedlegg> vedlegg = new ArrayList<>();
     private LocalDate behandlingsdato;
 
-    public JPASøknadsHistorikkInnslag() {
+    public JPASøknadInnslag() {
     }
 
     public LocalDate getBehandlingsdato() {
@@ -54,16 +54,16 @@ public class JPASøknadsHistorikkInnslag {
         this.behandlingsdato = behandlingsdato;
     }
 
-    public void addVedlegg(JPASøknadsHistorikkVedlegg v) {
+    public void addVedlegg(JPASøknadVedlegg v) {
         vedlegg.add(v);
         v.setInnslag(this);
     }
 
-    public List<JPASøknadsHistorikkVedlegg> getVedlegg() {
+    public List<JPASøknadVedlegg> getVedlegg() {
         return vedlegg;
     }
 
-    public void setVedlegg(List<JPASøknadsHistorikkVedlegg> vedlegg) {
+    public void setVedlegg(List<JPASøknadVedlegg> vedlegg) {
         this.vedlegg = vedlegg;
     }
 

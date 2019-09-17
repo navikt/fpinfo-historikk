@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "historikkvedlegg")
-public class JPASøknadsHistorikkVedlegg {
+public class JPASøknadVedlegg {
     @Id
     @GeneratedValue
     private int id;
@@ -20,9 +20,9 @@ public class JPASøknadsHistorikkVedlegg {
     private String vedlegg;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "vedlegg")
-    private JPASøknadsHistorikkInnslag innslag;
+    private JPASøknadInnslag innslag;
 
-    public JPASøknadsHistorikkVedlegg() {
+    public JPASøknadVedlegg() {
     }
 
     public int getId() {
@@ -41,11 +41,11 @@ public class JPASøknadsHistorikkVedlegg {
         this.vedlegg = vedleggId;
     }
 
-    public JPASøknadsHistorikkInnslag getInnslag() {
+    public JPASøknadInnslag getInnslag() {
         return innslag;
     }
 
-    public void setInnslag(JPASøknadsHistorikkInnslag innslag) {
+    public void setInnslag(JPASøknadInnslag innslag) {
         this.innslag = innslag;
     }
 

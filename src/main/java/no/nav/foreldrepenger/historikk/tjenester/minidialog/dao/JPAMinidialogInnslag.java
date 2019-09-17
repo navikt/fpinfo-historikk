@@ -32,6 +32,8 @@ public class JPAMinidialogInnslag {
     @Embedded
     private Fødselsnummer fnr;
     private String tekst;
+    private String hendelse;
+
     private LocalDate gyldigTil;
     private String journalpostId;
 
@@ -123,6 +125,14 @@ public class JPAMinidialogInnslag {
 
     public void setJournalpostId(String journalpostId) {
         this.journalpostId = journalpostId;
+    }
+
+    public String getHendelse() {
+        return hendelse;
+    }
+
+    public void setHendelse(String hendelse) {
+        this.hendelse = hendelse;
     }
 
     @Override

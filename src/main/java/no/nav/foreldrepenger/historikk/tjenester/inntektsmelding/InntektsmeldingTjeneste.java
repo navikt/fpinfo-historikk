@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingHistorikkSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.InntektsmeldingSpec.harFnr;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
