@@ -26,17 +26,17 @@ public class SøknadsHistorikkTjeneste {
     private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
     private static final Logger LOG = LoggerFactory.getLogger(SøknadsHistorikkTjeneste.class);
 
-    private final SøknadsHistorikkRepository søknadDao;
+    private final SøknadsHistorikkRepository dao;
     private final TokenUtil tokenUtil;
 
-    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao, TokenUtil tokenUtil) {
-        this.søknadDao = søknadDao;
+    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository dao, TokenUtil tokenUtil) {
+        this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
 
     public void lagre(SøknadsInnsendingHendelse hendelse) {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
-        søknadDao.save(fraHendelse(hendelse));
+        dao.save(fraHendelse(hendelse));
         LOG.info("Lagret historikkinnslag OK");
     }
 
@@ -48,13 +48,13 @@ public class SøknadsHistorikkTjeneste {
     @Transactional(readOnly = true)
     public List<SøknadsHistorikkInnslag> hentSøknader(Fødselsnummer fnr) {
         LOG.info("Henter søknadshistorikk for {}", fnr);
-        List<SøknadsHistorikkInnslag> innslag = konverterFra(søknadDao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<SøknadsHistorikkInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);
         return innslag;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[søknadDao=" + søknadDao + ", tokenUtil=" + tokenUtil + "]";
+        return getClass().getSimpleName() + "[dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
 }

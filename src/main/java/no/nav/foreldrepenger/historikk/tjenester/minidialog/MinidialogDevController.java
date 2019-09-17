@@ -44,7 +44,7 @@ public class MinidialogDevController {
 
     @PostMapping("/lagreMinidialog")
     public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
-        minidialog.lagre(hendelse);
+        minidialog.lagre(hendelse, "42");
     }
 
     @Override

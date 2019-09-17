@@ -48,9 +48,9 @@ public class MinidialogTjeneste {
         return n;
     }
 
-    public void lagre(MinidialogHendelse m) {
+    public void lagre(MinidialogHendelse m, String journalPostId) {
         LOG.info("Lagrer minidialog {}", m);
-        dao.save(fraInnslag(m));
+        dao.save(fraInnslag(m, journalPostId));
         LOG.info("Lagret minidialog OK");
     }
 

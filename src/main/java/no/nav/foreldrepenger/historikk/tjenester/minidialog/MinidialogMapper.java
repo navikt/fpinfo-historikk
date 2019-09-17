@@ -23,7 +23,7 @@ public final class MinidialogMapper {
 
     }
 
-    static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m) {
+    static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m, String journalpostId) {
         LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
         dialog.setAktørId(m.getAktørId());
@@ -32,6 +32,7 @@ public final class MinidialogMapper {
         dialog.setSaksnr(m.getSaksnr());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(m.isAktiv());
+        dialog.setJournalpostId(journalpostId);
         LOG.info("Mappet til {}", dialog);
         return dialog;
     }
@@ -47,7 +48,8 @@ public final class MinidialogMapper {
 
     static MinidialogHistorikkInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogHistorikkInnslag innslag = new MinidialogHistorikkInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil());
+        MinidialogHistorikkInnslag innslag = new MinidialogHistorikkInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil(),
+                i.getJournalpostId());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());

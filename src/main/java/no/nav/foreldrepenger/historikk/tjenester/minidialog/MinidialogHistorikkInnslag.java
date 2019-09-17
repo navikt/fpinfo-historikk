@@ -17,13 +17,20 @@ public class MinidialogHistorikkInnslag extends HistorikkInnslag {
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHistorikkInnslag.class);
     private final Hendelse hendelse;
     private final LocalDate gyldigTil;
+    private final String journalpostId;
 
     @JsonCreator
     public MinidialogHistorikkInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
-            @JsonProperty("hendelse") String hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil) {
+            @JsonProperty("hendelse") String hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
+            @JsonProperty("journalpostId") String journalpostId) {
         super(fnr);
         this.hendelse = hendelseFra(hendelse);
         this.gyldigTil = gyldigTil;
+        this.journalpostId = journalpostId;
+    }
+
+    public String getJournalpostId() {
+        return journalpostId;
     }
 
     public LocalDate getGyldigTil() {
@@ -36,7 +43,8 @@ public class MinidialogHistorikkInnslag extends HistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + "]";
+        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId="
+                + journalpostId + ", saksnr=" + getSaksnr() + ", opprettet=" + getOpprettet()
+                + ",aktørId=" + getAktørId() + ", fnr=" + getFnr() + "]";
     }
-
 }
