@@ -55,14 +55,14 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogHendelse> hentAktiveDialoger() {
+    public List<MinidialogHistorikkInnslag> hentAktiveDialoger() {
         return hentAktiveDialoger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogHendelse> hentAktiveDialoger(Fødselsnummer fnr) {
+    public List<MinidialogHistorikkInnslag> hentAktiveDialoger(Fødselsnummer fnr) {
         LOG.info("Henter aktive dialoger for {}", fnr);
-        List<MinidialogHendelse> dialoger = mapAndCollect(
+        List<MinidialogHistorikkInnslag> dialoger = mapAndCollect(
                 dao.findAll(
                         where(harFnr(fnr)
                                 .and((erGyldig().or(gyldigErNull())))
@@ -71,7 +71,7 @@ public class MinidialogTjeneste {
         return dialoger;
     }
 
-    private static List<MinidialogHendelse> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
+    private static List<MinidialogHistorikkInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
         return innslag
                 .stream()
                 .map(MinidialogMapper::tilInnslag)

@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkMapper.fraMinidialog;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadsHistorikkMapper.konverterFra;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkSpec.harFnr;
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.SøknadsHistorikkRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
@@ -31,8 +29,7 @@ public class SøknadsHistorikkTjeneste {
     private final SøknadsHistorikkRepository søknadDao;
     private final TokenUtil tokenUtil;
 
-    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao,
-            TokenUtil tokenUtil) {
+    public SøknadsHistorikkTjeneste(SøknadsHistorikkRepository søknadDao, TokenUtil tokenUtil) {
         this.søknadDao = søknadDao;
         this.tokenUtil = tokenUtil;
     }
@@ -40,12 +37,6 @@ public class SøknadsHistorikkTjeneste {
     public void lagre(SøknadsInnsendingHendelse hendelse) {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
         søknadDao.save(fraHendelse(hendelse));
-        LOG.info("Lagret historikkinnslag OK");
-    }
-
-    public void lagre(MinidialogHendelse minidialog, String journalPostId) {
-        LOG.info("Lagrer historikkinnslag fra minidialog {}", minidialog);
-        søknadDao.save(fraMinidialog(minidialog, journalPostId));
         LOG.info("Lagret historikkinnslag OK");
     }
 

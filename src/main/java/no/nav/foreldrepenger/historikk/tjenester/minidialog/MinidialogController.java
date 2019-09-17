@@ -21,7 +21,7 @@ public class MinidialogController {
     }
 
     @GetMapping("/me")
-    public List<MinidialogHendelse> hentMinidialog() {
+    public List<MinidialogHistorikkInnslag> hentMinidialog() {
         return minidialog.hentAktiveDialoger();
     }
 

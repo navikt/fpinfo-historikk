@@ -25,11 +25,12 @@ import no.nav.security.oidc.api.Unprotected;
 @RequestMapping(path = SøknadHistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
+
     private final InntektsmeldingHistorikkTjeneste inntektsmelding;
     private final InntektsmeldingHistorikkHendelseProdusent produsent;
 
-    InntektsmeldingDevController(
-            InntektsmeldingHistorikkTjeneste inntektsmelding, InntektsmeldingHistorikkHendelseProdusent produsent) {
+    InntektsmeldingDevController(InntektsmeldingHistorikkTjeneste inntektsmelding,
+            InntektsmeldingHistorikkHendelseProdusent produsent) {
         this.inntektsmelding = inntektsmelding;
         this.produsent = produsent;
 
@@ -52,7 +53,7 @@ public class InntektsmeldingDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", inntektsmeldinger=" + inntektsmelding + "]";
+        return getClass().getSimpleName() + "[produsent=" + produsent + ", inntektsmelding=" + inntektsmelding + "]";
     }
 
 }

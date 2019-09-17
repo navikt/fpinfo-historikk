@@ -36,6 +36,11 @@ public class SøknadHistorikkDevController {
         produsent.sendSøknadHendelse(hendelse);
     }
 
+    @PostMapping("/lagreSøknad")
+    public void lagreSøknad(@RequestBody SøknadsInnsendingHendelse hendelse) {
+        søknad.lagre(hendelse);
+    }
+
     @GetMapping("/søknader")
     public List<SøknadsHistorikkInnslag> hentSøknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknad.hentSøknader(fnr);

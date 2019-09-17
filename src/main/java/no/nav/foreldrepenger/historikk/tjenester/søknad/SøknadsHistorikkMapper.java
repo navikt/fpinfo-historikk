@@ -7,7 +7,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadsHistorikkVedlegg;
 
@@ -17,16 +16,6 @@ final class SøknadsHistorikkMapper {
 
     private SøknadsHistorikkMapper() {
 
-    }
-
-    static JPASøknadsHistorikkInnslag fraMinidialog(MinidialogHendelse i, String journalPostId) {
-        JPASøknadsHistorikkInnslag historikk = new JPASøknadsHistorikkInnslag();
-        historikk.setAktørId(i.getAktørId());
-        historikk.setFnr(i.getFnr());
-        historikk.setTekst(i.getTekst());
-        historikk.setSaksnr(i.getSaksnr());
-        historikk.setJournalpostId(journalPostId);
-        return historikk;
     }
 
     static SøknadsHistorikkInnslag tilHistorikkInnslag(JPASøknadsHistorikkInnslag i) {
