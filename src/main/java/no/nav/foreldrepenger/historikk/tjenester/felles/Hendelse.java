@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester;
+package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.ENGANGSSTØNAD;
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDREPENGER;

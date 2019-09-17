@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadController;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = SøknadController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
 

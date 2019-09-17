@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
-import static no.nav.foreldrepenger.historikk.tjenester.Hendelse.UKJENT;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse.UKJENT;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnslag;
