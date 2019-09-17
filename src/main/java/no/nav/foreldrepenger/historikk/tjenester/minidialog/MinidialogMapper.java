@@ -45,16 +45,12 @@ public final class MinidialogMapper {
                 new Dokument(new DokumentVariant(dokument)));
     }
 
-    static MinidialogHendelse tilInnslag(JPAMinidialogInnslag i) {
+    static MinidialogHistorikkInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        MinidialogHendelse innslag = new MinidialogHendelse(i.getFnr(), i.getTekst());
-        innslag.setEndret(i.getEndret());
+        MinidialogHistorikkInnslag innslag = new MinidialogHistorikkInnslag(i.getFnr(), i.getTekst(), i.getGyldigTil());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
-        innslag.setId(i.getId());
-        innslag.setGyldigTil(i.getGyldigTil());
         innslag.setSaksnr(i.getSaksnr());
-        innslag.setAktiv(i.isAktiv());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
