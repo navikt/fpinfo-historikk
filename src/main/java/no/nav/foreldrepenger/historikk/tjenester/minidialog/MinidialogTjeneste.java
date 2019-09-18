@@ -75,9 +75,14 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentAktiveDialogSpørsmål() {
-        LOG.info("Henter spørsmål for {}", tokenUtil.autentisertFNR());
+        return hentAktiveDialogSpørsmål(tokenUtil.autentisertFNR());
+    }
+
+    @Transactional(readOnly = true)
+    public List<MinidialogInnslag> hentAktiveDialogSpørsmål(Fødselsnummer fnr) {
+        LOG.info("Henter spørsmål for {}", fnr);
         List<MinidialogInnslag> dialoger = mapAndCollect(
-                dao.findAll(where(spec(tokenUtil.autentisertFNR(), true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+                dao.findAll(where(spec(fnr, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
         LOG.info("Hentet {} dialogspørsmål ({})", dialoger.size(), dialoger);
         return dialoger;
     }

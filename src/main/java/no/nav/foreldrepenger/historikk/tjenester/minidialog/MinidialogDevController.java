@@ -43,6 +43,11 @@ public class MinidialogDevController {
         return minidialog.hentDialoger(fnr, activeOnly);
     }
 
+    @GetMapping("/spm")
+    public List<MinidialogInnslag> spm(@RequestParam("fnr") Fødselsnummer fnr) {
+        return minidialog.hentAktiveDialogSpørsmål(fnr);
+    }
+
     @PostMapping("/lagreMinidialog")
     public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
         minidialog.lagre(hendelse, "42");
