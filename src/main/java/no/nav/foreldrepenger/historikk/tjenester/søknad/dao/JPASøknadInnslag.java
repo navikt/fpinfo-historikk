@@ -26,7 +26,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
-@Table(name = "søknad")
+@Table(name = "innsending")
 @EntityListeners(AuditingEntityListener.class)
 public class JPASøknadInnslag {
 
