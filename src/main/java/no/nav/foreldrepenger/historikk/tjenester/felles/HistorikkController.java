@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
@@ -46,13 +47,13 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/minidialoger")
-    public List<MinidialogInnslag> minidialoger() {
-        return minidialog.hentAktiveDialoger();
+    public List<MinidialogInnslag> minidialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
+        return minidialog.hentDialoger(activeOnly);
     }
 
     @GetMapping("/me/all")
     public List<? extends HistorikkInnslag> historikk() {
-        return concat(minidialoger().stream(),
+        return concat(minidialoger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
                         .collect(toList());

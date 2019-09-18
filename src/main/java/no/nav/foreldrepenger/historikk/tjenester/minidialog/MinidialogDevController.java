@@ -38,8 +38,9 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/minidialoger")
-    public List<MinidialogInnslag> minidialoger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return minidialog.hentAktiveDialoger(fnr);
+    public List<MinidialogInnslag> minidialoger(@RequestParam("fnr") Fødselsnummer fnr,
+            @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
+        return minidialog.hentDialoger(fnr, activeOnly);
     }
 
     @PostMapping("/lagreMinidialog")
