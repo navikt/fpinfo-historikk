@@ -41,16 +41,19 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(Fødselsnummer fnr, HendelseType hendelse, String saksnr) {
-        LOG.info("Deaktiverer minidialog(er) for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(fnr, saksnr);
             LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), saksnr,
                     hendelse);
             return n;
         }
-        int n = dao.deaktiver(fnr);
-        LOG.info("Deaktiverte {} minidialog{} etter hendelse {}", n, flertall(n), hendelse);
-        return n;
+        if (hendelse.erSøknad()) {
+            int n = dao.deaktiver(fnr);
+            LOG.info("Deaktiverte {} minidialog{} etter hendelse {}", n, flertall(n), hendelse);
+            return n;
+        }
+        LOG.info("Ingen deaktivering for {} og hendelse {}", fnr, hendelse);
+        return 0;
     }
 
     public void lagre(MinidialogHendelse m, String journalPostId) {
