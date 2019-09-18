@@ -4,10 +4,12 @@ import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.aktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.fnr;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.gyldigTil;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.hendelse;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 public final class JPAMinidialogSpec {
 
@@ -29,5 +31,9 @@ public final class JPAMinidialogSpec {
 
     public static Specification<JPAMinidialogInnslag> harFnr(Fødselsnummer fødselsnummer) {
         return (innslag, cq, cb) -> cb.equal(innslag.get(fnr), fødselsnummer);
+    }
+
+    public static Specification<JPAMinidialogInnslag> erSpørsmål() {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(hendelse), HendelseType.TILBAKEKREVING_SPM);
     }
 }
