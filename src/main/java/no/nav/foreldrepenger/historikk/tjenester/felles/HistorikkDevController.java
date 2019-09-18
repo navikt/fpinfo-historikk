@@ -26,8 +26,6 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 public class HistorikkDevController {
 
-    public static final String HISTORIKK = "/historikk";
-
     private final SøknadTjeneste søknad;
     private final InntektsmeldingTjeneste inntektsmelding;
     private final MinidialogTjeneste minidialog;
