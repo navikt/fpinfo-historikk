@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -33,6 +35,7 @@ public class JPAMinidialogInnslag {
     @Embedded
     private Fødselsnummer fnr;
     private String tekst;
+    @Enumerated(EnumType.STRING)
     private HendelseType hendelse;
 
     private LocalDate gyldigTil;
