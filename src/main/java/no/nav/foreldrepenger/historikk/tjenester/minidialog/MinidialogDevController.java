@@ -21,7 +21,7 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(value = MINIDIALOG + "/preprod")
+@RequestMapping(value = MINIDIALOG + "/dev")
 @Unprotected
 public class MinidialogDevController {
     private final MinidialogTjeneste minidialog;
