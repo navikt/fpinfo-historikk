@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,20 +56,23 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialoger() {
-        return hentAktiveDialoger(tokenUtil.autentisertFNR());
+    public List<MinidialogInnslag> hentDialoger(boolean activeOnly) {
+        return hentDialoger(tokenUtil.autentisertFNR(), activeOnly);
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialoger(Fødselsnummer fnr) {
+    public List<MinidialogInnslag> hentDialoger(Fødselsnummer fnr, boolean activeOnly) {
         LOG.info("Henter aktive dialoger for {}", fnr);
         List<MinidialogInnslag> dialoger = mapAndCollect(
-                dao.findAll(
-                        where(harFnr(fnr)
-                                .and((erGyldig().or(gyldigErNull())))
-                                .and(erAktiv()))));
+                dao.findAll(where(spec(fnr, activeOnly))));
         LOG.info("Hentet {} dialog(er) {}", dialoger.size(), dialoger);
         return dialoger;
+    }
+
+    private Specification<JPAMinidialogInnslag> spec(Fødselsnummer fnr, boolean activeOnly) {
+        Specification<JPAMinidialogInnslag> spec = harFnr(fnr);
+        return activeOnly ? spec.and((erGyldig().or(gyldigErNull())))
+                .and(erAktiv()) : spec;
     }
 
     private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {

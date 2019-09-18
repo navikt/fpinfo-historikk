@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.security.oidc.api.ProtectedWithClaims;
@@ -21,8 +22,9 @@ public class MinidialogController {
     }
 
     @GetMapping("/me")
-    public List<MinidialogInnslag> hentMinidialog() {
-        return minidialog.hentAktiveDialoger();
+    public List<MinidialogInnslag> hentMinidialog(
+            @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
+        return minidialog.hentDialoger(activeOnly);
     }
 
     @Override
