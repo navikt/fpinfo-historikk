@@ -18,6 +18,15 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final HendelseType hendelse;
     private final LocalDate gyldigTil;
     private final String tekst;
+    private boolean aktiv;
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        this.aktiv = aktiv;
+    }
 
     @JsonCreator
     public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
