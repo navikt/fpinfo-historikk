@@ -18,13 +18,13 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final HendelseType hendelse;
     private final LocalDate gyldigTil;
     private final String tekst;
-    private boolean aktiv;
+    private Boolean aktiv;
 
     public boolean isAktiv() {
         return aktiv;
     }
 
-    public void setAktiv(boolean aktiv) {
+    public void setAktiv(Boolean aktiv) {
         this.aktiv = aktiv;
     }
 
