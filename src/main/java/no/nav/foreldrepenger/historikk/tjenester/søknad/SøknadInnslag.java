@@ -21,9 +21,9 @@ public class SøknadInnslag extends HistorikkInnslag {
     private LocalDate behandlingsdato;
 
     @JsonCreator
-    public SøknadInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") String hendelse) {
+    public SøknadInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") HendelseType hendelse) {
         super(fnr);
-        this.hendelse = hendelseFra(hendelse);
+        this.hendelse = hendelse;
     }
 
     public LocalDate getBehandlingsdato() {

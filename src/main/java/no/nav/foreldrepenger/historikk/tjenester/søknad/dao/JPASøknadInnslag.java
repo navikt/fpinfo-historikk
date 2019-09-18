@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -21,9 +23,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
-@Table(name = "historikk")
+@Table(name = "søknad")
 @EntityListeners(AuditingEntityListener.class)
 public class JPASøknadInnslag {
 
@@ -36,7 +39,8 @@ public class JPASøknadInnslag {
     private Fødselsnummer fnr;
     private String journalpostId;
     private String saksnr;
-    private String tekst;
+    @Enumerated(STRING)
+    private HendelseType hendelse;
     @CreatedDate
     private LocalDateTime opprettet;
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
@@ -99,12 +103,12 @@ public class JPASøknadInnslag {
         this.journalpostId = journalpostId;
     }
 
-    public String getTekst() {
-        return tekst;
+    public HendelseType getHendelse() {
+        return hendelse;
     }
 
-    public void setTekst(String tekst) {
-        this.tekst = tekst;
+    public void setHendelse(HendelseType hendelse) {
+        this.hendelse = hendelse;
     }
 
     public LocalDateTime getOpprettet() {
@@ -126,7 +130,8 @@ public class JPASøknadInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", tekst=" + tekst + ", opprettet=" + opprettet + ", vedlegg="
+                + journalpostId + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet
+                + ", vedlegg="
                 + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
     }
 

@@ -20,7 +20,7 @@ final class SøknadMapper {
 
     static SøknadInnslag tilHistorikkInnslag(JPASøknadInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        SøknadInnslag innslag = new SøknadInnslag(i.getFnr(), i.getTekst());
+        SøknadInnslag innslag = new SøknadInnslag(i.getFnr(), i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -45,7 +45,7 @@ final class SøknadMapper {
         innslag.setFnr(event.getFnr());
         innslag.setSaksnr(event.getSaksNr());
         innslag.setJournalpostId(event.getJournalId());
-        innslag.setTekst(event.getHendelse().name());
+        innslag.setHendelse(event.getHendelse());
         innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
         event.getVedlegg()
                 .stream()
