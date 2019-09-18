@@ -22,7 +22,7 @@ public class SwaggerConfiguration {
         return new Docket(SWAGGER_2)
                 .protocols(protocols("http", "https"))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("no.nav.foreldrepenger.historikk"))
                 .paths(PathSelectors.any())
                 .build();
     }
