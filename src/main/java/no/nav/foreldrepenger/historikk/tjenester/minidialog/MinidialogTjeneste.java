@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
@@ -65,8 +66,8 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentDialoger(Fødselsnummer fnr, boolean activeOnly) {
-        LOG.info("Henter dialoger for {} og aktiv={}", fnr, activeOnly);
-        List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly))));
+        LOG.info("Henter dialoger for {} og activeOnly={}", fnr, activeOnly);
+        List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet {} dialog{} ({})", dialoger.size(), flertall(dialoger), dialoger);
         return dialoger;
     }

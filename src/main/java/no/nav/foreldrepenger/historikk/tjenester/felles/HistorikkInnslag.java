@@ -3,9 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.UKJENT;
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import org.springframework.data.domain.Sort;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -25,6 +28,8 @@ import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnslag;
 
 })
 public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
+
+    public static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
 
     private final Fødselsnummer fnr;
     private AktørId aktørId;
