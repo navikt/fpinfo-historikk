@@ -47,6 +47,7 @@ public class MinidialogHendelseKonsument {
         byte[] dokument = pdfGenerator.generate(header(hendelse.getHendelse()), hendelse.getTekst());
         String journalPostId = journalføring.sluttfør(journalpostFra(hendelse, dokument));
         dialog.lagre(hendelse, journalPostId);
+        dialog.deaktiverMinidialoger(hendelse.getFnr(), hendelse.getHendelse(), hendelse.getSaksNr());
     }
 
     private static String header(HendelseType hendelseType) {

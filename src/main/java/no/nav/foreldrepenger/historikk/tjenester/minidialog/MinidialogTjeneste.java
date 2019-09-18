@@ -54,6 +54,7 @@ public class MinidialogTjeneste {
         LOG.info("Lagrer minidialog {}", m);
         dao.save(fraInnslag(m, journalPostId));
         LOG.info("Lagret minidialog OK");
+        deaktiverMinidialoger(m.getFnr(), m.getHendelse(), m.getSaksNr());
     }
 
     @Transactional(readOnly = true)
