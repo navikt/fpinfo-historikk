@@ -1,17 +1,16 @@
 package no.nav.foreldrepenger.historikk.tjenester.søknad;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.konverterFra;
 import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadSpec.harFnr;
-import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,6 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 @Transactional(JPA_TM)
 public class SøknadTjeneste {
 
-    private static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
     private static final Logger LOG = LoggerFactory.getLogger(SøknadTjeneste.class);
 
     private final JPASøknadRepository dao;
