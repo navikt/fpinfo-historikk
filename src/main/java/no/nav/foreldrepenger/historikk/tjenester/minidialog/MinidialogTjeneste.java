@@ -6,6 +6,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
@@ -69,6 +70,15 @@ public class MinidialogTjeneste {
         LOG.info("Henter dialoger for {} og activeOnly={}", fnr, activeOnly);
         List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet {} dialog{} ({})", dialoger.size(), flertall(dialoger), dialoger);
+        return dialoger;
+    }
+
+    @Transactional(readOnly = true)
+    public List<MinidialogInnslag> hentAktiveDialogSpørsmål() {
+        LOG.info("Henter spørsmål for {}", tokenUtil.autentisertFNR());
+        List<MinidialogInnslag> dialoger = mapAndCollect(
+                dao.findAll(where(spec(tokenUtil.autentisertFNR(), true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+        LOG.info("Hentet {} dialogspørsmål ({})", dialoger.size(), dialoger);
         return dialoger;
     }
 

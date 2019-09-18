@@ -51,6 +51,11 @@ public class HistorikkController {
         return minidialog.hentDialoger(activeOnly);
     }
 
+    @GetMapping("/me/minidialoger/spm")
+    public List<MinidialogInnslag> minidialogSpørsmål() {
+        return minidialog.hentAktiveDialogSpørsmål();
+    }
+
     @GetMapping("/me/all")
     public List<? extends HistorikkInnslag> historikk() {
         return concat(minidialoger(false).stream(),
