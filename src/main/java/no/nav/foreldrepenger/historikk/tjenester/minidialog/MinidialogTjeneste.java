@@ -7,7 +7,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidi
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
-import static no.nav.foreldrepenger.historikk.util.StringUtil.endelse;
+import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -42,11 +42,12 @@ public class MinidialogTjeneste {
         LOG.info("Deaktiverer minidialog(er) for {} etter hendelse {}", fnr, hendelse);
         if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(fnr, saksnr);
-            LOG.info("Deaktiverte {} minidialog(er) for sak {} etter hendelse {}", n, saksnr, hendelse);
+            LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), saksnr,
+                    hendelse);
             return n;
         }
         int n = dao.deaktiver(fnr);
-        LOG.info("Deaktiverte {} minidialog(er) etter hendelse {}", n, hendelse);
+        LOG.info("Deaktiverte {} minidialog{} etter hendelse {}", n, flertall(n), hendelse);
         return n;
     }
 
@@ -66,7 +67,7 @@ public class MinidialogTjeneste {
     public List<MinidialogInnslag> hentDialoger(Fødselsnummer fnr, boolean activeOnly) {
         LOG.info("Henter dialoger for {} og aktiv={}", fnr, activeOnly);
         List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly))));
-        LOG.info("Hentet {} dialog{} ({})", dialoger.size(), endelse(dialoger), dialoger);
+        LOG.info("Hentet {} dialog{} ({})", dialoger.size(), flertall(dialoger), dialoger);
         return dialoger;
     }
 
