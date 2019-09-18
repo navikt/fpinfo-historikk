@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog.dao;
 
 import static java.time.LocalDate.now;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SPM;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.aktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.fnr;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.gyldigTil;
@@ -9,7 +10,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidi
 import org.springframework.data.jpa.domain.Specification;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 public final class JPAMinidialogSpec {
 
@@ -34,6 +34,6 @@ public final class JPAMinidialogSpec {
     }
 
     public static Specification<JPAMinidialogInnslag> erSpørsmål() {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(hendelse), HendelseType.TILBAKEKREVING_SPM);
+        return (innslag, cq, cb) -> cb.equal(innslag.get(hendelse), TILBAKEKREVING_SPM);
     }
 }
