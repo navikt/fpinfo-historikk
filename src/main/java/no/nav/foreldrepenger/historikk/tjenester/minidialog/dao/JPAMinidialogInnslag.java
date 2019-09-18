@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog.dao;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDate;
@@ -8,7 +9,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -35,7 +35,7 @@ public class JPAMinidialogInnslag {
     @Embedded
     private Fødselsnummer fnr;
     private String tekst;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(STRING)
     private HendelseType hendelse;
 
     private LocalDate gyldigTil;
