@@ -5,7 +5,8 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Behandlin
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
 public enum HendelseType {
-    TILBAKEKREVING,
+    TILBAKEKREVING_SPM,
+    TILBAKEKREVING_SVAR,
     VEDTAK,
     INNTEKTSMELDING,
     INITIELL_ENGANGSSTØNAD,
@@ -18,10 +19,20 @@ public enum HendelseType {
     ENDRING_SVANGERSKAPSPENGER,
     UKJENT;
 
+    public boolean erMinidialog() {
+        return this.equals(TILBAKEKREVING_SPM) ||
+                this.equals(TILBAKEKREVING_SVAR);
+    }
+
+    public boolean erSøknad() {
+        return erEngangsstønad() || erForeldrepenger() || erSvangerskapspenger();
+    }
+
     public boolean erEttersending() {
         return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
                 this.equals(ETTERSENDING_FORELDREPENGER) ||
-                this.equals(ETTERSENDING_SVANGERSKAPSPENGER);
+                this.equals(ETTERSENDING_SVANGERSKAPSPENGER) ||
+                this.equals(TILBAKEKREVING_SVAR);
     }
 
     private boolean erForeldrepenger() {
