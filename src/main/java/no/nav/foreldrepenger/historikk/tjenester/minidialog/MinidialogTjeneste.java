@@ -7,6 +7,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidi
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.util.StringUtil.endelse;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -62,16 +63,16 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> hentDialoger(Fødselsnummer fnr, boolean activeOnly) {
-        LOG.info("Henter aktive dialoger for {}", fnr);
-        List<MinidialogInnslag> dialoger = mapAndCollect(
-                dao.findAll(where(spec(fnr, activeOnly))));
-        LOG.info("Hentet {} dialog(er) {}", dialoger.size(), dialoger);
+        LOG.info("Henter dialoger for {} og aktiv={}", fnr, activeOnly);
+        List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly))));
+        LOG.info("Hentet {} dialog{} ({})", dialoger.size(), endelse(dialoger), dialoger);
         return dialoger;
     }
 
     private Specification<JPAMinidialogInnslag> spec(Fødselsnummer fnr, boolean activeOnly) {
         Specification<JPAMinidialogInnslag> spec = harFnr(fnr);
-        return activeOnly ? spec.and((erGyldig().or(gyldigErNull())))
+        return activeOnly ? spec
+                .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;
     }
 
@@ -86,5 +87,4 @@ public class MinidialogTjeneste {
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
-
 }
