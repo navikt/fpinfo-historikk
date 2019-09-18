@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
 @Table(name = "minidialog")
@@ -32,7 +33,7 @@ public class JPAMinidialogInnslag {
     @Embedded
     private Fødselsnummer fnr;
     private String tekst;
-    private String hendelse;
+    private HendelseType hendelse;
 
     private LocalDate gyldigTil;
     private String journalpostId;
@@ -127,19 +128,19 @@ public class JPAMinidialogInnslag {
         this.journalpostId = journalpostId;
     }
 
-    public String getHendelse() {
+    public HendelseType getHendelse() {
         return hendelse;
     }
 
-    public void setHendelse(String hendelse) {
+    public void setHendelse(HendelseType hendelse) {
         this.hendelse = hendelse;
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", tekst=" + tekst
-                + ", gyldigTil=" + gyldigTil + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr
-                + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
+                + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId=" + journalpostId
+                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
     }
 
 }
