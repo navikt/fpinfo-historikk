@@ -44,7 +44,7 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/spm")
-    public List<MinidialogInnslag> spm(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<MinidialogInnslag> spørsmål(@RequestParam("fnr") Fødselsnummer fnr) {
         return minidialog.hentAktiveDialogSpørsmål(fnr);
     }
 
