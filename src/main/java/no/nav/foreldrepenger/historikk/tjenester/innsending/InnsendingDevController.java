@@ -20,35 +20,36 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = InnsendingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InnsendingDevController {
+    static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InnsendingHendelseProdusent produsent;
-    private final InnsendingTjeneste søknad;
+    private final InnsendingTjeneste innsending;
 
-    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste søknad) {
+    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste innsending) {
         this.produsent = produsent;
-        this.søknad = søknad;
+        this.innsending = innsending;
     }
 
-    @PostMapping("/sendSøknad")
+    @PostMapping("/send")
     public void produserSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
         produsent.sendHendelse(hendelse);
     }
 
-    @PostMapping("/lagreSøknad")
+    @PostMapping("/lagre")
     public void lagreSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
-        søknad.lagre(hendelse);
+        innsending.lagre(hendelse);
     }
 
     @GetMapping("/søknader")
     public List<InnsendingInnslag> søknader(@RequestParam("fnr") Fødselsnummer fnr) {
-        return søknad.hentSøknader(fnr);
+        return innsending.hentInnsendinger(fnr);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", søknad=" + søknad + "]";
+        return getClass().getSimpleName() + "[produsent=" + produsent + ", innsending=" + innsending + "]";
     }
 
 }

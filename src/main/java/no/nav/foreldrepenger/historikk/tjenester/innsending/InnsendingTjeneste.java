@@ -40,11 +40,11 @@ public class InnsendingTjeneste {
 
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> søknader() {
-        return hentSøknader(tokenUtil.autentisertFNR());
+        return hentInnsendinger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<InnsendingInnslag> hentSøknader(Fødselsnummer fnr) {
+    public List<InnsendingInnslag> hentInnsendinger(Fødselsnummer fnr) {
         LOG.info("Henter søknadshistorikk for {}", fnr);
         List<InnsendingInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);

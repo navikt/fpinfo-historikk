@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogController.MINIDIALOG;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
@@ -21,9 +22,10 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(value = MINIDIALOG + "/dev")
+@RequestMapping(path = MinidialogDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class MinidialogDevController {
+    static final String DEVPATH = MINIDIALOG + "/dev";
     private final MinidialogTjeneste minidialog;
     private final MinidialogHendelseProdusent produsent;
 
