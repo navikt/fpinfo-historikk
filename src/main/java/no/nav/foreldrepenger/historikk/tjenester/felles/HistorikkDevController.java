@@ -22,10 +22,11 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = HistorikkDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class HistorikkDevController {
 
+    static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InnsendingTjeneste søknad;
     private final InntektsmeldingTjeneste inntektsmelding;
     private final MinidialogTjeneste minidialog;
@@ -37,10 +38,10 @@ public class HistorikkDevController {
         this.minidialog = minidialog;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<? extends HistorikkInnslag> historikk(@RequestParam("fnr") Fødselsnummer fnr) {
         return concat(minidialog.hentDialoger(fnr, false).stream(),
-                concat(inntektsmelding.hentInntektsmeldinger(fnr).stream(), søknad.hentSøknader(fnr).stream()))
+                concat(inntektsmelding.hentInntektsmeldinger(fnr).stream(), søknad.hentInnsendinger(fnr).stream()))
                         .sorted()
                         .collect(toList());
     }

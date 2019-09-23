@@ -22,10 +22,11 @@ import no.nav.security.oidc.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = InntektsmeldingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
 
+    static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InntektsmeldingTjeneste inntektsmelding;
     private final InntektsmeldingHendelseProdusent produsent;
 
