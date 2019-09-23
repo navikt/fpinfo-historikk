@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 public class MinidialogHendelse extends Hendelse {
 

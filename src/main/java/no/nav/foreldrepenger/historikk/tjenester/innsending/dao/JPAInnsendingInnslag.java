@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
@@ -28,7 +28,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @Entity
 @Table(name = "innsending")
 @EntityListeners(AuditingEntityListener.class)
-public class JPASøknadInnslag {
+public class JPAInnsendingInnslag {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -44,10 +44,10 @@ public class JPASøknadInnslag {
     @CreatedDate
     private LocalDateTime opprettet;
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
-    private List<JPASøknadVedlegg> vedlegg = new ArrayList<>();
+    private List<JPAInnsendingVedlegg> vedlegg = new ArrayList<>();
     private LocalDate behandlingsdato;
 
-    public JPASøknadInnslag() {
+    public JPAInnsendingInnslag() {
     }
 
     public LocalDate getBehandlingsdato() {
@@ -58,16 +58,16 @@ public class JPASøknadInnslag {
         this.behandlingsdato = behandlingsdato;
     }
 
-    public void addVedlegg(JPASøknadVedlegg v) {
+    public void addVedlegg(JPAInnsendingVedlegg v) {
         vedlegg.add(v);
         v.setInnslag(this);
     }
 
-    public List<JPASøknadVedlegg> getVedlegg() {
+    public List<JPAInnsendingVedlegg> getVedlegg() {
         return vedlegg;
     }
 
-    public void setVedlegg(List<JPASøknadVedlegg> vedlegg) {
+    public void setVedlegg(List<JPAInnsendingVedlegg> vedlegg) {
         this.vedlegg = vedlegg;
     }
 

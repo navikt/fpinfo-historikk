@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(JPA_TM)
-public interface JPASøknadRepository
-        extends JpaRepository<JPASøknadInnslag, Long>, JpaSpecificationExecutor<JPASøknadInnslag> {
+public interface JPAInnsendingRepository
+        extends JpaRepository<JPAInnsendingInnslag, Long>, JpaSpecificationExecutor<JPAInnsendingInnslag> {
 
 }

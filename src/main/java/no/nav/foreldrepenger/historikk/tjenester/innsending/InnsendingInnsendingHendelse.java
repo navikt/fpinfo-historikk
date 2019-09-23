@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
-public class SøknadInnsendingHendelse extends Hendelse {
+public class InnsendingInnsendingHendelse extends Hendelse {
 
     @NotNull
-    private final SøknadLeveranseStatus leveranseStatus;
+    private final InnsendingLeveranseStatus leveranseStatus;
     @Nullable
     private final List<String> vedlegg;
     @Nullable
@@ -29,12 +29,12 @@ public class SøknadInnsendingHendelse extends Hendelse {
     private final HendelseType hendelse;
 
     @JsonCreator
-    public SøknadInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
+    public InnsendingInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
-            @JsonProperty("leveranseStatus") SøknadLeveranseStatus leveranseStatus,
+            @JsonProperty("leveranseStatus") InnsendingLeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") @JsonAlias("type") HendelseType hendelse,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
@@ -49,7 +49,7 @@ public class SøknadInnsendingHendelse extends Hendelse {
         return hendelse;
     }
 
-    public SøknadLeveranseStatus getLeveranseStatus() {
+    public InnsendingLeveranseStatus getLeveranseStatus() {
         return leveranseStatus;
     }
 

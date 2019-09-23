@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,15 +13,15 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
-public class SøknadInnslag extends HistorikkInnslag {
+public class InnsendingInnslag extends HistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadInnslag.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingInnslag.class);
     private final HendelseType hendelse;
     private List<String> vedlegg;
     private LocalDate behandlingsdato;
 
     @JsonCreator
-    public SøknadInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") HendelseType hendelse) {
+    public InnsendingInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") HendelseType hendelse) {
         super(fnr);
         this.hendelse = hendelse;
     }
