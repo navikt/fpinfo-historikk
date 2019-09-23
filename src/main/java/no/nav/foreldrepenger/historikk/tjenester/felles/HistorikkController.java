@@ -26,20 +26,20 @@ public class HistorikkController {
 
     public static final String HISTORIKK = "historikk";
 
-    private final InnsendingTjeneste søknad;
+    private final InnsendingTjeneste innsending;
     private final InntektsmeldingTjeneste inntektsmelding;
     private final MinidialogTjeneste minidialog;
 
-    HistorikkController(InnsendingTjeneste søknad, InntektsmeldingTjeneste inntektsmelding,
+    HistorikkController(InnsendingTjeneste innsending, InntektsmeldingTjeneste inntektsmelding,
             MinidialogTjeneste minidialog) {
-        this.søknad = søknad;
+        this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
         this.minidialog = minidialog;
     }
 
     @GetMapping("/me/søknader")
     public List<InnsendingInnslag> søknader() {
-        return søknad.søknader();
+        return innsending.søknader();
     }
 
     @GetMapping("/me/inntektsmeldinger")
@@ -63,6 +63,12 @@ public class HistorikkController {
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
                         .collect(toList());
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[innsending=" + innsending + ", inntektsmelding=" + inntektsmelding
+                + ", minidialog=" + minidialog + "]";
     }
 
 }
