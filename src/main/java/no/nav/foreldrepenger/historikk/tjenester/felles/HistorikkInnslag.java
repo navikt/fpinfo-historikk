@@ -16,13 +16,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadInnslag;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
-        @Type(value = SøknadInnslag.class, name = "søknad"),
+        @Type(value = InnsendingInnslag.class, name = "søknad"),
         @Type(value = InntektsmeldingInnslag.class, name = "inntekt"),
         @Type(value = MinidialogInnslag.class, name = "minidialog")
 

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "historikkvedlegg")
-public class JPASøknadVedlegg {
+public class JPAInnsendingVedlegg {
     @Id
     @GeneratedValue
     private int id;
@@ -20,9 +20,9 @@ public class JPASøknadVedlegg {
     private String vedlegg;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "vedlegg")
-    private JPASøknadInnslag innslag;
+    private JPAInnsendingInnslag innslag;
 
-    public JPASøknadVedlegg() {
+    public JPAInnsendingVedlegg() {
     }
 
     public int getId() {
@@ -41,11 +41,11 @@ public class JPASøknadVedlegg {
         this.vedlegg = vedleggId;
     }
 
-    public JPASøknadInnslag getInnslag() {
+    public JPAInnsendingInnslag getInnslag() {
         return innslag;
     }
 
-    public void setInnslag(JPASøknadInnslag innslag) {
+    public void setInnslag(JPAInnsendingInnslag innslag) {
         this.innslag = innslag;
     }
 

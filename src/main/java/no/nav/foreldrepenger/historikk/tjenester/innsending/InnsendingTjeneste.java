@@ -1,10 +1,10 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadMapper.konverterFra;
-import static no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.fraHendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.konverterFra;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -15,38 +15,38 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadRepository;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class SøknadTjeneste {
+public class InnsendingTjeneste {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
 
-    private final JPASøknadRepository dao;
+    private final JPAInnsendingRepository dao;
     private final TokenUtil tokenUtil;
 
-    public SøknadTjeneste(JPASøknadRepository dao, TokenUtil tokenUtil) {
+    public InnsendingTjeneste(JPAInnsendingRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
 
-    public void lagre(SøknadInnsendingHendelse hendelse) {
+    public void lagre(InnsendingInnsendingHendelse hendelse) {
         LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
         dao.save(fraHendelse(hendelse));
         LOG.info("Lagret historikkinnslag OK");
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadInnslag> søknader() {
+    public List<InnsendingInnslag> søknader() {
         return hentSøknader(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<SøknadInnslag> hentSøknader(Fødselsnummer fnr) {
+    public List<InnsendingInnslag> hentSøknader(Fødselsnummer fnr) {
         LOG.info("Henter søknadshistorikk for {}", fnr);
-        List<SøknadInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<InnsendingInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);
         return innslag;
     }

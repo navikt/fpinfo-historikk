@@ -20,7 +20,7 @@ public class OrgnrValidator implements ConstraintValidator<Orgnr, String> {
             return false;
         }
         int value = mod11OfNumberWithControlDigit(orgnr.substring(0, 8));
-        return orgnr.charAt(8) - 48 == value;
+        return (orgnr.charAt(8) - 48) == value;
     }
 
     private static int mod11OfNumberWithControlDigit(String orgnr) {
@@ -29,7 +29,7 @@ public class OrgnrValidator implements ConstraintValidator<Orgnr, String> {
         for (int i = 0; i < orgnr.length(); i++) {
             sumForMod += (orgnr.charAt(i) - 48) * weights[i];
         }
-        int result = 11 - sumForMod % 11;
+        int result = 11 - (sumForMod % 11);
         return result == 11 ? 0 : result;
     }
 }

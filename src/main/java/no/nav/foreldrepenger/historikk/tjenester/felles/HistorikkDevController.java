@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.SøknadTjeneste;
 import no.nav.security.oidc.api.Unprotected;
 
 @RestController
@@ -26,11 +26,11 @@ import no.nav.security.oidc.api.Unprotected;
 @Unprotected
 public class HistorikkDevController {
 
-    private final SøknadTjeneste søknad;
+    private final InnsendingTjeneste søknad;
     private final InntektsmeldingTjeneste inntektsmelding;
     private final MinidialogTjeneste minidialog;
 
-    HistorikkDevController(SøknadTjeneste søknad, InntektsmeldingTjeneste inntektsmelding,
+    HistorikkDevController(InnsendingTjeneste søknad, InntektsmeldingTjeneste inntektsmelding,
             MinidialogTjeneste minidialog) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;

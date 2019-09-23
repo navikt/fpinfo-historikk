@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
@@ -13,9 +13,9 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class SøknadHendelseProdusent extends AbstractHendelseProdusent {
+public class InnsendingHendelseProdusent extends AbstractHendelseProdusent {
 
-    public SøknadHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+    public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.meldinger.søknad_topic}") String søknadTopic,
             ObjectMapperWrapper mapper) {
         super(søknadTopic, kafkaOperations, mapper);

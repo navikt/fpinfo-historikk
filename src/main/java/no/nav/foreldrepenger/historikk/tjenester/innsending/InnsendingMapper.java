@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static java.util.stream.Collectors.toList;
 
@@ -7,20 +7,20 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.søknad.dao.JPASøknadVedlegg;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingVedlegg;
 
-final class SøknadMapper {
+final class InnsendingMapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SøknadMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InnsendingMapper.class);
 
-    private SøknadMapper() {
+    private InnsendingMapper() {
 
     }
 
-    static SøknadInnslag tilHistorikkInnslag(JPASøknadInnslag i) {
+    static InnsendingInnslag tilHistorikkInnslag(JPAInnsendingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        SøknadInnslag innslag = new SøknadInnslag(i.getFnr(), i.getHendelse());
+        InnsendingInnslag innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -31,16 +31,16 @@ final class SøknadMapper {
         return innslag;
     }
 
-    private static List<String> tilVedlegg(JPASøknadInnslag innslag) {
+    private static List<String> tilVedlegg(JPAInnsendingInnslag innslag) {
         return innslag.getVedlegg()
                 .stream()
-                .map(JPASøknadVedlegg::getVedleggId)
+                .map(JPAInnsendingVedlegg::getVedleggId)
                 .collect(toList());
     }
 
-    static JPASøknadInnslag fraHendelse(SøknadInnsendingHendelse event) {
+    static JPAInnsendingInnslag fraHendelse(InnsendingInnsendingHendelse event) {
         LOG.info("Mapper fra hendelse {}", event);
-        JPASøknadInnslag innslag = new JPASøknadInnslag();
+        JPAInnsendingInnslag innslag = new JPAInnsendingInnslag();
         innslag.setAktørId(event.getAktørId());
         innslag.setFnr(event.getFnr());
         innslag.setSaksnr(event.getSaksNr());
@@ -49,22 +49,22 @@ final class SøknadMapper {
         innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
         event.getVedlegg()
                 .stream()
-                .map(SøknadMapper::fraVedlegg)
+                .map(InnsendingMapper::fraVedlegg)
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
 
-    private static JPASøknadVedlegg fraVedlegg(String id) {
-        JPASøknadVedlegg vedlegg = new JPASøknadVedlegg();
+    private static JPAInnsendingVedlegg fraVedlegg(String id) {
+        JPAInnsendingVedlegg vedlegg = new JPAInnsendingVedlegg();
         vedlegg.setVedleggId(id);
         return vedlegg;
     }
 
-    static List<SøknadInnslag> konverterFra(List<JPASøknadInnslag> innslag) {
+    static List<InnsendingInnslag> konverterFra(List<JPAInnsendingInnslag> innslag) {
         return innslag
                 .stream()
-                .map(SøknadMapper::tilHistorikkInnslag)
+                .map(InnsendingMapper::tilHistorikkInnslag)
                 .collect(toList());
     }
 }

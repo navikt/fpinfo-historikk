@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.søknad;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
@@ -22,27 +22,27 @@ import no.nav.security.oidc.api.Unprotected;
 @Profile({ LOCAL, DEV })
 @RequestMapping(path = HistorikkController.HISTORIKK + "/dev", produces = APPLICATION_JSON_VALUE)
 @Unprotected
-public class SøknadDevController {
-    private final SøknadHendelseProdusent produsent;
-    private final SøknadTjeneste søknad;
+public class InnsendingDevController {
+    private final InnsendingHendelseProdusent produsent;
+    private final InnsendingTjeneste søknad;
 
-    SøknadDevController(SøknadHendelseProdusent produsent, SøknadTjeneste søknad) {
+    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste søknad) {
         this.produsent = produsent;
         this.søknad = søknad;
     }
 
     @PostMapping("/sendSøknad")
-    public void produserSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
+    public void produserSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
         produsent.sendHendelse(hendelse);
     }
 
     @PostMapping("/lagreSøknad")
-    public void lagreSøknad(@RequestBody SøknadInnsendingHendelse hendelse) {
+    public void lagreSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
         søknad.lagre(hendelse);
     }
 
     @GetMapping("/søknader")
-    public List<SøknadInnslag> søknader(@RequestParam("fnr") Fødselsnummer fnr) {
+    public List<InnsendingInnslag> søknader(@RequestParam("fnr") Fødselsnummer fnr) {
         return søknad.hentSøknader(fnr);
     }
 
