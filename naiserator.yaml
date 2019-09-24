@@ -36,4 +36,3 @@ spec:
         memory: 1536Mi 
   vault:
       enabled: true      
-  {{/each}}  
