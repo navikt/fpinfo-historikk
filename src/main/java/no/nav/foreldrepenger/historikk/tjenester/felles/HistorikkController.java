@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.security.oidc.api.ProtectedWithClaims;
+import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
 @RestController
 @RequestMapping(value = HistorikkController.HISTORIKK)

@@ -23,10 +23,10 @@ import org.springframework.web.client.RestOperations;
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
 import no.nav.foreldrepenger.historikk.tjenester.sts.STSClientRequestInterceptor;
-import no.nav.security.oidc.context.OIDCRequestContextHolder;
-import no.nav.security.oidc.context.OIDCValidationContext;
-import no.nav.security.spring.oidc.SpringOIDCRequestContextHolder;
-import no.nav.security.spring.oidc.validation.interceptor.BearerTokenClientHttpRequestInterceptor;
+import no.nav.security.token.support.core.context.TokenValidationContext;
+import no.nav.security.token.support.core.context.TokenValidationContextHolder;
+import no.nav.security.token.support.spring.SpringTokenValidationContextHolder;
+import no.nav.security.token.support.spring.validation.interceptor.BearerTokenClientHttpRequestInterceptor;
 
 @Configuration
 public class RestClientConfiguration {
@@ -78,28 +78,17 @@ public class RestClientConfiguration {
 
     @Bean
     @Profile(LOCAL)
-    @ConditionalOnMissingBean(SpringOIDCRequestContextHolder.class)
-    OIDCRequestContextHolder dummyContextHolderForDev() {
-        return new OIDCRequestContextHolder() {
+    @ConditionalOnMissingBean(SpringTokenValidationContextHolder.class)
+    TokenValidationContextHolder dummyContextHolderForDev() {
+        return new TokenValidationContextHolder() {
 
             @Override
-            public void setRequestAttribute(String name, Object value) {
-
-            }
-
-            @Override
-            public void setOIDCValidationContext(OIDCValidationContext oidcValidationContext) {
-
-            }
-
-            @Override
-            public Object getRequestAttribute(String name) {
+            public TokenValidationContext getTokenValidationContext() {
                 return null;
             }
 
             @Override
-            public OIDCValidationContext getOIDCValidationContext() {
-                return null;
+            public void setTokenValidationContext(TokenValidationContext tokenValidationContext) {
             }
         };
     }
@@ -107,7 +96,8 @@ public class RestClientConfiguration {
     @Bean
     @Profile(LOCAL)
     @ConditionalOnMissingBean(BearerTokenClientHttpRequestInterceptor.class)
-    BearerTokenClientHttpRequestInterceptor dummyBearerTokenClientHttpRequestInterceptor(OIDCRequestContextHolder ctx) {
+    BearerTokenClientHttpRequestInterceptor dummyBearerTokenClientHttpRequestInterceptor(
+            TokenValidationContextHolder ctx) {
         return new BearerTokenClientHttpRequestInterceptor(ctx) {
 
             @Override

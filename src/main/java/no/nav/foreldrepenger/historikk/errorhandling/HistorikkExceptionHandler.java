@@ -27,8 +27,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
-import no.nav.security.oidc.exceptions.OIDCTokenValidatorException;
-import no.nav.security.spring.oidc.validation.interceptor.OIDCUnauthorizedException;
+import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
 
 @ControllerAdvice
 public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
@@ -62,13 +61,13 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
         return logAndHandle(UNPROCESSABLE_ENTITY, e, req);
     }
 
-    @ExceptionHandler({ OIDCUnauthorizedException.class })
-    public ResponseEntity<Object> handleUnauthorizedException(OIDCUnauthorizedException e, WebRequest req) {
+    @ExceptionHandler({ JwtTokenValidatorException.class })
+    public ResponseEntity<Object> handleUnauthorizedException(JwtTokenValidatorException e, WebRequest req) {
         return logAndHandle(UNAUTHORIZED, e, req);
     }
 
-    @ExceptionHandler({ OIDCTokenValidatorException.class })
-    public ResponseEntity<Object> handleUnauthenticatedOIDCException(OIDCTokenValidatorException e, WebRequest req) {
+    @ExceptionHandler({ JwtTokenValidatorException.class })
+    public ResponseEntity<Object> handleUnauthenticatedOIDCException(JwtTokenValidatorException e, WebRequest req) {
         return logAndHandle(FORBIDDEN, e, req, e.getExpiryDate());
     }
 
