@@ -15,8 +15,8 @@
     <version>0-SNAPSHOT</version>
 
     <properties>
+        <token-validation-version>1.0.1</token-validation-version>
         <httpclient.version>4.5.8</httpclient.version>
-        <oidc-spring-support.version>0.2.18</oidc-spring-support.version>
         <springfox.version>2.9.2</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
@@ -189,8 +189,14 @@
         </dependency>
         <dependency>
             <groupId>no.nav.security</groupId>
-            <artifactId>oidc-spring-support</artifactId>
-            <version>${oidc-spring-support.version}</version>
+            <artifactId>token-validation-spring</artifactId>
+            <version>${token-validation-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.security</groupId>
+            <artifactId>token-validation-test-support</artifactId>
+            <version>${token-validation-version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
