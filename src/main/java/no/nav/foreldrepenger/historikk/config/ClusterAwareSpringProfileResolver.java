@@ -1,8 +1,10 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static java.util.Collections.singletonList;
+import static java.lang.System.getenv;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
+
+import java.util.Optional;
 
 public final class ClusterAwareSpringProfileResolver {
 
@@ -13,13 +15,9 @@ public final class ClusterAwareSpringProfileResolver {
     }
 
     public static String[] profiles() {
-        String cluster = clusterFra(System.getenv(NAIS_CLUSTER_NAME));
-        if (cluster != null) {
-            return singletonList(cluster)
-                    .stream()
-                    .toArray(String[]::new);
-        }
-        return new String[0];
+        return Optional.ofNullable(clusterFra(getenv(NAIS_CLUSTER_NAME)))
+                .map(c -> new String[] { c })
+                .orElse(new String[0]);
     }
 
     private static String clusterFra(String cluster) {
