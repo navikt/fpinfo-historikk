@@ -1,8 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +8,6 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class InntektsmeldingInnslag extends HistorikkInnslag {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingInnslag.class);
     private Arbeidsgiver arbeidsgiver;
 
     @JsonCreator

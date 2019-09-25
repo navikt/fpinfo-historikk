@@ -58,7 +58,7 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/all")
-    public List<? extends HistorikkInnslag> historikk() {
+    public List<HistorikkInnslag> historikk() {
         return concat(minidialoger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
