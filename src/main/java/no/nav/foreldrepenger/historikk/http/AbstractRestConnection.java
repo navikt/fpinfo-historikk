@@ -89,7 +89,7 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
             return null;
         }
         ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
-        LOG.trace(CONFIDENTIAL, "Respons: {}", respons.getBody());
+        LOG.trace(CONFIDENTIAL, RESPONS, respons.getBody());
         return respons.getBody();
     }
 
