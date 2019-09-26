@@ -24,6 +24,7 @@ public final class MinidialogMapper {
     static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m, String journalpostId) {
         LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
+        dialog.setReferanseId(m.getReferanseId());
         dialog.setAktørId(m.getAktørId());
         dialog.setFnr(m.getFnr());
         dialog.setTekst(m.getTekst());

@@ -48,6 +48,8 @@ public class JPAMinidialogInnslag {
     private LocalDateTime endret;
     private boolean aktiv;
 
+    private String referanseId;
+
     public JPAMinidialogInnslag() {
     }
 
@@ -139,11 +141,20 @@ public class JPAMinidialogInnslag {
         this.hendelse = hendelse;
     }
 
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", tekst=" + tekst
                 + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId=" + journalpostId
-                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv + "]";
+                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv
+                + ", referanseId=" + referanseId + "]";
     }
 
 }

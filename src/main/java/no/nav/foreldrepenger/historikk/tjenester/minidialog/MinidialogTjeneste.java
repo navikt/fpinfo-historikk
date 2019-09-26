@@ -57,10 +57,14 @@ public class MinidialogTjeneste {
     }
 
     public void lagre(MinidialogHendelse m, String journalPostId) {
-        LOG.info("Lagrer minidialog {}", m);
-        dao.save(fraInnslag(m, journalPostId));
-        LOG.info("Lagret minidialog OK");
-        deaktiverMinidialoger(m.getFnr(), m.getHendelse(), m.getSaksNr());
+        if (dao.findByReferanseId(m.getReferanseId()) == null) {
+            LOG.info("Lagrer minidialog {}", m);
+            dao.save(fraInnslag(m, journalPostId));
+            LOG.info("Lagret minidialog OK");
+            deaktiverMinidialoger(m.getFnr(), m.getHendelse(), m.getSaksNr());
+        } else {
+            LOG.info("Hendelse med referanseId {} er allerede lagret", m.getReferanseId());
+        }
     }
 
     @Transactional(readOnly = true)
