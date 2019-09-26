@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public final class InntektsmeldingMapper {
 
     }
 
-    public static JPAInntektsmelding fraInntektsmeldingHendelse(InntektsmeldingHendelse hendelse) {
+    public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
         JPAInntektsmelding inntektsmelding = new JPAInntektsmelding();
         inntektsmelding.setReferanseId(hendelse.getReferanseId());
@@ -30,7 +31,7 @@ public final class InntektsmeldingMapper {
         return inntektsmelding;
     }
 
-    static InntektsmeldingInnslag tilHistorikkInnslag(JPAInntektsmelding i) {
+    static InntektsmeldingInnslag tilInnslag(JPAInntektsmelding i) {
         LOG.info("Mapper fra inntektsmelding {}", i);
         InntektsmeldingInnslag innslag = new InntektsmeldingInnslag(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
@@ -42,10 +43,9 @@ public final class InntektsmeldingMapper {
         return innslag;
     }
 
-    public static List<InntektsmeldingInnslag> konverterFra(List<JPAInntektsmelding> innslag) {
-        return innslag
-                .stream()
-                .map(InntektsmeldingMapper::tilHistorikkInnslag)
+    public static List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmelding> innslag) {
+        return safeStream(innslag)
+                .map(InntektsmeldingMapper::tilInnslag)
                 .collect(toList());
     }
 }

@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraInnslag;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erSpørsmål;
@@ -59,7 +59,7 @@ public class MinidialogTjeneste {
     public void lagre(MinidialogHendelse m, String journalPostId) {
         if (dao.findByReferanseId(m.getReferanseId()) == null) {
             LOG.info("Lagrer minidialog {}", m);
-            dao.save(fraInnslag(m, journalPostId));
+            dao.save(fraHendelse(m, journalPostId));
             LOG.info("Lagret minidialog OK");
             deaktiverMinidialoger(m.getFnr(), m.getHendelse(), m.getSaksNr());
         } else {
