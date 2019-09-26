@@ -34,7 +34,7 @@ public class InntektsmeldingTjeneste {
 
     public void lagre(InntektsmeldingHendelse hendelse) {
         if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
-            LOG.info("Lagret inntektsmelding OK");
+            LOG.info("Lagrer inntektsmelding fra hendelse {}", hendelse);
             dao.save(fraInntektsmeldingHendelse(hendelse));
             LOG.info("Lagret inntektsmeldinginnslag OK");
         } else {

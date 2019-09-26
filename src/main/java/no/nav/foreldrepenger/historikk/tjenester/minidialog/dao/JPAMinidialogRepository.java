@@ -15,6 +15,8 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 public interface JPAMinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
 
+    JPAMinidialogInnslag findByReferanseId(String referanseId);
+
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.saksnr = :saksnr")
     int deaktiverSak(@Param("fnr") Fødselsnummer fnr, @Param("saksnr") String saksnr);
