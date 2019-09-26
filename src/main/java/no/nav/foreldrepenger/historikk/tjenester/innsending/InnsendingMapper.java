@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ final class InnsendingMapper {
 
     }
 
-    static InnsendingInnslag tilHistorikkInnslag(JPAInnsendingInnslag i) {
+    static InnsendingInnslag tilInnsendingInnslag(JPAInnsendingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
         InnsendingInnslag innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
@@ -32,23 +33,22 @@ final class InnsendingMapper {
     }
 
     private static List<String> tilVedlegg(JPAInnsendingInnslag innslag) {
-        return innslag.getVedlegg()
-                .stream()
+        return safeStream(innslag.getVedlegg())
                 .map(JPAInnsendingVedlegg::getVedleggId)
                 .collect(toList());
     }
 
-    static JPAInnsendingInnslag fraHendelse(InnsendingInnsendingHendelse event) {
-        LOG.info("Mapper fra hendelse {}", event);
+    static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse) {
+        LOG.info("Mapper fra hendelse {}", hendelse);
         JPAInnsendingInnslag innslag = new JPAInnsendingInnslag();
-        innslag.setAktørId(event.getAktørId());
-        innslag.setFnr(event.getFnr());
-        innslag.setSaksnr(event.getSaksNr());
-        innslag.setJournalpostId(event.getJournalId());
-        innslag.setHendelse(event.getHendelse());
-        innslag.setBehandlingsdato(event.getFørsteBehandlingsdato());
-        event.getVedlegg()
-                .stream()
+        innslag.setAktørId(hendelse.getAktørId());
+        innslag.setReferanseId(hendelse.getReferanseId());
+        innslag.setFnr(hendelse.getFnr());
+        innslag.setSaksnr(hendelse.getSaksNr());
+        innslag.setJournalpostId(hendelse.getJournalId());
+        innslag.setHendelse(hendelse.getHendelse());
+        innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
+        safeStream(hendelse.getVedlegg())
                 .map(InnsendingMapper::fraVedlegg)
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
@@ -62,9 +62,8 @@ final class InnsendingMapper {
     }
 
     static List<InnsendingInnslag> konverterFra(List<JPAInnsendingInnslag> innslag) {
-        return innslag
-                .stream()
-                .map(InnsendingMapper::tilHistorikkInnslag)
+        return safeStream(innslag)
+                .map(InnsendingMapper::tilInnsendingInnslag)
                 .collect(toList());
     }
 }

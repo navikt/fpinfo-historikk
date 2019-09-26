@@ -32,10 +32,15 @@ public class InnsendingTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public void lagre(InnsendingInnsendingHendelse hendelse) {
-        LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
-        dao.save(fraHendelse(hendelse));
-        LOG.info("Lagret historikkinnslag OK");
+    public void lagre(InnsendingHendelse hendelse) {
+        if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
+            LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
+            dao.save(fraHendelse(hendelse));
+            LOG.info("Lagret historikkinnslag OK");
+        } else {
+            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
+        }
+
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +50,7 @@ public class InnsendingTjeneste {
 
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> hentInnsendinger(Fødselsnummer fnr) {
-        LOG.info("Henter søknadshistorikk for {}", fnr);
+        LOG.info("Henter innsendingsinnslag for {}", fnr);
         List<InnsendingInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet søknadshistorikk {}", innslag);
         return innslag;

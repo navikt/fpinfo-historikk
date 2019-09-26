@@ -46,6 +46,7 @@ public class JPAInnsendingInnslag {
     @OneToMany(mappedBy = "innslag", cascade = ALL, orphanRemoval = true)
     private List<JPAInnsendingVedlegg> vedlegg = new ArrayList<>();
     private LocalDate behandlingsdato;
+    private String referanseId;
 
     public JPAInnsendingInnslag() {
     }
@@ -123,6 +124,14 @@ public class JPAInnsendingInnslag {
         return saksnr;
     }
 
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
+    }
+
     public void setSaksnr(String saksnr) {
         this.saksnr = saksnr;
     }
@@ -131,8 +140,8 @@ public class JPAInnsendingInnslag {
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
                 + journalpostId + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet
-                + ", vedlegg="
-                + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
+                + ", vedlegg=" + vedlegg + ", behandlingsdato=" + behandlingsdato + ", referanseId=" + referanseId
+                + "]";
     }
 
 }

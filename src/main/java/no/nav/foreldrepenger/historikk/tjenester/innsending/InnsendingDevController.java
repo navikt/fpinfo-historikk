@@ -33,12 +33,12 @@ public class InnsendingDevController {
     }
 
     @PostMapping("/send")
-    public void produserSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
+    public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
         produsent.sendHendelse(hendelse);
     }
 
     @PostMapping("/lagre")
-    public void lagreSøknad(@RequestBody InnsendingInnsendingHendelse hendelse) {
+    public void lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
         innsending.lagre(hendelse);
     }
 

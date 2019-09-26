@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(JPA_TM)
 public interface JPAInnsendingRepository
         extends JpaRepository<JPAInnsendingInnslag, Long>, JpaSpecificationExecutor<JPAInnsendingInnslag> {
-
+    JPAInnsendingInnslag findByReferanseId(String referanseId);
 }

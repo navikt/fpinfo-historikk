@@ -19,25 +19,25 @@ public class InnsendingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
-    private final InnsendingTjeneste historikk;
+    private final InnsendingTjeneste innsending;
     private final MinidialogTjeneste dialog;
 
-    public InnsendingHendelseKonsument(InnsendingTjeneste historikk, MinidialogTjeneste dialog) {
-        this.historikk = historikk;
+    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, MinidialogTjeneste dialog) {
+        this.innsending = innsending;
         this.dialog = dialog;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void behandleSøknad(@Payload @Valid InnsendingInnsendingHendelse hendelse) {
-        LOG.info("Mottok hendelse om søknad {}", hendelse);
+    public void behandleSøknad(@Payload @Valid InnsendingHendelse hendelse) {
+        LOG.info("Mottok innsendingshendelse {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
-        historikk.lagre(hendelse);
+        innsending.lagre(hendelse);
         dialog.deaktiverMinidialoger(hendelse.getFnr(), hendelse.getHendelse(), hendelse.getSaksNr());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[historikk=" + historikk + ", dialog=" + dialog + "]";
+        return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + dialog + "]";
     }
 }

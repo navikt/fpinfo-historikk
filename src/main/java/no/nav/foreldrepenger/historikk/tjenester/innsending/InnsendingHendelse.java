@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
-public class InnsendingInnsendingHendelse extends Hendelse {
+public class InnsendingHendelse extends Hendelse {
 
     @NotNull
     private final InnsendingLeveranseStatus leveranseStatus;
@@ -29,7 +29,7 @@ public class InnsendingInnsendingHendelse extends Hendelse {
     private final HendelseType hendelse;
 
     @JsonCreator
-    public InnsendingInnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
+    public InnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
@@ -69,9 +69,7 @@ public class InnsendingInnsendingHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
-                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", getAktørId()=" + getAktørId() + ", fnr="
-                + getFnr() + ", journalId=" + getJournalId() + ", referanseId=" + getReferanseId()
-                + ", saksnr=" + getSaksNr() + ", hendelse=" + hendelse + "]";
+                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", hendelse=" + hendelse + "]";
     }
 
 }
