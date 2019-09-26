@@ -19,7 +19,7 @@ final class InnsendingMapper {
 
     }
 
-    static InnsendingInnslag tilInnsendingInnslag(JPAInnsendingInnslag i) {
+    static InnsendingInnslag tilInnslag(JPAInnsendingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
         InnsendingInnslag innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
@@ -61,9 +61,9 @@ final class InnsendingMapper {
         return vedlegg;
     }
 
-    static List<InnsendingInnslag> konverterFra(List<JPAInnsendingInnslag> innslag) {
+    static List<InnsendingInnslag> tilInnslag(List<JPAInnsendingInnslag> innslag) {
         return safeStream(innslag)
-                .map(InnsendingMapper::tilInnsendingInnslag)
+                .map(InnsendingMapper::tilInnslag)
                 .collect(toList());
     }
 }

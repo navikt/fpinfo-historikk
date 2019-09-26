@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraInntektsmeldingHendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -35,7 +35,7 @@ public class InntektsmeldingTjeneste {
     public void lagre(InntektsmeldingHendelse hendelse) {
         if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
             LOG.info("Lagrer inntektsmelding fra hendelse {}", hendelse);
-            dao.save(fraInntektsmeldingHendelse(hendelse));
+            dao.save(fraHendelse(hendelse));
             LOG.info("Lagret inntektsmeldinginnslag OK");
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
@@ -50,7 +50,7 @@ public class InntektsmeldingTjeneste {
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
-        List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.konverterFra(
+        List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.tilInnslag(
                 dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;

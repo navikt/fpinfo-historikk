@@ -21,7 +21,7 @@ public final class MinidialogMapper {
 
     }
 
-    static JPAMinidialogInnslag fraInnslag(MinidialogHendelse m, String journalpostId) {
+    static JPAMinidialogInnslag fraHendelse(MinidialogHendelse m, String journalpostId) {
         LOG.info("Mapper fra {}", m);
         JPAMinidialogInnslag dialog = new JPAMinidialogInnslag();
         dialog.setReferanseId(m.getReferanseId());

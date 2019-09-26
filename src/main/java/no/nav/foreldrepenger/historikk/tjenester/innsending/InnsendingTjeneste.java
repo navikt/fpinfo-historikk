@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.konverterFra;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.tilInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -51,7 +51,7 @@ public class InnsendingTjeneste {
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> hentInnsendinger(Fødselsnummer fnr) {
         LOG.info("Henter innsendingsinnslag for {}", fnr);
-        List<InnsendingInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<InnsendingInnslag> innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet innsendingsinnslag {}", innslag);
         return innslag;
     }
