@@ -20,6 +20,7 @@ public final class InntektsmeldingMapper {
     public static JPAInntektsmelding fraInntektsmeldingHendelse(InntektsmeldingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
         JPAInntektsmelding inntektsmelding = new JPAInntektsmelding();
+        inntektsmelding.setReferanseId(hendelse.getReferanseId());
         inntektsmelding.setAktørId(hendelse.getAktørId());
         inntektsmelding.setFnr(hendelse.getFnr());
         inntektsmelding.setJournalpostId(hendelse.getJournalId());

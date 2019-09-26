@@ -9,5 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(JPA_TM)
 public interface JPAInntektsmeldingRepository
         extends JpaRepository<JPAInntektsmelding, Long>, JpaSpecificationExecutor<JPAInntektsmelding> {
+    JPAInntektsmelding findByReferanseId(String referanseId);
 
 }
