@@ -23,6 +23,14 @@ import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Arbeidsgiver;
 @EntityListeners(AuditingEntityListener.class)
 public class JPAInntektsmelding {
 
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -36,6 +44,7 @@ public class JPAInntektsmelding {
     private LocalDateTime opprettet;
     @Embedded
     private Arbeidsgiver arbeidsgiver;
+    private String referanseId;
 
     public JPAInntektsmelding() {
     }
@@ -99,7 +108,8 @@ public class JPAInntektsmelding {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + "]";
+                + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", arbeidsgiver=" + arbeidsgiver
+                + ", referanseId=" + referanseId + "]";
     }
 
 }

@@ -52,7 +52,7 @@ public class InnsendingTjeneste {
     public List<InnsendingInnslag> hentInnsendinger(Fødselsnummer fnr) {
         LOG.info("Henter innsendingsinnslag for {}", fnr);
         List<InnsendingInnslag> innslag = konverterFra(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet søknadshistorikk {}", innslag);
+        LOG.info("Hentet innsendingsinnslag {}", innslag);
         return innslag;
     }
 

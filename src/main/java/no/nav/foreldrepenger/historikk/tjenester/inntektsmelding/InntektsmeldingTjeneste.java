@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraInntektsmeldingHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -22,19 +23,23 @@ public class InntektsmeldingTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingTjeneste.class);
 
-    private final JPAInntektsmeldingRepository inntektsmeldingDao;
+    private final JPAInntektsmeldingRepository dao;
     private final TokenUtil tokenUtil;
 
-    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository inntektsmeldingDao,
+    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao,
             TokenUtil tokenUtil) {
-        this.inntektsmeldingDao = inntektsmeldingDao;
+        this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
 
     public void lagre(InntektsmeldingHendelse hendelse) {
-        LOG.info("Lagrer inntektsmelding fra innsending av {}", hendelse);
-        inntektsmeldingDao.save(InntektsmeldingMapper.fraInntektsmeldingHendelse(hendelse));
-        LOG.info("Lagret inntektsmelding OK");
+        if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
+            LOG.info("Lagret inntektsmelding OK");
+            dao.save(fraInntektsmeldingHendelse(hendelse));
+            LOG.info("Lagret inntektsmeldinginnslag OK");
+        } else {
+            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
+        }
     }
 
     @Transactional(readOnly = true)
@@ -46,15 +51,14 @@ public class InntektsmeldingTjeneste {
     public List<InntektsmeldingInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
         List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.konverterFra(
-                inntektsmeldingDao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+                dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[inntektsmeldingDao=" + inntektsmeldingDao + ", tokenUtil=" + tokenUtil
-                + "]";
+        return getClass().getSimpleName() + "[dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
 
 }
