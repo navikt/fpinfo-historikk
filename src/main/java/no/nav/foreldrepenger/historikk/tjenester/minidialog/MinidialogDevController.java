@@ -36,7 +36,7 @@ public class MinidialogDevController {
 
     @PostMapping("/sendMinidialog")
     public void sendMinidialog(@RequestBody MinidialogHendelse hendelse) {
-        produsent.sendHendelse(hendelse);
+        produsent.send(hendelse);
     }
 
     @GetMapping("/minidialoger")

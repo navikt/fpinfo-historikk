@@ -21,7 +21,7 @@ final class InnsendingMapper {
 
     static InnsendingInnslag tilInnslag(JPAInnsendingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        InnsendingInnslag innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
+        var innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -41,7 +41,7 @@ final class InnsendingMapper {
 
     static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
-        JPAInnsendingInnslag innslag = new JPAInnsendingInnslag();
+        var innslag = new JPAInnsendingInnslag();
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
         innslag.setFnr(hendelse.getFnr());
@@ -57,7 +57,7 @@ final class InnsendingMapper {
     }
 
     private static JPAInnsendingVedlegg fraVedlegg(String id) {
-        JPAInnsendingVedlegg vedlegg = new JPAInnsendingVedlegg();
+        var vedlegg = new JPAInnsendingVedlegg();
         vedlegg.setVedleggId(id);
         return vedlegg;
     }

@@ -1,14 +1,11 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpost;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import javax.validation.Valid;
 
-import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -41,8 +38,6 @@ public class MinidialogHendelseKonsument {
     @Transactional
     public void listen(@Payload @Valid MinidialogHendelse hendelse) {
         LOG.info("Mottok hendelse {}", hendelse);
-        MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
-        MDC.put(CALL_ID, hendelse.getReferanseId());
         byte[] dokument = pdf.generate(header(hendelse.getHendelse()), hendelse.getTekst());
         String id = journal.journalfør(journalpost(hendelse, dokument));
         dialog.lagre(hendelse, id);

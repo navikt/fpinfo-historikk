@@ -44,11 +44,11 @@ public class InntektsmeldingTjeneste {
 
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger() {
-        return hentInntektsmeldinger(tokenUtil.autentisertFNR());
+        return inntektsmeldinger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingInnslag> hentInntektsmeldinger(Fødselsnummer fnr) {
+    public List<InntektsmeldingInnslag> inntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
         List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.tilInnslag(
                 dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));

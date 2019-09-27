@@ -72,9 +72,7 @@ public class MinidialogTjeneste {
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> dialoger(Fødselsnummer fnr, boolean activeOnly) {
         LOG.info("Henter dialoger for {} og activeOnly={}", fnr, activeOnly);
-        List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet {} dialog{} ({})", dialoger.size(), flertall(dialoger), dialoger);
-        return dialoger;
+        return tilInnslag(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
     @Transactional(readOnly = true)
@@ -85,23 +83,24 @@ public class MinidialogTjeneste {
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> aktive(Fødselsnummer fnr) {
         LOG.info("Henter aktive dialoginnslag for {}", fnr);
-        List<MinidialogInnslag> dialoger = mapAndCollect(
+        return tilInnslag(
                 dao.findAll(where(spec(fnr, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet {} aktive dialoginnslag ({})", dialoger.size(), dialoger);
-        return dialoger;
     }
 
-    private Specification<JPAMinidialogInnslag> spec(Fødselsnummer fnr, boolean activeOnly) {
-        Specification<JPAMinidialogInnslag> spec = harFnr(fnr);
+    private static Specification<JPAMinidialogInnslag> spec(Fødselsnummer fnr, boolean activeOnly) {
+        var spec = harFnr(fnr);
         return activeOnly ? spec
                 .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;
     }
 
-    private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
-        return safeStream(innslag)
+    private static List<MinidialogInnslag> tilInnslag(List<JPAMinidialogInnslag> innslag) {
+        var i = safeStream(innslag)
                 .map(MinidialogMapper::tilInnslag)
                 .collect(toList());
+        LOG.info("Hentet {} dialog{} ({})", i.size(), flertall(i), i);
+        return i;
+
     }
 
     private boolean skalLagre(MinidialogHendelse hendelse) {

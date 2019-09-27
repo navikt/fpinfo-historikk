@@ -30,9 +30,9 @@ public abstract class AbstractHendelseProdusent {
     }
 
     @Transactional(KAFKA_TM)
-    public void sendHendelse(Hendelse hendelse) {
+    public void send(Hendelse hendelse) {
         LOG.info("Sender heńdelse {}", hendelse);
-        Message<String> message = MessageBuilder
+        var message = MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, topic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
