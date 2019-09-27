@@ -9,6 +9,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidi
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -63,7 +64,7 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentDialoger(boolean activeOnly) {
+    public List<MinidialogInnslag> dialoger(boolean activeOnly) {
         return hentDialoger(tokenUtil.autentisertFNR(), activeOnly);
     }
 
@@ -76,16 +77,16 @@ public class MinidialogTjeneste {
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogSpørsmål() {
-        return hentAktiveDialogSpørsmål(tokenUtil.autentisertFNR());
+    public List<MinidialogInnslag> aktive() {
+        return hentAktiveDialogInnslag(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogSpørsmål(Fødselsnummer fnr) {
-        LOG.info("Henter aktive spørsmål for {}", fnr);
+    public List<MinidialogInnslag> hentAktiveDialogInnslag(Fødselsnummer fnr) {
+        LOG.info("Henter aktive dialoginnslag for {}", fnr);
         List<MinidialogInnslag> dialoger = mapAndCollect(
                 dao.findAll(where(spec(fnr, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet {} dialogspørsmål ({})", dialoger.size(), dialoger);
+        LOG.info("Hentet {} aktive dialoginnslag ({})", dialoger.size(), dialoger);
         return dialoger;
     }
 
@@ -97,8 +98,7 @@ public class MinidialogTjeneste {
     }
 
     private static List<MinidialogInnslag> mapAndCollect(List<JPAMinidialogInnslag> innslag) {
-        return innslag
-                .stream()
+        return safeStream(innslag)
                 .map(MinidialogMapper::tilInnslag)
                 .collect(toList());
     }
