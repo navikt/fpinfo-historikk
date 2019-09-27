@@ -34,22 +34,21 @@ public class InnsendingTjeneste {
 
     public void lagre(InnsendingHendelse hendelse) {
         if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
-            LOG.info("Lagrer historikkinnslag fra innsending av {}", hendelse);
+            LOG.info("Lagrer innsendingsinnslag fra {}", hendelse);
             dao.save(fraHendelse(hendelse));
-            LOG.info("Lagret historikkinnslag OK");
+            LOG.info("Lagret innsendingsinnslag OK");
         } else {
-            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
+            LOG.info("Innsendingsinnslag med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }
-
     }
 
     @Transactional(readOnly = true)
-    public List<InnsendingInnslag> søknader() {
-        return hentInnsendinger(tokenUtil.autentisertFNR());
+    public List<InnsendingInnslag> innsendinger() {
+        return innsendinger(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<InnsendingInnslag> hentInnsendinger(Fødselsnummer fnr) {
+    public List<InnsendingInnslag> innsendinger(Fødselsnummer fnr) {
         LOG.info("Henter innsendingsinnslag for {}", fnr);
         List<InnsendingInnslag> innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet innsendingsinnslag {}", innslag);

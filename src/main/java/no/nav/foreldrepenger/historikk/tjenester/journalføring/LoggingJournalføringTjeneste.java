@@ -15,7 +15,7 @@ public class LoggingJournalføringTjeneste implements Journalføring {
     private static final Logger LOG = LoggerFactory.getLogger(LoggingJournalføringTjeneste.class);
 
     @Override
-    public String sluttfør(Journalpost journalpost) {
+    public String journalfør(Journalpost journalpost) {
         LOG.info("Oppretter journalpost {}", journalpost);
         LOG.info("Opprettet journalpost med id {} OK", ID);
         return ID;

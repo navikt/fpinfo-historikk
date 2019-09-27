@@ -45,8 +45,9 @@ public class InnsendingInnslag extends HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + getFnr() + ", aktørId=" + getAktørId()
-                + ", journalpostId=" + getJournalpostId() + ", saksnr=" + getSaksnr() + ", opprettet=" + opprettet
-                + ", vedlegg=" + vedlegg + ", behandlingsdato=" + behandlingsdato + "]";
+                + ", journalpostId=" + getJournalpostId() + ", referanseId=" + getReferanseId() + ", saksnr="
+                + getSaksnr() + ", opprettet=" + opprettet + ", vedlegg=" + vedlegg + ", behandlingsdato="
+                + behandlingsdato + "]";
     }
 
 }

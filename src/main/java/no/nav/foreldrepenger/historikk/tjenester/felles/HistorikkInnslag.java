@@ -35,6 +35,8 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
     private AktørId aktørId;
     private String journalpostId;
     private String saksnr;
+    private String referanseId;
+
     protected LocalDateTime opprettet;
 
     public HistorikkInnslag(Fødselsnummer fnr) {
@@ -45,6 +47,14 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
         return Optional.ofNullable(hendelse)
                 .map(HendelseType::tilHendelse)
                 .orElse(UKJENT);
+    }
+
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
     }
 
     public String getSaksnr() {
