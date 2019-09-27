@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
@@ -21,7 +22,7 @@ public class InntektsmeldingHendelse extends Hendelse {
     public InntektsmeldingHendelse(@JsonProperty("aktørId") AktørId aktørId, Fødselsnummer fnr, String journalId,
             String referanseId,
             String saksNr, LocalDate innsendingsDato, Arbeidsgiver arbeidsgiver) {
-        super(aktørId, fnr, journalId, referanseId, saksNr);
+        super(aktørId, fnr, journalId, referanseId, saksNr, HendelseType.INNTEKTSMELDING);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
     }

@@ -33,7 +33,7 @@ public class InnsendingHendelseKonsument {
         LOG.info("Mottok innsendingshendelse {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         innsending.lagre(hendelse);
-        dialog.deaktiverMinidialoger(hendelse.getFnr(), hendelse.getHendelse(), hendelse.getSaksNr());
+        dialog.deaktiverMinidialoger(hendelse);
     }
 
     @Override

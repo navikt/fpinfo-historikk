@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
@@ -40,31 +40,31 @@ public class MinidialogTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public int deaktiverMinidialoger(Fødselsnummer fnr, HendelseType hendelse, String saksnr) {
-        if (hendelse.erEttersending()) {
-            int n = dao.deaktiverSak(fnr, saksnr);
-            LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), saksnr,
-                    hendelse);
+    public int deaktiverMinidialoger(Hendelse hendelse) {
+        if (hendelse.getHendelse().erEttersending()) {
+            int n = dao.deaktiverSak(hendelse.getFnr(), hendelse.getSaksNr());
+            LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), hendelse.getSaksNr(),
+                    hendelse.getHendelse());
             return n;
         }
-        if (hendelse.erSøknad()) {
-            int n = dao.deaktiver(fnr);
-            LOG.info("Deaktiverte {} minidialog{} etter hendelse {}", n, flertall(n), hendelse);
-            return n;
-        }
-        LOG.info("Ingen deaktivering for {} og hendelse {}", fnr, hendelse);
+        LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getFnr(), hendelse.getHendelse());
         return 0;
     }
 
-    public void lagre(MinidialogHendelse m, String journalPostId) {
-        if (dao.findByReferanseId(m.getReferanseId()) == null) {
-            LOG.info("Lagrer minidialog {}", m);
-            dao.save(fraHendelse(m, journalPostId));
+    public void lagre(MinidialogHendelse hendelse, String journalPostId) {
+        if (skalLagre(hendelse)) {
+            LOG.info("Lagrer minidialog {}", hendelse);
+            dao.save(fraHendelse(hendelse, journalPostId));
             LOG.info("Lagret minidialog OK");
-            deaktiverMinidialoger(m.getFnr(), m.getHendelse(), m.getSaksNr());
+            deaktiverMinidialoger(hendelse);
         } else {
-            LOG.info("Hendelse med referanseId {} er allerede lagret", m.getReferanseId());
+            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }
+    }
+
+    private boolean skalLagre(MinidialogHendelse hendelse) {
+        String referanseId = hendelse.getReferanseId();
+        return referanseId == null || dao.findByReferanseId(referanseId) == null;
     }
 
     @Transactional(readOnly = true)

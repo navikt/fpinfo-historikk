@@ -13,13 +13,21 @@ public abstract class Hendelse {
     private final String journalId;
     private final String referanseId;
     private final String saksNr;
+    @NotNull
+    private final HendelseType hendelse;
 
-    public Hendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr) {
+    public Hendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
+            HendelseType hendelse) {
         this.aktørId = aktørId;
         this.fnr = fnr;
         this.journalId = journalId;
         this.referanseId = referanseId;
         this.saksNr = saksNr;
+        this.hendelse = hendelse;
+    }
+
+    public HendelseType getHendelse() {
+        return hendelse;
     }
 
     public AktørId getAktørId() {
