@@ -48,18 +48,18 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/minidialoger")
-    public List<MinidialogInnslag> minidialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
-        return minidialog.hentDialoger(activeOnly);
+    public List<MinidialogInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
+        return minidialog.dialoger(activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")
-    public List<MinidialogInnslag> minidialogSpørsmål() {
-        return minidialog.hentAktiveDialogSpørsmål();
+    public List<MinidialogInnslag> aktive() {
+        return minidialog.aktive();
     }
 
     @GetMapping("/me/all")
     public List<HistorikkInnslag> historikk() {
-        return concat(minidialoger(false).stream(),
+        return concat(dialoger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
                         .collect(toList());

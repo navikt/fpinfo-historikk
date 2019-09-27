@@ -46,12 +46,12 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/spm")
-    public List<MinidialogInnslag> spørsmål(@RequestParam("fnr") Fødselsnummer fnr) {
-        return minidialog.hentAktiveDialogSpørsmål(fnr);
+    public List<MinidialogInnslag> aktive(@RequestParam("fnr") Fødselsnummer fnr) {
+        return minidialog.hentAktiveDialogInnslag(fnr);
     }
 
     @PostMapping("/lagreMinidialog")
-    public void lagreMinidialog(@RequestBody @Valid MinidialogHendelse hendelse) {
+    public void lagre(@RequestBody @Valid MinidialogHendelse hendelse) {
         minidialog.lagre(hendelse, "42");
     }
 
