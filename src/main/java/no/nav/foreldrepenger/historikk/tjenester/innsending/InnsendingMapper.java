@@ -28,6 +28,7 @@ final class InnsendingMapper {
         innslag.setAktørId(i.getAktørId());
         innslag.setVedlegg(tilVedlegg(i));
         innslag.setBehandlingsdato(i.getBehandlingsdato());
+        innslag.setReferanseId(i.getReferanseId());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }

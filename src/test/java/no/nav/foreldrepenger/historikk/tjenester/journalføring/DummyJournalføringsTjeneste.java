@@ -19,7 +19,7 @@ public class DummyJournalføringsTjeneste extends JoarkJournalføringTjeneste {
     }
 
     @Override
-    public String sluttfør(Journalpost journalpost) {
+    public String journalfør(Journalpost journalpost) {
         LOG.info("Sluttfører journalpost {}", journalpost);
         return "42";
     }

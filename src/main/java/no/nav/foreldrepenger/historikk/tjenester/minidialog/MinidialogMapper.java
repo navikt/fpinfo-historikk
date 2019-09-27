@@ -37,7 +37,7 @@ public final class MinidialogMapper {
         return dialog;
     }
 
-    static Journalpost journalpostFra(MinidialogHendelse innslag, byte[] dokument) {
+    static Journalpost journalpost(MinidialogHendelse innslag, byte[] dokument) {
         return new Journalpost(UTGAAENDE,
                 new AvsenderMottaker(innslag.getFnr(), innslag.getNavn()),
                 new Bruker(innslag.getFnr()), null,

@@ -21,7 +21,7 @@ public class JoarkJournalføringTjeneste implements Journalføring {
     }
 
     @Override
-    public String sluttfør(Journalpost journalpost) {
+    public String journalfør(Journalpost journalpost) {
         LOG.info("Oppretter journalpost {}", journalpost);
         String id = connection.opprettJournalpost(journalpost, true);
         LOG.info("Opprettet journalpost med id {} OK", id);

@@ -44,7 +44,7 @@ public class InnsendingDevController {
 
     @GetMapping("/søknader")
     public List<InnsendingInnslag> søknader(@RequestParam("fnr") Fødselsnummer fnr) {
-        return innsending.hentInnsendinger(fnr);
+        return innsending.innsendinger(fnr);
     }
 
     @Override

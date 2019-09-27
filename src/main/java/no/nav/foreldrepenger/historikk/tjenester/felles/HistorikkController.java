@@ -39,7 +39,7 @@ public class HistorikkController {
 
     @GetMapping("/me/søknader")
     public List<InnsendingInnslag> søknader() {
-        return innsending.søknader();
+        return innsending.innsendinger();
     }
 
     @GetMapping("/me/inntektsmeldinger")

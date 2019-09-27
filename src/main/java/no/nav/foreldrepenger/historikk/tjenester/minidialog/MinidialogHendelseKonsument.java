@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpostFra;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpost;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
@@ -28,14 +28,13 @@ public class MinidialogHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
     private final MinidialogTjeneste dialog;
-    private final Journalføring journalføring;
-    private final PDFGenerator pdfGenerator;
+    private final Journalføring journal;
+    private final PDFGenerator pdf;
 
-    public MinidialogHendelseKonsument(MinidialogTjeneste minidialog, Journalføring journalføring,
-            PDFGenerator pdfGenerator) {
+    public MinidialogHendelseKonsument(MinidialogTjeneste minidialog, Journalføring journal, PDFGenerator pdf) {
         this.dialog = minidialog;
-        this.journalføring = journalføring;
-        this.pdfGenerator = pdfGenerator;
+        this.journal = journal;
+        this.pdf = pdf;
     }
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
@@ -44,9 +43,9 @@ public class MinidialogHendelseKonsument {
         LOG.info("Mottok hendelse {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         MDC.put(CALL_ID, hendelse.getReferanseId());
-        byte[] dokument = pdfGenerator.generate(header(hendelse.getHendelse()), hendelse.getTekst());
-        String journalPostId = journalføring.sluttfør(journalpostFra(hendelse, dokument));
-        dialog.lagre(hendelse, journalPostId);
+        byte[] dokument = pdf.generate(header(hendelse.getHendelse()), hendelse.getTekst());
+        String id = journal.journalfør(journalpost(hendelse, dokument));
+        dialog.lagre(hendelse, id);
 
     }
 
@@ -64,7 +63,6 @@ public class MinidialogHendelseKonsument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + dialog + ", journalføring=" + journalføring
-                + ", generator=" + pdfGenerator + "]";
+        return getClass().getSimpleName() + "[minidialog=" + dialog + ", journal=" + journal + ", pdf=" + pdf + "]";
     }
 }
