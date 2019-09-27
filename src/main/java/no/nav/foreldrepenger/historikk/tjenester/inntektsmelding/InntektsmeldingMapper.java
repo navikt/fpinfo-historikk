@@ -20,7 +20,7 @@ public final class InntektsmeldingMapper {
 
     public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
-        JPAInntektsmelding inntektsmelding = new JPAInntektsmelding();
+        var inntektsmelding = new JPAInntektsmelding();
         inntektsmelding.setReferanseId(hendelse.getReferanseId());
         inntektsmelding.setAktørId(hendelse.getAktørId());
         inntektsmelding.setFnr(hendelse.getFnr());
@@ -33,7 +33,7 @@ public final class InntektsmeldingMapper {
 
     static InntektsmeldingInnslag tilInnslag(JPAInntektsmelding i) {
         LOG.info("Mapper fra inntektsmelding {}", i);
-        InntektsmeldingInnslag innslag = new InntektsmeldingInnslag(i.getFnr());
+        var innslag = new InntektsmeldingInnslag(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());

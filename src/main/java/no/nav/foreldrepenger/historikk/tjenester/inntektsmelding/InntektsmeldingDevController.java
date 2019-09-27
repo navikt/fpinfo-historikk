@@ -38,18 +38,18 @@ public class InntektsmeldingDevController {
     }
 
     @PostMapping("/lagreInntektsmelding")
-    public void lagreInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
+    public void lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
         inntektsmelding.lagre(hendelse);
     }
 
     @PostMapping("/sendInntektsmelding")
-    public void sendInntektsmelding(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        produsent.sendHendelse(hendelse);
+    public void send(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
+        produsent.send(hendelse);
     }
 
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return inntektsmelding.hentInntektsmeldinger(fnr);
+        return inntektsmelding.inntektsmeldinger(fnr);
     }
 
     @Override

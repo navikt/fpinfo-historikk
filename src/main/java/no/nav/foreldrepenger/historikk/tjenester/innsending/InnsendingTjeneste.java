@@ -50,7 +50,7 @@ public class InnsendingTjeneste {
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> innsendinger(Fødselsnummer fnr) {
         LOG.info("Henter innsendingsinnslag for {}", fnr);
-        List<InnsendingInnslag> innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        var innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet innsendingsinnslag {}", innslag);
         return innslag;
     }

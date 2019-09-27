@@ -22,7 +22,7 @@ public class MinidialogController {
     }
 
     @GetMapping("/me")
-    public List<MinidialogInnslag> hentMinidialog(
+    public List<MinidialogInnslag> dialoger(
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
         return minidialog.dialoger(activeOnly);
     }

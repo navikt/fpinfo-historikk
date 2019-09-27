@@ -34,7 +34,7 @@ public class InnsendingDevController {
 
     @PostMapping("/send")
     public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
-        produsent.sendHendelse(hendelse);
+        produsent.send(hendelse);
     }
 
     @PostMapping("/lagre")

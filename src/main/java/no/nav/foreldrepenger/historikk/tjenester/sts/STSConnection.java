@@ -32,12 +32,9 @@ public class STSConnection extends AbstractRestConnection {
     }
 
     public String hentToken() {
-        if (isEnabled()) {
-            return Optional.ofNullable(getForObject(cfg.tokenURI(), TokenRespons.class, true))
-                    .map(TokenRespons::getToken)
-                    .orElse(null);
-        }
-        return null;
+        return Optional.ofNullable(getForObject(cfg.tokenURI(), TokenRespons.class, true))
+                .map(TokenRespons::getToken)
+                .orElse(null);
     }
 
     @Override

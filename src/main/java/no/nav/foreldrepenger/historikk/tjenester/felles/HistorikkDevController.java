@@ -41,7 +41,7 @@ public class HistorikkDevController {
     @GetMapping
     public List<HistorikkInnslag> historikk(@RequestParam("fnr") Fødselsnummer fnr) {
         return concat(minidialog.dialoger(fnr, false).stream(),
-                concat(inntektsmelding.hentInntektsmeldinger(fnr).stream(), søknad.innsendinger(fnr).stream()))
+                concat(inntektsmelding.inntektsmeldinger(fnr).stream(), søknad.innsendinger(fnr).stream()))
                         .sorted()
                         .collect(toList());
     }
