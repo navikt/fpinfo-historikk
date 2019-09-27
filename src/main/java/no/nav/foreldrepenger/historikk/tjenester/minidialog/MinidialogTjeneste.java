@@ -41,10 +41,11 @@ public class MinidialogTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public int deaktiverMinidialoger(Hendelse hendelse) {
-        if (hendelse.erEttersending()) {
-            int n = dao.deaktiverSak(hendelse.getFnr(), hendelse.getSaksNr());
-            LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), hendelse.getSaksNr(),
+    public int deaktiver(Hendelse hendelse) {
+        if (hendelse.erEttersending() && hendelse.getReferanseId() != null) {
+            int n = dao.deaktiver(hendelse.getFnr(), hendelse.getReferanseId());
+            LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
+                    hendelse.getReferanseId(),
                     hendelse.getHendelse());
             return n;
         }
@@ -57,7 +58,7 @@ public class MinidialogTjeneste {
             LOG.info("Lagrer minidialog {}", hendelse);
             dao.save(fraHendelse(hendelse, journalPostId));
             LOG.info("Lagret minidialog OK");
-            deaktiverMinidialoger(hendelse);
+            deaktiver(hendelse);
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }
@@ -65,11 +66,11 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> dialoger(boolean activeOnly) {
-        return hentDialoger(tokenUtil.autentisertFNR(), activeOnly);
+        return dialoger(tokenUtil.autentisertFNR(), activeOnly);
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentDialoger(Fødselsnummer fnr, boolean activeOnly) {
+    public List<MinidialogInnslag> dialoger(Fødselsnummer fnr, boolean activeOnly) {
         LOG.info("Henter dialoger for {} og activeOnly={}", fnr, activeOnly);
         List<MinidialogInnslag> dialoger = mapAndCollect(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet {} dialog{} ({})", dialoger.size(), flertall(dialoger), dialoger);
@@ -78,11 +79,11 @@ public class MinidialogTjeneste {
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> aktive() {
-        return hentAktiveDialogInnslag(tokenUtil.autentisertFNR());
+        return aktive(tokenUtil.autentisertFNR());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> hentAktiveDialogInnslag(Fødselsnummer fnr) {
+    public List<MinidialogInnslag> aktive(Fødselsnummer fnr) {
         LOG.info("Henter aktive dialoginnslag for {}", fnr);
         List<MinidialogInnslag> dialoger = mapAndCollect(
                 dao.findAll(where(spec(fnr, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));

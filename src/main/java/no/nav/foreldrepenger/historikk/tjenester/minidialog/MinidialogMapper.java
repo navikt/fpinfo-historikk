@@ -33,6 +33,7 @@ public final class MinidialogMapper {
         dialog.setAktiv(m.isAktiv());
         dialog.setJournalpostId(journalpostId);
         dialog.setHendelse(m.getHendelse());
+        dialog.setReferanseId(m.getReferanseId());
         LOG.info("Mappet til {}", dialog);
         return dialog;
     }

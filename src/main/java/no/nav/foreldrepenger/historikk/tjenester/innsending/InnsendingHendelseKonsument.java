@@ -1,10 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-
 import javax.validation.Valid;
 
-import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -31,9 +28,8 @@ public class InnsendingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandleInnsending(@Payload @Valid InnsendingHendelse hendelse) {
         LOG.info("Mottok innsendingshendelse {}", hendelse);
-        MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         innsending.lagre(hendelse);
-        dialog.deaktiverMinidialoger(hendelse);
+        dialog.deaktiver(hendelse);
     }
 
     @Override
