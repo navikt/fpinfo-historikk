@@ -5,8 +5,6 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -29,8 +27,7 @@ public class MinidialogHendelse extends Hendelse {
     @DateTimeFormat(iso = DATE)
     private LocalDate gyldigTil;
     private boolean aktiv;
-    @NotNull
-    private final HendelseType hendelse;
+
     private final String tekst;
     @ApiModelProperty(example = "Navn Navnesen")
     private final String navn;
@@ -38,8 +35,7 @@ public class MinidialogHendelse extends Hendelse {
     @JsonCreator
     public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
             HendelseType hendelse, String tekst, String navn) {
-        super(aktørId, fnr, journalId, referanseId, saksNr);
-        this.hendelse = hendelse;
+        super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
         this.tekst = tekst;
         this.navn = navn;
     }
@@ -54,10 +50,6 @@ public class MinidialogHendelse extends Hendelse {
 
     public LocalDate getGyldigTil() {
         return gyldigTil;
-    }
-
-    public HendelseType getHendelse() {
-        return hendelse;
     }
 
     public void setGyldigTil(LocalDate gyldigTil) {
