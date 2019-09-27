@@ -39,6 +39,7 @@ public final class InntektsmeldingMapper {
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
         innslag.setArbeidsgiver(i.getArbeidsgiver());
+        innslag.setReferanseId(i.getReferanseId());
         LOG.info("Mappet til inntektsmelding {}", innslag);
         return innslag;
     }
