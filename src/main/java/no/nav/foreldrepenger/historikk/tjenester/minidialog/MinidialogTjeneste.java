@@ -23,13 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class MinidialogTjeneste {
+public class MinidialogTjeneste implements IdempotentTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
@@ -103,13 +104,9 @@ public class MinidialogTjeneste {
 
     }
 
-    private boolean skalLagre(MinidialogHendelse hendelse) {
-        String referanseId = hendelse.getReferanseId();
-        return referanseId == null || erAlleredeLagret(referanseId);
-    }
-
-    private boolean erAlleredeLagret(String referanseId) {
-        return dao.findByReferanseId(referanseId) == null;
+    @Override
+    public boolean erAlleredeLagret(String referanseId) {
+        return referanseId != null && dao.findByReferanseId(referanseId) == null;
     }
 
     @Override
