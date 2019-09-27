@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class InnsendingTjeneste {
+public class InnsendingTjeneste implements IdempotentTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
 
@@ -33,7 +34,7 @@ public class InnsendingTjeneste {
     }
 
     public void lagre(InnsendingHendelse hendelse) {
-        if (dao.findByReferanseId(hendelse.getReferanseId()) == null) {
+        if (skalLagre(hendelse)) {
             LOG.info("Lagrer innsendingsinnslag fra {}", hendelse);
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret innsendingsinnslag OK");
@@ -56,7 +57,13 @@ public class InnsendingTjeneste {
     }
 
     @Override
+    public boolean erAlleredeLagret(String referanseId) {
+        return referanseId != null && dao.findByReferanseId(referanseId) == null;
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName() + "[dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
     }
+
 }
