@@ -41,7 +41,7 @@ public class MinidialogTjeneste {
     }
 
     public int deaktiverMinidialoger(Hendelse hendelse) {
-        if (hendelse.getHendelse().erEttersending()) {
+        if (hendelse.erEttersending()) {
             int n = dao.deaktiverSak(hendelse.getFnr(), hendelse.getSaksNr());
             LOG.info("Deaktiverte {} minidialog{} for sak {} etter hendelse {}", n, flertall(n), hendelse.getSaksNr(),
                     hendelse.getHendelse());
@@ -60,11 +60,6 @@ public class MinidialogTjeneste {
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }
-    }
-
-    private boolean skalLagre(MinidialogHendelse hendelse) {
-        String referanseId = hendelse.getReferanseId();
-        return referanseId == null || dao.findByReferanseId(referanseId) == null;
     }
 
     @Transactional(readOnly = true)
@@ -106,6 +101,15 @@ public class MinidialogTjeneste {
                 .stream()
                 .map(MinidialogMapper::tilInnslag)
                 .collect(toList());
+    }
+
+    private boolean skalLagre(MinidialogHendelse hendelse) {
+        String referanseId = hendelse.getReferanseId();
+        return referanseId == null || erAlleredeLagret(referanseId);
+    }
+
+    private boolean erAlleredeLagret(String referanseId) {
+        return dao.findByReferanseId(referanseId) == null;
     }
 
     @Override

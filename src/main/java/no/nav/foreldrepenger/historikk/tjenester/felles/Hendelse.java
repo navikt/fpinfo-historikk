@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
@@ -48,6 +50,11 @@ public abstract class Hendelse {
 
     public String getSaksNr() {
         return saksNr;
+    }
+
+    @JsonIgnore
+    public boolean erEttersending() {
+        return getHendelse().erEttersending();
     }
 
 }

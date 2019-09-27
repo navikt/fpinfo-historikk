@@ -29,7 +29,7 @@ public class InnsendingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void behandleSøknad(@Payload @Valid InnsendingHendelse hendelse) {
+    public void behandleInnsending(@Payload @Valid InnsendingHendelse hendelse) {
         LOG.info("Mottok innsendingshendelse {}", hendelse);
         MDC.put(NAV_CALL_ID, hendelse.getReferanseId());
         innsending.lagre(hendelse);
