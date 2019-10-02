@@ -59,7 +59,7 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
 
     @Override
     public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && dao.findByReferanseId(referanseId) == null;
+        return referanseId != null && dao.findByReferanseId(referanseId) != null;
     }
 
     @Override
