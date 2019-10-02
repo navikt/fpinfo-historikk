@@ -60,7 +60,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
 
     @Override
     public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && dao.findByReferanseId(referanseId) == null;
+        return referanseId != null && dao.findByReferanseId(referanseId) != null;
     }
 
     @Override
