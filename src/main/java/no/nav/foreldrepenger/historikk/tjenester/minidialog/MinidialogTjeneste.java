@@ -42,16 +42,15 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.tokenUtil = tokenUtil;
     }
 
-    public int deaktiver(Hendelse hendelse) {
+    public void deaktiver(Hendelse hendelse) {
         if (hendelse.erEttersending() && hendelse.getReferanseId() != null) {
             int n = dao.deaktiver(hendelse.getFnr(), hendelse.getReferanseId());
             LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
                     hendelse.getReferanseId(),
                     hendelse.getHendelse());
-            return n;
+        } else {
+            LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getFnr(), hendelse.getHendelse());
         }
-        LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getFnr(), hendelse.getHendelse());
-        return 0;
     }
 
     @Override
