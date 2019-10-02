@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraHendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.tilInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -27,8 +28,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
     private final JPAInntektsmeldingRepository dao;
     private final TokenUtil tokenUtil;
 
-    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao,
-            TokenUtil tokenUtil) {
+    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao, TokenUtil tokenUtil) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
     }
@@ -36,7 +36,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
     @Override
     public void lagre(InntektsmeldingHendelse hendelse) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
-            LOG.info("Lagrer inntektsmelding fra hendelse {}", hendelse);
+            LOG.info("Lagrer inntektsmeldinginnslag fra hendelse {}", hendelse);
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret inntektsmeldinginnslag OK");
         } else {
@@ -52,8 +52,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
-        List<InntektsmeldingInnslag> innslag = InntektsmeldingMapper.tilInnslag(
-                dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<InntektsmeldingInnslag> innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
