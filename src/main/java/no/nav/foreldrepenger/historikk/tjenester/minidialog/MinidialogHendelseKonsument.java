@@ -11,7 +11,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Service
@@ -34,18 +33,6 @@ public class MinidialogHendelseKonsument {
 
     private boolean skalJournalføre(HendelseType type) {
         return TILBAKEKREVING_SPM.equals(type);
-    }
-
-    private static String header(HendelseType hendelseType) {
-        switch (hendelseType) {
-        case TILBAKEKREVING_SPM:
-            return "Spørsmål fra saksbehandler";
-        case TILBAKEKREVING_SVAR:
-            return "Svar fra bruker";
-        default:
-            throw new UnexpectedResponseException("Uventet hendelsestype " + hendelseType);
-        }
-
     }
 
     @Override
