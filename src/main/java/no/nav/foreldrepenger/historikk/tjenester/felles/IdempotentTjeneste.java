@@ -1,13 +1,14 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
+public interface IdempotentTjeneste<T extends Hendelse> {
 
-public interface IdempotentTjeneste {
+    boolean erAlleredeLagret(String referanseId);
 
-    public boolean erAlleredeLagret(String referanseId);
-
-    default boolean skalLagre(Hendelse hendelse) {
+    default boolean skalLagre(T hendelse) {
         String referanseId = hendelse.getReferanseId();
         return referanseId == null || erAlleredeLagret(referanseId);
     }
+
+    void lagre(T hendelse);
+
 }

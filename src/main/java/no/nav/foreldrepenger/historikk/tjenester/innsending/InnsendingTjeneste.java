@@ -21,7 +21,7 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class InnsendingTjeneste implements IdempotentTjeneste {
+public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse> {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
 
@@ -33,6 +33,7 @@ public class InnsendingTjeneste implements IdempotentTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
+    @Override
     public void lagre(InnsendingHendelse hendelse) {
         if (skalLagre(hendelse)) {
             LOG.info("Lagrer innsendingsinnslag fra {}", hendelse);
