@@ -35,7 +35,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
 
     @Override
     public void lagre(InntektsmeldingHendelse hendelse) {
-        if (skalLagre(hendelse)) {
+        if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer inntektsmelding fra hendelse {}", hendelse);
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret inntektsmeldinginnslag OK");

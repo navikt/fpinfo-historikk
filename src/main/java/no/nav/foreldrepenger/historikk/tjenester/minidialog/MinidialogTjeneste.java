@@ -60,7 +60,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     public void lagre(MinidialogHendelse hendelse, String journalPostId) {
-        if (skalLagre(hendelse)) {
+        if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer minidialog {}", hendelse);
             dao.save(fraHendelse(hendelse, journalPostId));
             LOG.info("Lagret minidialog OK");

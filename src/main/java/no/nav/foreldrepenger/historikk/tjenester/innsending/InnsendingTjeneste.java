@@ -35,7 +35,7 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
 
     @Override
     public void lagre(InnsendingHendelse hendelse) {
-        if (skalLagre(hendelse)) {
+        if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer innsendingsinnslag fra {}", hendelse);
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret innsendingsinnslag OK");
