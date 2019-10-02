@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.journalpost;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
@@ -16,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalføring;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf.PDFGenerator;
 
 @Service
 @Profile({ LOCAL, DEV })
@@ -25,23 +22,20 @@ public class MinidialogHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
     private final MinidialogTjeneste dialog;
-    private final Journalføring journal;
-    private final PDFGenerator pdf;
 
-    public MinidialogHendelseKonsument(MinidialogTjeneste minidialog, Journalføring journal, PDFGenerator pdf) {
+    public MinidialogHendelseKonsument(MinidialogTjeneste minidialog) {
         this.dialog = minidialog;
-        this.journal = journal;
-        this.pdf = pdf;
     }
 
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(@Payload @Valid MinidialogHendelse hendelse) {
         LOG.info("Mottok hendelse {}", hendelse);
-        byte[] dokument = pdf.generate(header(hendelse.getHendelse()), hendelse.getTekst());
-        String id = journal.journalfør(journalpost(hendelse, dokument));
-        dialog.lagre(hendelse, id);
+        dialog.lagre(hendelse, null);
+    }
 
+    private boolean skalJournalføre(HendelseType type) {
+        return HendelseType.TILBAKEKREVING_SVAR.equals(type);
     }
 
     private static String header(HendelseType hendelseType) {
@@ -58,6 +52,6 @@ public class MinidialogHendelseKonsument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + dialog + ", journal=" + journal + ", pdf=" + pdf + "]";
+        return getClass().getSimpleName() + "[minidialog=" + dialog + "]";
     }
 }

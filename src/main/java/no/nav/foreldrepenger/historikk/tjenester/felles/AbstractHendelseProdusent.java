@@ -32,29 +32,29 @@ public abstract class AbstractHendelseProdusent {
     @Transactional(KAFKA_TM)
     public void send(Hendelse hendelse) {
         LOG.info("Sender heńdelse {}", hendelse);
-        var message = MessageBuilder
+        send(MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, topic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
-                .build();
-        send(message);
+                .build());
     }
 
     private void send(Message<String> message) {
         LOG.info("Sender melding {}", message);
-        kafkaOperations.send(message).addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+        kafkaOperations.send(message)
+                .addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
-            @Override
-            public void onSuccess(SendResult<String, String> result) {
-                LOG.info("Sendte melding {} med offset {}", message,
-                        result.getRecordMetadata().offset());
-            }
+                    @Override
+                    public void onSuccess(SendResult<String, String> result) {
+                        LOG.info("Sendte melding {} med offset {}", message,
+                                result.getRecordMetadata().offset());
+                    }
 
-            @Override
-            public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding {}", message, e);
-            }
-        });
+                    @Override
+                    public void onFailure(Throwable e) {
+                        LOG.warn("Kunne ikke sende melding {}", message, e);
+                    }
+                });
     }
 
 }

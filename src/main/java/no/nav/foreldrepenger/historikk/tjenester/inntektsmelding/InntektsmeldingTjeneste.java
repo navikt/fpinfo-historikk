@@ -20,7 +20,7 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class InntektsmeldingTjeneste implements IdempotentTjeneste {
+public class InntektsmeldingTjeneste implements IdempotentTjeneste<InntektsmeldingHendelse> {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingTjeneste.class);
 
@@ -33,6 +33,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
+    @Override
     public void lagre(InntektsmeldingHendelse hendelse) {
         if (skalLagre(hendelse)) {
             LOG.info("Lagrer inntektsmelding fra hendelse {}", hendelse);

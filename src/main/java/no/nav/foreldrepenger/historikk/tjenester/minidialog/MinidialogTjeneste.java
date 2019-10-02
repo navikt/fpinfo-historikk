@@ -30,7 +30,7 @@ import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
-public class MinidialogTjeneste implements IdempotentTjeneste {
+public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse> {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
@@ -52,6 +52,11 @@ public class MinidialogTjeneste implements IdempotentTjeneste {
         }
         LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getFnr(), hendelse.getHendelse());
         return 0;
+    }
+
+    @Override
+    public void lagre(MinidialogHendelse hendelse) {
+        lagre(hendelse, null);
     }
 
     public void lagre(MinidialogHendelse hendelse, String journalPostId) {
