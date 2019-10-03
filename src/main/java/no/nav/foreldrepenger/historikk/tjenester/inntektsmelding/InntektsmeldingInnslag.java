@@ -8,18 +8,18 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class InntektsmeldingInnslag extends HistorikkInnslag {
 
-    private Arbeidsgiver arbeidsgiver;
+    private ArbeidsgiverInnslag arbeidsgiver;
 
     @JsonCreator
     public InntektsmeldingInnslag(@JsonProperty("fnr") Fødselsnummer fnr) {
         super(fnr);
     }
 
-    public Arbeidsgiver getArbeidsgiver() {
+    public ArbeidsgiverInnslag getArbeidsgiver() {
         return arbeidsgiver;
     }
 
-    public void setArbeidsgiver(Arbeidsgiver arbeidsgiver) {
+    public void setArbeidsgiver(ArbeidsgiverInnslag arbeidsgiver) {
         this.arbeidsgiver = arbeidsgiver;
     }
 

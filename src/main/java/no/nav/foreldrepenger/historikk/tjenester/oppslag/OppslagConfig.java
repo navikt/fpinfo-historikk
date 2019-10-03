@@ -12,6 +12,8 @@ import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR = "oppslag/aktor";
     private static final String NAVN = "person/navn";
+    private static final String ARBEID = "arbeidsforhold";
+    private static final String ORGNAVN = ARBEID + "/navn";
     private static final URI DEFAULT_BASE_URI = URI.create("http://fpsoknad-oppslag/api");
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
@@ -24,8 +26,12 @@ public class OppslagConfig extends AbstractConfig {
         return uri(DEFAULT_BASE_URI, DEFAULT_PING_PATH);
     }
 
-    public URI navnURI(String fnr) {
+    public URI personNavnURI(String fnr) {
         return uri(DEFAULT_BASE_URI, NAVN, queryParams("fnr", fnr));
 
+    }
+
+    public URI orgNavnURI(String orgnr) {
+        return uri(DEFAULT_BASE_URI, ORGNAVN, queryParams("orgnr", orgnr));
     }
 }

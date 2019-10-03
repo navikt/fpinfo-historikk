@@ -7,15 +7,19 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmelding;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
-public final class InntektsmeldingMapper {
+@Component
+final class InntektsmeldingMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingMapper.class);
+    private final OppslagTjeneste oppslag;
 
-    private InntektsmeldingMapper() {
-
+    public InntektsmeldingMapper(OppslagTjeneste oppslag) {
+        this.oppslag = oppslag;
     }
 
     public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse) {
@@ -31,22 +35,32 @@ public final class InntektsmeldingMapper {
         return inntektsmelding;
     }
 
-    static InntektsmeldingInnslag tilInnslag(JPAInntektsmelding i) {
+    List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmelding> innslag) {
+        return safeStream(innslag)
+                .map(this::tilInnslag)
+                .collect(toList());
+    }
+
+    private InntektsmeldingInnslag tilInnslag(JPAInntektsmelding i) {
         LOG.info("Mapper fra inntektsmelding {}", i);
         var innslag = new InntektsmeldingInnslag(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
-        innslag.setArbeidsgiver(i.getArbeidsgiver());
+        innslag.setArbeidsgiver(tilArbeidsgiverInnslag(i.getArbeidsgiver()));
         innslag.setReferanseId(i.getReferanseId());
         LOG.info("Mappet til inntektsmelding {}", innslag);
         return innslag;
     }
 
-    public static List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmelding> innslag) {
-        return safeStream(innslag)
-                .map(InntektsmeldingMapper::tilInnslag)
-                .collect(toList());
+    private ArbeidsgiverInnslag tilArbeidsgiverInnslag(Arbeidsgiver arbeidsgiver) {
+        String orgnr = arbeidsgiver.getOrgnr();
+        return new ArbeidsgiverInnslag(orgnr, oppslag.orgNavn(orgnr));
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[oppslag=" + oppslag + "]";
     }
 }

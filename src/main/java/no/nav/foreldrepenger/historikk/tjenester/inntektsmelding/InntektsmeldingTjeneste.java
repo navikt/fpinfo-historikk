@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.tilInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
@@ -27,10 +26,13 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
 
     private final JPAInntektsmeldingRepository dao;
     private final TokenUtil tokenUtil;
+    private final InntektsmeldingMapper mapper;
 
-    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao, TokenUtil tokenUtil) {
+    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao, TokenUtil tokenUtil,
+            InntektsmeldingMapper mapper) {
         this.dao = dao;
         this.tokenUtil = tokenUtil;
+        this.mapper = mapper;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger(Fødselsnummer fnr) {
         LOG.info("Henter inntektsmeldinghistorikk for {}", fnr);
-        List<InntektsmeldingInnslag> innslag = tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
+        List<InntektsmeldingInnslag> innslag = mapper.tilInnslag(dao.findAll(where(harFnr(fnr)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
