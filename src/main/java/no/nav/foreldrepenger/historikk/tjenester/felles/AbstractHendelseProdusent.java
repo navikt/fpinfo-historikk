@@ -16,7 +16,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
-public abstract class AbstractHendelseProdusent {
+public abstract class AbstractHendelseProdusent<T extends Hendelse> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractHendelseProdusent.class);
     private final String topic;
     private final KafkaOperations<String, String> kafkaOperations;
@@ -30,8 +30,8 @@ public abstract class AbstractHendelseProdusent {
     }
 
     @Transactional(KAFKA_TM)
-    public void send(Hendelse hendelse) {
-        LOG.info("Sender heńdelse {}", hendelse);
+    public void send(T hendelse) {
+        LOG.info("Sender hendelse {}", hendelse);
         send(MessageBuilder
                 .withPayload(mapper.writeValueAsString(hendelse))
                 .setHeader(TOPIC, topic)
