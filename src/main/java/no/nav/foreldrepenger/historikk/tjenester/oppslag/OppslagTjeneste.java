@@ -22,7 +22,7 @@ public class OppslagTjeneste {
         return connection.hentNavn(fnr);
     }
 
-    @Cacheable
+    @Cacheable(cacheNames = "organisasjon")
     public String orgNavn(String orgnr) {
         return connection.orgNavn(orgnr);
     }
