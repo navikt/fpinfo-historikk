@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class MinidialogHendelseProdusent extends AbstractHendelseProdusent {
+public class MinidialogHendelseProdusent extends AbstractHendelseProdusent<MinidialogHendelse> {
 
     public MinidialogHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.meldinger.topic}") String topic, ObjectMapperWrapper mapper) {

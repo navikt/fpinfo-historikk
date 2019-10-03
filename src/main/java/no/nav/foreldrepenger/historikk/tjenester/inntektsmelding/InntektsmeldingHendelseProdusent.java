@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @Profile({ LOCAL, DEV })
-public class InntektsmeldingHendelseProdusent extends AbstractHendelseProdusent {
+public class InntektsmeldingHendelseProdusent extends AbstractHendelseProdusent<InntektsmeldingHendelse> {
 
     public InntektsmeldingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.meldinger.inntektsmelding_topic}") String topic,
