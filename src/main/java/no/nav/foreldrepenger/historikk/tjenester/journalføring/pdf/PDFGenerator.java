@@ -8,7 +8,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedInputException;
+import no.nav.foreldrepenger.historikk.error.UnexpectedInputException;
 
 @Component
 public class PDFGenerator {

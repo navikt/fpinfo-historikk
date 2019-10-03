@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.errorhandling;
+package no.nav.foreldrepenger.historikk.error;
 
 public class UnexpectedResponseException extends RuntimeException {
 

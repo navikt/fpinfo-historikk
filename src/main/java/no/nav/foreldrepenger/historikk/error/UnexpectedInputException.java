@@ -1,5 +1,5 @@
 
-package no.nav.foreldrepenger.historikk.errorhandling;
+package no.nav.foreldrepenger.historikk.error;
 
 import static java.lang.String.format;
 

@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
-import no.nav.foreldrepenger.historikk.errorhandling.UnexpectedResponseException;
+import no.nav.foreldrepenger.historikk.error.UnexpectedResponseException;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 
 @Component
