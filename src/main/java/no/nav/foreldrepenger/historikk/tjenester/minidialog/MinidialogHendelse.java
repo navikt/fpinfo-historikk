@@ -29,19 +29,12 @@ public class MinidialogHendelse extends Hendelse {
     private boolean aktiv;
 
     private final String tekst;
-    @ApiModelProperty(example = "Navn Navnesen")
-    private final String navn;
 
     @JsonCreator
     public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
-            HendelseType hendelse, String tekst, String navn) {
+            HendelseType hendelse, String tekst) {
         super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
         this.tekst = tekst;
-        this.navn = navn;
-    }
-
-    public String getNavn() {
-        return navn;
     }
 
     public String getTekst() {
