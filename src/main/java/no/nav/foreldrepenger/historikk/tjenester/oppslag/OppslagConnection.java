@@ -30,7 +30,11 @@ public class OppslagConnection extends AbstractRestConnection {
     }
 
     public String hentNavn(String fnr) {
-        return getForObject(cfg.navnURI(fnr), String.class);
+        return getForObject(cfg.personNavnURI(fnr), String.class);
+    }
+
+    String orgNavn(String orgnr) {
+        return getForObject(cfg.orgNavnURI(orgnr), String.class);
     }
 
     @Override

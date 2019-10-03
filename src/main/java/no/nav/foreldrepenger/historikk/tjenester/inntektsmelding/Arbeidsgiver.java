@@ -8,7 +8,6 @@ import no.nav.foreldrepenger.historikk.util.annoteringer.Orgnr;
 @Valid
 @Embeddable
 public class Arbeidsgiver {
-    private String navn;
     @Orgnr
     private String orgnr;
 
@@ -16,13 +15,8 @@ public class Arbeidsgiver {
 
     }
 
-    public Arbeidsgiver(String navn, String orgnr) {
-        this.navn = navn;
+    public Arbeidsgiver(String orgnr) {
         this.orgnr = orgnr;
-    }
-
-    public String getNavn() {
-        return navn;
     }
 
     public String getOrgnr() {
@@ -31,6 +25,6 @@ public class Arbeidsgiver {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[navn=" + navn + ", orgnr=" + orgnr + "]";
+        return getClass().getSimpleName() + "[orgnr=" + orgnr + "]";
     }
 }
