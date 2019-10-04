@@ -31,12 +31,17 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
 
     @Transactional(KAFKA_TM)
     public void send(T hendelse) {
-        LOG.info("Sender hendelse {}", hendelse);
         send(MessageBuilder
-                .withPayload(mapper.writeValueAsString(hendelse))
+                .withPayload(payload(hendelse))
                 .setHeader(TOPIC, topic)
                 .setHeader(NAV_CALL_ID, callIdOrNew())
                 .build());
+    }
+
+    private String payload(T hendelse) {
+        String payload = mapper.writeValueAsString(hendelse);
+        LOG.info("Konvertert til  payload {} fra hendelse {}", payload, hendelse);
+        return payload;
     }
 
     private void send(Message<String> message) {

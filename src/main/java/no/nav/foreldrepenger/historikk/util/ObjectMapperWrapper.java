@@ -27,7 +27,7 @@ public class ObjectMapperWrapper {
 
     public String writeValueAsString(Object obj) {
         try {
-            return delegate.writeValueAsString(obj);
+            return delegate.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
         } catch (IOException e) {
             throw new UnexpectedInputException("Kunne ikke serialisere melding fra %s", e, obj);
         }
