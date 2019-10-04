@@ -48,7 +48,7 @@ public class JPAInnsendingInnslag {
     private LocalDate behandlingsdato;
     private String referanseId;
 
-    public JPAInnsendingInnslag() {
+    JPAInnsendingInnslag() {
     }
 
     public LocalDate getBehandlingsdato() {
