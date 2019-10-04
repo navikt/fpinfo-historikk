@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -48,11 +47,6 @@ public class InnsendingHendelse extends Hendelse {
 
     public List<String> getVedlegg() {
         return vedlegg;
-    }
-
-    @JsonIgnore
-    public boolean erEttersending() {
-        return getHendelse().erEttersending();
     }
 
     public LocalDate getFørsteBehandlingsdato() {
