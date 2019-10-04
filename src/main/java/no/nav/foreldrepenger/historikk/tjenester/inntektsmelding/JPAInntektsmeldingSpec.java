@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao;
+package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmelding_.fnr;
 

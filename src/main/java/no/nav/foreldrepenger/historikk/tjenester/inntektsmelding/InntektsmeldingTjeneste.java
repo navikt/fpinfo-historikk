@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmeldingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmeldingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog.dao;
+package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SPM;

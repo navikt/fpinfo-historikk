@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog.dao;
+package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 

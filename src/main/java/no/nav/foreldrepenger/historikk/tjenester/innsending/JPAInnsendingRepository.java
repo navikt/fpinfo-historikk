@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 

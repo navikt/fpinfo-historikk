@@ -3,12 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erSpørsmål;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.gyldigErNull;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harFnr;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erAktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.erSpørsmål;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.gyldigErNull;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogSpec.harFnr;
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -24,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service

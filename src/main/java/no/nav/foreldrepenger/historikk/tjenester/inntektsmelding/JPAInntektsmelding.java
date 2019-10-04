@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao;
+package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -16,7 +16,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Arbeidsgiver;
 
 @Entity
 @Table(name = "inntektsmelding")

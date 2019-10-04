@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
