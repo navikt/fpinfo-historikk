@@ -4,7 +4,7 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.tilInnslag;
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsendingSpec.harFnr;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingRepository;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service

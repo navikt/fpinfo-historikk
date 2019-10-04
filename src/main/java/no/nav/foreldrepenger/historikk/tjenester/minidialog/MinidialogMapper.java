@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag;
-
 public final class MinidialogMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);

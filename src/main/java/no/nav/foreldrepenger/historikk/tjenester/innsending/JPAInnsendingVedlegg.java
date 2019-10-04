@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending.dao;
+package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static javax.persistence.FetchType.LAZY;
 

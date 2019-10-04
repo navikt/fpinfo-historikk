@@ -8,9 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingVedlegg;
-
 final class InnsendingMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingMapper.class);
