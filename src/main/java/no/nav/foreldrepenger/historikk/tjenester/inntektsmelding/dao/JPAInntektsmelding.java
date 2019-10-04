@@ -23,14 +23,6 @@ import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Arbeidsgiver;
 @EntityListeners(AuditingEntityListener.class)
 public class JPAInntektsmelding {
 
-    public String getReferanseId() {
-        return referanseId;
-    }
-
-    public void setReferanseId(String referanseId) {
-        this.referanseId = referanseId;
-    }
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -46,7 +38,7 @@ public class JPAInntektsmelding {
     private Arbeidsgiver arbeidsgiver;
     private String referanseId;
 
-    public JPAInntektsmelding() {
+    JPAInntektsmelding() {
     }
 
     public Fødselsnummer getFnr() {
@@ -103,6 +95,14 @@ public class JPAInntektsmelding {
 
     public void setArbeidsgiver(Arbeidsgiver arbeidsgiver) {
         this.arbeidsgiver = arbeidsgiver;
+    }
+
+    public String getReferanseId() {
+        return referanseId;
+    }
+
+    public void setReferanseId(String referanseId) {
+        this.referanseId = referanseId;
     }
 
     @Override

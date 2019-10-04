@@ -50,7 +50,7 @@ public class JPAMinidialogInnslag {
 
     private String referanseId;
 
-    public JPAMinidialogInnslag() {
+    JPAMinidialogInnslag() {
     }
 
     public Fødselsnummer getFnr() {
