@@ -2,10 +2,10 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SPM;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.aktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.fnr;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.gyldigTil;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.dao.JPAMinidialogInnslag_.hendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.aktiv;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.gyldigTil;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.hendelse;
 
 import org.springframework.data.jpa.domain.Specification;
 
