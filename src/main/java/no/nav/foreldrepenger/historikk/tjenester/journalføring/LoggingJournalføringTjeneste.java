@@ -16,7 +16,7 @@ public class LoggingJournalføringTjeneste implements Journalføring {
 
     @Override
     public String journalfør(Journalpost journalpost) {
-        LOG.info("Opprettet journalpost {}  med id {} OK liksom", ID);
+        LOG.info("Opprettet journalpost {}  med id {} OK liksom", journalpost, ID);
         return ID;
     }
 }
