@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingInnslag_.fnr;
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.dao.JPAInnsendingInnslag_.opprettet;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsendingInnslag_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsendingInnslag_.opprettet;
 
 import java.time.LocalDate;
 

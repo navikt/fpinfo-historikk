@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.dao.JPAInntektsmelding_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmelding_.fnr;
 
 import org.springframework.data.jpa.domain.Specification;
 
