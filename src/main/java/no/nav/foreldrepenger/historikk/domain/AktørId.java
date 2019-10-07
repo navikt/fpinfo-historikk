@@ -14,7 +14,7 @@ public class AktørId {
     @ApiModelProperty(example = "111111111")
     private String aktørId;
 
-    public AktørId() {
+    AktørId() {
     }
 
     public void setAktørId(String aktørId) {

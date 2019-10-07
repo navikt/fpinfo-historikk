@@ -20,9 +20,9 @@ public final class MinidialogMapper {
         dialog.setTekst(m.getTekst());
         dialog.setSaksnr(m.getSaksNr());
         dialog.setGyldigTil(m.getGyldigTil());
-        dialog.setAktiv(m.isAktiv());
+        dialog.setAktiv(true);
         dialog.setJournalpostId(journalpostId);
-        dialog.setHendelse(m.getHendelse());
+        dialog.setHendelse(m.getHendelseType());
         dialog.setReferanseId(m.getReferanseId());
         LOG.info("Mappet til {}", dialog);
         return dialog;
