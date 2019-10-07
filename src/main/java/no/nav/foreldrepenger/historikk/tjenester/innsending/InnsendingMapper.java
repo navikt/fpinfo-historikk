@@ -44,7 +44,7 @@ final class InnsendingMapper {
         innslag.setFnr(hendelse.getFnr());
         innslag.setSaksnr(hendelse.getSaksNr());
         innslag.setJournalpostId(hendelse.getJournalId());
-        innslag.setHendelse(hendelse.getHendelse());
+        innslag.setHendelse(hendelse.getHendelseType());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
         safeStream(hendelse.getVedlegg())
                 .map(InnsendingMapper::fraVedlegg)

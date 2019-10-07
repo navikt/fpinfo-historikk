@@ -32,10 +32,10 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") InnsendingLeveranseStatus leveranseStatus,
-            @JsonProperty("hendelse") @JsonAlias("type") HendelseType hendelse,
+            @JsonProperty("hendelseType") @JsonAlias("hendelse") HendelseType hendelseType,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, hendelse);
+        super(aktørId, fnr, journalId, referanseId, saksNr, hendelseType);
         this.leveranseStatus = leveranseStatus;
         this.vedlegg = vedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;
@@ -56,7 +56,7 @@ public class InnsendingHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
-                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", hendelse=" + getHendelse() + "]";
+                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", hendelseType=" + getHendelseType() + "]";
     }
 
 }

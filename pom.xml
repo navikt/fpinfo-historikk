@@ -12,18 +12,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.nav.bris</groupId>
     <artifactId>fpinfo-historikk</artifactId>
-    <version>0-SNAPSHOT</version>
+    <version>0-SNAPSHOT</version> 
 
     <properties>
         <token-validation-version>1.0.1</token-validation-version>
-        <httpclient.version>4.5.8</httpclient.version>
         <springfox.version>2.9.2</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     </properties>
     <scm>
-        <connection>scm:git:https://github.com/navikt/fpinfo-bris.git</connection>
-        <developerConnection>scm:git:https://github.com/navikt/fpinfo-bris.git
+        <connection>scm:git:https://github.com/navikt/fpinfo-historikk.git</connection>
+        <developerConnection>scm:git:https://github.com/navikt/fpinfo-historikk.git
         </developerConnection>
         <tag>HEAD</tag>
     </scm>
@@ -141,7 +140,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency> 
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
