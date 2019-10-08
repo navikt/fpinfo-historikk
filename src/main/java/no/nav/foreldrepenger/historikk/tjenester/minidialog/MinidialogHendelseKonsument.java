@@ -32,7 +32,7 @@ public class MinidialogHendelseKonsument {
         LOG.info("FNR er {}", fnr);
         switch (hendelse.getHendelseType()) {
         case TILBAKEKREVING_SPM:
-            dialog.lagre(hendelse);
+            dialog.lagre(hendelse, fnr);
             break;
         case TILBAKEKREVING_SVAR:
             break;

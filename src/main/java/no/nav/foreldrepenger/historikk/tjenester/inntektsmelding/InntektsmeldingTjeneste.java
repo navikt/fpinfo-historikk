@@ -35,10 +35,10 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
     }
 
     @Override
-    public void lagre(InntektsmeldingHendelse hendelse) {
+    public void lagre(InntektsmeldingHendelse hendelse, Fødselsnummer fnr) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer inntektsmeldinginnslag fra hendelse {}", hendelse);
-            dao.save(fraHendelse(hendelse));
+            dao.save(fraHendelse(hendelse, fnr));
             LOG.info("Lagret inntektsmeldinginnslag OK");
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());

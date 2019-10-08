@@ -52,7 +52,7 @@ public class MinidialogDevController {
 
     @PostMapping("/lagreMinidialog")
     public void lagre(@RequestBody @Valid MinidialogHendelse hendelse) {
-        minidialog.lagre(hendelse, "42");
+        minidialog.lagre(hendelse, Fødselsnummer.valueOf("11111111111"));
     }
 
     @Override

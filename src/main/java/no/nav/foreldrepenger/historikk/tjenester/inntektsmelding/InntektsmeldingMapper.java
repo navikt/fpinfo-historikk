@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
 @Component
@@ -21,12 +22,12 @@ final class InntektsmeldingMapper {
         this.oppslag = oppslag;
     }
 
-    public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse) {
+    public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse, Fødselsnummer fnr) {
         LOG.info("Mapper fra hendelse {}", hendelse);
         var inntektsmelding = new JPAInntektsmelding();
         inntektsmelding.setReferanseId(hendelse.getReferanseId());
         inntektsmelding.setAktørId(hendelse.getAktørId());
-        inntektsmelding.setFnr(hendelse.getFnr());
+        inntektsmelding.setFnr(fnr);
         inntektsmelding.setJournalpostId(hendelse.getJournalId());
         inntektsmelding.setSaksnr(hendelse.getSaksNr());
         inntektsmelding.setArbeidsgiver(hendelse.getArbeidsgiver());
