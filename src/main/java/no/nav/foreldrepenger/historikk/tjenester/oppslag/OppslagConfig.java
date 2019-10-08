@@ -11,6 +11,8 @@ import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 @Configuration
 public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR = "oppslag/aktor";
+    private static final String FNR = "oppslag/fnr";
+
     private static final String NAVN = "person/navn";
     private static final String ARBEID = "arbeidsforhold";
     private static final String ORGNAVN = ARBEID + "/navn";
@@ -19,6 +21,10 @@ public class OppslagConfig extends AbstractConfig {
 
     public URI aktørURI() {
         return uri(DEFAULT_BASE_URI, AKTØR);
+    }
+
+    public URI fnrURI(String aktørId) {
+        return uri(DEFAULT_BASE_URI, FNR, queryParams("aktorId", aktørId));
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Service
 public class OppslagTjeneste {
@@ -16,6 +17,10 @@ public class OppslagTjeneste {
 
     public AktørId aktørId() {
         return connection.hentAktørId();
+    }
+
+    public Fødselsnummer fnr(AktørId aktørId) {
+        return connection.hentFnr(aktørId);
     }
 
     public String personNavn(String fnr) {
