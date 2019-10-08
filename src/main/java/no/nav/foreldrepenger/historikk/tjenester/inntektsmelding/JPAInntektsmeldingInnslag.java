@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 @Entity
 @Table(name = "inntektsmelding")
 @EntityListeners(AuditingEntityListener.class)
-public class JPAInntektsmelding {
+public class JPAInntektsmeldingInnslag {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -34,7 +34,7 @@ public class JPAInntektsmelding {
     private Arbeidsgiver arbeidsgiver;
     private String referanseId;
 
-    JPAInntektsmelding() {
+    JPAInntektsmeldingInnslag() {
     }
 
     public int getId() {

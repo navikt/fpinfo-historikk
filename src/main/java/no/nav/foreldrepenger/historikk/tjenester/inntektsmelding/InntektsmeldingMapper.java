@@ -21,9 +21,9 @@ final class InntektsmeldingMapper {
         this.oppslag = oppslag;
     }
 
-    public static JPAInntektsmelding fraHendelse(InntektsmeldingHendelse hendelse) {
+    public static JPAInntektsmeldingInnslag fraHendelse(InntektsmeldingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
-        var inntektsmelding = new JPAInntektsmelding();
+        var inntektsmelding = new JPAInntektsmeldingInnslag();
         inntektsmelding.setReferanseId(hendelse.getReferanseId());
         inntektsmelding.setAktørId(hendelse.getAktørId());
         inntektsmelding.setJournalpostId(hendelse.getJournalId());
@@ -33,13 +33,13 @@ final class InntektsmeldingMapper {
         return inntektsmelding;
     }
 
-    List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmelding> innslag) {
+    List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmeldingInnslag> innslag) {
         return safeStream(innslag)
                 .map(this::tilInnslag)
                 .collect(toList());
     }
 
-    private InntektsmeldingInnslag tilInnslag(JPAInntektsmelding i) {
+    private InntektsmeldingInnslag tilInnslag(JPAInntektsmeldingInnslag i) {
         LOG.info("Mapper fra inntektsmelding {}", i);
         var innslag = new InntektsmeldingInnslag();
         innslag.setOpprettet(i.getOpprettet());
