@@ -39,20 +39,21 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.oppslag = oppslag;
     }
 
-    public void deaktiver(AktørId aktørId, String referanseId) {
-        int n = dao.deaktiver(aktørId.getAktørId(), referanseId);
-        LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n), referanseId);
+    public void deaktiver(MinidialogHendelse h) {
+        int n = dao.deaktiver(h.getAktørId(), h.getReferanseId());
+        LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
+                h.getReferanseId());
     }
 
     @Override
-    public void lagre(MinidialogHendelse hendelse) {
-        if (!erAlleredeLagret(hendelse.getReferanseId())) {
-            LOG.info("Lagrer minidialog {}", hendelse);
-            dao.save(fraHendelse(hendelse));
+    public void aktiver(MinidialogHendelse h) {
+        if (!erAlleredeLagret(h.getReferanseId())) {
+            LOG.info("Lagrer minidialog {}", h);
+            dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
-            deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
+            deaktiver(h);
         } else {
-            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
+            LOG.info("Hendelse med referanseId {} er allerede lagret", h.getReferanseId());
         }
     }
 

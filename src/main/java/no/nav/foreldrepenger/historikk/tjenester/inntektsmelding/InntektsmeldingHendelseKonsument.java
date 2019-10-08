@@ -26,7 +26,7 @@ public class InntektsmeldingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InntektsmeldingHendelse hendelse) {
         LOG.info("Mottok hendelse om inntektsmelding {}", hendelse);
-        inntektsmelding.lagre(hendelse);
+        inntektsmelding.aktiver(hendelse);
     }
 
     @Override
