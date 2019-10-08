@@ -1,0 +1,1 @@
+ALTER TABLE MINIDIALOG DROP COLUMN journalpost_id;
