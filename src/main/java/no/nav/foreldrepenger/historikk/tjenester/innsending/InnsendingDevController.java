@@ -39,7 +39,7 @@ public class InnsendingDevController {
 
     @PostMapping("/lagre")
     public void lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
-        innsending.aktiver(hendelse);
+        innsending.lagre(hendelse);
     }
 
     @GetMapping("/søknader")

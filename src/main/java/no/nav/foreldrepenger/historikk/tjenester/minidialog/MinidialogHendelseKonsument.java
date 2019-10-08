@@ -25,7 +25,7 @@ public class MinidialogHendelseKonsument {
         LOG.info("Mottok minidialoghendelse {}", hendelse);
         switch (hendelse.getHendelseType()) {
         case TILBAKEKREVING_SPM:
-            dialog.aktiver(hendelse);
+            dialog.lagre(hendelse);
             break;
         case TILBAKEKREVING_SVAR:
             dialog.deaktiver(hendelse);
