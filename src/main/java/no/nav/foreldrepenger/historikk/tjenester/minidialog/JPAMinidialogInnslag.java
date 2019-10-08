@@ -19,7 +19,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
@@ -32,8 +31,6 @@ public class JPAMinidialogInnslag {
     private int id;
     @Embedded
     private AktørId aktørId;
-    @Embedded
-    private Fødselsnummer fnr;
     private String tekst;
     @Enumerated(STRING)
     private HendelseType hendelse;
@@ -50,14 +47,6 @@ public class JPAMinidialogInnslag {
     private String referanseId;
 
     JPAMinidialogInnslag() {
-    }
-
-    public Fødselsnummer getFnr() {
-        return fnr;
-    }
-
-    public void setFnr(Fødselsnummer fnr) {
-        this.fnr = fnr;
     }
 
     public LocalDateTime getOpprettet() {
