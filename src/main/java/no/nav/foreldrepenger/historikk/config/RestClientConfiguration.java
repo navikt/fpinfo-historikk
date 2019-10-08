@@ -39,13 +39,13 @@ public class RestClientConfiguration {
     @Bean
     @Primary
     public RestOperations restTemplate(RestTemplateBuilder builder,
-            BearerTokenClientHttpRequestInterceptor tokenInterceptor,
+            // BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
+        LOG.info("Registrerer interceptorer /*{},*/{},{} for ikke-STS", /* tokenInterceptor, */ timingInterceptor,
                 mdcInterceptor);
         return builder
-                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
+                .interceptors(/* tokenInterceptor, */ timingInterceptor, mdcInterceptor)
                 .build();
     }
 
