@@ -12,7 +12,7 @@ public final class JPAInntektsmeldingSpec {
 
     }
 
-    public static Specification<JPAInntektsmelding> harAktørId(AktørId id) {
+    public static Specification<JPAInntektsmeldingInnslag> harAktørId(AktørId id) {
         return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), id);
     }
 }
