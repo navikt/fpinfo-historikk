@@ -23,12 +23,12 @@ public class MinidialogHendelseKonsument {
     @Transactional
     public void listen(@Payload @Valid MinidialogHendelse hendelse) {
         LOG.info("Mottok hendelse om minidialog {}", hendelse);
-
         switch (hendelse.getHendelseType()) {
         case TILBAKEKREVING_SPM:
             dialog.lagre(hendelse);
             break;
         case TILBAKEKREVING_SVAR:
+            dialog.deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
             break;
         default:
             LOG.info("Hendelsetype {} ikke støttet", hendelse.getHendelseType());

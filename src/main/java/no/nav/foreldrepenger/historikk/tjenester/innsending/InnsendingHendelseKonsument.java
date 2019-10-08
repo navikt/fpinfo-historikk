@@ -29,7 +29,7 @@ public class InnsendingHendelseKonsument {
     public void behandle(@Payload @Valid InnsendingHendelse hendelse) {
         LOG.info("Mottok hendelse om innsending {}", hendelse);
         innsending.lagre(hendelse);
-        dialog.deaktiver(hendelse);
+        dialog.deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
     }
 
     @Override
