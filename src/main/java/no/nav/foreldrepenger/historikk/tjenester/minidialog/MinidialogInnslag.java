@@ -27,12 +27,11 @@ public class MinidialogInnslag extends HistorikkInnslag {
     @JsonCreator
     public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
-            @JsonProperty("journalpostId") String journalpostId, @JsonProperty("tekst") String tekst) {
+            @JsonProperty("tekst") String tekst) {
         super(fnr);
         this.hendelse = hendelse;
         this.gyldigTil = gyldigTil;
         this.tekst = tekst;
-        super.setJournalpostId(journalpostId);
     }
 
     public String getTekst() {

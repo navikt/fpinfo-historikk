@@ -23,9 +23,9 @@ public class MinidialogHendelse extends Hendelse {
     private final String tekst;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String journalId, String referanseId, String saksNr,
+    public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String referanseId, String saksNr,
             HendelseType hendelseType, String tekst, LocalDate gyldigTil) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, hendelseType);
+        super(aktørId, fnr, null, referanseId, saksNr, hendelseType);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
     }
@@ -41,8 +41,8 @@ public class MinidialogHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
-                + getHendelseType() + ", aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", journalId="
-                + getJournalId() + ", referanseId=" + getReferanseId() + ", saksNr=" + getSaksNr() + "]";
+                + getHendelseType() + ", aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", referanseId="
+                + getReferanseId() + ", saksNr=" + getSaksNr() + "]";
     }
 
 }
