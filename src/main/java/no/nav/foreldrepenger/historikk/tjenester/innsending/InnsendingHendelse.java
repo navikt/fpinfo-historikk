@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
@@ -27,7 +26,6 @@ public class InnsendingHendelse extends Hendelse {
 
     @JsonCreator
     public InnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
-            @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
             @JsonProperty("saksNr") String saksNr,
@@ -35,7 +33,7 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("hendelseType") @JsonAlias("hendelse") HendelseType hendelseType,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, fnr, journalId, referanseId, saksNr, hendelseType);
+        super(aktørId, journalId, referanseId, saksNr, hendelseType);
         this.leveranseStatus = leveranseStatus;
         this.vedlegg = vedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;

@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
@@ -23,9 +22,9 @@ public class MinidialogHendelse extends Hendelse {
     private final String tekst;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, Fødselsnummer fnr, String referanseId, String saksNr,
+    public MinidialogHendelse(AktørId aktørId, String referanseId, String saksNr,
             HendelseType hendelseType, String tekst, LocalDate gyldigTil) {
-        super(aktørId, fnr, null, referanseId, saksNr, hendelseType);
+        super(aktørId, null, referanseId, saksNr, hendelseType);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
     }
@@ -41,7 +40,7 @@ public class MinidialogHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
-                + getHendelseType() + ", aktørId=" + getAktørId() + ", fnr=" + getFnr() + ", referanseId="
+                + getHendelseType() + ", aktørId=" + getAktørId() + ", referanseId="
                 + getReferanseId() + ", saksNr=" + getSaksNr() + "]";
     }
 

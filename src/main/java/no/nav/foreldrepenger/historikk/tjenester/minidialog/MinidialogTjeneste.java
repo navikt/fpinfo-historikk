@@ -40,28 +40,24 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.tokenUtil = tokenUtil;
     }
 
-    public void deaktiver(Hendelse hendelse) {
+    public void deaktiver(Hendelse hendelse, Fødselsnummer fnr) {
         if (hendelse.erEttersending() && hendelse.getReferanseId() != null) {
-            int n = dao.deaktiver(hendelse.getFnr(), hendelse.getReferanseId());
+            int n = dao.deaktiver(fnr, hendelse.getReferanseId());
             LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
                     hendelse.getReferanseId(),
                     hendelse.getHendelseType());
         } else {
-            LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getFnr(), hendelse.getHendelseType());
+            LOG.info("Ingen deaktivering for {} og hendelse {}", fnr, hendelse.getHendelseType());
         }
     }
 
     @Override
-    public void lagre(MinidialogHendelse hendelse) {
-        lagre(hendelse, null);
-    }
-
-    public void lagre(MinidialogHendelse hendelse, String journalPostId) {
+    public void lagre(MinidialogHendelse hendelse, Fødselsnummer fnr) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer minidialog {}", hendelse);
-            dao.save(fraHendelse(hendelse, journalPostId));
+            dao.save(fraHendelse(hendelse, fnr));
             LOG.info("Lagret minidialog OK");
-            deaktiver(hendelse);
+            deaktiver(hendelse, fnr);
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }

@@ -10,6 +10,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+
 @Service
 @ConditionalOnProperty(name = "historikk.inntektsmelding.enabled", havingValue = "true")
 public class InntektsmeldingHendelseKonsument {
@@ -17,16 +19,18 @@ public class InntektsmeldingHendelseKonsument {
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHendelseKonsument.class);
 
     private final InntektsmeldingTjeneste inntektsmelding;
+    private final OppslagTjeneste oppslag;
 
-    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste inntektsmelding) {
+    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste inntektsmelding, OppslagTjeneste oppslag) {
         this.inntektsmelding = inntektsmelding;
+        this.oppslag = oppslag;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InntektsmeldingHendelse hendelse) {
         LOG.info("Mottok hendelse om inntektsmelding {}", hendelse);
-        inntektsmelding.lagre(hendelse);
+        inntektsmelding.lagre(hendelse, oppslag.fnr(hendelse.getAktørId()));
     }
 
     @Override

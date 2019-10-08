@@ -39,7 +39,7 @@ public class InnsendingDevController {
 
     @PostMapping("/lagre")
     public void lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
-        innsending.lagre(hendelse);
+        innsending.lagre(hendelse, Fødselsnummer.valueOf("11111111111"));
     }
 
     @GetMapping("/søknader")
