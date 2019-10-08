@@ -4,9 +4,11 @@ import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
+import no.nav.foreldrepenger.historikk.config.RestClientConfiguration;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
@@ -16,7 +18,8 @@ public class OppslagConnection extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(OppslagConnection.class);
     private final OppslagConfig cfg;
 
-    public OppslagConnection(RestOperations restOperations, OppslagConfig config) {
+    public OppslagConnection(@Qualifier(RestClientConfiguration.STS) RestOperations restOperations,
+            OppslagConfig config) {
         super(restOperations, config);
         this.cfg = config;
     }
