@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
@@ -40,15 +39,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.oppslag = oppslag;
     }
 
-    public void deaktiver(Hendelse hendelse) {
-        if (hendelse.erEttersending() && hendelse.getReferanseId() != null) {
-            int n = dao.deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
-            LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
-                    hendelse.getReferanseId(),
-                    hendelse.getHendelseType());
-        } else {
-            LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getAktørId(), hendelse.getHendelseType());
-        }
+    public void deaktiver(AktørId aktørId, String referanseId) {
+        int n = dao.deaktiver(aktørId.getAktørId(), referanseId);
+        LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n), referanseId);
     }
 
     @Override
@@ -57,7 +50,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
             LOG.info("Lagrer minidialog {}", hendelse);
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret minidialog OK");
-            deaktiver(hendelse);
+            deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }

@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-
 @Transactional(JPA_TM)
 public interface JPAMinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
@@ -18,7 +16,7 @@ public interface JPAMinidialogRepository
     JPAMinidialogInnslag findByReferanseId(String referanseId);
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.referanseId = :referanseId")
-    int deaktiver(@Param("aktørId") AktørId aktørId, @Param("referanseId") String referanseId);
+    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.referanseId = :referanseId and m.referanseId is not null")
+    int deaktiver(@Param("aktørId") String aktørId, @Param("referanseId") String referanseId);
 
 }
