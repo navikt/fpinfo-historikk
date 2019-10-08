@@ -131,7 +131,7 @@ public class JPAMinidialogInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", tekst=" + tekst
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", tekst=" + tekst
                 + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil
                 + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv
                 + ", referanseId=" + referanseId + "]";

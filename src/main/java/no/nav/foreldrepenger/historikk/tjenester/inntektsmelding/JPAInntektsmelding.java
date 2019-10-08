@@ -95,7 +95,7 @@ public class JPAInntektsmelding {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", journalpostId="
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId="
                 + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", arbeidsgiver=" + arbeidsgiver
                 + ", referanseId=" + referanseId + "]";
     }
