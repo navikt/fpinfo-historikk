@@ -15,12 +15,12 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 public class InntektsmeldingHendelse extends Hendelse {
 
     private final LocalDate innsendingsDato;
-    private final JPAArbeidsgiverInnslag arbeidsgiver;
+    private final ArbeidsgiverInnslag arbeidsgiver;
 
     @JsonCreator
     public InntektsmeldingHendelse(@JsonProperty("aktørId") AktørId aktørId, String journalId,
             String referanseId,
-            String saksNr, LocalDate innsendingsDato, JPAArbeidsgiverInnslag arbeidsgiver) {
+            String saksNr, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
         super(aktørId, journalId, referanseId, saksNr, HendelseType.INNTEKTSMELDING);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
@@ -30,7 +30,7 @@ public class InntektsmeldingHendelse extends Hendelse {
         return innsendingsDato;
     }
 
-    public JPAArbeidsgiverInnslag getArbeidsgiver() {
+    public ArbeidsgiverInnslag getArbeidsgiver() {
         return arbeidsgiver;
     }
 
