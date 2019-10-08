@@ -39,7 +39,6 @@ public class JPAMinidialogInnslag {
     private HendelseType hendelse;
 
     private LocalDate gyldigTil;
-    private String journalpostId;
 
     private String saksnr;
     @CreatedDate
@@ -125,14 +124,6 @@ public class JPAMinidialogInnslag {
         this.saksnr = saksnr;
     }
 
-    public String getJournalpostId() {
-        return journalpostId;
-    }
-
-    public void setJournalpostId(String journalpostId) {
-        this.journalpostId = journalpostId;
-    }
-
     public HendelseType getHendelse() {
         return hendelse;
     }
@@ -152,7 +143,7 @@ public class JPAMinidialogInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", fnr=" + fnr + ", tekst=" + tekst
-                + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId=" + journalpostId
+                + ", hendelse=" + hendelse + ", gyldigTil=" + gyldigTil
                 + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv
                 + ", referanseId=" + referanseId + "]";
     }

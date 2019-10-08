@@ -21,7 +21,6 @@ public final class MinidialogMapper {
         dialog.setSaksnr(m.getSaksNr());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
-        dialog.setJournalpostId(journalpostId);
         dialog.setHendelse(m.getHendelseType());
         dialog.setReferanseId(m.getReferanseId());
         LOG.info("Mappet til {}", dialog);
@@ -30,8 +29,7 @@ public final class MinidialogMapper {
 
     static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        var innslag = new MinidialogInnslag(i.getFnr(), i.getHendelse(), i.getGyldigTil(), i.getJournalpostId(),
-                i.getTekst());
+        var innslag = new MinidialogInnslag(i.getFnr(), i.getHendelse(), i.getGyldigTil(), i.getTekst());
         innslag.setAktørId(i.getAktørId());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());
