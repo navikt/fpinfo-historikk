@@ -7,15 +7,15 @@ import no.nav.foreldrepenger.historikk.util.annoteringer.Orgnr;
 
 @Valid
 @Embeddable
-public class JPAArbeidsgiver {
+public class JPAArbeidsgiverInnslag {
     @Orgnr
     private String orgnr;
 
-    private JPAArbeidsgiver() {
+    private JPAArbeidsgiverInnslag() {
 
     }
 
-    public JPAArbeidsgiver(String orgnr) {
+    public JPAArbeidsgiverInnslag(String orgnr) {
         this.orgnr = orgnr;
     }
 
