@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 
 @Component
@@ -27,6 +28,10 @@ public class OppslagConnection extends AbstractRestConnection {
 
     public AktørId hentAktørId() {
         return getForObject(cfg.aktørURI(), AktørId.class, true);
+    }
+
+    public Fødselsnummer hentFnr(AktørId aktørId) {
+        return getForObject(cfg.fnrURI(aktørId.getAktørId()), Fødselsnummer.class, true);
     }
 
     public String hentNavn(String fnr) {
