@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.token.support.core.api.Unprotected;
 
@@ -39,7 +39,7 @@ public class InntektsmeldingDevController {
 
     @PostMapping("/lagreInntektsmelding")
     public void lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        inntektsmelding.lagre(hendelse, Fødselsnummer.valueOf("11111111111"));
+        inntektsmelding.lagre(hendelse);
     }
 
     @PostMapping("/sendInntektsmelding")
@@ -48,8 +48,8 @@ public class InntektsmeldingDevController {
     }
 
     @GetMapping("/inntektsmeldinger")
-    public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("fnr") Fødselsnummer fnr) {
-        return inntektsmelding.inntektsmeldinger(fnr);
+    public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("aktørId") AktørId id) {
+        return inntektsmelding.inntektsmeldinger(id);
     }
 
     @Override

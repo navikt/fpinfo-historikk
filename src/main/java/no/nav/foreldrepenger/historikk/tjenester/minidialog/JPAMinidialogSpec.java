@@ -3,13 +3,13 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static java.time.LocalDate.now;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SPM;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.aktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.aktørId;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.gyldigTil;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogInnslag_.hendelse;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public final class JPAMinidialogSpec {
 
@@ -29,8 +29,8 @@ public final class JPAMinidialogSpec {
         return (innslag, cq, cb) -> cb.isTrue(innslag.get(aktiv));
     }
 
-    public static Specification<JPAMinidialogInnslag> harFnr(Fødselsnummer fødselsnummer) {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(fnr), fødselsnummer);
+    public static Specification<JPAMinidialogInnslag> harAktørId(AktørId id) {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), id);
     }
 
     public static Specification<JPAMinidialogInnslag> erSpørsmål() {

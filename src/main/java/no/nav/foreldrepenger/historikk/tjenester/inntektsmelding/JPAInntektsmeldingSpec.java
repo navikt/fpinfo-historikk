@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmelding_.fnr;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmelding_.aktørId;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public final class JPAInntektsmeldingSpec {
 
@@ -12,8 +12,7 @@ public final class JPAInntektsmeldingSpec {
 
     }
 
-    public static Specification<JPAInntektsmelding> harFnr(Fødselsnummer f) {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(fnr), f);
+    public static Specification<JPAInntektsmelding> harAktørId(AktørId id) {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(aktørId), id);
     }
-
 }

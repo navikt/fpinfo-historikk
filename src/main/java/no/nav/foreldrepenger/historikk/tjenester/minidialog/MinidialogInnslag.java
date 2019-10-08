@@ -28,7 +28,6 @@ public class MinidialogInnslag extends HistorikkInnslag {
     public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
             @JsonProperty("tekst") String tekst) {
-        super(fnr);
         this.hendelse = hendelse;
         this.gyldigTil = gyldigTil;
         this.tekst = tekst;
@@ -50,6 +49,6 @@ public class MinidialogInnslag extends HistorikkInnslag {
     public String toString() {
         return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId="
                 + getJournalpostId() + ", saksnr=" + getSaksnr() + ", opprettet=" + getOpprettet()
-                + ",aktørId=" + getAktørId() + ", fnr=" + getFnr() + "]";
+                + ",aktørId=" + getAktørId() + "]";
     }
 }

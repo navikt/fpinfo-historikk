@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
@@ -39,9 +39,9 @@ public class HistorikkDevController {
     }
 
     @GetMapping
-    public List<HistorikkInnslag> historikk(@RequestParam("fnr") Fødselsnummer fnr) {
-        return concat(minidialog.dialoger(fnr, false).stream(),
-                concat(inntektsmelding.inntektsmeldinger(fnr).stream(), søknad.innsendinger(fnr).stream()))
+    public List<HistorikkInnslag> historikk(@RequestParam("aktørId") AktørId id) {
+        return concat(minidialog.dialoger(id, false).stream(),
+                concat(inntektsmelding.inntektsmeldinger(id).stream(), søknad.innsendinger(id).stream()))
                         .sorted()
                         .collect(toList());
     }

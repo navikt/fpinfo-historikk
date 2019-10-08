@@ -8,8 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-
 final class InnsendingMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingMapper.class);
@@ -20,7 +18,7 @@ final class InnsendingMapper {
 
     static InnsendingInnslag tilInnslag(JPAInnsendingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        var innslag = new InnsendingInnslag(i.getFnr(), i.getHendelse());
+        var innslag = new InnsendingInnslag(i.getHendelse());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
@@ -38,12 +36,11 @@ final class InnsendingMapper {
                 .collect(toList());
     }
 
-    static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse, Fødselsnummer fnr) {
+    static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
         var innslag = new JPAInnsendingInnslag();
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
-        innslag.setFnr(fnr);
         innslag.setSaksnr(hendelse.getSaksNr());
         innslag.setJournalpostId(hendelse.getJournalId());
         innslag.setHendelse(hendelse.getHendelseType());
