@@ -23,14 +23,18 @@ final class InntektsmeldingMapper {
 
     public static JPAInntektsmeldingInnslag fraHendelse(InntektsmeldingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
-        var inntektsmelding = new JPAInntektsmeldingInnslag();
-        inntektsmelding.setReferanseId(hendelse.getReferanseId());
-        inntektsmelding.setAktørId(hendelse.getAktørId());
-        inntektsmelding.setJournalpostId(hendelse.getJournalId());
-        inntektsmelding.setSaksnr(hendelse.getSaksNr());
-        inntektsmelding.setArbeidsgiver(hendelse.getArbeidsgiver());
-        LOG.info("Mappet til inntektsmelding {}", inntektsmelding);
-        return inntektsmelding;
+        var im = new JPAInntektsmeldingInnslag();
+        im.setReferanseId(hendelse.getReferanseId());
+        im.setAktørId(hendelse.getAktørId());
+        im.setJournalpostId(hendelse.getJournalId());
+        im.setSaksnr(hendelse.getSaksNr());
+        im.setArbeidsgiver(fraArbeidsgiver(hendelse));
+        LOG.info("Mappet til inntektsmelding {}", im);
+        return im;
+    }
+
+    private static JPAArbeidsgiverInnslag fraArbeidsgiver(InntektsmeldingHendelse hendelse) {
+        return new JPAArbeidsgiverInnslag(hendelse.getArbeidsgiver().getOrgnr());
     }
 
     List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmeldingInnslag> innslag) {

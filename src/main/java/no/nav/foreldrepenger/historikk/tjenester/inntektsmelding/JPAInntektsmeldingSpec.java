@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmelding_.aktørId;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.JPAInntektsmeldingInnslag_.aktørId;
 
 import org.springframework.data.jpa.domain.Specification;
 
