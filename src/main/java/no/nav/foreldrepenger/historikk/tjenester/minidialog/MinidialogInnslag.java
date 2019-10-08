@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
@@ -25,7 +24,7 @@ public class MinidialogInnslag extends HistorikkInnslag {
     }
 
     @JsonCreator
-    public MinidialogInnslag(@JsonProperty("fnr") Fødselsnummer fnr,
+    public MinidialogInnslag(
             @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
             @JsonProperty("tekst") String tekst) {
         this.hendelse = hendelse;
