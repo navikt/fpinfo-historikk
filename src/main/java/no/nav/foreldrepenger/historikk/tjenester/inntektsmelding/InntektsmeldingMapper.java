@@ -52,7 +52,7 @@ final class InntektsmeldingMapper {
         return innslag;
     }
 
-    private ArbeidsgiverInnslag tilArbeidsgiverInnslag(Arbeidsgiver arbeidsgiver) {
+    private ArbeidsgiverInnslag tilArbeidsgiverInnslag(JPAArbeidsgiver arbeidsgiver) {
         String orgnr = arbeidsgiver.getOrgnr();
         return new ArbeidsgiverInnslag(orgnr, oppslag.orgNavn(orgnr));
     }
