@@ -39,7 +39,7 @@ public class InntektsmeldingDevController {
 
     @PostMapping("/lagreInntektsmelding")
     public void lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        inntektsmelding.lagre(hendelse);
+        inntektsmelding.aktiver(hendelse);
     }
 
     @PostMapping("/sendInntektsmelding")
