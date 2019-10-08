@@ -7,7 +7,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialog
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.gyldigErNull;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harFnr;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harAktørId;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
@@ -21,10 +21,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
 @Service
 @Transactional(JPA_TM)
@@ -33,31 +33,31 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
     private final JPAMinidialogRepository dao;
-    private final TokenUtil tokenUtil;
+    private final OppslagTjeneste oppslag;
 
-    public MinidialogTjeneste(JPAMinidialogRepository dao, TokenUtil tokenUtil) {
+    public MinidialogTjeneste(JPAMinidialogRepository dao, OppslagTjeneste oppslag) {
         this.dao = dao;
-        this.tokenUtil = tokenUtil;
+        this.oppslag = oppslag;
     }
 
-    public void deaktiver(Hendelse hendelse, Fødselsnummer fnr) {
+    public void deaktiver(Hendelse hendelse) {
         if (hendelse.erEttersending() && hendelse.getReferanseId() != null) {
-            int n = dao.deaktiver(fnr, hendelse.getReferanseId());
+            int n = dao.deaktiver(hendelse.getAktørId(), hendelse.getReferanseId());
             LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
                     hendelse.getReferanseId(),
                     hendelse.getHendelseType());
         } else {
-            LOG.info("Ingen deaktivering for {} og hendelse {}", fnr, hendelse.getHendelseType());
+            LOG.info("Ingen deaktivering for {} og hendelse {}", hendelse.getAktørId(), hendelse.getHendelseType());
         }
     }
 
     @Override
-    public void lagre(MinidialogHendelse hendelse, Fødselsnummer fnr) {
+    public void lagre(MinidialogHendelse hendelse) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer minidialog {}", hendelse);
-            dao.save(fraHendelse(hendelse, fnr));
+            dao.save(fraHendelse(hendelse));
             LOG.info("Lagret minidialog OK");
-            deaktiver(hendelse, fnr);
+            deaktiver(hendelse);
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
         }
@@ -65,29 +65,29 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> dialoger(boolean activeOnly) {
-        return dialoger(tokenUtil.autentisertFNR(), activeOnly);
+        return dialoger(oppslag.aktørId(), activeOnly);
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> dialoger(Fødselsnummer fnr, boolean activeOnly) {
-        LOG.info("Henter dialoger for {} og activeOnly={}", fnr, activeOnly);
-        return tilInnslag(dao.findAll(where(spec(fnr, activeOnly)), SORT_OPPRETTET_ASC));
+    public List<MinidialogInnslag> dialoger(AktørId id, boolean activeOnly) {
+        LOG.info("Henter dialoger for {} og activeOnly={}", id, activeOnly);
+        return tilInnslag(dao.findAll(where(spec(id, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> aktive() {
-        return aktive(tokenUtil.autentisertFNR());
+        return aktive(oppslag.aktørId());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> aktive(Fødselsnummer fnr) {
-        LOG.info("Henter aktive dialoginnslag for {}", fnr);
+    public List<MinidialogInnslag> aktive(AktørId aktørId) {
+        LOG.info("Henter aktive dialoginnslag for {}", aktørId);
         return tilInnslag(
-                dao.findAll(where(spec(fnr, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+                dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
     }
 
-    private static Specification<JPAMinidialogInnslag> spec(Fødselsnummer fnr, boolean activeOnly) {
-        var spec = harFnr(fnr);
+    private static Specification<JPAMinidialogInnslag> spec(AktørId id, boolean activeOnly) {
+        var spec = harAktørId(id);
         return activeOnly ? spec
                 .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;
@@ -109,6 +109,6 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [dao=" + dao + ", tokenUtil=" + tokenUtil + "]";
+        return getClass().getSimpleName() + " [dao=" + dao + "]";
     }
 }

@@ -9,9 +9,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
 @Service
 public class InnsendingHendelseKonsument {
@@ -20,22 +18,18 @@ public class InnsendingHendelseKonsument {
 
     private final InnsendingTjeneste innsending;
     private final MinidialogTjeneste dialog;
-    private final OppslagTjeneste oppslag;
 
-    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, MinidialogTjeneste dialog,
-            OppslagTjeneste oppslag) {
+    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, MinidialogTjeneste dialog) {
         this.innsending = innsending;
         this.dialog = dialog;
-        this.oppslag = oppslag;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse hendelse) {
         LOG.info("Mottok hendelse om innsending {}", hendelse);
-        Fødselsnummer fnr = oppslag.fnr(hendelse.getAktørId());
-        innsending.lagre(hendelse, fnr);
-        dialog.deaktiver(hendelse, fnr);
+        innsending.lagre(hendelse);
+        dialog.deaktiver(hendelse);
     }
 
     @Override

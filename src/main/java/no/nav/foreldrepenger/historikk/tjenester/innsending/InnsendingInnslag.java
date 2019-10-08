@@ -6,7 +6,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
@@ -17,8 +16,7 @@ public class InnsendingInnslag extends HistorikkInnslag {
     private LocalDate behandlingsdato;
 
     @JsonCreator
-    public InnsendingInnslag(@JsonProperty("fnr") Fødselsnummer fnr, @JsonProperty("hendelse") HendelseType hendelse) {
-        super(fnr);
+    public InnsendingInnslag(@JsonProperty("hendelse") HendelseType hendelse) {
         this.hendelse = hendelse;
     }
 
@@ -44,7 +42,7 @@ public class InnsendingInnslag extends HistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", fnr=" + getFnr() + ", aktørId=" + getAktørId()
+        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", aktørId=" + getAktørId()
                 + ", journalpostId=" + getJournalpostId() + ", referanseId=" + getReferanseId() + ", saksnr="
                 + getSaksnr() + ", opprettet=" + opprettet + ", vedlegg=" + vedlegg + ", behandlingsdato="
                 + behandlingsdato + "]";

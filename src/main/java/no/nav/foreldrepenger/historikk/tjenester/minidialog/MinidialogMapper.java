@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-
 public final class MinidialogMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);
@@ -13,12 +11,11 @@ public final class MinidialogMapper {
 
     }
 
-    static JPAMinidialogInnslag fraHendelse(MinidialogHendelse m, Fødselsnummer fnr) {
+    static JPAMinidialogInnslag fraHendelse(MinidialogHendelse m) {
         LOG.info("Mapper fra {}", m);
         var dialog = new JPAMinidialogInnslag();
         dialog.setReferanseId(m.getReferanseId());
         dialog.setAktørId(m.getAktørId());
-        dialog.setFnr(fnr);
         dialog.setTekst(m.getTekst());
         dialog.setSaksnr(m.getSaksNr());
         dialog.setGyldigTil(m.getGyldigTil());

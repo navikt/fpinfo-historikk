@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -40,19 +40,19 @@ public class MinidialogDevController {
     }
 
     @GetMapping("/minidialoger")
-    public List<MinidialogInnslag> dialoger(@RequestParam("fnr") Fødselsnummer fnr,
+    public List<MinidialogInnslag> dialoger(@RequestParam("aktørId") AktørId aktørId,
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
-        return minidialog.dialoger(fnr, activeOnly);
+        return minidialog.dialoger(aktørId, activeOnly);
     }
 
     @GetMapping("/spm")
-    public List<MinidialogInnslag> aktive(@RequestParam("fnr") Fødselsnummer fnr) {
-        return minidialog.aktive(fnr);
+    public List<MinidialogInnslag> aktive(@RequestParam("aktørId") AktørId id) {
+        return minidialog.aktive(id);
     }
 
     @PostMapping("/lagreMinidialog")
     public void lagre(@RequestBody @Valid MinidialogHendelse hendelse) {
-        minidialog.lagre(hendelse, Fødselsnummer.valueOf("11111111111"));
+        minidialog.lagre(hendelse);
     }
 
     @Override
