@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
 
@@ -39,14 +40,14 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.oppslag = oppslag;
     }
 
-    public void deaktiver(MinidialogHendelse h) {
+    public void deaktiver(Hendelse h) {
         int n = dao.deaktiver(h.getAktørId(), h.getReferanseId());
         LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
                 h.getReferanseId());
     }
 
     @Override
-    public void aktiver(MinidialogHendelse h) {
+    public void lagre(MinidialogHendelse h) {
         if (!erAlleredeLagret(h.getReferanseId())) {
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
