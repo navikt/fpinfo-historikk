@@ -23,7 +23,7 @@ public class OppslagTjeneste {
         return connection.hentFnr(aktørId);
     }
 
-    public String personNavn(String fnr) {
+    public String personNavn(Fødselsnummer fnr) {
         return connection.hentNavn(fnr);
     }
 
