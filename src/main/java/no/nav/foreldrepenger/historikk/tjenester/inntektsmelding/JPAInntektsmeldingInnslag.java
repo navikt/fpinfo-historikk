@@ -31,7 +31,7 @@ public class JPAInntektsmeldingInnslag {
     @CreatedDate
     private LocalDateTime opprettet;
     @Embedded
-    private JPAArbeidsgiver arbeidsgiver;
+    private JPAArbeidsgiverInnslag arbeidsgiver;
     private String referanseId;
 
     JPAInntektsmeldingInnslag() {
@@ -77,11 +77,11 @@ public class JPAInntektsmeldingInnslag {
         this.saksnr = saksnr;
     }
 
-    public JPAArbeidsgiver getArbeidsgiver() {
+    public JPAArbeidsgiverInnslag getArbeidsgiver() {
         return arbeidsgiver;
     }
 
-    public void setArbeidsgiver(JPAArbeidsgiver arbeidsgiver) {
+    public void setArbeidsgiver(JPAArbeidsgiverInnslag arbeidsgiver) {
         this.arbeidsgiver = arbeidsgiver;
     }
 
