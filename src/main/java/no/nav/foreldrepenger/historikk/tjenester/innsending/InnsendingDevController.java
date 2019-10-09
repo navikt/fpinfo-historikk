@@ -28,7 +28,7 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Profile({ LOCAL, DEV })
 @RequestMapping(path = InnsendingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
-@Api("Send og hent innsendingshendelser, kun for testing lokalt og i dev")
+@Api(description = "Send og hent innsendingshendelser, kun for testing lokalt og i dev")
 public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InnsendingHendelseProdusent produsent;
