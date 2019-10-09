@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import static java.lang.String.format;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.INCLUSTER;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,6 @@ public class FlywayConfiguration {
     @Bean
     @Profile(INCLUSTER)
     public FlywayConfigurationCustomizer flywayConfig(@Value("${spring.cloud.vault.database.role}") String role) {
-        return c -> c.initSql(String.format("SET ROLE \"%s\"", role));
+        return c -> c.initSql(format("SET ROLE \"%s\"", role));
     }
 }

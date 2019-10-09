@@ -1,5 +1,8 @@
 package no.nav.foreldrepenger.historikk.health;
 
+import static org.springframework.boot.actuate.health.Health.down;
+import static org.springframework.boot.actuate.health.Health.up;
+
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 
@@ -15,27 +18,21 @@ public abstract class AbstractPingableHealthIndicator implements HealthIndicator
     @Override
     public Health health() {
         if (!pingable.isEnabled()) {
-            return Health.up().withDetail(pingable.name(), pingable.pingEndpoint() + " (Disabled)").build();
+            return up()
+                    .withDetail(pingable.name(), pingable.pingEndpoint() + " (Disabled)")
+                    .build();
         }
         try {
             pingable.ping();
-            return up();
+            return up()
+                    .withDetail(pingable.name(), pingable.pingEndpoint())
+                    .build();
         } catch (Exception e) {
-            return down(e);
+            return down()
+                    .withDetail(pingable.name(), pingable.pingEndpoint())
+                    .withException(e)
+                    .build();
         }
-    }
-
-    private Health up() {
-        return Health.up()
-                .withDetail(pingable.name(), pingable.pingEndpoint())
-                .build();
-    }
-
-    private Health down(Exception e) {
-        return Health.down()
-                .withDetail(pingable.name(), pingable.pingEndpoint())
-                .withException(e)
-                .build();
     }
 
     @Override

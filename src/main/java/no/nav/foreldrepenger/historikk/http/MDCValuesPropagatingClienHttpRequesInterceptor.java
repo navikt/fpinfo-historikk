@@ -35,7 +35,7 @@ public class MDCValuesPropagatingClienHttpRequesInterceptor implements ClientHtt
             if (value != null) {
                 request.getHeaders().add(key, value);
             }
-            request.getHeaders().add(CALL_ID, MDCUtil.callId());
         }
+        request.getHeaders().add(CALL_ID, MDCUtil.callId());
     }
 }
