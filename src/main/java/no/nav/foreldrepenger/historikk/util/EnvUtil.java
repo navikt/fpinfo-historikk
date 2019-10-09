@@ -21,7 +21,7 @@ public final class EnvUtil {
     }
 
     public static boolean isLocal(Environment env) {
-        return env.acceptsProfiles(of(DEV));
+        return env.acceptsProfiles(of(LOCAL));
     }
 
     public static boolean isDev(Environment env) {
