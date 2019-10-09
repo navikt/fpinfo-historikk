@@ -9,17 +9,22 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 import io.swagger.models.Scheme;
+import no.nav.foreldrepenger.historikk.util.EnvUtil;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfiguration implements EnvironmentAware {
+    private Environment env;
+
     @Bean
     public Docket api() {
         return new Docket(SWAGGER_2)
@@ -30,9 +35,19 @@ public class SwaggerConfiguration {
                 .build();
     }
 
-    private static Set<String> allProtocols() {
-        return Stream.of(HTTPS, HTTP)
+    private Set<String> allProtocols() {
+        if (EnvUtil.isLocal(env)) {
+            Stream.of(HTTP)
+                    .map(Scheme::toValue)
+                    .collect(toSet());
+        }
+        return Stream.of(HTTPS)
                 .map(Scheme::toValue)
                 .collect(toSet());
+    }
+
+    @Override
+    public void setEnvironment(Environment env) {
+        this.env = env;
     }
 }

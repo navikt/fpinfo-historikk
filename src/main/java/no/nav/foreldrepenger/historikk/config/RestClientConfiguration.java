@@ -42,7 +42,7 @@ public class RestClientConfiguration {
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer /*{},*/{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
+        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
                 mdcInterceptor);
         return builder
                 .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
@@ -79,7 +79,7 @@ public class RestClientConfiguration {
     @Bean
     @Profile(LOCAL)
     @ConditionalOnMissingBean(SpringTokenValidationContextHolder.class)
-    TokenValidationContextHolder dummyContextHolderForDev() {
+    TokenValidationContextHolder dummyContextHolderForLocal() {
         return new TokenValidationContextHolder() {
 
             @Override
@@ -105,7 +105,6 @@ public class RestClientConfiguration {
                     throws IOException {
                 return execution.execute(request, body);
             }
-
         };
     }
 
