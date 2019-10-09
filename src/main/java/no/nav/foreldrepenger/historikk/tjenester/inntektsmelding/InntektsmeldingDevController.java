@@ -28,7 +28,7 @@ import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
 @Profile({ LOCAL, DEV })
-@Api("Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
+@Api(description = "Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
 @RequestMapping(path = InntektsmeldingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
