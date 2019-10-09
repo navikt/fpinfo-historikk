@@ -2,14 +2,17 @@ package no.nav.foreldrepenger.historikk.error;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Feature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED;
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.util.MDCUtil.callId;
+import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static org.springframework.core.NestedExceptionUtils.getMostSpecificCause;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import org.assertj.core.util.Arrays;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-class ApiError {
+public class ApiError {
     private final HttpStatus status;
     @JsonFormat(shape = STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private final LocalDateTime timestamp;
@@ -25,8 +28,12 @@ class ApiError {
     private final List<String> messages;
     private final String uuid;
 
-    ApiError(HttpStatus status, Throwable t) {
-        this(status, t, null);
+    public ApiError(HttpStatus status, Throwable t) {
+        this(status, t, emptyList());
+    }
+
+    public ApiError(HttpStatus status, Object... objects) {
+        this(status, null, Arrays.asList(objects));
     }
 
     ApiError(HttpStatus status, Throwable t, List<Object> objects) {
@@ -54,8 +61,10 @@ class ApiError {
 
     private static List<String> messages(Throwable t, List<Object> objects) {
         List<Object> messages = Lists.newArrayList(objects);
-        messages.add(getMostSpecificCause(t).getMessage());
-        return messages.stream()
+        if (t != null) {
+            messages.add(getMostSpecificCause(t).getMessage());
+        }
+        return safeStream(messages)
                 .filter(Objects::nonNull)
                 .map(Object::toString)
                 .collect(toList());

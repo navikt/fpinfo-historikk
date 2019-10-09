@@ -47,14 +47,16 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Override
-    public void lagre(MinidialogHendelse h) {
+    public boolean lagre(MinidialogHendelse h) {
         if (!erAlleredeLagret(h.getReferanseId())) {
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
             deaktiver(h);
+            return true;
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", h.getReferanseId());
+            return false;
         }
     }
 
@@ -64,9 +66,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> dialoger(AktørId id, boolean activeOnly) {
-        LOG.info("Henter dialoger for {} og activeOnly={}", id, activeOnly);
-        return tilInnslag(dao.findAll(where(spec(id, activeOnly)), SORT_OPPRETTET_ASC));
+    public List<MinidialogInnslag> dialoger(AktørId aktørId, boolean activeOnly) {
+        LOG.info("Henter dialoginnslag for {} og activeOnly={}", aktørId, activeOnly);
+        return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
     @Transactional(readOnly = true)
@@ -81,8 +83,8 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
                 dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
     }
 
-    private static Specification<JPAMinidialogInnslag> spec(AktørId id, boolean activeOnly) {
-        var spec = harAktørId(id);
+    private static Specification<JPAMinidialogInnslag> spec(AktørId aktørId, boolean activeOnly) {
+        var spec = harAktørId(aktørId);
         return activeOnly ? spec
                 .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;

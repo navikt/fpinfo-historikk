@@ -4,6 +4,6 @@ public interface IdempotentTjeneste<T extends Hendelse> {
 
     boolean erAlleredeLagret(String referanseId);
 
-    void lagre(T hendelse);
+    boolean lagre(T hendelse);
 
 }
