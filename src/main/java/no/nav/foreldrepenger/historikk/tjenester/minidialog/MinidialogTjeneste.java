@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SVAR;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
@@ -52,7 +53,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
-            deaktiver(h);
+            if (TILBAKEKREVING_SVAR.equals(h.getHendelseType())) {
+                deaktiver(h);
+            }
             return true;
         } else {
             LOG.info("Hendelse med referanseId {} er allerede lagret", h.getReferanseId());
