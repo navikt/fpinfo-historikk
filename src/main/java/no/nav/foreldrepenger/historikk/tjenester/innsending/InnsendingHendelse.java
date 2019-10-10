@@ -28,12 +28,13 @@ public class InnsendingHendelse extends Hendelse {
     public InnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("journalId") String journalId,
             @JsonProperty("referanseId") String referanseId,
+            @JsonProperty("dialogId") String dialogId,
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") InnsendingLeveranseStatus leveranseStatus,
             @JsonProperty("hendelseType") @JsonAlias("hendelse") HendelseType hendelseType,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, journalId, referanseId, saksNr, hendelseType);
+        super(aktørId, journalId, referanseId, dialogId, saksNr, hendelseType);
         this.leveranseStatus = leveranseStatus;
         this.vedlegg = vedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;

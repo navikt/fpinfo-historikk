@@ -14,14 +14,13 @@ public final class MinidialogMapper {
     static JPAMinidialogInnslag fraHendelse(MinidialogHendelse m) {
         LOG.info("Mapper fra {}", m);
         var dialog = new JPAMinidialogInnslag();
-        dialog.setReferanseId(m.getReferanseId());
         dialog.setAktørId(m.getAktørId());
         dialog.setTekst(m.getTekst());
         dialog.setSaksnr(m.getSaksNr());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
         dialog.setHendelse(m.getHendelseType());
-        dialog.setReferanseId(m.getReferanseId());
+        dialog.setDialogId(m.getDialogId());
         LOG.info("Mappet til {}", dialog);
         return dialog;
     }
@@ -33,7 +32,6 @@ public final class MinidialogMapper {
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());
-        innslag.setReferanseId(i.getReferanseId());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }

@@ -18,7 +18,7 @@ public interface JPAMinidialogRepository
     JPAMinidialogInnslag findByReferanseId(String referanseId);
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.referanseId = :referanseId and m.referanseId is not null")
-    int deaktiver(@Param("aktørId") AktørId aktørId, @Param("referanseId") String referanseId);
+    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.dialogId = :dialogId and m.dialogId is not null")
+    int deaktiver(@Param("aktørId") AktørId aktørId, @Param("dialogId") String dialogId);
 
 }

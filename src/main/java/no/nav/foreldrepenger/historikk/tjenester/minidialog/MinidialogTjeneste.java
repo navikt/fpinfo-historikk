@@ -42,9 +42,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     public void deaktiver(Hendelse h) {
-        int n = dao.deaktiver(h.getAktørId(), h.getReferanseId());
-        LOG.info("Deaktiverte {} minidialog{} for referanseId {} etter hendelse {}", n, flertall(n),
-                h.getReferanseId());
+        int n = dao.deaktiver(h.getAktørId(), h.getDialogId());
+        LOG.info("Deaktiverte {} minidialog{} for dialogId {} etter hendelse {}", n, flertall(n),
+                h.getDialogId());
     }
 
     @Override
