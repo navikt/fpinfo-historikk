@@ -49,7 +49,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
 
     @Override
     public boolean lagre(MinidialogHendelse h) {
-        if (!erAlleredeLagret(h.getReferanseId())) {
+        if (!erAlleredeLagret(h.getDialogId())) {
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
