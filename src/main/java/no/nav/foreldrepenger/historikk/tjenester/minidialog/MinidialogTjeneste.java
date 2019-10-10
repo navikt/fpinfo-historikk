@@ -103,8 +103,8 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Override
-    public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && dao.findByReferanseId(referanseId) != null;
+    public boolean erAlleredeLagret(String dialogId) {
+        return dialogId != null && dao.findByDialogId(dialogId) != null;
     }
 
     @Override
