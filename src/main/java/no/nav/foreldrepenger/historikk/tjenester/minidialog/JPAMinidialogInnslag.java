@@ -44,7 +44,7 @@ public class JPAMinidialogInnslag {
     private LocalDateTime endret;
     private boolean aktiv;
 
-    private String referanseId;
+    private String dialogId;
 
     JPAMinidialogInnslag() {
     }
@@ -121,12 +121,12 @@ public class JPAMinidialogInnslag {
         this.hendelse = hendelse;
     }
 
-    public String getReferanseId() {
-        return referanseId;
+    public String getDialogId() {
+        return dialogId;
     }
 
-    public void setReferanseId(String referanseId) {
-        this.referanseId = referanseId;
+    public void setDialogId(String dialogId) {
+        this.dialogId = dialogId;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class JPAMinidialogInnslag {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", tekst=" + tekst
                 + ", hendelseType=" + hendelse + ", gyldigTil=" + gyldigTil
                 + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv
-                + ", referanseId=" + referanseId + "]";
+                + ", dialogId=" + dialogId + "]";
     }
 
 }

@@ -22,9 +22,9 @@ public class MinidialogHendelse extends Hendelse {
     private final String tekst;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, String referanseId, String saksNr,
+    public MinidialogHendelse(AktørId aktørId, String referanseId, String dialogId, String saksNr,
             HendelseType hendelseType, String tekst, LocalDate gyldigTil) {
-        super(aktørId, null, referanseId, saksNr, hendelseType);
+        super(aktørId, null, referanseId, dialogId, saksNr, hendelseType);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
     }

@@ -4,9 +4,6 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
@@ -17,11 +14,10 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final LocalDate innsendingsDato;
     private final ArbeidsgiverInnslag arbeidsgiver;
 
-    @JsonCreator
-    public InntektsmeldingHendelse(@JsonProperty("aktørId") AktørId aktørId, String journalId,
-            String referanseId,
+    public InntektsmeldingHendelse(AktørId aktørId, String journalId,
+            String referanseId, String dialogId,
             String saksNr, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
-        super(aktørId, journalId, referanseId, saksNr, HendelseType.INNTEKTSMELDING);
+        super(aktørId, journalId, referanseId, dialogId, saksNr, HendelseType.INNTEKTSMELDING);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
     }
