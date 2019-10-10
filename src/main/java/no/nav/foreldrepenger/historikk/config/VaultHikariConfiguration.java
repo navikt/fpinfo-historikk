@@ -42,14 +42,16 @@ public class VaultHikariConfiguration implements InitializingBean {
             if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent)) {
                 LOG.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
                 Map<String, Object> secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
-                String username = secrets.get("username").toString();
-                String password = secrets.get("password").toString();
-                ds.setUsername(username);
-                ds.setPassword(password);
+                ds.setUsername(get("username", secrets));
+                ds.setPassword(get("password", secrets));
                 ds.getHikariPoolMXBean().softEvictConnections();
             }
         });
         container.addRequestedSecret(secret);
+    }
+
+    private static String get(String key, Map<String, Object> secrets) {
+        return secrets.get(key).toString();
     }
 
     @Override
