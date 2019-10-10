@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 public interface JPAMinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
 
-    JPAMinidialogInnslag findByReferanseId(String referanseId);
+    JPAMinidialogInnslag findByDialogId(String dialogId);
 
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.dialogId = :dialogId and m.dialogId is not null")
