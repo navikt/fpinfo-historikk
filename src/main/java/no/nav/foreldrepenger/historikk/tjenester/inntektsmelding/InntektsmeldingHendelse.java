@@ -13,17 +13,22 @@ public class InntektsmeldingHendelse extends Hendelse {
 
     private final LocalDate innsendingsDato;
     private final ArbeidsgiverInnslag arbeidsgiver;
+    private final String referanseId;
 
-    public InntektsmeldingHendelse(AktørId aktørId, String journalId,
-            String referanseId, String dialogId,
+    public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
             String saksNr, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
-        super(aktørId, journalId, referanseId, dialogId, saksNr, HendelseType.INNTEKTSMELDING);
+        super(aktørId, journalId, saksNr, HendelseType.INNTEKTSMELDING);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
+        this.referanseId = referanseId;
     }
 
     public LocalDate getInnsendingsDato() {
         return innsendingsDato;
+    }
+
+    public String getReferanseId() {
+        return referanseId;
     }
 
     public ArbeidsgiverInnslag getArbeidsgiver() {

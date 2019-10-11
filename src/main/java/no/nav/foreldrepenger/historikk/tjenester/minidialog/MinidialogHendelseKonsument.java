@@ -28,7 +28,7 @@ public class MinidialogHendelseKonsument {
             dialog.lagre(hendelse);
             break;
         case TILBAKEKREVING_SVAR:
-            dialog.deaktiver(hendelse);
+            dialog.deaktiver(hendelse.getAktørId(), hendelse.getDialogId());
             break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", hendelse.getHendelseType());

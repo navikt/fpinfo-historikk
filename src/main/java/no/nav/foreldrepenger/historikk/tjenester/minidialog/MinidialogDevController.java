@@ -68,7 +68,7 @@ public class MinidialogDevController {
         return lagret ? status(CREATED).build()
                 : status(CONFLICT)
                         .body(new ApiError(CONFLICT,
-                                "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
+                                "dialogId " + hendelse.getDialogId() + " er allerede lagret"));
     }
 
     @Override

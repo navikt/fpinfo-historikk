@@ -26,10 +26,10 @@ public class InnsendingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void behandle(@Payload @Valid InnsendingHendelse hendelse) {
-        LOG.info("Mottok innsendingshendelse {}", hendelse);
-        if (innsending.lagre(hendelse) && hendelse.erEttersending()) {
-            dialog.deaktiver(hendelse);
+    public void behandle(@Payload @Valid InnsendingHendelse h) {
+        LOG.info("Mottok innsendingshendelse {}", h);
+        if (innsending.lagre(h) && h.erEttersending()) {
+            dialog.deaktiver(h.getAktørId(), h.getDialogId());
         }
     }
 
