@@ -23,6 +23,8 @@ public class InnsendingHendelse extends Hendelse {
     private final List<String> vedlegg;
     @Nullable
     private final LocalDate førsteBehandlingsdato;
+    private final String referanseId;
+    private final String dialogId;
 
     @JsonCreator
     public InnsendingHendelse(@JsonProperty("aktørId") AktørId aktørId,
@@ -34,10 +36,16 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("hendelseType") @JsonAlias("hendelse") HendelseType hendelseType,
             @JsonProperty("vedlegg") List<String> vedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, journalId, referanseId, dialogId, saksNr, hendelseType);
+        super(aktørId, journalId, saksNr, hendelseType);
         this.leveranseStatus = leveranseStatus;
+        this.dialogId = dialogId;
+        this.referanseId = referanseId;
         this.vedlegg = vedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;
+    }
+
+    public String getDialogId() {
+        return dialogId;
     }
 
     public InnsendingLeveranseStatus getLeveranseStatus() {
@@ -46,6 +54,10 @@ public class InnsendingHendelse extends Hendelse {
 
     public List<String> getVedlegg() {
         return vedlegg;
+    }
+
+    public String getReferanseId() {
+        return referanseId;
     }
 
     public LocalDate getFørsteBehandlingsdato() {
