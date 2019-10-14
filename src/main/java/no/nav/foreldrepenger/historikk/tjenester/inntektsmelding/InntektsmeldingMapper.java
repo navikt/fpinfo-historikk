@@ -28,13 +28,9 @@ final class InntektsmeldingMapper {
         im.setAktørId(hendelse.getAktørId());
         im.setJournalpostId(hendelse.getJournalId());
         im.setSaksnr(hendelse.getSaksNr());
-        im.setArbeidsgiver(fraArbeidsgiver(hendelse));
+        im.setArbeidsgiver(hendelse.getArbeidsgiver());
         LOG.info("Mappet til inntektsmelding {}", im);
         return im;
-    }
-
-    private static JPAArbeidsgiverInnslag fraArbeidsgiver(InntektsmeldingHendelse hendelse) {
-        return new JPAArbeidsgiverInnslag(hendelse.getArbeidsgiver().getOrgnr());
     }
 
     List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmeldingInnslag> innslag) {
@@ -56,9 +52,18 @@ final class InntektsmeldingMapper {
         return innslag;
     }
 
-    private ArbeidsgiverInnslag tilArbeidsgiverInnslag(JPAArbeidsgiverInnslag arbeidsgiver) {
-        String orgnr = arbeidsgiver.getOrgnr();
-        return new ArbeidsgiverInnslag(orgnr, oppslag.orgNavn(orgnr));
+    private ArbeidsgiverInnslag tilArbeidsgiverInnslag(String arbeidsgiver) {
+        if (arbeidsgiver == null) {
+            return new ArbeidsgiverInnslag(arbeidsgiver, null);
+        }
+        if (arbeidsgiver.length() == 9) {
+            new ArbeidsgiverInnslag(arbeidsgiver, oppslag.orgNavn(arbeidsgiver));
+        }
+
+        if (arbeidsgiver.length() == 11) {
+            new ArbeidsgiverInnslag(arbeidsgiver, "Privat arbeidsgiver");
+        }
+        return new ArbeidsgiverInnslag(arbeidsgiver, null);
     }
 
     @Override

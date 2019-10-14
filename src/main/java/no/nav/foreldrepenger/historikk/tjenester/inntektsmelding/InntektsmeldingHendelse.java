@@ -12,11 +12,11 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 public class InntektsmeldingHendelse extends Hendelse {
 
     private final LocalDate innsendingsDato;
-    private final ArbeidsgiverInnslag arbeidsgiver;
+    private final String arbeidsgiver;
     private final String referanseId;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr, HendelseType hendelseType, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
+            String saksNr, HendelseType hendelseType, LocalDate innsendingsDato, String arbeidsgiver) {
         super(aktørId, journalId, saksNr, hendelseType);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
@@ -31,7 +31,7 @@ public class InntektsmeldingHendelse extends Hendelse {
         return referanseId;
     }
 
-    public ArbeidsgiverInnslag getArbeidsgiver() {
+    public String getArbeidsgiver() {
         return arbeidsgiver;
     }
 
