@@ -16,8 +16,8 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final String referanseId;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
-        super(aktørId, journalId, saksNr, HendelseType.INNTEKTSMELDING);
+            String saksNr, HendelseType hendelseType, LocalDate innsendingsDato, ArbeidsgiverInnslag arbeidsgiver) {
+        super(aktørId, journalId, saksNr, hendelseType);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
         this.referanseId = referanseId;
