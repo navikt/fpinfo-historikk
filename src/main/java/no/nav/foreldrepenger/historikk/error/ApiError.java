@@ -9,10 +9,10 @@ import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static org.springframework.core.NestedExceptionUtils.getMostSpecificCause;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import org.assertj.core.util.Arrays;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
