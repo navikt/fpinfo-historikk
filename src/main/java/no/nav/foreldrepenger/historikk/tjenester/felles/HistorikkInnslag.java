@@ -28,7 +28,7 @@ import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
 })
 public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 
-    public static final Sort SORT_OPPRETTET_ASC = new Sort(ASC, "opprettet");
+    public static final Sort SORT_OPPRETTET_ASC = Sort.by(ASC, "opprettet");
 
     private AktørId aktørId;
     private String journalpostId;
