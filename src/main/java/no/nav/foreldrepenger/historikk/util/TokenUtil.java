@@ -8,8 +8,6 @@ import java.util.function.Supplier;
 
 import org.springframework.stereotype.Component;
 
-import com.nimbusds.jwt.util.DateUtils;
-
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.security.token.support.core.context.TokenValidationContext;
 import no.nav.security.token.support.core.context.TokenValidationContextHolder;
@@ -30,8 +28,7 @@ public class TokenUtil {
 
     public Date getExpiryDate() {
         return Optional.ofNullable(claimSet())
-                .map(c -> c.get("exp"))
-                .map(this::getDateClaim)
+                .map(JwtTokenClaims::getExpirationTime)
                 .orElse(null);
     }
 
@@ -63,19 +60,6 @@ public class TokenUtil {
     private TokenValidationContext context() {
         return Optional.ofNullable(ctxHolder.getTokenValidationContext())
                 .orElse(null);
-    }
-
-    private Date getDateClaim(Object value) {
-        if (value == null) {
-            return null;
-        }
-        if (value instanceof Date) {
-            return (Date) value;
-        }
-        if (value instanceof Number) {
-            return DateUtils.fromSecondsSinceEpoch(((Number) value).longValue());
-        }
-        return null;
     }
 
     @Override
