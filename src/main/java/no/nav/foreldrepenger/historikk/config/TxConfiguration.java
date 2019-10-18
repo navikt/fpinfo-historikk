@@ -20,6 +20,7 @@ import org.springframework.kafka.listener.DefaultAfterRollbackProcessor;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.transaction.KafkaTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +70,7 @@ public class TxConfiguration implements KafkaListenerConfigurer {
         return new DefaultAfterRollbackProcessor<>(
                 new DeadLetterPublishingRecoverer(template,
                         (record, exception) -> new TopicPartition(record.topic() + "-dlt", 0)),
-                1);
+                new FixedBackOff(0L, 2L));
     }
 
     @Override
