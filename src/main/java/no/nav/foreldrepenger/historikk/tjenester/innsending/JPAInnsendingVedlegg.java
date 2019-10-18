@@ -24,6 +24,7 @@ public class JPAInnsendingVedlegg {
     @JoinColumn(name = "vedlegg")
     private JPAInnsendingInnslag innslag;
     @Enumerated(STRING)
+    @Column(name = "innsendingtype")
     private InnsendingType innsendingType;
 
     public InnsendingType getInnsendingType() {
