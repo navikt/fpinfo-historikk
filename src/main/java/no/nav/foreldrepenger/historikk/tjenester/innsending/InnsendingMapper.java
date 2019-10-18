@@ -46,15 +46,19 @@ final class InnsendingMapper {
         innslag.setHendelse(hendelse.getHendelseType());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
         safeStream(hendelse.getOpplastedeVedlegg())
-                .map(InnsendingMapper::fraVedlegg)
+                .map(v -> fraVedlegg(v, InnsendingType.LASTET_OPP))
+                .forEach(innslag::addVedlegg);
+        safeStream(hendelse.getIkkeOpplastedeVedlegg())
+                .map(v -> fraVedlegg(v, InnsendingType.SEND_SENERE))
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
 
-    private static JPAInnsendingVedlegg fraVedlegg(String id) {
+    private static JPAInnsendingVedlegg fraVedlegg(String id, InnsendingType type) {
         var vedlegg = new JPAInnsendingVedlegg();
         vedlegg.setVedleggId(id);
+        vedlegg.setInnsendingType(type);
         return vedlegg;
     }
 

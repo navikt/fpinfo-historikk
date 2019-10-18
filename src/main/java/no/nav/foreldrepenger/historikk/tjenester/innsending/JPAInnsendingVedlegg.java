@@ -1,9 +1,11 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -21,6 +23,16 @@ public class JPAInnsendingVedlegg {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "vedlegg")
     private JPAInnsendingInnslag innslag;
+    @Enumerated(STRING)
+    private InnsendingType innsendingType;
+
+    public InnsendingType getInnsendingType() {
+        return innsendingType;
+    }
+
+    public void setInnsendingType(InnsendingType innsendingType) {
+        this.innsendingType = innsendingType;
+    }
 
     public JPAInnsendingVedlegg() {
     }
