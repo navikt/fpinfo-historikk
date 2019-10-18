@@ -45,7 +45,7 @@ final class InnsendingMapper {
         innslag.setJournalpostId(hendelse.getJournalId());
         innslag.setHendelse(hendelse.getHendelseType());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
-        safeStream(hendelse.getVedlegg())
+        safeStream(hendelse.getOpplastedeVedlegg())
                 .map(InnsendingMapper::fraVedlegg)
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);

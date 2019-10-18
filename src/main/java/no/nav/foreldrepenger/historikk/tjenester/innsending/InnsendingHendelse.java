@@ -20,7 +20,9 @@ public class InnsendingHendelse extends Hendelse {
     @NotNull
     private final InnsendingLeveranseStatus leveranseStatus;
     @Nullable
-    private final List<String> vedlegg;
+    private final List<String> ikkeOpplastedeVedlegg;
+    private final List<String> opplastedeVedlegg;
+
     @Nullable
     private final LocalDate førsteBehandlingsdato;
     private final String referanseId;
@@ -34,13 +36,16 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("saksNr") String saksNr,
             @JsonProperty("leveranseStatus") InnsendingLeveranseStatus leveranseStatus,
             @JsonProperty("hendelseType") @JsonAlias("hendelse") HendelseType hendelseType,
-            @JsonProperty("vedlegg") List<String> vedlegg,
+            @JsonProperty("opplastedeVedlegg") List<String> opplastedeVedlegg,
+            @JsonProperty("ikkeOpplastedeVedlegg") List<String> ikkeOpplastedeVedlegg,
+
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
         super(aktørId, journalId, saksNr, hendelseType);
         this.leveranseStatus = leveranseStatus;
         this.dialogId = dialogId;
         this.referanseId = referanseId;
-        this.vedlegg = vedlegg;
+        this.opplastedeVedlegg = opplastedeVedlegg;
+        this.ikkeOpplastedeVedlegg = ikkeOpplastedeVedlegg;
         this.førsteBehandlingsdato = førsteBehandlingsdato;
     }
 
@@ -52,10 +57,6 @@ public class InnsendingHendelse extends Hendelse {
         return leveranseStatus;
     }
 
-    public List<String> getVedlegg() {
-        return vedlegg;
-    }
-
     public String getReferanseId() {
         return referanseId;
     }
@@ -64,10 +65,19 @@ public class InnsendingHendelse extends Hendelse {
         return førsteBehandlingsdato;
     }
 
+    public List<String> getIkkeOpplastedeVedlegg() {
+        return ikkeOpplastedeVedlegg;
+    }
+
+    public List<String> getOpplastedeVedlegg() {
+        return opplastedeVedlegg;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", vedlegg=" + vedlegg
-                + ", førsteBehandlingsdato=" + førsteBehandlingsdato + ", hendelseType=" + getHendelseType() + "]";
+        return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", ikkeOpplastedeVedlegg="
+                + ikkeOpplastedeVedlegg + ", opplastedeVedlegg=" + opplastedeVedlegg + ", førsteBehandlingsdato="
+                + førsteBehandlingsdato + ", referanseId=" + referanseId + ", dialogId=" + dialogId + "]";
     }
 
 }
