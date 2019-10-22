@@ -13,14 +13,15 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final HendelseType hendelse;
     private final LocalDate gyldigTil;
     private final String tekst;
+    private String dialogId;
     private Boolean aktiv;
 
-    public boolean isAktiv() {
-        return aktiv;
+    public String getDialogId() {
+        return dialogId;
     }
 
-    public void setAktiv(Boolean aktiv) {
-        this.aktiv = aktiv;
+    public void setDialogId(String dialogId) {
+        this.dialogId = dialogId;
     }
 
     @JsonCreator
@@ -42,6 +43,14 @@ public class MinidialogInnslag extends HistorikkInnslag {
 
     public HendelseType getHendelse() {
         return hendelse;
+    }
+
+    public boolean isAktiv() {
+        return aktiv;
+    }
+
+    public void setAktiv(Boolean aktiv) {
+        this.aktiv = aktiv;
     }
 
     @Override

@@ -31,6 +31,9 @@ public class InnsendingHendelseKonsument {
         if (innsending.lagre(h) && h.erEttersending()) {
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
         }
+        if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
+            // lag minidialoginnslag
+        }
     }
 
     @Override
