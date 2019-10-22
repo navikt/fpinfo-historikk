@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.LASTET_OPP;
+import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.SEND_SENERE;
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
@@ -46,10 +48,10 @@ final class InnsendingMapper {
         innslag.setHendelse(hendelse.getHendelseType());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
         safeStream(hendelse.getOpplastedeVedlegg())
-                .map(v -> fraVedlegg(v, InnsendingType.LASTET_OPP))
+                .map(v -> fraVedlegg(v, LASTET_OPP))
                 .forEach(innslag::addVedlegg);
         safeStream(hendelse.getIkkeOpplastedeVedlegg())
-                .map(v -> fraVedlegg(v, InnsendingType.SEND_SENERE))
+                .map(v -> fraVedlegg(v, SEND_SENERE))
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;

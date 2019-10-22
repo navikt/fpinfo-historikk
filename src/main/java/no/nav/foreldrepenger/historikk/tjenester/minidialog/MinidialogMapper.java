@@ -32,6 +32,7 @@ public final class MinidialogMapper {
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());
+        innslag.setDialogId(i.getDialogId());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
