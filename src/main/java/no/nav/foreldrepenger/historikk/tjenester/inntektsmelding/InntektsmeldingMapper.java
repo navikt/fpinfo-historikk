@@ -29,7 +29,7 @@ final class InntektsmeldingMapper {
         im.setAktørId(hendelse.getAktørId());
         im.setJournalpostId(hendelse.getJournalId());
         im.setSaksnr(hendelse.getSaksnummer());
-        im.setArbeidsgiver(hendelse.getArbeidsgiver());
+        im.setArbeidsgiver(hendelse.getArbeidsgiverId());
         im.setVersjon(hendelse.getVersjon());
         im.setInnsendingsTidspunkt(hendelse.getInnsendingsTidspunkt());
         im.setType(hendelse.getImType());
