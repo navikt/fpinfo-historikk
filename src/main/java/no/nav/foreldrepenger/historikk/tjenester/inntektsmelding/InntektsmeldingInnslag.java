@@ -9,6 +9,16 @@ public class InntektsmeldingInnslag extends HistorikkInnslag {
 
     private Versjon versjon;
 
+    private InntektsmeldingType type;
+
+    public InntektsmeldingType getType() {
+        return type;
+    }
+
+    public void setType(InntektsmeldingType type) {
+        this.type = type;
+    }
+
     public Versjon getVersjon() {
         return versjon;
     }

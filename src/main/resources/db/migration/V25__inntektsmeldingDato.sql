@@ -1,0 +1,1 @@
+ALTER TABLE INNTEKTSMELDING ADD innsendingsTidspunkt timestamp;

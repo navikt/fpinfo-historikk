@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,16 +19,23 @@ public class MinidialogHendelse extends Hendelse {
     @ApiModelProperty(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
     private final LocalDate gyldigTil;
+    private final LocalDateTime innsendingsTidspunkt;
+
     private final String dialogId;
     private final String tekst;
 
     @JsonCreator
     public MinidialogHendelse(AktørId aktørId, String dialogId, String saksNr,
-            HendelseType hendelseType, String tekst, LocalDate gyldigTil) {
+            HendelseType hendelseType, String tekst, LocalDate gyldigTil, LocalDateTime innsendingsTidspunkt) {
         super(aktørId, null, saksNr, hendelseType);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
+    }
+
+    public LocalDateTime getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
     }
 
     public String getDialogId() {
@@ -46,7 +54,8 @@ public class MinidialogHendelse extends Hendelse {
     public String toString() {
         return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
                 + getHendelse() + ", aktørId=" + getAktørId() + ", dialogId="
-                + getDialogId() + ", saksNr=" + getSaksnummer() + "]";
+                + getDialogId() + ", saksNr=" + getSaksnummer() + ", innsendingstidspunkt=" + innsendingsTidspunkt
+                + "]";
     }
 
 }

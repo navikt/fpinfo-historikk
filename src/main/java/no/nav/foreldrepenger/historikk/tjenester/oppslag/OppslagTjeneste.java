@@ -7,7 +7,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Service
-public class OppslagTjeneste {
+public class OppslagTjeneste implements Oppslag {
 
     private final OppslagConnection connection;
 

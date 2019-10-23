@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -31,12 +33,32 @@ public class JPAInntektsmeldingInnslag {
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
+    private LocalDateTime innsendingsTidspunkt;
+
     private String arbeidsgiver;
     private String referanseId;
     @Embedded
     private Versjon versjon;
+    @Enumerated(STRING)
+    private InntektsmeldingType type;
 
     JPAInntektsmeldingInnslag() {
+    }
+
+    public InntektsmeldingType getType() {
+        return type;
+    }
+
+    public void setType(InntektsmeldingType type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
+    }
+
+    public void setInnsendingsTidspunkt(LocalDateTime innsendingsTidspunkt) {
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
     }
 
     public Versjon getVersjon() {

@@ -9,15 +9,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Component
 final class InntektsmeldingMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingMapper.class);
-    private final OppslagTjeneste oppslag;
+    private final Oppslag oppslag;
 
-    public InntektsmeldingMapper(OppslagTjeneste oppslag) {
+    public InntektsmeldingMapper(Oppslag oppslag) {
         this.oppslag = oppslag;
     }
 
@@ -30,6 +30,7 @@ final class InntektsmeldingMapper {
         im.setSaksnr(hendelse.getSaksnummer());
         im.setArbeidsgiver(hendelse.getArbeidsgiver());
         im.setVersjon(hendelse.getVersjon());
+        im.setInnsendingsTidspunkt(hendelse.getInnsendingsTidspunkt());
         LOG.info("Mappet til inntektsmelding {}", im);
         return im;
     }
@@ -50,6 +51,7 @@ final class InntektsmeldingMapper {
         innslag.setArbeidsgiver(tilArbeidsgiverInnslag(i.getArbeidsgiver()));
         innslag.setReferanseId(i.getReferanseId());
         innslag.setVersjon(i.getVersjon());
+        innslag.setType(i.getType());
         LOG.info("Mappet til inntektsmelding {}", innslag);
         return innslag;
     }
