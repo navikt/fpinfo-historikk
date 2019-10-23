@@ -55,8 +55,14 @@ public class TxConfiguration implements KafkaListenerConfigurer {
 
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
-            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper,
-            AfterRollbackProcessor<Object, Object> afterRollbackProcessor) {
+            ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper/*
+                                                                                                                * ,
+                                                                                                                * AfterRollbackProcessor
+                                                                                                                * <
+                                                                                                                * Object,
+                                                                                                                * Object>
+                                                                                                                * afterRollbackProcessor
+                                                                                                                */) {
         ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
