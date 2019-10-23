@@ -21,21 +21,21 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final String referanseId;
     private final Versjon versjon;
     @ApiModelProperty(example = "NY")
-    private final InntektsmeldingType type;
+    private final InntektsmeldingType imType;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId, String saksNr,
             HendelseType hendelse, LocalDateTime innsendingsTidspunkt, String arbeidsgiver, Versjon versjon,
-            InntektsmeldingType type) {
+            InntektsmeldingType imType) {
         super(aktørId, journalId, saksNr, hendelse);
         this.innsendingsTidspunkt = innsendingsTidspunkt;
         this.arbeidsgiver = arbeidsgiver;
         this.referanseId = referanseId;
         this.versjon = versjon;
-        this.type = type;
+        this.imType = imType;
     }
 
-    public InntektsmeldingType getType() {
-        return type;
+    public InntektsmeldingType getImType() {
+        return imType;
     }
 
     public Versjon getVersjon() {

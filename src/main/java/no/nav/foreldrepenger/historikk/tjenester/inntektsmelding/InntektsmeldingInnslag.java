@@ -9,14 +9,14 @@ public class InntektsmeldingInnslag extends HistorikkInnslag {
 
     private Versjon versjon;
 
-    private InntektsmeldingType type;
+    private InntektsmeldingType imType;
 
-    public InntektsmeldingType getType() {
-        return type;
+    public InntektsmeldingType getImType() {
+        return imType;
     }
 
-    public void setType(InntektsmeldingType type) {
-        this.type = type;
+    public void setImType(InntektsmeldingType imType) {
+        this.imType = imType;
     }
 
     public Versjon getVersjon() {
