@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -33,6 +34,7 @@ public class JPAInntektsmeldingInnslag {
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
+    @Column(name = "innsendingstidspunkt")
     private LocalDateTime innsendingsTidspunkt;
 
     private String arbeidsgiver;
