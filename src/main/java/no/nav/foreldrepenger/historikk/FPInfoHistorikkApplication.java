@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.retry.annotation.EnableRetry;
 
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation;
 
@@ -14,6 +15,7 @@ import no.nav.security.token.support.spring.api.EnableJwtTokenValidation;
 @SpringBootApplication
 @EnableKafka
 @EnableCaching
+@EnableRetry
 @EnableJpaAuditing
 public class FPInfoHistorikkApplication {
     public static void main(String[] args) {
