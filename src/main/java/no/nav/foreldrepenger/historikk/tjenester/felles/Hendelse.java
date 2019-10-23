@@ -11,17 +11,19 @@ public abstract class Hendelse {
 
     @ApiModelProperty(example = "1111111111111")
     private final AktørId aktørId;
+    @ApiModelProperty(example = "1234567890")
     private final String journalId;
+    @ApiModelProperty(example = "42")
     private final String saksnummer;
     @NotNull
     private final HendelseType hendelse;
 
     public Hendelse(AktørId aktørId, String journalId, String saksnummer,
-            HendelseType hendelseType) {
+            HendelseType hendelse) {
         this.aktørId = aktørId;
         this.journalId = journalId;
         this.saksnummer = saksnummer;
-        this.hendelse = hendelseType;
+        this.hendelse = hendelse;
     }
 
     public HendelseType getHendelse() {
