@@ -15,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Versjon;
 
 @Entity
 @Table(name = "inntektsmelding")
@@ -32,8 +33,18 @@ public class JPAInntektsmeldingInnslag {
     private LocalDateTime opprettet;
     private String arbeidsgiver;
     private String referanseId;
+    @Embedded
+    private Versjon versjon;
 
     JPAInntektsmeldingInnslag() {
+    }
+
+    public Versjon getVersjon() {
+        return versjon;
+    }
+
+    public void setVersjon(Versjon versjon) {
+        this.versjon = versjon;
     }
 
     public int getId() {
@@ -94,9 +105,8 @@ public class JPAInntektsmeldingInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", arbeidsgiver=" + arbeidsgiver
-                + ", referanseId=" + referanseId + "]";
+        return getClass().getSimpleName() + "[versjon=" + versjon + ", id=" + id + ", aktørId=" + aktørId
+                + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet
+                + ", arbeidsgiver=" + arbeidsgiver + ", referanseId=" + referanseId + "]";
     }
-
 }
