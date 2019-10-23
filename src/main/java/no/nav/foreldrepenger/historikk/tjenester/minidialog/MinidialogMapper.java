@@ -16,10 +16,10 @@ public final class MinidialogMapper {
         var dialog = new JPAMinidialogInnslag();
         dialog.setAktørId(m.getAktørId());
         dialog.setTekst(m.getTekst());
-        dialog.setSaksnr(m.getSaksNr());
+        dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
-        dialog.setHendelse(m.getHendelseType());
+        dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
         LOG.info("Mappet til {}", dialog);
         return dialog;

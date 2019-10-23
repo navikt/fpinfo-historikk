@@ -10,20 +10,20 @@ public abstract class Hendelse {
 
     private final AktørId aktørId;
     private final String journalId;
-    private final String saksNr;
+    private final String saksnummer;
     @NotNull
-    private final HendelseType hendelseType;
+    private final HendelseType hendelse;
 
-    public Hendelse(AktørId aktørId, String journalId, String saksNr,
+    public Hendelse(AktørId aktørId, String journalId, String saksnummer,
             HendelseType hendelseType) {
         this.aktørId = aktørId;
         this.journalId = journalId;
-        this.saksNr = saksNr;
-        this.hendelseType = hendelseType;
+        this.saksnummer = saksnummer;
+        this.hendelse = hendelseType;
     }
 
-    public HendelseType getHendelseType() {
-        return hendelseType;
+    public HendelseType getHendelse() {
+        return hendelse;
     }
 
     public AktørId getAktørId() {
@@ -34,13 +34,13 @@ public abstract class Hendelse {
         return journalId;
     }
 
-    public String getSaksNr() {
-        return saksNr;
+    public String getSaksnummer() {
+        return saksnummer;
     }
 
     @JsonIgnore
     public boolean erEttersending() {
-        return getHendelseType().erEttersending();
+        return getHendelse().erEttersending();
     }
 
 }

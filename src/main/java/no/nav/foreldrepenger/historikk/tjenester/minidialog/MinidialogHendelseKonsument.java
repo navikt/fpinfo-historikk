@@ -23,7 +23,7 @@ public class MinidialogHendelseKonsument {
     @Transactional
     public void listen(@Payload @Valid MinidialogHendelse hendelse) {
         LOG.info("Mottok minidialoghendelse {}", hendelse);
-        switch (hendelse.getHendelseType()) {
+        switch (hendelse.getHendelse()) {
         case TILBAKEKREVING_SPM:
             dialog.lagre(hendelse);
             break;
@@ -31,7 +31,7 @@ public class MinidialogHendelseKonsument {
             dialog.deaktiver(hendelse.getAktørId(), hendelse.getDialogId());
             break;
         default:
-            LOG.warn("Hendelsetype {} ikke støttet", hendelse.getHendelseType());
+            LOG.warn("Hendelsetype {} ikke støttet", hendelse.getHendelse());
             break;
         }
     }

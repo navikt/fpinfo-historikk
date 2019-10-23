@@ -27,7 +27,7 @@ final class InntektsmeldingMapper {
         im.setReferanseId(hendelse.getReferanseId());
         im.setAktørId(hendelse.getAktørId());
         im.setJournalpostId(hendelse.getJournalId());
-        im.setSaksnr(hendelse.getSaksNr());
+        im.setSaksnr(hendelse.getSaksnummer());
         im.setArbeidsgiver(hendelse.getArbeidsgiver());
         im.setVersjon(hendelse.getVersjon());
         LOG.info("Mappet til inntektsmelding {}", im);
