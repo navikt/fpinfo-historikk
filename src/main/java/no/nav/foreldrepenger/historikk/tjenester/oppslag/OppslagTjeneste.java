@@ -15,6 +15,7 @@ public class OppslagTjeneste implements Oppslag {
         this.connection = connection;
     }
 
+    @Override
     public AktørId aktørId() {
         return connection.hentAktørId();
     }
@@ -23,11 +24,13 @@ public class OppslagTjeneste implements Oppslag {
         return connection.hentFnr(aktørId);
     }
 
+    @Override
     public String personNavn(Fødselsnummer fnr) {
         return connection.hentNavn(fnr);
     }
 
     @Cacheable(cacheNames = "organisasjon")
+    @Override
     public String orgNavn(String orgnr) {
         return connection.orgNavn(orgnr);
     }

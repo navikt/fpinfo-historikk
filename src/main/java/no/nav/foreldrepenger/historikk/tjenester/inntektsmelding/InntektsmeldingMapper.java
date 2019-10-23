@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Component
@@ -74,7 +75,7 @@ final class InntektsmeldingMapper {
         }
 
         if (arbeidsgiver.length() == 11) {
-            return "Privat arbeidsgiver";
+            return oppslag.personNavn(Fødselsnummer.valueOf(arbeidsgiver));
         }
         LOG.warn("Arbeidsgiver {} kan ikke håndteres", arbeidsgiver);
         return null;
