@@ -41,18 +41,6 @@ management:
          enabled: false
       diskspace:
          enabled: false
-resilience4j:
-   retry:
-      configs:
-         default:
-            maxRetryAttempts: 2
-            waitDuration: 100
-            retryExceptions:
-            - org.springframework.web.client.HttpServerErrorException
-            - java.io.IOException
-      instances:
-         dokarkiv:
-            maxRetryAttempts: 3
 server:
    servlet:
       context-path: /api
@@ -61,7 +49,7 @@ spring:
    application:
       name: fpinfo-historikk
    cache:
-      cache-names: aktør,sts,organisasjon
+      cache-names: aktør,sts,organisasjon, fnr
       caffeine:
          spec: maximumSize=100,expireAfterAccess=3600s
    datasource:
