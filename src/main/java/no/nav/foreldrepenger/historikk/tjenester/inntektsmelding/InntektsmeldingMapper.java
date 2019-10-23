@@ -29,6 +29,7 @@ final class InntektsmeldingMapper {
         im.setJournalpostId(hendelse.getJournalId());
         im.setSaksnr(hendelse.getSaksNr());
         im.setArbeidsgiver(hendelse.getArbeidsgiver());
+        im.setVersjon(hendelse.getVersjon());
         LOG.info("Mappet til inntektsmelding {}", im);
         return im;
     }
@@ -48,6 +49,7 @@ final class InntektsmeldingMapper {
         innslag.setAktørId(i.getAktørId());
         innslag.setArbeidsgiver(tilArbeidsgiverInnslag(i.getArbeidsgiver()));
         innslag.setReferanseId(i.getReferanseId());
+        innslag.setVersjon(i.getVersjon());
         LOG.info("Mappet til inntektsmelding {}", innslag);
         return innslag;
     }
