@@ -31,6 +31,7 @@ final class InntektsmeldingMapper {
         im.setArbeidsgiver(hendelse.getArbeidsgiver());
         im.setVersjon(hendelse.getVersjon());
         im.setInnsendingsTidspunkt(hendelse.getInnsendingsTidspunkt());
+        im.setType(hendelse.get);
         LOG.info("Mappet til inntektsmelding {}", im);
         return im;
     }
