@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
@@ -25,10 +25,10 @@ public class InntektsmeldingTjeneste implements IdempotentTjeneste<Inntektsmeldi
 
     private final JPAInntektsmeldingRepository dao;
     private final InntektsmeldingMapper mapper;
-    private final OppslagTjeneste oppslag;
+    private final Oppslag oppslag;
 
     public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao, InntektsmeldingMapper mapper,
-            OppslagTjeneste oppslag) {
+            Oppslag oppslag) {
         this.dao = dao;
         this.mapper = mapper;
         this.oppslag = oppslag;

@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
@@ -33,9 +33,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
     private final JPAMinidialogRepository dao;
-    private final OppslagTjeneste oppslag;
+    private final Oppslag oppslag;
 
-    public MinidialogTjeneste(JPAMinidialogRepository dao, OppslagTjeneste oppslag) {
+    public MinidialogTjeneste(JPAMinidialogRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }

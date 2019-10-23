@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
@@ -25,9 +25,9 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
 
     private final JPAInnsendingRepository dao;
-    private final OppslagTjeneste oppslag;
+    private final Oppslag oppslag;
 
-    public InnsendingTjeneste(JPAInnsendingRepository dao, OppslagTjeneste oppslag) {
+    public InnsendingTjeneste(JPAInnsendingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }

@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 
@@ -13,29 +13,37 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
 
-    @ApiModelProperty(example = "2019-01-01")
-    private final LocalDate innsendingsDato;
+    @ApiModelProperty(example = "2019-10-22T18:50:10.9851661")
+    private final LocalDateTime innsendingsTidspunkt;
     @ApiModelProperty(example = "888888888")
     private final String arbeidsgiver;
     @ApiModelProperty(example = "AR123456789")
     private final String referanseId;
     private final Versjon versjon;
+    @ApiModelProperty(example = "NY")
+    private final InntektsmeldingType type;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId, String saksNr,
-            HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
+            HendelseType hendelse, LocalDateTime innsendingsTidspunkt, String arbeidsgiver, Versjon versjon,
+            InntektsmeldingType type) {
         super(aktørId, journalId, saksNr, hendelse);
-        this.innsendingsDato = innsendingsDato;
+        this.innsendingsTidspunkt = innsendingsTidspunkt;
         this.arbeidsgiver = arbeidsgiver;
         this.referanseId = referanseId;
         this.versjon = versjon;
+        this.type = type;
+    }
+
+    public InntektsmeldingType getType() {
+        return type;
     }
 
     public Versjon getVersjon() {
         return versjon;
     }
 
-    public LocalDate getInnsendingsDato() {
-        return innsendingsDato;
+    public LocalDateTime getInnsendingsTidspunkt() {
+        return innsendingsTidspunkt;
     }
 
     public String getReferanseId() {
@@ -48,7 +56,7 @@ public class InntektsmeldingHendelse extends Hendelse {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[versjon=" + versjon + ", innsendingsDato=" + innsendingsDato
+        return getClass().getSimpleName() + "[versjon=" + versjon + ", innsendingsTidspunkt=" + innsendingsTidspunkt
                 + ", arbeidsgiver=" + arbeidsgiver
                 + ", aktørId=" + getAktørId() + ", journalId=" + getJournalId()
                 + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnummer() + "]";
