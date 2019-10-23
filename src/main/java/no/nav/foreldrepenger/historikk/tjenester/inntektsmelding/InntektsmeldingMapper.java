@@ -70,13 +70,13 @@ final class InntektsmeldingMapper {
             return null;
         }
         if (arbeidsgiver.length() == 9) {
-            return oppslag.orgNavn(arbeidsgiver));
+            return oppslag.orgNavn(arbeidsgiver);
         }
 
         if (arbeidsgiver.length() == 11) {
             return "Privat arbeidsgiver";
         }
-        LOG.warn("Arbeidsgiver {} kan ikke håndteres",arbeidsgiver);
+        LOG.warn("Arbeidsgiver {} kan ikke håndteres", arbeidsgiver);
         return null;
     }
 
