@@ -10,7 +10,6 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public abstract class Hendelse {
 
-    @ApiModelProperty(example = "1111111111111")
     @JsonUnwrapped
     private final AktørId aktørId;
     @ApiModelProperty(example = "1234567890")

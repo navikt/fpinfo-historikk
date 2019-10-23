@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Versjon;
@@ -13,10 +15,13 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
 
+    @ApiModelProperty(example = "2019-01-01")
     private final LocalDate innsendingsDato;
+    @ApiModelProperty(example = "888888888")
     private final String arbeidsgiver;
+    @ApiModelProperty(example = "AR123456789")
     private final String referanseId;
-    @ApiModelProperty(example = "1.0")
+    @JsonUnwrapped
     private final Versjon versjon;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
