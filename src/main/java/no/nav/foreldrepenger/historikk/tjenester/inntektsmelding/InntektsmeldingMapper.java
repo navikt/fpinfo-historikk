@@ -61,14 +61,23 @@ final class InntektsmeldingMapper {
         if (arbeidsgiver == null) {
             return new ArbeidsgiverInnslag(arbeidsgiver, null);
         }
+
+        return new ArbeidsgiverInnslag(arbeidsgiver, arbeidsgiverNavn(arbeidsgiver));
+    }
+
+    private String arbeidsgiverNavn(String arbeidsgiver) {
+        if (arbeidsgiver == null) {
+            return null;
+        }
         if (arbeidsgiver.length() == 9) {
-            new ArbeidsgiverInnslag(arbeidsgiver, oppslag.orgNavn(arbeidsgiver));
+            return oppslag.orgNavn(arbeidsgiver));
         }
 
         if (arbeidsgiver.length() == 11) {
-            new ArbeidsgiverInnslag(arbeidsgiver, "Privat arbeidsgiver");
+            return "Privat arbeidsgiver";
         }
-        return new ArbeidsgiverInnslag(arbeidsgiver, null);
+        LOG.warn("Arbeidsgiver {} kan ikke håndteres",arbeidsgiver);
+        return null;
     }
 
     @Override
