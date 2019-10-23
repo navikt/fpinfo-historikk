@@ -18,7 +18,7 @@ historikk:
       meldinger:
          topic: fpinfo-historikk
          søknad_topic: fpsoknad-mottak
-         inntektsmelding_topic: inntektsmeldinger_fpfordel
+         inntektsmelding_topic: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:
    app:
       version: '@project.version@'
