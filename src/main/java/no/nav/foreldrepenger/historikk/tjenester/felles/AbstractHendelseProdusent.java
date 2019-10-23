@@ -40,19 +40,19 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
     }
 
     private void send(Message<String> message) {
-        LOG.info("Sender melding {}", message.getPayload());
+        LOG.info("Sender melding {} på {}", message.getPayload(), topic);
         kafkaOperations.send(message)
                 .addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
                     @Override
                     public void onSuccess(SendResult<String, String> result) {
-                        LOG.info("Sendte melding {} med offset {}", message.getPayload(),
-                                result.getRecordMetadata().offset());
+                        LOG.info("Sendte melding {} med offset {} på {}", message.getPayload(),
+                                result.getRecordMetadata().offset(), topic);
                     }
 
                     @Override
                     public void onFailure(Throwable e) {
-                        LOG.warn("Kunne ikke sende melding {}", message.getPayload(), e);
+                        LOG.warn("Kunne ikke sende melding {} på {}", message.getPayload(), topic, e);
                     }
                 });
     }
