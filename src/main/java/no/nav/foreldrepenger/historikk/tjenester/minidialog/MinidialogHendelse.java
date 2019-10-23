@@ -45,8 +45,8 @@ public class MinidialogHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
-                + getHendelseType() + ", aktørId=" + getAktørId() + ", dialogId="
-                + getDialogId() + ", saksNr=" + getSaksNr() + "]";
+                + getHendelse() + ", aktørId=" + getAktørId() + ", dialogId="
+                + getDialogId() + ", saksNr=" + getSaksnummer() + "]";
     }
 
 }

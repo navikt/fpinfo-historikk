@@ -52,7 +52,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
-            if (TILBAKEKREVING_SVAR.equals(h.getHendelseType())) {
+            if (TILBAKEKREVING_SVAR.equals(h.getHendelse())) {
                 deaktiver(h.getAktørId(), h.getDialogId());
             }
             return true;

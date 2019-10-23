@@ -18,8 +18,8 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final Versjon versjon;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr, HendelseType hendelseType, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
-        super(aktørId, journalId, saksNr, hendelseType);
+            String saksNr, HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
+        super(aktørId, journalId, saksNr, hendelse);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
         this.referanseId = referanseId;
@@ -47,6 +47,6 @@ public class InntektsmeldingHendelse extends Hendelse {
         return getClass().getSimpleName() + "[versjon=" + versjon + ", innsendingsDato=" + innsendingsDato
                 + ", arbeidsgiver=" + arbeidsgiver
                 + ", aktørId=" + getAktørId() + ", journalId=" + getJournalId()
-                + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksNr() + "]";
+                + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnummer() + "]";
     }
 }

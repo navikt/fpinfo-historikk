@@ -43,9 +43,9 @@ final class InnsendingMapper {
         var innslag = new JPAInnsendingInnslag();
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
-        innslag.setSaksnr(hendelse.getSaksNr());
+        innslag.setSaksnr(hendelse.getSaksnummer());
         innslag.setJournalpostId(hendelse.getJournalId());
-        innslag.setHendelse(hendelse.getHendelseType());
+        innslag.setHendelse(hendelse.getHendelse());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
         safeStream(hendelse.getOpplastedeVedlegg())
                 .map(v -> fraVedlegg(v, LASTET_OPP))
