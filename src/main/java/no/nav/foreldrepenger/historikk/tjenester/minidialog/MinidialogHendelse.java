@@ -25,9 +25,9 @@ public class MinidialogHendelse extends Hendelse {
     private final String tekst;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, String dialogId, String saksNr,
-            HendelseType hendelseType, String tekst, LocalDate gyldigTil, LocalDateTime innsendingsTidspunkt) {
-        super(aktørId, null, saksNr, hendelseType);
+    public MinidialogHendelse(AktørId aktørId, String dialogId, String saksnummer,
+            HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendingsTidspunkt) {
+        super(aktørId, null, saksnummer, hendelse);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;

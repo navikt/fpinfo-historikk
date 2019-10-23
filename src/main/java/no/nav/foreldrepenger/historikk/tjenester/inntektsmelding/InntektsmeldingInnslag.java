@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import no.nav.foreldrepenger.historikk.domain.Versjon;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 
 public class InntektsmeldingInnslag extends HistorikkInnslag {
@@ -9,14 +10,14 @@ public class InntektsmeldingInnslag extends HistorikkInnslag {
 
     private Versjon versjon;
 
-    private InntektsmeldingType imType;
+    private HendelseType hendelseType;
 
-    public InntektsmeldingType getImType() {
-        return imType;
+    public HendelseType getHendelseType() {
+        return hendelseType;
     }
 
-    public void setImType(InntektsmeldingType imType) {
-        this.imType = imType;
+    public void setHendelseType(HendelseType hendelseType) {
+        this.hendelseType = hendelseType;
     }
 
     public Versjon getVersjon() {

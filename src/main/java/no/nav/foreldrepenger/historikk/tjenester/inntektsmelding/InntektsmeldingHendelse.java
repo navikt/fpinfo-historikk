@@ -23,8 +23,6 @@ public class InntektsmeldingHendelse extends Hendelse {
     @ApiModelProperty(example = "AR123456789")
     private final String referanseId;
     private final Versjon versjon;
-    @ApiModelProperty(example = "NY")
-    private final InntektsmeldingType imType;
 
     @JsonCreator
     public InntektsmeldingHendelse(
@@ -35,18 +33,12 @@ public class InntektsmeldingHendelse extends Hendelse {
             @JsonProperty("hendelse") HendelseType hendelse,
             @JsonProperty("innsendingsTidspunkt") LocalDateTime innsendingsTidspunkt,
             @JsonProperty("arbeidsgiverId") String arbeidsgiverId,
-            @JsonProperty("versjon") Versjon versjon,
-            @JsonProperty("type") InntektsmeldingType imType) {
+            @JsonProperty("versjon") Versjon versjon) {
         super(aktørId, journalpostId, saksnummer, hendelse);
         this.innsendingsTidspunkt = innsendingsTidspunkt;
         this.arbeidsgiverId = arbeidsgiverId;
         this.referanseId = referanseId;
         this.versjon = versjon;
-        this.imType = imType;
-    }
-
-    public InntektsmeldingType getImType() {
-        return imType;
     }
 
     public Versjon getVersjon() {

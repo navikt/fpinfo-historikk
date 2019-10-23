@@ -1,6 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_ENDRING;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_NY;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.ENDRING;
+import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.NY;
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
@@ -32,7 +36,7 @@ final class InntektsmeldingMapper {
         im.setArbeidsgiver(hendelse.getArbeidsgiverId());
         im.setVersjon(hendelse.getVersjon());
         im.setInnsendingsTidspunkt(hendelse.getInnsendingsTidspunkt());
-        im.setType(hendelse.getImType());
+        im.setType(hendelse.getHendelse().equals(INNTEKTSMELDING_NY) ? NY : ENDRING);
         LOG.info("Mappet til inntektsmelding {}", im);
         return im;
     }
@@ -53,7 +57,7 @@ final class InntektsmeldingMapper {
         innslag.setArbeidsgiver(tilArbeidsgiverInnslag(i.getArbeidsgiver()));
         innslag.setReferanseId(i.getReferanseId());
         innslag.setVersjon(i.getVersjon());
-        innslag.setImType(i.getType());
+        innslag.setHendelseType(i.getType().equals(NY) ? INNTEKTSMELDING_NY : INNTEKTSMELDING_ENDRING);
         LOG.info("Mappet til inntektsmelding {}", innslag);
         return innslag;
     }
