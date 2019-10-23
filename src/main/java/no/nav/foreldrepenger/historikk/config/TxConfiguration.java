@@ -61,11 +61,11 @@ public class TxConfiguration implements KafkaListenerConfigurer {
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setTransactionManager(tm);
-        factory.setAfterRollbackProcessor(afterRollbackProcessor);
+        // factory.setAfterRollbackProcessor(afterRollbackProcessor);
         return factory;
     }
 
-    @Bean
+    // @Bean
     public AfterRollbackProcessor<Object, Object> rollbackProcessor(KafkaTemplate<Object, Object> template) {
         return new DefaultAfterRollbackProcessor<>(
                 new DeadLetterPublishingRecoverer(template,
