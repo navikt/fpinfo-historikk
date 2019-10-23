@@ -39,7 +39,7 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Cacheable(cacheNames = "organisasjon")
-    @Retryable(value = { HttpServerErrorException.class }, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+    @Retryable(value = { Exception.class }, maxAttempts = 3, backoff = @Backoff(delay = 1000))
     @Override
     public String orgNavn(String orgnr) {
         return connection.orgNavn(orgnr);
@@ -52,7 +52,7 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Recover
-    public String orgNavnRecovery(HttpServerErrorException e, String orgnr) {
+    public String orgNavnRecovery(Exception e, String orgnr) {
         LOG.info("Retry failure recovery orgnr");
         return orgnr;
     }
