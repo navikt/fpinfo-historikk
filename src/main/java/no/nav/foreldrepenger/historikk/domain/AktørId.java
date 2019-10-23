@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @Embeddable
 public class AktørId {
 
+    @JsonValue
     private String aktørId;
 
     AktørId() {
@@ -18,7 +19,6 @@ public class AktørId {
         this.aktørId = aktørId;
     }
 
-    @JsonValue
     public String getAktørId() {
         return aktørId;
     }

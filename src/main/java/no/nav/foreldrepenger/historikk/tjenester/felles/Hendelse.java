@@ -3,14 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public abstract class Hendelse {
 
-    @JsonUnwrapped
     private final AktørId aktørId;
     @ApiModelProperty(example = "1234567890")
     private final String journalId;
