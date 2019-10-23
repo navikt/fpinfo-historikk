@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
@@ -15,10 +16,12 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final LocalDate innsendingsDato;
     private final String arbeidsgiver;
     private final String referanseId;
+    @ApiModelProperty(example = "1.0")
     private final Versjon versjon;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr, HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
+            String saksNr,     @ApiModelProperty(example = "1.0")
+ HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
         super(aktørId, journalId, saksNr, hendelse);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
