@@ -4,8 +4,6 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Versjon;
@@ -21,13 +19,10 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final String arbeidsgiver;
     @ApiModelProperty(example = "AR123456789")
     private final String referanseId;
-    @JsonUnwrapped
     private final Versjon versjon;
 
-    public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr,
-            HendelseType hendelse,
-            LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
+    public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId, String saksNr,
+            HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
         super(aktørId, journalId, saksNr, hendelse);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;
