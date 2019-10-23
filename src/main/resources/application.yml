@@ -11,7 +11,7 @@ sts:
   enabled: true           
 historikk:
    inntektsmelding:
-      enabled: false
+      enabled: true
    oppslag:
       enabled: true
    kafka:
