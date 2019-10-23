@@ -20,8 +20,9 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final Versjon versjon;
 
     public InntektsmeldingHendelse(AktørId aktørId, String journalId, String referanseId,
-            String saksNr,     @ApiModelProperty(example = "1.0")
- HendelseType hendelse, LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
+            String saksNr,
+            HendelseType hendelse,
+            LocalDate innsendingsDato, String arbeidsgiver, Versjon versjon) {
         super(aktørId, journalId, saksNr, hendelse);
         this.innsendingsDato = innsendingsDato;
         this.arbeidsgiver = arbeidsgiver;

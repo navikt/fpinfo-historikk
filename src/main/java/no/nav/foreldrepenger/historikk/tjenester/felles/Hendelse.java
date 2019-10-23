@@ -4,10 +4,12 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 
 public abstract class Hendelse {
 
+    @ApiModelProperty(example = "1111111111111")
     private final AktørId aktørId;
     private final String journalId;
     private final String saksnummer;
