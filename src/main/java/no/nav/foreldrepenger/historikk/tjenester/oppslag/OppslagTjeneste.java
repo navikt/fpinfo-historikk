@@ -7,6 +7,7 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -24,37 +25,55 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Override
+    @Cacheable(cacheNames = "aktør")
+    @Retryable(value = {
+            HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.aktør.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.aktør.delay:500}}"))
+
     public AktørId aktørId() {
         return connection.hentAktørId();
     }
 
+    @Cacheable(cacheNames = "fnr")
+    @Retryable(value = {
+            HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.org.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.org.delay:500}}"))
     public Fødselsnummer fnr(AktørId aktørId) {
         return connection.hentFnr(aktørId);
     }
 
     @Override
-    @Retryable(value = { HttpServerErrorException.class }, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+    @Cacheable(cacheNames = "fnr")
+    @Retryable(value = {
+            HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.person.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.person.delay:500}}"))
     public String personNavn(Fødselsnummer fnr) {
-        return connection.hentNavn(fnr);
+        try {
+            return connection.hentNavn(fnr);
+        } catch (HttpClientErrorException.Unauthorized e) {
+            return null;
+        }
     }
 
     @Cacheable(cacheNames = "organisasjon")
-    @Retryable(value = { Exception.class }, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+    @Retryable(value = {
+            HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.org.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.org.delay:500}}"))
     @Override
     public String orgNavn(String orgnr) {
-        return connection.orgNavn(orgnr);
+        try {
+            return connection.orgNavn(orgnr);
+        } catch (HttpClientErrorException.Unauthorized e) {
+            return null;
+        }
     }
 
     @Recover
     public String personNavnRecovery(HttpServerErrorException e, Fødselsnummer fnr) {
         LOG.info("Retry failure recovery fnr");
-        return fnr.getFnr();
+        return null;
     }
 
     @Recover
-    public String orgNavnRecovery(Exception e, String orgnr) {
+    public String orgNavnRecovery(HttpClientErrorException.Unauthorized e, String orgnr) {
         LOG.info("Retry failure recovery orgnr");
-        return orgnr;
+        return null;
     }
 
     @Override
