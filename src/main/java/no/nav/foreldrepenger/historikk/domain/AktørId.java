@@ -6,12 +6,9 @@ import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModelProperty;
-
 @Embeddable
 public class AktørId {
 
-    @ApiModelProperty(example = "111111111")
     private String aktørId;
 
     AktørId() {
