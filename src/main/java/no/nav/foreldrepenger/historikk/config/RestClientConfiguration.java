@@ -39,12 +39,14 @@ import no.nav.security.token.support.spring.validation.interceptor.BearerTokenCl
 public class RestClientConfiguration {
 
     public static final String STS = "sts";
+    public static final String REST = "rest";
     public static final String DOKARKIV = "dokarkiv";
 
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
 
     @Bean
     @Primary
+    @Qualifier(REST)
     public RestOperations restTemplate(RestTemplateBuilder builder,
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
