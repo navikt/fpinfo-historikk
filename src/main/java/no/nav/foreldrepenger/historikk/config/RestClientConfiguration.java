@@ -26,9 +26,7 @@ import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
 
-import no.nav.foreldrepenger.historikk.http.LastClientRequestInterceptor;
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
 import no.nav.foreldrepenger.historikk.tjenester.sts.STSClientRequestInterceptor;
@@ -49,14 +47,14 @@ public class RestClientConfiguration {
     @Bean
     @Primary
     @Qualifier(REST)
-    public RestTemplate restTemplate(RestTemplateBuilder builder,
+    public RestOperations restTemplate(RestTemplateBuilder builder,
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
         LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
                 mdcInterceptor);
         return builder
-                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor, new LastClientRequestInterceptor())
+                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
                 .build();
     }
 
