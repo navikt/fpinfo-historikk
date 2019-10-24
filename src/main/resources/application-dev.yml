@@ -4,7 +4,7 @@ dokarkiv:
    service: https://dokarkiv-q1.nais.preprod.local
 
 aktoer:
-  base-uri: https://app-q1.adeo.no/aktoerregister/
+  base-uri: https://app-q1.adeo.no/aktoerregister/api
 management:
    endpoints:
       web:
