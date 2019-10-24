@@ -28,6 +28,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import no.nav.foreldrepenger.historikk.http.LastClientRequestInterceptor;
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
 import no.nav.foreldrepenger.historikk.tjenester.sts.STSClientRequestInterceptor;
@@ -55,7 +56,7 @@ public class RestClientConfiguration {
         LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
                 mdcInterceptor);
         return builder
-                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
+                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor, new LastClientRequestInterceptor())
                 .build();
     }
 
