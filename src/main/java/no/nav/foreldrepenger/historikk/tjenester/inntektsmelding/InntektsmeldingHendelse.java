@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -22,6 +23,7 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final String arbeidsgiverId;
     @ApiModelProperty(example = "AR123456789")
     private final String referanseId;
+    @JsonAlias("version")
     private final Versjon versjon;
 
     @JsonCreator
