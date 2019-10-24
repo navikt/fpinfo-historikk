@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
@@ -26,10 +26,12 @@ public class AktørConnection extends AbstractRestConnection {
     private final AktørConfig cfg;
     private final TokenUtil tokenUtil;
 
-    public AktørConnection(@Qualifier(REST) RestOperations restOperations, AktørConfig cfg, TokenUtil tokenUtil) {
+    public AktørConnection(@Qualifier(REST) RestTemplate restOperations, AktørConfig cfg, TokenUtil tokenUtil) {
         super(restOperations, cfg);
+        LOG.info("Interceptorer er {}", restOperations.getInterceptors());
         this.cfg = cfg;
         this.tokenUtil = tokenUtil;
+
     }
 
     @Override

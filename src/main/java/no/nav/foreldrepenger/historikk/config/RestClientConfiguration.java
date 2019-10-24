@@ -26,6 +26,7 @@ import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
@@ -47,7 +48,7 @@ public class RestClientConfiguration {
     @Bean
     @Primary
     @Qualifier(REST)
-    public RestOperations restTemplate(RestTemplateBuilder builder,
+    public RestTemplate restTemplate(RestTemplateBuilder builder,
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
