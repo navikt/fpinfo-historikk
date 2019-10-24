@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+
 @Service
 public class AktørTjeneste implements Aktør {
 
@@ -23,6 +25,11 @@ public class AktørTjeneste implements Aktør {
     @Override
     public boolean isEnabled() {
         return connection.isEnabled();
+    }
+
+    @Override
+    public AktørId aktørId() {
+        return connection.aktørId();
     }
 
 }
