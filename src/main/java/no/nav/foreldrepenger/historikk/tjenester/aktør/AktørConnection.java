@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.aktør;
 
 import java.net.URI;
+import java.util.Map;
 
-import org.hibernate.mapping.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
