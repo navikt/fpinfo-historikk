@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.http;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.CONFIDENTIAL;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.net.URI;
@@ -9,6 +10,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
@@ -83,6 +85,14 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
             }
             throw e;
         }
+    }
+
+    protected <T> T exchangeGet(URI uri, Class<T> responseType, HttpHeaders headers) {
+        return exchange(uri, GET, new HttpEntity<>(headers), responseType);
+    }
+
+    private <T> T exchange(URI uri, HttpMethod method, HttpEntity<String> headers, Class<T> responseType) {
+        return restOperations.exchange(uri, method, headers, responseType).getBody();
     }
 
     protected Set<HttpMethod> optionsForAllow(URI uri) {
