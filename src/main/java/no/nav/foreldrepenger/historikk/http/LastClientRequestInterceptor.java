@@ -21,7 +21,7 @@ public class LastClientRequestInterceptor implements ClientHttpRequestIntercepto
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
 
-        LOG.trace("headers er", request.getHeaders());
+        LOG.trace("Headers er {}", request.getHeaders());
         return execution.execute(request, body);
     }
 
