@@ -91,8 +91,9 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
         return exchange(uri, GET, new HttpEntity<>(headers), responseType);
     }
 
-    private <T> T exchange(URI uri, HttpMethod method, HttpEntity<String> headers, Class<T> responseType) {
-        return restOperations.exchange(uri, method, headers, responseType).getBody();
+    private <T> T exchange(URI uri, HttpMethod method, HttpEntity<String> entity, Class<T> responseType) {
+        LOG.info("Exchange using " + entity);
+        return restOperations.exchange(uri, method, entity, responseType).getBody();
     }
 
     protected Set<HttpMethod> optionsForAllow(URI uri) {
