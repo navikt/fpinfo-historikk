@@ -6,7 +6,6 @@ import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CONSUMER_ID;
 import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import org.slf4j.MDC;
 import org.springframework.core.annotation.Order;
@@ -37,6 +36,6 @@ public class MDCValuesPropagatingClienHttpRequesInterceptor implements ClientHtt
                 request.getHeaders().add(key, value);
             }
         }
-        request.getHeaders().addAll(CALL_ID, Collections.singletonList(MDCUtil.callId()));
+        request.getHeaders().add(CALL_ID, MDCUtil.callId());
     }
 }
