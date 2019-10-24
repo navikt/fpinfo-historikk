@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.http;
 
-import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
+import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-@Order(HIGHEST_PRECEDENCE)
+@Order(LOWEST_PRECEDENCE)
 public class LastClientRequestInterceptor implements ClientHttpRequestInterceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LastClientRequestInterceptor.class);
@@ -24,5 +24,4 @@ public class LastClientRequestInterceptor implements ClientHttpRequestIntercepto
         LOG.trace("Headers er {}", request.getHeaders());
         return execution.execute(request, body);
     }
-
 }
