@@ -13,6 +13,9 @@ historikk:
       enabled: true
    oppslag:
       enabled: false
+
+    
+          
 dokarkiv:
    enabled: false
 server:

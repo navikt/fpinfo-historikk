@@ -4,10 +4,12 @@ import static no.nav.foreldrepenger.historikk.util.EnvUtil.CONFIDENTIAL;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import java.net.URI;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
@@ -81,6 +83,10 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
             }
             throw e;
         }
+    }
+
+    protected Set<HttpMethod> optionsForAllow(URI uri) {
+        return restOperations.optionsForAllow(uri);
     }
 
     private <T> T postForEntity(URI uri, HttpEntity<?> payload, Class<T> responseType) {

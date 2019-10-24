@@ -9,6 +9,7 @@ import static org.springframework.http.ResponseEntity.status;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 
 import org.springframework.context.annotation.Profile;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
+import no.nav.foreldrepenger.historikk.tjenester.aktør.AktørTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.token.support.core.api.Unprotected;
 
@@ -32,6 +34,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 @RequestMapping(path = InntektsmeldingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class InntektsmeldingDevController {
+
+    @Inject
+    private AktørTjeneste aktør;
 
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InntektsmeldingTjeneste inntektsmelding;
@@ -61,6 +66,11 @@ public class InntektsmeldingDevController {
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("aktørId") AktørId id) {
         return inntektsmelding.inntektsmeldinger(id);
+    }
+
+    @GetMapping("/ping")
+    public String ping() {
+        return aktør.ping();
     }
 
     @Override

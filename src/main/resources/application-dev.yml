@@ -3,6 +3,8 @@ dokarkiv:
    enabled: false
    service: https://dokarkiv-q1.nais.preprod.local
 
+aktoer:
+  base-uri: https://app-q1.adeo.no/aktoerregister/
 management:
    endpoints:
       web:
