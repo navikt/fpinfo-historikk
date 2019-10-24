@@ -28,7 +28,6 @@ public class AktørConnection extends AbstractRestConnection {
 
     public AktørConnection(@Qualifier(REST) RestTemplate restOperations, AktørConfig cfg, TokenUtil tokenUtil) {
         super(restOperations, cfg);
-        LOG.info("Interceptorer er {}", restOperations.getInterceptors());
         this.cfg = cfg;
         this.tokenUtil = tokenUtil;
 
@@ -53,6 +52,7 @@ public class AktørConnection extends AbstractRestConnection {
         headers.add(NAV_CALL_ID1, MDCUtil.callId());
         var map = exchangeGet(cfg.aktørUri(), Map.class, headers);
         LOG.info("Fikk map {}", map);
+        // TODO
         return AktørId.valueOf("42");
     }
 }
