@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -36,6 +37,8 @@ public class JPAInntektsmeldingInnslag {
     private LocalDateTime opprettet;
     @Column(name = "innsendingstidspunkt")
     private LocalDateTime innsendingsTidspunkt;
+    @Column(name = "startdato")
+    private LocalDate startDato;
 
     private String arbeidsgiver;
     private String referanseId;
@@ -53,6 +56,14 @@ public class JPAInntektsmeldingInnslag {
 
     public void setType(InntektsmeldingType type) {
         this.type = type;
+    }
+
+    public LocalDate getStartDato() {
+        return startDato;
+    }
+
+    public void setStartDato(LocalDate startDato) {
+        this.startDato = startDato;
     }
 
     public LocalDateTime getInnsendingsTidspunkt() {
