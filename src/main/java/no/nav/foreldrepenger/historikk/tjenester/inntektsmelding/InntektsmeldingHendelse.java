@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class InntektsmeldingHendelse extends Hendelse {
     private final String referanseId;
     @JsonAlias("version")
     private final Versjon versjon;
+    private final LocalDate startDato;
 
     @JsonCreator
     public InntektsmeldingHendelse(
@@ -35,12 +37,17 @@ public class InntektsmeldingHendelse extends Hendelse {
             @JsonProperty("hendelse") HendelseType hendelse,
             @JsonProperty("innsendingsTidspunkt") LocalDateTime innsendingsTidspunkt,
             @JsonProperty("arbeidsgiverId") String arbeidsgiverId,
-            @JsonProperty("versjon") Versjon versjon) {
+            @JsonProperty("versjon") Versjon versjon, @JsonProperty("startDato") LocalDate startDato) {
         super(aktørId, journalpostId, saksnummer, hendelse);
         this.innsendingsTidspunkt = innsendingsTidspunkt;
         this.arbeidsgiverId = arbeidsgiverId;
         this.referanseId = referanseId;
         this.versjon = versjon;
+        this.startDato = startDato;
+    }
+
+    public LocalDate getStartDato() {
+        return startDato;
     }
 
     public Versjon getVersjon() {
