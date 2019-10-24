@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import java.time.LocalDate;
+
 import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
@@ -7,10 +9,17 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 public class InntektsmeldingInnslag extends HistorikkInnslag {
 
     private ArbeidsgiverInnslag arbeidsgiver;
-
     private Versjon versjon;
-
     private HendelseType hendelseType;
+    private LocalDate startDato;
+
+    public LocalDate getStartDato() {
+        return startDato;
+    }
+
+    public void setStartDato(LocalDate startDato) {
+        this.startDato = startDato;
+    }
 
     public HendelseType getHendelseType() {
         return hendelseType;
