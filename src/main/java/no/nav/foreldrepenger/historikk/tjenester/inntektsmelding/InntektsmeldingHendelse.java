@@ -37,7 +37,8 @@ public class InntektsmeldingHendelse extends Hendelse {
             @JsonProperty("hendelse") HendelseType hendelse,
             @JsonProperty("innsendingsTidspunkt") LocalDateTime innsendingsTidspunkt,
             @JsonProperty("arbeidsgiverId") String arbeidsgiverId,
-            @JsonProperty("versjon") Versjon versjon, @JsonProperty("startDato") LocalDate startDato) {
+            @JsonProperty("versjon") Versjon versjon,
+            @JsonProperty("startDato") LocalDate startDato) {
         super(aktørId, journalpostId, saksnummer, hendelse);
         this.innsendingsTidspunkt = innsendingsTidspunkt;
         this.arbeidsgiverId = arbeidsgiverId;
