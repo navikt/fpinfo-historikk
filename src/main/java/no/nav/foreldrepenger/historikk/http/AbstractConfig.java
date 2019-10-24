@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public abstract class AbstractConfig {
-    public static final URI SERVICE = URI.create("http://security-token-service/rest");
 
     protected abstract URI pingURI();
 
