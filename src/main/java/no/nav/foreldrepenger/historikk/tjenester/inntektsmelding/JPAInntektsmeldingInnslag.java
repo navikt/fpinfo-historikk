@@ -140,8 +140,10 @@ public class JPAInntektsmeldingInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[versjon=" + versjon + ", id=" + id + ", aktørId=" + aktørId
-                + ", journalpostId=" + journalpostId + ", saksnr=" + saksnr + ", opprettet=" + opprettet
-                + ", arbeidsgiver=" + arbeidsgiver + ", referanseId=" + referanseId + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
+                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", innsendingsTidspunkt=" + innsendingsTidspunkt
+                + ", startDato=" + startDato + ", arbeidsgiver=" + arbeidsgiver + ", referanseId=" + referanseId
+                + ", versjon=" + versjon + ", type=" + type + "]";
     }
+
 }
