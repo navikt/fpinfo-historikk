@@ -38,7 +38,7 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
             throws IOException {
 
         URI uri = UriComponentsBuilder.fromHttpRequest(request).replaceQuery(null).build().toUri();
-        LOG.info("Timer request til {}", uri.toString());
+        LOG.info("Timer request til {} med headers {}", uri.toString(), request.getHeaders());
         Timer t = Timer.builder("rest.calls")
                 .tags("uri", uri.getPath(), "method", request.getMethodValue(), "host", uri.getHost())
                 .publishPercentiles(0.5, 0.95)
