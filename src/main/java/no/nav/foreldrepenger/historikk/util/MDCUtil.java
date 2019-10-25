@@ -37,4 +37,5 @@ public final class MDCUtil {
         MDC.put(key, Optional.ofNullable(value)
                 .orElse(defaultValue));
     }
+
 }

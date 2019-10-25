@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.historikk.util.MDCUtil.toMDC;
 
 import javax.validation.Valid;
 
-import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -30,9 +30,7 @@ public class InntektsmeldingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void konsumer(@Payload @Valid InntektsmeldingHendelse hendelse,
             @Header(name = NAV_CALL_ID, required = false) String callId) {
-        if (callId != null) {
-            MDC.put(NAV_CALL_ID, callId);
-        }
+        toMDC(NAV_CALL_ID, callId);
         LOG.info("Mottok inntektsmeldinghendelse {}", hendelse);
         inntektsmelding.lagre(hendelse);
     }
