@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 public interface Oppslag {
 
@@ -9,6 +8,6 @@ public interface Oppslag {
 
     String orgNavn(String arbeidsgiver);
 
-    String personNavn(Fødselsnummer fnr);
+    String personNavn(AktørId aktørId);
 
 }

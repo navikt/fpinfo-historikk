@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Component
@@ -80,8 +80,8 @@ final class InntektsmeldingMapper {
             return oppslag.orgNavn(arbeidsgiver);
         }
 
-        if (arbeidsgiver.length() == 11) {
-            return oppslag.personNavn(Fødselsnummer.valueOf(arbeidsgiver));
+        if (arbeidsgiver.length() == 13) {
+            return oppslag.personNavn(AktørId.valueOf(arbeidsgiver));
         }
         LOG.warn("Arbeidsgiver {} kan ikke håndteres", arbeidsgiver);
         return null;
