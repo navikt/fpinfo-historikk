@@ -25,7 +25,7 @@
 			<OnMatch>DENY</OnMatch>
 		</turboFilter>
 	</springProfile>
-	<springProfile name="dev,local">
+	<springProfile name="dev-fss,local">
 	    <logger name="org.springframework.vault" level="trace" />
 		<logger name="no.nav.foreldrepenger" level="trace" />
 		<logger name="org.springframework.web.client.RestOperations" level="trace" />	
