@@ -1,7 +1,9 @@
 package no.nav.foreldrepenger.historikk.config;
 
 import static java.lang.System.getenv;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEFAULT;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV_FSS;
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV_GCP;
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 
 import java.util.Optional;
@@ -24,9 +26,12 @@ public final class ClusterAwareSpringProfileResolver {
         if (cluster == null) {
             return LOCAL;
         }
-        if (cluster.contains(DEV)) {
-            return DEV;
+        if (cluster.equals(DEV_FSS)) {
+            return DEV_FSS;
         }
-        return null;
+        if (cluster.equals(DEV_GCP)) {
+            return DEV_GCP;
+        }
+        return DEFAULT;
     }
 }
