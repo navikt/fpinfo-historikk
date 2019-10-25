@@ -44,9 +44,9 @@ public class OppslagTjeneste implements Oppslag {
     @Cacheable(cacheNames = "fnr")
     @Retryable(value = {
             HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.person.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.person.delay:500}}"))
-    public String personNavn(Fødselsnummer fnr) {
+    public String personNavn(AktørId aktørId) {
         try {
-            return connection.hentNavn(fnr);
+            return connection.hentNavn(aktørId);
         } catch (HttpClientErrorException.Unauthorized e) {
             return null;
         }

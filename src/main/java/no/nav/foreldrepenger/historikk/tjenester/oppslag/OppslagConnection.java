@@ -34,7 +34,11 @@ public class OppslagConnection extends AbstractRestConnection {
         return getForObject(cfg.fnrURI(aktørId.getAktørId()), Fødselsnummer.class, true);
     }
 
-    public String hentNavn(Fødselsnummer fnr) {
+    public String hentNavn(AktørId aktørId) {
+        return hentNavn(hentFnr(aktørId));
+    }
+
+    private String hentNavn(Fødselsnummer fnr) {
         return getForObject(cfg.personNavnURI(fnr.getFnr()), String.class);
     }
 
