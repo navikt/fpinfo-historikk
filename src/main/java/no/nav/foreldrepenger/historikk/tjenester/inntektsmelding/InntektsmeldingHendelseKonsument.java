@@ -28,11 +28,12 @@ public class InntektsmeldingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
-    public void konsumer(@Payload @Valid InntektsmeldingHendelse hendelse,
+    public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
             @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);
-        LOG.info("Mottok inntektsmeldinghendelse {}", hendelse);
-        inntektsmelding.lagre(hendelse);
+        LOG.info("Mottok inntektsmeldinghendelse {}", h);
+        inntektsmelding.lagre(h);
+        LOG.info("Inntektsmeldinghendelse for {} med referanse {} er lagret", h.getAktørId(), h.getReferanseId());
     }
 
     @Override
