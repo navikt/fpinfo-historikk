@@ -1,7 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -11,7 +9,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +21,11 @@ import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
+import no.nav.foreldrepenger.historikk.util.ConditionalOnDevOrLocal;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
-@Profile({ LOCAL, DEV })
+@ConditionalOnDevOrLocal
 @Api(description = "Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
 @RequestMapping(path = InntektsmeldingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
