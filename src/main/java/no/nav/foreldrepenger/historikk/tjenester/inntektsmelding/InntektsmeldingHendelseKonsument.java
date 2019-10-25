@@ -29,8 +29,10 @@ public class InntektsmeldingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void konsumer(@Payload @Valid InntektsmeldingHendelse hendelse,
-            @Header(NAV_CALL_ID) String callId) {
-        MDC.put(NAV_CALL_ID, callId);
+            @Header(name = NAV_CALL_ID, required = false) String callId) {
+        if (callId != null) {
+            MDC.put(NAV_CALL_ID, callId);
+        }
         LOG.info("Mottok inntektsmeldinghendelse {}", hendelse);
         inntektsmelding.lagre(hendelse);
     }
