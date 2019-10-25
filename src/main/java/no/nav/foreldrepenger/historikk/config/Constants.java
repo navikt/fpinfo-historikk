@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.config;
 
 public final class Constants {
+    public static final String NAIS_CLUSTER_NAME = "NAIS_CLUSTER_NAME";
     public static final String NAV_PERSONIDENTER = "Nav-Personidenter";
     public static final String SELVBETJENING = "selvbetjening";
     public static final String UKJENT_KODEVERKSVERDI = "-";

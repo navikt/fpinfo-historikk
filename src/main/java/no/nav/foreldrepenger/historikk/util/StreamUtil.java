@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.util;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,10 @@ import java.util.stream.Stream;
 
 public final class StreamUtil {
     private StreamUtil() {
+    }
+
+    public static <T> Stream<T> safeStream(T... elems) {
+        return safeStream(Arrays.asList(elems));
     }
 
     public static <T> Stream<T> safeStream(List<T> list) {

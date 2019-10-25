@@ -2,13 +2,10 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +15,11 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
+import no.nav.foreldrepenger.historikk.util.ConditionalOnDevOrLocal;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
-@Profile({ LOCAL, DEV })
+@ConditionalOnDevOrLocal
 @RequestMapping(path = HistorikkDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class HistorikkDevController {
