@@ -1,3 +1,5 @@
+import.enabled : true
+import.name : /Users/jan-olaveide/EclipseWS/fpinfo-historikk/src/test/resources/im
 management:
    endpoints:
       web:

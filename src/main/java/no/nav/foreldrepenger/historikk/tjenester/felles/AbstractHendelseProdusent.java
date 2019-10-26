@@ -57,4 +57,10 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
                 });
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[topic=" + topic + ", kafkaOperations=" + kafkaOperations + ", mapper="
+                + mapper + "]";
+    }
+
 }
