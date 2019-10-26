@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,16 @@ import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Service
+@ConditionalOnProperty(name = "import.enabled", havingValue = "true")
 public class ExcelImportør {
+
+    private static class UnexpectedCellException extends RuntimeException {
+
+        public UnexpectedCellException(Cell cell, Exception e) {
+            super("Feil i celle (" + cell.getRowIndex() + "," + cell.getColumnIndex() + ")", e);
+        }
+
+    }
 
     private static final Versjon VERSJON = Versjon.valueOf("1.0-IMPORT");
     private static final Logger LOG = LoggerFactory.getLogger(ExcelImportør.class);
@@ -73,8 +83,8 @@ public class ExcelImportør {
                     arbeidsgiver(row),
                     VERSJON,
                     startDato(row));
-        } catch (Exception e) {
-            LOG.warn("feil i rad {}, ignorerer", row.getRowNum());
+        } catch (UnexpectedCellException e) {
+            LOG.warn("Feil i rad {}, ignorerer ({})", row.getRowNum(), e.getMessage());
             return null;
         }
     }
@@ -119,8 +129,7 @@ public class ExcelImportør {
         try {
             return cell.getStringCellValue();
         } catch (Exception e) {
-            LOG.warn("Celle {} har feil ({},{})", cell, cell.getRowIndex(), cell.getColumnIndex());
-            return null;
+            throw new UnexpectedCellException(cell, e);
         }
     }
 
@@ -128,8 +137,7 @@ public class ExcelImportør {
         try {
             return new BigDecimal(cell.getNumericCellValue()).toPlainString();
         } catch (Exception e) {
-            LOG.warn("Celle {} har feil ({},{})", cell, cell.getRowIndex(), cell.getColumnIndex());
-            return null;
+            throw new UnexpectedCellException(cell, e);
         }
     }
 
@@ -137,8 +145,7 @@ public class ExcelImportør {
         try {
             return HendelseType.valueOf(cell.getStringCellValue());
         } catch (Exception e) {
-            LOG.warn("Celle {} har feil ({},{})", cell, cell.getRowIndex(), cell.getColumnIndex());
-            return null;
+            throw new UnexpectedCellException(cell, e);
         }
     }
 
@@ -147,8 +154,7 @@ public class ExcelImportør {
             return tilZonedTime(cell).map(ZonedDateTime::toLocalDateTime)
                     .orElse(null);
         } catch (Exception e) {
-            LOG.warn("Celle {} har feil ({},{})", cell, cell.getRowIndex(), cell.getColumnIndex());
-            return null;
+            throw new UnexpectedCellException(cell, e);
         }
     }
 
@@ -158,8 +164,7 @@ public class ExcelImportør {
                     .map(ZonedDateTime::toLocalDate)
                     .orElse(null);
         } catch (Exception e) {
-            LOG.warn("Celle {} har feil ({},{})", cell, cell.getRowIndex(), cell.getColumnIndex());
-            return null;
+            throw new UnexpectedCellException(cell, e);
         }
     }
 
