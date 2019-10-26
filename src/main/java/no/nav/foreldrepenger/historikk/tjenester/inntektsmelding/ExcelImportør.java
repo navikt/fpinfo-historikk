@@ -31,14 +31,6 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @ConditionalOnProperty(name = "import.enabled", havingValue = "true")
 public class ExcelImportør {
 
-    private static class UnexpectedCellException extends RuntimeException {
-
-        public UnexpectedCellException(Cell cell, Exception e) {
-            super("Feil i celle (" + cell.getRowIndex() + "," + cell.getColumnIndex() + ")", e);
-        }
-
-    }
-
     private static final Versjon VERSJON = Versjon.valueOf("1.0-IMPORT");
     private static final Logger LOG = LoggerFactory.getLogger(ExcelImportør.class);
     private final InntektsmeldingHendelseProdusent produsent;
@@ -49,7 +41,7 @@ public class ExcelImportør {
 
     public void importer(Resource res) throws IOException {
         if (!res.exists()) {
-            throw new IllegalStateException("Resource " + res.getDescription() + " finnes ikke");
+            throw new IllegalArgumentException("Resource " + res.getDescription() + " finnes ikke");
         }
         try (var wb = workbookFra(res)) {
             stream(((Iterable<Row>) () -> wb.getSheetAt(0).iterator()).spliterator(), true)
@@ -58,7 +50,7 @@ public class ExcelImportør {
                     .filter((Objects::nonNull))
                     .forEach(produsent::send);
         } catch (IOException e) {
-            throw new IllegalStateException("Resource " + res.getDescription() + " kan ikke leses", e);
+            throw new IllegalArgumentException("Resource " + res.getDescription() + " kan ikke leses", e);
         }
     }
 
@@ -67,7 +59,7 @@ public class ExcelImportør {
 
             return new XSSFWorkbook(res.getInputStream());
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -143,8 +135,8 @@ public class ExcelImportør {
 
     private static HendelseType fraType(Cell cell) {
         try {
-            return HendelseType.valueOf(cell.getStringCellValue());
-        } catch (Exception e) {
+            return HendelseType.valueOf(fraTekst(cell));
+        } catch (IllegalArgumentException e) {
             throw new UnexpectedCellException(cell, e);
         }
     }
@@ -180,5 +172,12 @@ public class ExcelImportør {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[produsent=" + produsent + "]";
+    }
+
+    private static class UnexpectedCellException extends RuntimeException {
+
+        public UnexpectedCellException(Cell cell, Exception e) {
+            super("Feil i celle (" + cell.getRowIndex() + "," + cell.getColumnIndex() + ")", e);
+        }
     }
 }
