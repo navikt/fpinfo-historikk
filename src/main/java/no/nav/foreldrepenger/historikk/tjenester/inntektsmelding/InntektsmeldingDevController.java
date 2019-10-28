@@ -56,6 +56,11 @@ public class InntektsmeldingDevController {
         produsent.send(hendelse);
     }
 
+    @PostMapping("/sendInntektsmeldinger")
+    public void send(@RequestBody @Valid List<InntektsmeldingHendelse> hendelser) {
+        produsent.send(hendelser);
+    }
+
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("aktørId") AktørId id) {
         return inntektsmelding.inntektsmeldinger(id);

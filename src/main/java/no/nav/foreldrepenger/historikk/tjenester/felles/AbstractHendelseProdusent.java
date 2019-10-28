@@ -3,7 +3,10 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.util.MDCUtil.callIdOrNew;
+import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static org.springframework.kafka.support.KafkaHeaders.TOPIC;
+
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +30,12 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
         this.topic = topic;
         this.kafkaOperations = kafkaOperations;
         this.mapper = mapper;
+    }
+
+    @Transactional(KAFKA_TM)
+    public void send(List<T> hendelser) {
+        LOG.info("Mottok {} hendelser", hendelser.size());
+        safeStream(hendelser).forEach(this::send);
     }
 
     @Transactional(KAFKA_TM)
