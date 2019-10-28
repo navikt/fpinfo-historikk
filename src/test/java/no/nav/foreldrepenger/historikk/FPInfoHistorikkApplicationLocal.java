@@ -27,5 +27,4 @@ public class FPInfoHistorikkApplicationLocal {
                 .main(FPInfoHistorikkApplicationLocal.class)
                 .run(args);
     }
-
 }
