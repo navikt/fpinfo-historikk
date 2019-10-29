@@ -44,10 +44,14 @@ public class InntektsmeldingDevController {
     @PostMapping("/lagreInntektsmelding")
     public ResponseEntity<?> lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
         boolean lagret = inntektsmelding.lagre(hendelse);
-        return lagret ? status(CREATED).build()
-                : status(CONFLICT)
-                        .body(new ApiError(CONFLICT,
-                                "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
+        ResponseEntity<Object> created = status(CREATED).build();
+        return lagret ? created : conflict(hendelse);
+    }
+
+    private ResponseEntity<ApiError> conflict(InntektsmeldingHendelse hendelse) {
+        return status(CONFLICT)
+                .body(new ApiError(CONFLICT,
+                        "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
     }
 
     @PostMapping("/sendInntektsmelding")
