@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -38,8 +39,9 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("hendelse") @JsonAlias("hendelse") HendelseType hendelse,
             @JsonProperty("opplastedeVedlegg") List<String> opplastedeVedlegg,
             @JsonProperty("ikkeOpplastedeVedlegg") List<String> ikkeOpplastedeVedlegg,
-            @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato) {
-        super(aktørId, journalId, saksnummer, hendelse);
+            @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato,
+            @JsonProperty("innsendt") LocalDateTime innsendt) {
+        super(aktørId, journalId, saksnummer, hendelse, innsendt);
         this.leveranseStatus = leveranseStatus;
         this.dialogId = dialogId;
         this.referanseId = referanseId;

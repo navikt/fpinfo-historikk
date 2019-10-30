@@ -27,6 +27,7 @@ final class InnsendingMapper {
         innslag.setAktørId(i.getAktørId());
         innslag.setVedlegg(tilVedlegg(i));
         innslag.setBehandlingsdato(i.getBehandlingsdato());
+        innslag.setInnsendt(i.getInnsendt());
         innslag.setReferanseId(i.getReferanseId());
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
@@ -47,6 +48,7 @@ final class InnsendingMapper {
         innslag.setJournalpostId(hendelse.getJournalId());
         innslag.setHendelse(hendelse.getHendelse());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
+        innslag.setInnsendt(hendelse.getInnsendt());
         safeStream(hendelse.getOpplastedeVedlegg())
                 .map(v -> fraVedlegg(v, LASTET_OPP))
                 .forEach(innslag::addVedlegg);

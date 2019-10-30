@@ -35,7 +35,7 @@ final class InntektsmeldingMapper {
         im.setSaksnr(hendelse.getSaksnummer());
         im.setArbeidsgiver(hendelse.getArbeidsgiverId());
         im.setVersjon(hendelse.getVersjon());
-        im.setInnsendingsTidspunkt(hendelse.getInnsendingsTidspunkt());
+        im.setInnsendt(hendelse.getInnsendt());
         im.setStartDato(hendelse.getStartDato());
         im.setType(hendelse.getHendelse().equals(INNTEKTSMELDING_NY) ? NY : ENDRING);
         LOG.info("Mappet til inntektsmelding {}", im);
@@ -58,6 +58,7 @@ final class InntektsmeldingMapper {
         innslag.setArbeidsgiver(tilArbeidsgiverInnslag(i.getArbeidsgiver()));
         innslag.setReferanseId(i.getReferanseId());
         innslag.setVersjon(i.getVersjon());
+        innslag.setInnsendt(i.getInnsendt());
         innslag.setHendelseType(i.getType().equals(NY) ? INNTEKTSMELDING_NY : INNTEKTSMELDING_ENDRING);
         innslag.setStartDato(i.getStartDato());
         LOG.info("Mappet til inntektsmelding {}", innslag);

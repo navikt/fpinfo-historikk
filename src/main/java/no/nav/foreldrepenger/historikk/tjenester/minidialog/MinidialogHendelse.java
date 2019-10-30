@@ -19,23 +19,17 @@ public class MinidialogHendelse extends Hendelse {
     @ApiModelProperty(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
     private final LocalDate gyldigTil;
-    private final LocalDateTime innsendingsTidspunkt;
 
     private final String dialogId;
     private final String tekst;
 
     @JsonCreator
     public MinidialogHendelse(AktørId aktørId, String dialogId, String saksnummer,
-            HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendingsTidspunkt) {
-        super(aktørId, null, saksnummer, hendelse);
+            HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendt) {
+        super(aktørId, null, saksnummer, hendelse, innsendt);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
-        this.innsendingsTidspunkt = innsendingsTidspunkt;
-    }
-
-    public LocalDateTime getInnsendingsTidspunkt() {
-        return innsendingsTidspunkt;
     }
 
     public String getDialogId() {
@@ -54,8 +48,7 @@ public class MinidialogHendelse extends Hendelse {
     public String toString() {
         return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
                 + getHendelse() + ", aktørId=" + getAktørId() + ", dialogId="
-                + getDialogId() + ", saksNr=" + getSaksnummer() + ", innsendingstidspunkt=" + innsendingsTidspunkt
-                + "]";
+                + getDialogId() + ", saksNr=" + getSaksnummer() + "]";
     }
 
 }

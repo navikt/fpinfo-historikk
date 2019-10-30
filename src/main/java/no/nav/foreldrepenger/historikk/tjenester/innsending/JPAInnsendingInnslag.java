@@ -44,6 +44,7 @@ public class JPAInnsendingInnslag {
     private List<JPAInnsendingVedlegg> vedlegg = new ArrayList<>();
     private LocalDate behandlingsdato;
     private String referanseId;
+    private LocalDateTime innsendt;
 
     JPAInnsendingInnslag() {
     }
@@ -125,11 +126,19 @@ public class JPAInnsendingInnslag {
         this.saksnr = saksnr;
     }
 
+    public LocalDateTime getInnsendt() {
+        return innsendt;
+    }
+
+    public void setInnsendt(LocalDateTime innsendt) {
+        this.innsendt = innsendt;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId="
-                + journalpostId + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet
-                + ", vedlegg=" + vedlegg + ", behandlingsdato=" + behandlingsdato + ", referanseId=" + referanseId
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
+                + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet + ", vedlegg=" + vedlegg
+                + ", behandlingsdato=" + behandlingsdato + ", referanseId=" + referanseId + ", innsendt=" + innsendt
                 + "]";
     }
 

@@ -34,6 +34,7 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
     private String journalpostId;
     private String saksnr;
     private String referanseId;
+    private LocalDateTime innsendt;
 
     protected LocalDateTime opprettet;
 
@@ -81,6 +82,14 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 
     public void setJournalpostId(String journalpostId) {
         this.journalpostId = journalpostId;
+    }
+
+    public LocalDateTime getInnsendt() {
+        return innsendt;
+    }
+
+    public void setInnsendt(LocalDateTime innsendt) {
+        this.innsendt = innsendt;
     }
 
     @Override

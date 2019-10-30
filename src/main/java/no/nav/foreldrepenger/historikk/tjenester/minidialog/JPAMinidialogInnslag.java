@@ -43,6 +43,7 @@ public class JPAMinidialogInnslag {
     @LastModifiedDate
     private LocalDateTime endret;
     private boolean aktiv;
+    private LocalDateTime innsendt;
 
     private String dialogId;
 
@@ -129,12 +130,19 @@ public class JPAMinidialogInnslag {
         this.dialogId = dialogId;
     }
 
+    public LocalDateTime getInnsendt() {
+        return innsendt;
+    }
+
+    public void setInnsendt(LocalDateTime innsendt) {
+        this.innsendt = innsendt;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", tekst=" + tekst
-                + ", hendelseType=" + hendelse + ", gyldigTil=" + gyldigTil
-                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv=" + aktiv
-                + ", dialogId=" + dialogId + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", tekst=" + tekst + ", hendelse="
+                + hendelse + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", opprettet=" + opprettet
+                + ", endret=" + endret + ", aktiv=" + aktiv + ", innsendt=" + innsendt + ", dialogId=" + dialogId + "]";
     }
 
 }

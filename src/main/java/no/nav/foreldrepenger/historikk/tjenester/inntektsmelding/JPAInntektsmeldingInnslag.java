@@ -35,8 +35,7 @@ public class JPAInntektsmeldingInnslag {
     private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
-    @Column(name = "innsendingstidspunkt")
-    private LocalDateTime innsendingsTidspunkt;
+    private LocalDateTime innsendt;
     @Column(name = "startdato")
     private LocalDate startDato;
 
@@ -66,12 +65,12 @@ public class JPAInntektsmeldingInnslag {
         this.startDato = startDato;
     }
 
-    public LocalDateTime getInnsendingsTidspunkt() {
-        return innsendingsTidspunkt;
+    public LocalDateTime getInnsendt() {
+        return innsendt;
     }
 
-    public void setInnsendingsTidspunkt(LocalDateTime innsendingsTidspunkt) {
-        this.innsendingsTidspunkt = innsendingsTidspunkt;
+    public void setInnsendt(LocalDateTime innsendt) {
+        this.innsendt = innsendt;
     }
 
     public Versjon getVersjon() {
@@ -141,7 +140,7 @@ public class JPAInntektsmeldingInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
-                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", innsendingsTidspunkt=" + innsendingsTidspunkt
+                + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", innsendt=" + innsendt
                 + ", startDato=" + startDato + ", arbeidsgiver=" + arbeidsgiver + ", referanseId=" + referanseId
                 + ", versjon=" + versjon + ", type=" + type + "]";
     }

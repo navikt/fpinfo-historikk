@@ -18,8 +18,6 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
 
-    @ApiModelProperty(example = "2019-10-22T18:50:10.9851661")
-    private final LocalDateTime innsendingsTidspunkt;
     @ApiModelProperty(example = "888888888")
     private final String arbeidsgiverId;
     @ApiModelProperty(example = "AR123456789")
@@ -38,9 +36,9 @@ public class InntektsmeldingHendelse extends Hendelse {
             @JsonProperty("innsendingsTidspunkt") LocalDateTime innsendingsTidspunkt,
             @JsonProperty("arbeidsgiverId") String arbeidsgiverId,
             @JsonProperty("versjon") Versjon versjon,
-            @JsonProperty("startDato") LocalDate startDato) {
-        super(aktørId, journalpostId, saksnummer, hendelse);
-        this.innsendingsTidspunkt = innsendingsTidspunkt;
+            @JsonProperty("startDato") LocalDate startDato,
+            @JsonProperty("innsendt") LocalDateTime innsendt) {
+        super(aktørId, journalpostId, saksnummer, hendelse, innsendt);
         this.arbeidsgiverId = arbeidsgiverId;
         this.referanseId = referanseId;
         this.versjon = versjon;
@@ -55,10 +53,6 @@ public class InntektsmeldingHendelse extends Hendelse {
         return versjon;
     }
 
-    public LocalDateTime getInnsendingsTidspunkt() {
-        return innsendingsTidspunkt;
-    }
-
     public String getReferanseId() {
         return referanseId;
     }
@@ -69,7 +63,7 @@ public class InntektsmeldingHendelse extends Hendelse {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[versjon=" + versjon + ", innsendingsTidspunkt=" + innsendingsTidspunkt
+        return getClass().getSimpleName() + "[versjon=" + versjon
                 + ", arbeidsgiver=" + arbeidsgiverId
                 + ", aktørId=" + getAktørId() + ", journalId=" + getJournalId()
                 + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnummer() + "]";
