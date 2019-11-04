@@ -25,7 +25,6 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Override
-    @Cacheable(cacheNames = "aktør")
     @Retryable(value = {
             HttpServerErrorException.class }, maxAttemptsExpression = "#{${oppslag.aktør.attempts:3}}", backoff = @Backoff(delayExpression = "#{${oppslag.aktør.delay:500}}"))
 
