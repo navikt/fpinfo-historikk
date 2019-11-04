@@ -37,7 +37,7 @@ public class HistorikkDevController {
     }
 
     @GetMapping
-    public List<HistorikkInnslag> historikk(@RequestParam("aktørId") AktørId id) {
+    public List<HistorikkInnslag> allHistorikkFor(@RequestParam("aktørId") AktørId id) {
         return concat(minidialog.dialoger(id, false).stream(),
                 concat(inntektsmelding.inntektsmeldinger(id).stream(), søknad.innsendinger(id).stream()))
                         .sorted()
