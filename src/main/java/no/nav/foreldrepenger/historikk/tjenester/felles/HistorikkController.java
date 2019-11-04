@@ -41,26 +41,31 @@ public class HistorikkController {
 
     @GetMapping("/me/søknader")
     public List<InnsendingInnslag> søknader() {
+        LOG.info("Henter søknader for pålogget bruker");
         return innsending.innsendinger();
     }
 
     @GetMapping("/me/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger() {
+        LOG.info("Henter inntektsmeldinger for pålogget bruker");
         return inntektsmelding.inntektsmeldinger();
     }
 
     @GetMapping("/me/minidialoger")
     public List<MinidialogInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
+        LOG.info("Henter minidialoger for pålogget bruker");
         return minidialog.dialoger(activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")
     public List<MinidialogInnslag> aktive() {
+        LOG.info("Henter aktive minidialoger for pålogget bruker");
         return minidialog.aktive();
     }
 
     @GetMapping("/me/all")
-    public List<HistorikkInnslag> historikk() {
+    public List<HistorikkInnslag> allHistorikk() {
+        LOG.info("Henter all historikk for pålogget bruker");
         return concat(dialoger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
