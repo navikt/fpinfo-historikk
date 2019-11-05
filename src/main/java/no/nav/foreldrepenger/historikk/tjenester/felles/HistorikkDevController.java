@@ -15,7 +15,7 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.util.ConditionalOnDevOrLocal;
+import no.nav.foreldrepenger.historikk.util.annoteringer.ConditionalOnDevOrLocal;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController

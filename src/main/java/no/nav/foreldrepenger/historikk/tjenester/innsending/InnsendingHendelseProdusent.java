@@ -5,8 +5,8 @@ import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.AbstractHendelseProdusent;
-import no.nav.foreldrepenger.historikk.util.ConditionalOnDevOrLocal;
 import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
+import no.nav.foreldrepenger.historikk.util.annoteringer.ConditionalOnDevOrLocal;
 
 @Service
 @ConditionalOnDevOrLocal

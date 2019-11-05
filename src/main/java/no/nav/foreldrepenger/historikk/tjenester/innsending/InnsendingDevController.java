@@ -19,7 +19,7 @@ import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
-import no.nav.foreldrepenger.historikk.util.ConditionalOnDevOrLocal;
+import no.nav.foreldrepenger.historikk.util.annoteringer.ConditionalOnDevOrLocal;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController

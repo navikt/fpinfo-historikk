@@ -9,8 +9,6 @@ import org.springframework.core.env.Environment;
 public enum Cluster {
     LOCAL(EnvUtil.LOCAL),
     DEV_FSS(EnvUtil.DEV_FSS),
-    DEV_GCP(EnvUtil.DEV_GCP),
-    PROD_GCP(EnvUtil.PROD_GCP),
     PROD_FSS(EnvUtil.PROD_FSS);
 
     private final String clusterName;
