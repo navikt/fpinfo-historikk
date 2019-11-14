@@ -15,7 +15,6 @@ import no.nav.foreldrepenger.historikk.util.Cluster;
 public class ForClusterStrategy implements Strategy {
     public static final String CLUSTER = "cluster";
     private static final Logger LOGGER = LoggerFactory.getLogger(ForClusterStrategy.class);
-    private Environment env;
 
     private final Cluster currentCluster;
 
@@ -48,4 +47,8 @@ public class ForClusterStrategy implements Strategy {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[currentCluster=" + currentCluster + "]";
+    }
 }
