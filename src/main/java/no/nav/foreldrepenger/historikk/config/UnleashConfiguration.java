@@ -15,7 +15,7 @@ import no.finn.unleash.util.UnleashConfig;
 public class UnleashConfiguration {
 
     @Bean
-    private Unleash unleash(
+    public Unleash unleash(
             @Value("${historikk.unleash.uri:https://unleash.nais.adeo.no/api/}") URI uri,
             @Value("${spring.application.name}") String appName,
             @Value("${historikk.instance.name:historikk-instance}") String instanceName, Strategy... strategies) {
