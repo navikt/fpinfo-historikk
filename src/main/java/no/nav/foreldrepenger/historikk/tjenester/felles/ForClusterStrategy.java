@@ -12,14 +12,14 @@ import no.finn.unleash.strategy.Strategy;
 import no.nav.foreldrepenger.historikk.util.Cluster;
 
 @Component
-public class ByClusterStrategy implements Strategy {
+public class ForClusterStrategy implements Strategy {
     public static final String CLUSTER = "cluster";
-    private static final Logger LOGGER = LoggerFactory.getLogger(ByClusterStrategy.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ForClusterStrategy.class);
     private Environment env;
 
     private final Cluster currentCluster;
 
-    public ByClusterStrategy(Environment env) {
+    public ForClusterStrategy(Environment env) {
         this.currentCluster = currentCluster(env);
     }
 
@@ -32,7 +32,7 @@ public class ByClusterStrategy implements Strategy {
 
     @Override
     public String getName() {
-        return "byCluster";
+        return "forCluster";
     }
 
     @Override
