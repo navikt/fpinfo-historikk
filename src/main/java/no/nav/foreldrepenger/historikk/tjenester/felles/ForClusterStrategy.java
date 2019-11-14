@@ -2,12 +2,14 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import no.finn.unleash.UnleashContext;
 import no.finn.unleash.strategy.Strategy;
 import no.nav.foreldrepenger.historikk.util.Cluster;
 
@@ -36,15 +38,18 @@ public class ForClusterStrategy implements Strategy {
 
     @Override
     public boolean isEnabled(Map<String, String> parameters) {
-        var clusters = parameters.get(CLUSTER);
-        if (clusters != null) {
-            return Arrays.asList(clusters.split(",", 0))
-                    .stream().map(Cluster::valueOf)
-                    .filter(currentCluster::equals)
-                    .findFirst()
-                    .isPresent();
-        }
         return false;
+    }
+
+    @Override
+    public boolean isEnabled(Map<String, String> parameters, UnleashContext unleashContext) {
+        return Optional.ofNullable(parameters)
+                .map(par -> par.get(CLUSTER))
+                .filter(s -> !s.isEmpty())
+                .map(clusters -> clusters.split(","))
+                .map(Arrays::stream)
+                .filter(currentCluster::equals)
+                .isPresent();
     }
 
     @Override
