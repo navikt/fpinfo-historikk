@@ -48,7 +48,7 @@ public class ForClusterStrategy implements Strategy {
                 .filter(s -> !s.isEmpty())
                 .map(clusters -> clusters.split(","))
                 .map(Arrays::stream)
-                .filter(currentCluster::equals)
+                .filter(c -> currentCluster.clusterName().equals(c))
                 .isPresent();
     }
 
