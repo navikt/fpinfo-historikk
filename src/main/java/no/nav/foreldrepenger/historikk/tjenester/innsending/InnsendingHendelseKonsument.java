@@ -28,7 +28,7 @@ public class InnsendingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.meldinger.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         LOG.info("Mottok innsendingshendelse {}", h);
-        if (innsending.lagre(h) && h.erEttersending()) {
+        if (innsending.lagre(h) && h.erEttersending() && h.getDialogId() != null) {
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
