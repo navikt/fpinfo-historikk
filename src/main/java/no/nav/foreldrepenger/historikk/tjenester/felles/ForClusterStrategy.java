@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -18,10 +19,10 @@ public class ForClusterStrategy implements Strategy {
     public static final String CLUSTER = "cluster";
     private static final Logger LOGGER = LoggerFactory.getLogger(ForClusterStrategy.class);
 
-    private final Cluster currentCluster;
+    private final Environment env;
 
     public ForClusterStrategy(Environment env) {
-        this.currentCluster = currentCluster(env);
+        this.env = env;
     }
 
     private Cluster currentCluster(Environment env) {
@@ -43,17 +44,15 @@ public class ForClusterStrategy implements Strategy {
 
     @Override
     public boolean isEnabled(Map<String, String> parameters, UnleashContext unleashContext) {
-        return Optional.ofNullable(parameters)
-                .map(par -> par.get(CLUSTER))
-                .filter(s -> !s.isEmpty())
-                .map(clusters -> clusters.split(","))
-                .map(Arrays::stream)
-                .filter(c -> currentCluster.clusterName().equals(c))
+        String cluster = parameters.get(CLUSTER);
+        return Arrays.stream(Optional.ofNullable(cluster)
+                .map(p -> p.split(","))
+                .orElse(new String[0]))
+                .filter(Objects::nonNull)
+                .map(Cluster::valueOf)
+                .filter(c -> c.isActive(env))
+                .findAny()
                 .isPresent();
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[currentCluster=" + currentCluster + "]";
-    }
 }
