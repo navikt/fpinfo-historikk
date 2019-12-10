@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
-public abstract class AbstractRestConnection implements PingEndpointAware {
+public abstract class AbstractRestConnection implements RestConnection, PingEndpointAware {
     private static final String RESPONS = "Respons: {}";
     private final RestOperations restOperations;
     private final AbstractConfig config;
@@ -36,15 +36,18 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
         return getForObject(uri, String.class);
     }
 
-    protected <T> T getForObject(URI uri, Class<T> responseType) {
+    @Override
+    public <T> T getForObject(URI uri, Class<T> responseType) {
         return getForObject(uri, responseType, false);
     }
 
-    protected <T> T postForEntity(URI uri, Object payload, Class<T> responseType) {
+    @Override
+    public <T> T postForEntity(URI uri, Object payload, Class<T> responseType) {
         return postForEntity(uri, new HttpEntity<>(payload), responseType);
     }
 
-    protected <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
+    @Override
+    public <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke fra {}", uri);
             return null;
@@ -64,11 +67,13 @@ public abstract class AbstractRestConnection implements PingEndpointAware {
         }
     }
 
-    protected <T> T getForEntity(URI uri, Class<T> responseType) {
+    @Override
+    public <T> T getForEntity(URI uri, Class<T> responseType) {
         return getForEntity(uri, responseType, true);
     }
 
-    protected <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
+    @Override
+    public <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke entitet fra {}", uri);
             return null;
