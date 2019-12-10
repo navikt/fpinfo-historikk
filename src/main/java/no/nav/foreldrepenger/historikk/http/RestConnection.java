@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.http;
 
 import java.net.URI;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.client.HttpClientErrorException.Forbidden;
@@ -24,5 +25,7 @@ public interface RestConnection {
     <T> T getForEntity(URI uri, Class<T> responseType);
 
     <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow);
+
+    <T> T exchangeGet(URI uri, Class<T> responseType, HttpHeaders headers);
 
 }

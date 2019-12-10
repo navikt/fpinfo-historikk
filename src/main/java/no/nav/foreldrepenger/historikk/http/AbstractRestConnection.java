@@ -92,7 +92,8 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
         }
     }
 
-    protected <T> T exchangeGet(URI uri, Class<T> responseType, HttpHeaders headers) {
+    @Override
+    public <T> T exchangeGet(URI uri, Class<T> responseType, HttpHeaders headers) {
         return exchange(uri, GET, new HttpEntity<>(headers), responseType);
     }
 
