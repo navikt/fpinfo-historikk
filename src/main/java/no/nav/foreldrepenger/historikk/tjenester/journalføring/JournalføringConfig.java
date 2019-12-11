@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
-@ConfigurationProperties(prefix = "dokarkiv")
+@ConfigurationProperties(prefix = "dokarkiv", ignoreInvalidFields = true, ignoreUnknownFields = true)
 public class JournalføringConfig extends AbstractConfig {
 
     private static final String SERVICE = "http://dokarkiv";
