@@ -3,14 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.sts;
 import java.net.URI;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
 @ConfigurationProperties("sts")
-@ConstructorBinding
 public class STSConfig extends AbstractConfig {
 
     static final String SERVICE = "http://security-token-service/rest";

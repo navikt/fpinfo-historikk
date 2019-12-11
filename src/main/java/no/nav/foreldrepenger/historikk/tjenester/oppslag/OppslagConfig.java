@@ -3,13 +3,11 @@ package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 import java.net.URI;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
 @ConfigurationProperties(prefix = "historikk.oppslag")
-@ConstructorBinding
 public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR = "oppslag/aktor";
     private static final String FNR = "oppslag/fnr";

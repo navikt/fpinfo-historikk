@@ -3,14 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.journalføring;
 import java.net.URI;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpHeaders;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
-@ConfigurationProperties(prefix = "dokarkiv", ignoreInvalidFields = true, ignoreUnknownFields = true)
-@ConstructorBinding
+@ConfigurationProperties(prefix = "dokarkiv")
 public class JournalføringConfig extends AbstractConfig {
 
     private static final String SERVICE = "http://dokarkiv";
