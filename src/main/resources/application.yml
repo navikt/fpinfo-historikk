@@ -6,7 +6,8 @@ no.nav:
          discoveryurl: https://login.microsoftonline.com/navnob2c.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten
          cookie_name: selvbetjening-idtoken
 dokarkiv:
-  enabled: true
+   enabled: false
+   service: https://dokarkiv
 sts:
   enabled: true           
 historikk:
