@@ -1,4 +1,3 @@
 {
-  "ingress": "https://fpinfo-historikk.nais.preprod.local",
-  "application_name": "fpinfo-historikk"
+  "ingress": "https://fpinfo-historikk.nais.preprod.local"
 }
