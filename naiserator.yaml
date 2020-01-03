@@ -4,7 +4,7 @@ metadata:
   name: fpinfo-historikk
   namespace: default
   labels:
-    team: {{team}}
+    team: teamforeldrepenger
 spec:
   image: {{image}}
   port: 8080
