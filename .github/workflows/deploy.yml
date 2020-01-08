@@ -4,6 +4,7 @@ on:
   push:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CLUSTER: dev-fss
   IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/fpinfo-historikk
   
 jobs:
@@ -47,7 +48,7 @@ jobs:
         with:
           token: ${{ secrets.NOTIFICATION }}
           title: Deploy av ${{ env.TAG }}
-          labels: deployment
+          labels: ${{env.CLUSTER}}
           body: |
             Kommenter med <b>/promote ${{ env.TAG }} cluster</b>, hvor <b>cluster</b> er et gyldig clusternavn
             <table>
@@ -62,5 +63,5 @@ jobs:
         with:
           token: ${{ secrets.NOTIFICATION }}
           issue-number: ${{ steps.createdeployissue.outputs.number }}
-          body: /promote ${{ env.TAG }} dev-fss
+          body: /promote ${{ env.TAG }} ${{ env.CLUSTER }}
      
