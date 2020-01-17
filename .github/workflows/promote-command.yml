@@ -59,5 +59,6 @@ jobs:
             const new_comment  = github.issues.createComment({...issue,
                                     body: '>promote ${{ github.event.client_payload.slash_command.args }} var OK'})
             github.issues.addLabels({...issue, labels: ['deployment','${{ env.CLUSTER }}']})
-            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo,comment_id : new_comment.id,content: '+1'})
+            const id = new_comment.id;
+            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo,comment_id : id,content: '+1'})
                   
