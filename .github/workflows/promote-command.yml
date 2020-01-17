@@ -56,7 +56,7 @@ jobs:
             const issue = { owner: context.issue.owner,
                             repo: context.issue.repo,
                             issue_number: ${{ github.event.client_payload.github.payload.issue.number }} }
-            github.issues.createComment({...issue,
+            const new_comment  = github.issues.createComment({...issue,
                                     body: '>promote ${{ github.event.client_payload.slash_command.args }} var OK'})
             github.issues.addLabels({...issue, labels: ['deployment','${{ env.CLUSTER }}']})
                   
