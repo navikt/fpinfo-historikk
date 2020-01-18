@@ -25,6 +25,7 @@ jobs:
     
       - name: Promoter til cluster
         uses: nais/deploy/actions/deploy@v1
+
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: ${{ env.CLUSTER }}
@@ -34,23 +35,30 @@ jobs:
           
       - name: Oppdater kommentar med deployment status ved feil
         if: failure()
-        uses: peter-evans/create-or-update-comment@v1
+        uses: actions/github-script@0.4.0
         with:
-          token: ${{ secrets.NOTIFICATION }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
-          body: |
-            >promote ${{ env.IMAGE }} til ${{ env.CLUSTER }} feilet
-          reaction-type: -1          
- 
+          github-token: ${{secrets.NOTIFICATION}}
+          script: |
+            const issue = { owner: context.issue.owner,
+                            repo: context.issue.repo,
+                            issue_number: ${{ github.event.client_payload.github.payload.issue.number }} }
+            github.issues.createComment({...issue,
+                                    title: 'Deploy av ${{ env.TAG }}',
+                                    body: '>promote ${{ github.event.client_payload.slash_command.args }} feilet'})
+            github.issues.addLabels({...issue, labels: ['deployment-failed','${{ env.CLUSTER }}'])
+   
       - name: Oppdater kommentar med deployment status
         if: success()
-        uses: peter-evans/create-or-update-comment@v1
+        uses: actions/github-script@0.4.0
         with:
-          token: ${{ secrets.NOTIFICATION }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
-          body: |
-            >promote ${{ env.TAG }} til ${{ env.CLUSTER }} var OK
-          reaction-type: rocket
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const issue = { owner: context.issue.owner,
+                            repo: context.issue.repo,
+                            issue_number: ${{ github.event.client_payload.github.payload.issue.number }} }
+            const new_comment  = github.issues.createComment({...issue,
+                                    body: '>promote ${{ github.event.client_payload.slash_command.args }} var OK'})
+            github.issues.addLabels({...issue, labels: ['deployment','${{ env.CLUSTER }}']})
+            const id = new_comment.id;
+            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo, id,content: '+1'})
                   

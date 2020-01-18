@@ -14,6 +14,13 @@
     <artifactId>fpinfo-historikk</artifactId>
     <version>0-SNAPSHOT</version>
 
+    <licenses>
+	  <license>
+	    <name>MIT License</name>
+	    <url>https://opensource.org/licenses/MIT</url>
+      </license>
+    </licenses>
+    
     <properties>
         <token-validation-version>1.1.3</token-validation-version>
         <springfox.version>2.9.2</springfox.version>
