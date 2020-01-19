@@ -46,6 +46,9 @@ jobs:
                                     title: 'Deploy av ${{ env.TAG }}',
                                     body: '>promote ${{ github.event.client_payload.slash_command.args }} feilet'})
             github.issues.addLabels({...issue, labels: ['deployment-failed','${{ env.CLUSTER }}'])
+            const id = new_comment.number;
+            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo, id,content: '+1'})
+            
    
       - name: Oppdater kommentar med deployment status
         if: success()
