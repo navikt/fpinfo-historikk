@@ -45,10 +45,7 @@ jobs:
             github.issues.createComment({...issue,
                                     title: 'Deploy av ${{ env.TAG }}',
                                     body: '>promote ${{ github.event.client_payload.slash_command.args }} feilet'})
-            github.issues.addLabels({...issue, labels: ['deployment-failed','${{ env.CLUSTER }}'])
-            const id = new_comment.number;
-            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo, id,content: '+1'})
-            
+            github.issues.addLabels({...issue, labels: ['deployment-failed','${{ env.CLUSTER }}'])            
    
       - name: Oppdater kommentar med deployment status
         if: success()
@@ -62,6 +59,3 @@ jobs:
             const new_comment  = github.issues.createComment({...issue,
                                     body: '>promote ${{ github.event.client_payload.slash_command.args }} var OK'})
             github.issues.addLabels({...issue, labels: ['deployment','${{ env.CLUSTER }}']})
-            const id = new_comment.number;
-            github.reactions.createForIssueComment({owner: context.issue.owner,repo: context.issue.repo, id,content: '+1'})
-                  
