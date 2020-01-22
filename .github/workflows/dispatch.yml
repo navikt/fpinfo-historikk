@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:      
       - name: Slash command dispatch
-        uses: navikt/slash-command-dispatch@v1
+        uses: peterevans/slash-command-dispatch@v1
         with:
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ secrets.NOTIFICATION }}
