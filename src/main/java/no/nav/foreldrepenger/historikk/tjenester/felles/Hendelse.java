@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -46,6 +47,7 @@ public abstract class Hendelse {
         return journalId;
     }
 
+    @JsonAlias("saksnr")
     public String getSaksnummer() {
         return saksnummer;
     }
