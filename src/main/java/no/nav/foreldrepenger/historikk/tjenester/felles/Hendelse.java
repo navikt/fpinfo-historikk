@@ -43,6 +43,7 @@ public abstract class Hendelse {
         return aktørId;
     }
 
+    @JsonAlias("jounalpostId")
     public String getJournalId() {
         return journalId;
     }
