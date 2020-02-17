@@ -15,6 +15,25 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final String tekst;
     private String dialogId;
     private Boolean aktiv;
+    private final FagsakYtelseType ytelseType;
+
+    @JsonCreator
+    public MinidialogInnslag(
+            @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
+            @JsonProperty("tekst") String tekst, @JsonProperty("ytelseType") FagsakYtelseType ytelseType) {
+        this.hendelse = hendelse;
+        this.gyldigTil = gyldigTil;
+        this.tekst = tekst;
+        this.ytelseType = ytelseType;
+    }
+
+    public Boolean getAktiv() {
+        return aktiv;
+    }
+
+    public FagsakYtelseType getYtelseType() {
+        return ytelseType;
+    }
 
     public String getDialogId() {
         return dialogId;
@@ -22,15 +41,6 @@ public class MinidialogInnslag extends HistorikkInnslag {
 
     public void setDialogId(String dialogId) {
         this.dialogId = dialogId;
-    }
-
-    @JsonCreator
-    public MinidialogInnslag(
-            @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
-            @JsonProperty("tekst") String tekst) {
-        this.hendelse = hendelse;
-        this.gyldigTil = gyldigTil;
-        this.tekst = tekst;
     }
 
     public String getTekst() {
@@ -55,8 +65,9 @@ public class MinidialogInnslag extends HistorikkInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", journalpostId="
-                + getJournalpostId() + ", saksnr=" + getSaksnr() + ", opprettet=" + getOpprettet()
-                + ",aktørId=" + getAktørId() + "]";
+        return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", tekst=" + tekst
+                + ", dialogId=" + dialogId + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", opprettet="
+                + opprettet + "]";
     }
+
 }

@@ -26,6 +26,10 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @EntityListeners(AuditingEntityListener.class)
 public class JPAMinidialogInnslag {
 
+    private String journalpostId;
+    @Enumerated(STRING)
+    private FagsakYtelseType ytelseType;
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -138,11 +142,28 @@ public class JPAMinidialogInnslag {
         this.innsendt = innsendt;
     }
 
+    public String getJournalpostId() {
+        return journalpostId;
+    }
+
+    public void setJournalpostId(String journalpostId) {
+        this.journalpostId = journalpostId;
+    }
+
+    public FagsakYtelseType getYtelseType() {
+        return ytelseType;
+    }
+
+    public void setYtelseType(FagsakYtelseType ytelseType) {
+        this.ytelseType = ytelseType;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", tekst=" + tekst + ", hendelse="
-                + hendelse + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", opprettet=" + opprettet
-                + ", endret=" + endret + ", aktiv=" + aktiv + ", innsendt=" + innsendt + ", dialogId=" + dialogId + "]";
+        return getClass().getSimpleName() + "[journalpostId=" + journalpostId + ", ytelseType=" + ytelseType + ", id="
+                + id + ", aktørId=" + aktørId + ", tekst=" + tekst + ", hendelse=" + hendelse + ", gyldigTil="
+                + gyldigTil + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv="
+                + aktiv + ", innsendt=" + innsendt + ", dialogId=" + dialogId + "]";
     }
 
 }

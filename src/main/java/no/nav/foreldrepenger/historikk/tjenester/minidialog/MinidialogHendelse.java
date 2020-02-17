@@ -19,17 +19,29 @@ public class MinidialogHendelse extends Hendelse {
     @ApiModelProperty(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
     private final LocalDate gyldigTil;
-
     private final String dialogId;
     private final String tekst;
+    private final boolean aktiv;
+    private final FagsakYtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, String dialogId, String saksnummer,
-            HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendt) {
-        super(aktørId, null, saksnummer, hendelse, innsendt);
+    public MinidialogHendelse(AktørId aktørId, String dialogId, String journalId,
+            String saksnummer, HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendt,
+            boolean aktiv, FagsakYtelseType ytelseType) {
+        super(aktørId, journalId, saksnummer, hendelse, innsendt);
         this.tekst = tekst;
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
+        this.aktiv = aktiv;
+        this.ytelseType = ytelseType;
+    }
+
+    public FagsakYtelseType getYtelseType() {
+        return ytelseType;
+    }
+
+    public boolean isAktiv() {
+        return aktiv;
     }
 
     public String getDialogId() {
@@ -46,9 +58,10 @@ public class MinidialogHendelse extends Hendelse {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[, gyldigTil=" + gyldigTil + ", tekst=" + tekst + ", hendelseType="
-                + getHendelse() + ", aktørId=" + getAktørId() + ", dialogId="
-                + getDialogId() + ", saksNr=" + getSaksnummer() + "]";
+        return getClass().getSimpleName() + "[gyldigTil=" + gyldigTil + ", dialogId=" + dialogId + ", tekst=" + tekst
+                + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", innsendt=" + getInnsendt()
+                + ", hendelse=" + getHendelse() + ", getAktørId()=" + getAktørId() + ", journalId="
+                + getJournalId() + ", saksnummer=" + getSaksnummer() + "]";
     }
 
 }

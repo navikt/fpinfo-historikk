@@ -15,9 +15,9 @@ historikk:
       enabled: true
    oppslag:
       enabled: false
-
-    
-          
+   kafka:
+      meldinger:
+         topic: privat-tilbakekreving-brukerdialog-local      
 dokarkiv:
    enabled: false
 server:

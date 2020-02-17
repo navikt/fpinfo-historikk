@@ -17,7 +17,7 @@ historikk:
       enabled: true
    kafka:
       meldinger:
-         topic: fpinfo-historikk
+         topic: privat-tilbakekreving-brukerdialog-p
          søknad_topic: fpsoknad-mottak
          inntektsmelding_topic: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:

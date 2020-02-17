@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -29,7 +28,6 @@ public class SwaggerConfiguration implements EnvironmentAware {
                 .protocols(protocol())
                 .select()
                 .apis(basePackage("no.nav.foreldrepenger.historikk"))
-                .paths(PathSelectors.regex(".*dev.*"))
                 .build();
     }
 
