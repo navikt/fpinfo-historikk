@@ -1,0 +1,1 @@
+ALTER TABLE MINIDIALOG ADD journalpost_id VARCHAR(50);
