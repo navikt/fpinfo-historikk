@@ -31,11 +31,11 @@ final class InntektsmeldingMapper {
         var im = new JPAInntektsmeldingInnslag();
         im.setReferanseId(hendelse.getReferanseId());
         im.setAktørId(hendelse.getAktørId());
-        im.setJournalpostId(hendelse.getJournalId());
+        im.setJournalpostId(hendelse.getJournalpostId());
         im.setSaksnr(hendelse.getSaksnummer());
         im.setArbeidsgiver(hendelse.getArbeidsgiverId());
         im.setVersjon(hendelse.getVersjon());
-        im.setInnsendt(hendelse.getInnsendt());
+        im.setInnsendt(hendelse.getOpprettet());
         im.setStartDato(hendelse.getStartDato());
         im.setType(hendelse.getHendelse().equals(INNTEKTSMELDING_NY) ? NY : ENDRING);
         LOG.info("Mappet til inntektsmelding {}", im);

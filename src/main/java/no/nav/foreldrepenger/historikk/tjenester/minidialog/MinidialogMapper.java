@@ -15,15 +15,14 @@ public final class MinidialogMapper {
         LOG.info("Mapper fra {}", m);
         var dialog = new JPAMinidialogInnslag();
         dialog.setYtelseType(m.getYtelseType());
-        dialog.setInnsendt(m.getInnsendt());
+        dialog.setInnsendt(m.getOpprettet());
         dialog.setAktørId(m.getAktørId());
-        dialog.setTekst(m.getTekst());
         dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
         dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
-        dialog.setJournalpostId(m.getJournalId());
+        dialog.setJournalpostId(m.getJournalpostId());
         LOG.info("Mappet til {}", dialog);
         return dialog;
     }

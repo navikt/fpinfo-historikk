@@ -45,10 +45,10 @@ final class InnsendingMapper {
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
         innslag.setSaksnr(hendelse.getSaksnummer());
-        innslag.setJournalpostId(hendelse.getJournalId());
+        innslag.setJournalpostId(hendelse.getJournalpostId());
         innslag.setHendelse(hendelse.getHendelse());
         innslag.setBehandlingsdato(hendelse.getFørsteBehandlingsdato());
-        innslag.setInnsendt(hendelse.getInnsendt());
+        innslag.setInnsendt(hendelse.getOpprettet());
         safeStream(hendelse.getOpplastedeVedlegg())
                 .map(v -> fraVedlegg(v, LASTET_OPP))
                 .forEach(innslag::addVedlegg);

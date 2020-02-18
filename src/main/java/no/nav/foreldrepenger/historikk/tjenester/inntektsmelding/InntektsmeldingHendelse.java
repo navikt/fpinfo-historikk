@@ -38,7 +38,7 @@ public class InntektsmeldingHendelse extends Hendelse {
             @JsonProperty("versjon") Versjon versjon,
             @JsonProperty("startDato") LocalDate startDato,
             @JsonProperty("innsendt") LocalDateTime innsendt) {
-        super(aktørId, journalpostId, saksnummer, hendelse, innsendt);
+        super(aktørId, journalpostId, null, saksnummer, hendelse, innsendt);
         this.arbeidsgiverId = arbeidsgiverId;
         this.referanseId = referanseId;
         this.versjon = versjon;
@@ -65,7 +65,7 @@ public class InntektsmeldingHendelse extends Hendelse {
     public String toString() {
         return getClass().getSimpleName() + "[versjon=" + versjon
                 + ", arbeidsgiver=" + arbeidsgiverId
-                + ", aktørId=" + getAktørId() + ", journalId=" + getJournalId()
+                + ", aktørId=" + getAktørId() + ", journalpostId=" + getJournalpostId()
                 + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnummer() + "]";
     }
 }

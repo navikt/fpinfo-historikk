@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -20,16 +21,18 @@ public class MinidialogHendelse extends Hendelse {
     @DateTimeFormat(iso = DATE)
     private final LocalDate gyldigTil;
     private final String dialogId;
-    private final String tekst;
     private final boolean aktiv;
     private final FagsakYtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogHendelse(AktørId aktørId, String dialogId, String journalId, String dokumentId,
-            String saksnummer, HendelseType hendelse, String tekst, LocalDate gyldigTil, LocalDateTime innsendt,
+    public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("dialogId") String dialogId,
+            @JsonProperty("journalpostId") String journalpostId,
+            @JsonProperty("dokumentId") String dokumentId,
+            @JsonProperty("saksnummer") String saksnummer, @JsonProperty("hendelse") HendelseType hendelse,
+            @JsonProperty("gyldigTil") LocalDate gyldigTil,
+            @JsonProperty("opprettet") LocalDateTime opprettet,
             boolean aktiv, FagsakYtelseType ytelseType) {
-        super(aktørId, journalId, dokumentId, saksnummer, hendelse, innsendt);
-        this.tekst = tekst;
+        super(aktørId, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
         this.aktiv = aktiv;
@@ -48,20 +51,16 @@ public class MinidialogHendelse extends Hendelse {
         return dialogId;
     }
 
-    public String getTekst() {
-        return tekst;
-    }
-
     public LocalDate getGyldigTil() {
         return gyldigTil;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[gyldigTil=" + gyldigTil + ", dialogId=" + dialogId + ", tekst=" + tekst
-                + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", innsendt=" + getInnsendt()
-                + ", hendelse=" + getHendelse() + ", getAktørId()=" + getAktørId() + ", journalId="
-                + getJournalId() + ", saksnummer=" + getSaksnummer() + "]";
+        return getClass().getSimpleName() + "[gyldigTil=" + gyldigTil + ", dialogId=" + dialogId
+                + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", opprettet=" + getOpprettet()
+                + ", hendelse=" + getHendelse() + ", aktørId=" + getAktørId() + ", journalpostId="
+                + getJournalpostId() + ", saksnummer=" + getSaksnummer() + "]";
     }
 
 }

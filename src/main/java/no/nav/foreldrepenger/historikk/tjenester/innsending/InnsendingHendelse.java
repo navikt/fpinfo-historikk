@@ -41,7 +41,7 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("ikkeOpplastedeVedlegg") List<String> ikkeOpplastedeVedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato,
             @JsonProperty("innsendt") LocalDateTime innsendt) {
-        super(aktørId, journalId, saksnummer, hendelse, innsendt);
+        super(aktørId, journalId, null, saksnummer, hendelse, innsendt);
         this.leveranseStatus = leveranseStatus;
         this.dialogId = dialogId;
         this.referanseId = referanseId;
