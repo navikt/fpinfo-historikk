@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
 public class MinidialogHendelse extends Hendelse {
 
@@ -23,7 +24,7 @@ public class MinidialogHendelse extends Hendelse {
     private final LocalDate gyldigTil;
     private final String dialogId;
     private final boolean aktiv;
-    private final FagsakYtelseType ytelseType;
+    private final YtelseType ytelseType;
 
     @JsonCreator
     public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("dialogId") String dialogId,
@@ -33,7 +34,8 @@ public class MinidialogHendelse extends Hendelse {
             @JsonProperty("hendelse") HendelseType hendelse,
             @JsonProperty("gyldigTil") LocalDate gyldigTil,
             @JsonProperty("opprettet") LocalDateTime opprettet,
-            boolean aktiv, FagsakYtelseType ytelseType) {
+            @JsonProperty("aktiv") boolean aktiv,
+            @JsonProperty("ytelseType") YtelseType ytelseType) {
         super(aktørId, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
@@ -41,7 +43,7 @@ public class MinidialogHendelse extends Hendelse {
         this.ytelseType = ytelseType;
     }
 
-    public FagsakYtelseType getYtelseType() {
+    public YtelseType getYtelseType() {
         return ytelseType;
     }
 

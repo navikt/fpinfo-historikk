@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
 public class MinidialogInnslag extends HistorikkInnslag {
 
@@ -15,12 +16,12 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final String tekst;
     private String dialogId;
     private Boolean aktiv;
-    private final FagsakYtelseType ytelseType;
+    private final YtelseType ytelseType;
 
     @JsonCreator
     public MinidialogInnslag(
             @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
-            @JsonProperty("tekst") String tekst, @JsonProperty("ytelseType") FagsakYtelseType ytelseType) {
+            @JsonProperty("tekst") String tekst, @JsonProperty("ytelseType") YtelseType ytelseType) {
         this.hendelse = hendelse;
         this.gyldigTil = gyldigTil;
         this.tekst = tekst;
@@ -31,7 +32,7 @@ public class MinidialogInnslag extends HistorikkInnslag {
         return aktiv;
     }
 
-    public FagsakYtelseType getYtelseType() {
+    public YtelseType getYtelseType() {
         return ytelseType;
     }
 

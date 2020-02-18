@@ -20,6 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
 @Entity
 @Table(name = "minidialog")
@@ -28,7 +29,7 @@ public class JPAMinidialogInnslag {
 
     private String journalpostId;
     @Enumerated(STRING)
-    private FagsakYtelseType ytelseType;
+    private YtelseType ytelseType;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -150,11 +151,11 @@ public class JPAMinidialogInnslag {
         this.journalpostId = journalpostId;
     }
 
-    public FagsakYtelseType getYtelseType() {
+    public YtelseType getYtelseType() {
         return ytelseType;
     }
 
-    public void setYtelseType(FagsakYtelseType ytelseType) {
+    public void setYtelseType(YtelseType ytelseType) {
         this.ytelseType = ytelseType;
     }
 
