@@ -20,6 +20,7 @@ public final class MinidialogMapper {
         dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
+        dialog.setTekst("tekst");
         dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
         dialog.setJournalpostId(m.getJournalpostId());

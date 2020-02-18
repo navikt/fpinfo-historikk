@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,7 +29,8 @@ public class MinidialogHendelse extends Hendelse {
     public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("dialogId") String dialogId,
             @JsonProperty("journalpostId") String journalpostId,
             @JsonProperty("dokumentId") String dokumentId,
-            @JsonProperty("saksnummer") String saksnummer, @JsonProperty("hendelse") HendelseType hendelse,
+            @JsonProperty("saksnummer") @JsonAlias("saksnr") String saksnummer,
+            @JsonProperty("hendelse") HendelseType hendelse,
             @JsonProperty("gyldigTil") LocalDate gyldigTil,
             @JsonProperty("opprettet") LocalDateTime opprettet,
             boolean aktiv, FagsakYtelseType ytelseType) {
