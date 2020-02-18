@@ -48,7 +48,8 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
 
     @Override
     public boolean lagre(MinidialogHendelse h) {
-        if (!erAlleredeLagret(h.getDialogId())) {
+        var orig = dao.findByDialogId(h.getDialogId());
+        if (orig == null) {
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
@@ -56,10 +57,12 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
                 deaktiver(h.getAktørId(), h.getDialogId());
             }
             return true;
-        } else {
-            LOG.info("Hendelse med dialogId {} er allerede lagret", h.getDialogId());
-            return false;
         }
+        LOG.info("Hendelse med dialogId {} er allerede lagret, oppdaterer felter", h.getDialogId());
+        orig.setAktiv(h.isAktiv());
+        orig.setGyldigTil(h.getGyldigTil());
+        dao.save(orig);
+        return false;
     }
 
     @Transactional(readOnly = true)
