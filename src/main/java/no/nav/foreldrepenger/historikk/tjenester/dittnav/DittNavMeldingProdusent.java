@@ -25,28 +25,53 @@ public class DittNavMeldingProdusent {
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
     private final KafkaOperations<Nokkel, Oppgave> kafkaOperations;
-    private final String topic;
+    private final String opprettOppgaveTopic;
+    private final String doneOppgaveTopic;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Oppgave> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.oppgave}") String topic) {
+            @Value("${historikk.kafka.meldinger.oppgave.opprett}") String opprettOppgaveTopic,
+            @Value("${historikk.kafka.meldinger.oppgave.done}") String doneOppgaveTopic) {
         this.kafkaOperations = kafkaOperations;
-        this.topic = topic;
+        this.opprettOppgaveTopic = opprettOppgaveTopic;
+        this.doneOppgaveTopic = doneOppgaveTopic;
+
     }
 
     @Transactional(KAFKA_TM)
     public void opprettOppgave(OppgaveDTO dto) {
-        ProducerRecord<Nokkel, Oppgave> melding = new ProducerRecord<>(topic, new Nokkel(SYSTEMBRUKER, dto.getEventId()), createOppgave(dto));
+        ProducerRecord<Nokkel, Oppgave> melding = new ProducerRecord<>(opprettOppgaveTopic,
+                new Nokkel(SYSTEMBRUKER, dto.getEventId()), createOppgave(dto));
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Oppgave>>() {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Oppgave> result) {
                 LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
-                        result.getRecordMetadata().offset(), topic);
+                        result.getRecordMetadata().offset(), opprettOppgaveTopic);
             }
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), topic, e);
+                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), opprettOppgaveTopic, e);
+            }
+        });
+
+    }
+
+    @Transactional(KAFKA_TM)
+    public void avsluttOppgave(OppgaveDTO dto) {
+        ProducerRecord<Nokkel, Oppgave> melding = new ProducerRecord<>(doneOppgaveTopic,
+                new Nokkel(SYSTEMBRUKER, dto.getEventId()), createOppgave(dto));
+        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Oppgave>>() {
+
+            @Override
+            public void onSuccess(SendResult<Nokkel, Oppgave> result) {
+                LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
+                        result.getRecordMetadata().offset(), doneOppgaveTopic);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), doneOppgaveTopic, e);
             }
         });
 
