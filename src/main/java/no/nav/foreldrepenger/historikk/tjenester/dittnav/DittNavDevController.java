@@ -36,6 +36,12 @@ public class DittNavDevController {
         dittNav.avsluttOppgave(dto);
     }
 
+    @PostMapping("/sendBeskjed")
+    @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
+    public void sendBeskjed(@RequestBody BeskjedDTO dto) {
+        dittNav.opprettBeskjed(dto);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[dittNav=" + dittNav + "]";
