@@ -18,6 +18,7 @@ historikk:
    kafka:
       meldinger:
          topic: privat-tilbakekreving-brukerdialog-p
+         oppgave: aapen-brukernotifikasjon-nyOppgave-v1-testing
          søknad_topic: fpsoknad-mottak
          inntektsmelding_topic: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:

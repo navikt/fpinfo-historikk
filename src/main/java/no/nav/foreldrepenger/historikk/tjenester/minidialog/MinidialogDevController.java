@@ -22,6 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOppgaveProdusent;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -33,16 +34,25 @@ public class MinidialogDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
     private final MinidialogTjeneste minidialog;
     private final MinidialogHendelseProdusent produsent;
+    private final DittNavOppgaveProdusent dittNav;
 
-    MinidialogDevController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent) {
+    MinidialogDevController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent,
+            DittNavOppgaveProdusent dittNav) {
         this.minidialog = minidialog;
         this.produsent = produsent;
+        this.dittNav = dittNav;
     }
 
     @PostMapping("/sendMinidialog")
     @ApiOperation("Send en minidialoghendelse via Kafka")
     public void sendMinidialog(@RequestBody MinidialogHendelse hendelse) {
         produsent.send(hendelse);
+    }
+
+    @GetMapping("/dittNav")
+    @ApiOperation("Send en melding til ditt nav via Kafka")
+    public void dittNav() {
+        dittNav.produser();
     }
 
     @GetMapping("/minidialoger")

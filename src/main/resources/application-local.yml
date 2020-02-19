@@ -21,7 +21,7 @@ historikk:
 dokarkiv:
    enabled: false
 server:
-   port: 9000    
+   port: 9001    
 spring:
    application:
       admin:
@@ -42,9 +42,12 @@ spring:
       log-request-details: false
    kafka:
       properties:
+         schema.registry.url: http://localhost:8081
          security:
             protocol: PLAINTEXT 
       consumer:
-         bootstrap-servers: localhost:9092
+         bootstrap-servers: localhost:29092
       producer:
-         bootstrap-servers: localhost:9092
+         bootstrap-servers: localhost:29092
+         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer

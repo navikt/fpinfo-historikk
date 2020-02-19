@@ -23,7 +23,11 @@ spring:
    http:
       log-request-details: true
    kafka:
+      properties:
+         schema.registry.url: https://kafka-schema-registry.nais-q.adeo.no/
       consumer:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
       producer:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
+         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer

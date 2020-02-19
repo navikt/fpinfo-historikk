@@ -22,6 +22,7 @@
     </licenses>
 
     <properties>
+        <confluent.version>5.3.1</confluent.version>
         <token-validation-version>1.1.4</token-validation-version>
         <springfox.version>2.9.2</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -33,6 +34,12 @@
         </developerConnection>
         <tag>HEAD</tag>
     </scm>
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>http://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
     <build>
         <resources>
             <resource>
@@ -85,6 +92,31 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-schema-registry-client</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-connect-avro-converter</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${confluent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav</groupId>
+            <artifactId>brukernotifikasjon-schemas</artifactId>
+            <version>1.2020.02.11-13.20-46252a031986</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
