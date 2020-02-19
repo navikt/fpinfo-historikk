@@ -30,6 +30,12 @@ public class DittNavDevController {
         dittNav.opprettOppgave(oppgave);
     }
 
+    @PostMapping("/avsluttOppgave")
+    @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka")
+    public void avsluttOppgave(@RequestBody OppgaveDTO oppgave) {
+        dittNav.avsluttOppgave(oppgave);
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[dittNav=" + dittNav + "]";
