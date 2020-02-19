@@ -26,14 +26,14 @@ public class DittNavDevController {
 
     @PostMapping("/opprettOppgave")
     @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
-    public void opprettOppgave(@RequestBody OppgaveDTO oppgave) {
-        dittNav.opprettOppgave(oppgave);
+    public void opprettOppgave(@RequestBody OppgaveDTO dto) {
+        dittNav.opprettOppgave(dto);
     }
 
     @PostMapping("/avsluttOppgave")
     @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka")
-    public void avsluttOppgave(@RequestBody OppgaveDTO oppgave) {
-        dittNav.avsluttOppgave(oppgave);
+    public void avsluttOppgave(@RequestBody DoneDTO dto) {
+        dittNav.avsluttOppgave(dto);
     }
 
     @Override

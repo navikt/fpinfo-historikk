@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import no.nav.brukernotifikasjon.schemas.Done;
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 
@@ -24,11 +25,11 @@ public class DittNavMeldingProdusent {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
-    private final KafkaOperations<Nokkel, Oppgave> kafkaOperations;
+    private final KafkaOperations<Nokkel, Object> kafkaOperations;
     private final String opprettOppgaveTopic;
     private final String doneOppgaveTopic;
 
-    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Oppgave> kafkaOperations,
+    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
             @Value("${historikk.kafka.meldinger.oppgave.opprett}") String opprettOppgaveTopic,
             @Value("${historikk.kafka.meldinger.oppgave.done}") String doneOppgaveTopic) {
         this.kafkaOperations = kafkaOperations;
@@ -39,12 +40,12 @@ public class DittNavMeldingProdusent {
 
     @Transactional(KAFKA_TM)
     public void opprettOppgave(OppgaveDTO dto) {
-        ProducerRecord<Nokkel, Oppgave> melding = new ProducerRecord<>(opprettOppgaveTopic,
-                new Nokkel(SYSTEMBRUKER, dto.getEventId()), createOppgave(dto));
-        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Oppgave>>() {
+        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(opprettOppgaveTopic,
+                new Nokkel(SYSTEMBRUKER, dto.getEventId()), oppgave(dto));
+        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override
-            public void onSuccess(SendResult<Nokkel, Oppgave> result) {
+            public void onSuccess(SendResult<Nokkel, Object> result) {
                 LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
                         result.getRecordMetadata().offset(), opprettOppgaveTopic);
             }
@@ -54,17 +55,16 @@ public class DittNavMeldingProdusent {
                 LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), opprettOppgaveTopic, e);
             }
         });
-
     }
 
     @Transactional(KAFKA_TM)
-    public void avsluttOppgave(OppgaveDTO dto) {
-        ProducerRecord<Nokkel, Oppgave> melding = new ProducerRecord<>(doneOppgaveTopic,
-                new Nokkel(SYSTEMBRUKER, dto.getEventId()), createOppgave(dto));
-        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Oppgave>>() {
+    public void avsluttOppgave(DoneDTO dto) {
+        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(doneOppgaveTopic,
+                new Nokkel(SYSTEMBRUKER, dto.getEventId()), done(dto));
+        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override
-            public void onSuccess(SendResult<Nokkel, Oppgave> result) {
+            public void onSuccess(SendResult<Nokkel, Object> result) {
                 LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
                         result.getRecordMetadata().offset(), doneOppgaveTopic);
             }
@@ -77,12 +77,18 @@ public class DittNavMeldingProdusent {
 
     }
 
-    private static Oppgave createOppgave(OppgaveDTO dto) {
+    private static Oppgave oppgave(OppgaveDTO dto) {
         return Oppgave.newBuilder().setFodselsnummer(dto.getFnr())
                 .setGrupperingsId(dto.getGrupperingsId())
                 .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
                 .setLink(dto.getLink())
                 .setTekst(dto.getTekst())
+                .setTidspunkt(Instant.now().toEpochMilli()).build();
+    }
+
+    private static Done done(DoneDTO dto) {
+        return Done.newBuilder().setFodselsnummer(dto.getFnr())
+                .setGrupperingsId(dto.getGrupperingsId())
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 }
