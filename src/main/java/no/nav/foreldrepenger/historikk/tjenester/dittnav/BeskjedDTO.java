@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,14 +11,14 @@ public class BeskjedDTO {
     private final int sikkerhetsNivå;
     private final String link;
     private final String tekst;
-    private final long synligFramTil;
+    private final LocalDate synligFramTil;
     private final String eventId;
 
     @JsonCreator
     public BeskjedDTO(@JsonProperty("fnr") String fnr, @JsonProperty("grupperingsId") String grupperingsId,
             @JsonProperty("sikkerhetsNivå") int sikkerhetsNivå, @JsonProperty("link") String link,
             @JsonProperty("tekst") String tekst,
-            @JsonProperty("synligFramTil") long synligFramTil,
+            @JsonProperty("synligFramTil") LocalDate synligFramTil,
             @JsonProperty("eventId") String eventId) {
         this.fnr = fnr;
         this.grupperingsId = grupperingsId;
@@ -47,7 +49,7 @@ public class BeskjedDTO {
         return tekst;
     }
 
-    public long getSynligFramTil() {
+    public LocalDate getSynligFramTil() {
         return synligFramTil;
     }
 

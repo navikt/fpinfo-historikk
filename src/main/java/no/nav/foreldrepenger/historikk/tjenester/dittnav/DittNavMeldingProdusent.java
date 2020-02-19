@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 
 import java.time.Instant;
+import java.time.ZoneId;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -32,9 +33,9 @@ public class DittNavMeldingProdusent {
     private final String beskjedTopic;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
-            @Value("${historikk.kafka.meldinger.oppgave.opprett}") String opprettOppgaveTopic,
-            @Value("${historikk.kafka.meldinger.oppgave.done}") String doneOppgaveTopic,
-            @Value("${historikk.kafka.meldinger.beskjed}") String beskjedTopic) {
+            @Value("${historikk.kafka.topics.oppgave.opprett}") String opprettOppgaveTopic,
+            @Value("${historikk.kafka.topics.oppgave.done}") String doneOppgaveTopic,
+            @Value("${historikk.kafka.topics.beskjed}") String beskjedTopic) {
         this.kafkaOperations = kafkaOperations;
         this.opprettOppgaveTopic = opprettOppgaveTopic;
         this.doneOppgaveTopic = doneOppgaveTopic;
@@ -93,9 +94,13 @@ public class DittNavMeldingProdusent {
     }
 
     public Beskjed beskjed(BeskjedDTO dto) {
+
         return Beskjed.newBuilder().setFodselsnummer(dto.getFnr()).setGrupperingsId(dto.getGrupperingsId())
-                .setLink(dto.getLink()).setSikkerhetsnivaa(dto.getSikkerhetsNivå())
-                .setSynligFremTil(dto.getSynligFramTil()).setTekst(dto.getTekst())
+                .setLink(dto.getLink())
+                .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
+                .setSynligFremTil(
+                        dto.getSynligFramTil().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .setTekst(dto.getTekst())
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 }

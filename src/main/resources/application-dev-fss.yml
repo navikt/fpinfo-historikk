@@ -15,7 +15,7 @@ management:
          show-details: always
 historikk:
   kafka:
-      meldinger:
+      topics:
          topic: privat-tilbakekreving-brukerdialog-q1
 spring:
    datasource:

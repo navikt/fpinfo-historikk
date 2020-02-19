@@ -16,11 +16,12 @@ historikk:
    oppslag:
       enabled: true
    kafka:
-      meldinger:
+      topics:
          beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
          topic: privat-tilbakekreving-brukerdialog-p
-         oppgave.opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-         oppgave.done: aapen-brukernotifikasjon-done-v1-testing
+         oppgave:
+            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
+            done: aapen-brukernotifikasjon-done-v1-testing
          søknad_topic: fpsoknad-mottak
          inntektsmelding_topic: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:

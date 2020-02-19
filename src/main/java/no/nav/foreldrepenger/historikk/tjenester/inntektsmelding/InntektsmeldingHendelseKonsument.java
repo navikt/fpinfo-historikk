@@ -27,7 +27,7 @@ public class InntektsmeldingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.kafka.meldinger.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.kafka.topics.inntektsmelding_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
             @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);
