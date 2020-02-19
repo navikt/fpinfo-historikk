@@ -29,16 +29,16 @@ public class DittNavMeldingProdusent {
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
     private final String opprettOppgaveTopic;
-    private final String doneOppgaveTopic;
+    private final String avsluttOppgaveTopic;
     private final String beskjedTopic;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
             @Value("${historikk.kafka.topics.oppgave.opprett}") String opprettOppgaveTopic,
-            @Value("${historikk.kafka.topics.oppgave.done}") String doneOppgaveTopic,
+            @Value("${historikk.kafka.topics.oppgave.done}") String avsluttOppgaveTopic,
             @Value("${historikk.kafka.topics.beskjed}") String beskjedTopic) {
         this.kafkaOperations = kafkaOperations;
         this.opprettOppgaveTopic = opprettOppgaveTopic;
-        this.doneOppgaveTopic = doneOppgaveTopic;
+        this.avsluttOppgaveTopic = avsluttOppgaveTopic;
         this.beskjedTopic = beskjedTopic;
     }
 
@@ -49,7 +49,7 @@ public class DittNavMeldingProdusent {
 
     @Transactional(KAFKA_TM)
     public void avsluttOppgave(DoneDTO dto) {
-        send(done(dto), dto.getEventId(), doneOppgaveTopic);
+        send(done(dto), dto.getEventId(), avsluttOppgaveTopic);
     }
 
     @Transactional(KAFKA_TM)
@@ -63,7 +63,7 @@ public class DittNavMeldingProdusent {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Object> result) {
-                LOG.info("Sendte melding {} med offset {} på {}", melding.value(), melding.key(),
+                LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
                         result.getRecordMetadata().offset(), topic);
             }
 
