@@ -63,23 +63,29 @@ public class DittNavMeldingProdusent {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Object> result) {
-                LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
+                LOG.info("Sendte melding {} med offset {} på {}", melding.value(), melding.key(),
                         result.getRecordMetadata().offset(), topic);
             }
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), opprettOppgaveTopic, e);
+                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), topic, e);
             }
         });
     }
 
     private static Nokkel nøkkel(String eventId) {
-        return new Nokkel(SYSTEMBRUKER, eventId);
+        var nøkkel = Nokkel.newBuilder()
+                .setEventId(eventId)
+                .setSystembruker(SYSTEMBRUKER)
+                .build();
+        LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
+        return nøkkel;
     }
 
     private static Oppgave oppgave(OppgaveDTO dto) {
-        return Oppgave.newBuilder().setFodselsnummer(dto.getFnr())
+        return Oppgave.newBuilder()
+                .setFodselsnummer(dto.getFnr())
                 .setGrupperingsId(dto.getGrupperingsId())
                 .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
                 .setLink(dto.getLink())
@@ -88,14 +94,15 @@ public class DittNavMeldingProdusent {
     }
 
     private static Done done(DoneDTO dto) {
-        return Done.newBuilder().setFodselsnummer(dto.getFnr())
+        return Done.newBuilder()
+                .setFodselsnummer(dto.getFnr())
                 .setGrupperingsId(dto.getGrupperingsId())
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
     public Beskjed beskjed(BeskjedDTO dto) {
-
-        return Beskjed.newBuilder().setFodselsnummer(dto.getFnr()).setGrupperingsId(dto.getGrupperingsId())
+        return Beskjed.newBuilder()
+                .setFodselsnummer(dto.getFnr()).setGrupperingsId(dto.getGrupperingsId())
                 .setLink(dto.getLink())
                 .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
                 .setSynligFremTil(
