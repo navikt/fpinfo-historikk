@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 public class InntektsmeldingHendelseProdusent extends AbstractHendelseProdusent<InntektsmeldingHendelse> {
 
     public InntektsmeldingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.topics.inntektsmelding_topic}") String topic,
+            @Value("${historikk.kafka.topics.inntektsmelding}") String topic,
             ObjectMapperWrapper mapper) {
         super(topic, kafkaOperations, mapper);
     }
