@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.util.annoteringer.ConditionalOnDevOrLocal
 public class InnsendingHendelseProdusent extends AbstractHendelseProdusent<InnsendingHendelse> {
 
     public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.topics.søknad_topic}") String søknadTopic,
+            @Value("${historikk.kafka.topics.søknad}") String søknadTopic,
             ObjectMapperWrapper mapper) {
         super(søknadTopic, kafkaOperations, mapper);
     }
