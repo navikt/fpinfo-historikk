@@ -36,25 +36,18 @@ public class InnsendingHendelseKonsument {
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            // lag minidialoginnslag
+            // lag minidialoginnslag ?
         }
         switch (h.getHendelse()) {
         case INITIELL_ENGANGSSTØNAD:
-            break;
         case INITIELL_FORELDREPENGER:
-            dittNav.opprettBeskjed(h);
-            break;
         case INITIELL_SVANGERSKAPSPENGER:
-            break;
         case ENDRING_FORELDREPENGER:
-            break;
         case ENDRING_SVANGERSKAPSPENGER:
-            break;
         case ETTERSENDING_ENGANGSSTØNAD:
-            break;
         case ETTERSENDING_FORELDREPENGER:
-            break;
         case ETTERSENDING_SVANGERSKAPSPENGER:
+            dittNav.opprettBeskjed(h);
             break;
         default:
             break;

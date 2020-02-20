@@ -5,20 +5,31 @@ import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Behandlin
 import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
 public enum HendelseType {
+
     TILBAKEKREVING_SPM,
     TILBAKEKREVING_SVAR,
     VEDTAK,
     INNTEKTSMELDING_NY,
     INNTEKTSMELDING_ENDRING,
-    INITIELL_ENGANGSSTØNAD,
-    INITIELL_FORELDREPENGER,
-    INITIELL_SVANGERSKAPSPENGER,
-    ETTERSENDING_FORELDREPENGER,
-    ETTERSENDING_ENGANGSSTØNAD,
-    ETTERSENDING_SVANGERSKAPSPENGER,
-    ENDRING_FORELDREPENGER,
-    ENDRING_SVANGERSKAPSPENGER,
+    INITIELL_ENGANGSSTØNAD("søknad om engangsstønad"),
+    INITIELL_FORELDREPENGER("søknad om foreldrepenger"),
+    INITIELL_SVANGERSKAPSPENGER("søknad om svangerskapspenger"),
+    ETTERSENDING_FORELDREPENGER("ettersending til søknad om foreldrepenger"),
+    ETTERSENDING_ENGANGSSTØNAD("ettersending til søknad om engangsstønad"),
+    ETTERSENDING_SVANGERSKAPSPENGER("ettersending til søknad om svangerskapspenger"),
+    ENDRING_FORELDREPENGER("endring av søknad om foreldrepenger"),
+    ENDRING_SVANGERSKAPSPENGER("endring av søknad om svangerskapspenger"),
     UKJENT;
+
+    private HendelseType() {
+        this(null);
+    }
+
+    private HendelseType(String beskrivelse) {
+        this.beskrivelse = beskrivelse;
+    }
+
+    public final String beskrivelse;
 
     public boolean erMinidialog() {
         return this.equals(TILBAKEKREVING_SPM) ||

@@ -66,7 +66,8 @@ public class DittNavMeldingProdusent {
     }
 
     private BeskjedDTO tilDTO(InnsendingHendelse h) {
-        return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, "http://www.ap.no", "innsendingshendelse",
+        return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, "http://www.ap.no",
+                "Vi mottok din " + h.getHendelse().beskrivelse,
                 null, h.getReferanseId());
     }
 
