@@ -67,7 +67,7 @@ public class DittNavMeldingProdusent {
 
     private BeskjedDTO tilDTO(InnsendingHendelse h) {
         return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, "http://www.ap.no", "innsendingshendelse",
-                null, h.getDialogId());
+                null, h.getReferanseId());
     }
 
     private void send(Object msg, String eventId, String topic) {
