@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.tilDoneDTO;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.tilOppgaveDTO;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -26,6 +28,7 @@ import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
 @Service
@@ -74,7 +77,7 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
     @Transactional(KAFKA_TM)
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        opprettBeskjed(InnsendingMapper.tilDTO(h, url()));
+        opprettBeskjed(InnsendingMapper.tilBeskjedDTO(h, url()));
     }
 
     private String url() {
@@ -140,8 +143,17 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
     }
 
     @Override
+    public void opprettOppgave(MinidialogHendelse h) {
+        opprettOppgave(tilOppgaveDTO(h, url()));
+    }
+
+    @Override
+    public void avsluttOppgave(MinidialogHendelse h) {
+        avsluttOppgave(tilDoneDTO(h));
+    }
+
+    @Override
     public void setEnvironment(Environment env) {
         this.env = env;
     }
-
 }

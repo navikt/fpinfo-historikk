@@ -74,7 +74,7 @@ public final class InnsendingMapper {
                 .collect(toList());
     }
 
-    public static BeskjedDTO tilDTO(InnsendingHendelse h, String url) {
+    public static BeskjedDTO tilBeskjedDTO(InnsendingHendelse h, String url) {
         return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, url,
                 "Vi mottok din " + h.getHendelse().beskrivelse,
                 null, h.getReferanseId());

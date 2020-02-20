@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
 public interface DittNavOperasjoner {
 
@@ -11,5 +12,9 @@ public interface DittNavOperasjoner {
     void avsluttOppgave(DoneDTO dto);
 
     void opprettOppgave(OppgaveDTO dto);
+
+    void opprettOppgave(MinidialogHendelse h);
+
+    void avsluttOppgave(MinidialogHendelse h);
 
 }
