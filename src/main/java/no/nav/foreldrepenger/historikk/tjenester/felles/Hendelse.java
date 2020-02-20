@@ -8,10 +8,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModelProperty;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 public abstract class Hendelse {
 
     private final AktørId aktørId;
+    private final Fødselsnummer fnr;
+
     @ApiModelProperty(example = "1234567890")
     private final String journalpostId;
     @ApiModelProperty(example = "123")
@@ -23,9 +26,10 @@ public abstract class Hendelse {
     @ApiModelProperty(example = "2019-10-22T18:50:10.9851661")
     private final LocalDateTime opprettet;
 
-    public Hendelse(AktørId aktørId, String jounalpostId, String dokumentId,
+    public Hendelse(AktørId aktørId, Fødselsnummer fnr, String jounalpostId, String dokumentId,
             String saksnummer, HendelseType hendelse, LocalDateTime opprettet) {
         this.aktørId = aktørId;
+        this.fnr = fnr;
         this.journalpostId = jounalpostId;
         this.dokumentId = dokumentId;
         this.saksnummer = saksnummer;
@@ -51,6 +55,10 @@ public abstract class Hendelse {
 
     public String getJournalpostId() {
         return journalpostId;
+    }
+
+    public Fødselsnummer getFnr() {
+        return fnr;
     }
 
     public String getSaksnummer() {

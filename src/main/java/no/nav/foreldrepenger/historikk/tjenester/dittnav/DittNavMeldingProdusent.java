@@ -4,6 +4,8 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import no.nav.brukernotifikasjon.schemas.Beskjed;
 import no.nav.brukernotifikasjon.schemas.Done;
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
 public class DittNavMeldingProdusent {
@@ -55,6 +58,16 @@ public class DittNavMeldingProdusent {
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(BeskjedDTO dto) {
         send(beskjed(dto), dto.getEventId(), beskjedTopic);
+    }
+
+    @Transactional(KAFKA_TM)
+    public void opprettBeskjed(InnsendingHendelse h) {
+        opprettBeskjed(tilDTO(h));
+    }
+
+    private BeskjedDTO tilDTO(InnsendingHendelse h) {
+        return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, "http://www.ap.no", "innsendingshendelse",
+                null, h.getDialogId());
     }
 
     private void send(Object msg, String eventId, String topic) {
@@ -100,14 +113,19 @@ public class DittNavMeldingProdusent {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    public Beskjed beskjed(BeskjedDTO dto) {
+    private static Beskjed beskjed(BeskjedDTO dto) {
+        var til = Optional.ofNullable(dto.getSynligFramTil())
+                .map(t -> t.atStartOfDay(ZoneId.systemDefault()))
+                .map(ZonedDateTime::toInstant)
+                .map(Instant::toEpochMilli)
+                .orElse(null);
         return Beskjed.newBuilder()
                 .setFodselsnummer(dto.getFnr()).setGrupperingsId(dto.getGrupperingsId())
                 .setLink(dto.getLink())
                 .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
-                .setSynligFremTil(
-                        dto.getSynligFramTil().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .setSynligFremTil(til)
                 .setTekst(dto.getTekst())
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
+
 }

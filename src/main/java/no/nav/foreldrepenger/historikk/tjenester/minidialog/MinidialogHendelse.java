@@ -27,7 +27,8 @@ public class MinidialogHendelse extends Hendelse {
     private final YtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId, @JsonProperty("dialogId") String dialogId,
+    public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId,
+            @JsonProperty("dialogId") String dialogId,
             @JsonProperty("journalpostId") String journalpostId,
             @JsonProperty("dokumentId") String dokumentId,
             @JsonProperty("saksnummer") @JsonAlias("saksnr") String saksnummer,
@@ -36,7 +37,7 @@ public class MinidialogHendelse extends Hendelse {
             @JsonProperty("opprettet") LocalDateTime opprettet,
             @JsonProperty("aktiv") boolean aktiv,
             @JsonProperty("ytelseType") YtelseType ytelseType) {
-        super(aktørId, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
+        super(aktørId, null, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
         this.aktiv = aktiv;
