@@ -9,7 +9,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMeldingProdusent;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
 
 @Service
@@ -19,17 +19,17 @@ public class InnsendingHendelseKonsument {
 
     private final InnsendingTjeneste innsending;
     private final MinidialogTjeneste dialog;
-    private final DittNavMeldingProdusent dittNav;
+    private final DittNavOperasjoner dittNav;
 
     public InnsendingHendelseKonsument(InnsendingTjeneste innsending, MinidialogTjeneste dialog,
-            DittNavMeldingProdusent dittNav) {
+            DittNavOperasjoner dittNav) {
         this.innsending = innsending;
         this.dialog = dialog;
         this.dittNav = dittNav;
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.kafka.topics.søknad_topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.kafka.topics.søknad}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         LOG.info("Mottok innsendingshendelse {}", h);
         if (innsending.lagre(h) && h.erEttersending() && (h.getDialogId() != null)) {
@@ -38,6 +38,10 @@ public class InnsendingHendelseKonsument {
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
+        opprettDittNavBeskjed(h);
+    }
+
+    private void opprettDittNavBeskjed(InnsendingHendelse h) {
         switch (h.getHendelse()) {
         case INITIELL_ENGANGSSTØNAD:
         case INITIELL_FORELDREPENGER:
@@ -56,6 +60,8 @@ public class InnsendingHendelseKonsument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + dialog + "]";
+        return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + dialog + ", dittNav="
+                + dittNav + "]";
     }
+
 }

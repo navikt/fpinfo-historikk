@@ -14,9 +14,17 @@ management:
       health:
          show-details: always
 historikk:
+  dittnav:
+      enabled: true
   kafka:
       topics:
-         topic: privat-tilbakekreving-brukerdialog-q1
+         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
+         oppgave:
+            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
+            done: aapen-brukernotifikasjon-done-v1-testing
+         søknad: fpsoknad-mottak
+         inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
+         tilbakekreving: privat-tilbakekreving-brukerdialog-q1
 spring:
    datasource:
       url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod

@@ -19,7 +19,7 @@ public class MinidialogHendelseKonsument {
         this.dialog = dialog;
     }
 
-    @KafkaListener(topics = "#{'${historikk.kafka.topics.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.kafka.topics.tilbakekreving}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(@Payload @Valid MinidialogHendelse hendelse) {
         LOG.info("Mottok minidialoghendelse {}", hendelse);

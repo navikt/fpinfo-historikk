@@ -11,13 +11,15 @@ management:
 sts:
    enabled: false
 historikk:
+   dittnav:
+      enabled: false
    inntektsmelding:
       enabled: true
    oppslag:
       enabled: false
    kafka:
       topics:
-         topic: privat-tilbakekreving-brukerdialog-local      
+         tilbakekreving: privat-tilbakekreving-brukerdialog-local      
 dokarkiv:
    enabled: false
 server:

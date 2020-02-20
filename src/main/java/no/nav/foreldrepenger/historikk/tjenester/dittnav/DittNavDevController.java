@@ -18,9 +18,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Api(description = "Send til Ditt NAV, kun for testing lokalt og i dev")
 public class DittNavDevController {
     static final String DEVPATH = "dittnav/dev";
-    private final DittNavMeldingProdusent dittNav;
+    private final DittNavOperasjoner dittNav;
 
-    DittNavDevController(DittNavMeldingProdusent dittNav) {
+    DittNavDevController(DittNavOperasjoner dittNav) {
         this.dittNav = dittNav;
     }
 

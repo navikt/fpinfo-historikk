@@ -11,6 +11,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,11 @@ import no.nav.brukernotifikasjon.schemas.Done;
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper;
 
 @Service
-public class DittNavMeldingProdusent {
+@ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
+public class DittNavMeldingProdusent implements DittNavOperasjoner {
 
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
@@ -46,29 +49,27 @@ public class DittNavMeldingProdusent {
     }
 
     @Transactional(KAFKA_TM)
+    @Override
     public void opprettOppgave(OppgaveDTO dto) {
         send(oppgave(dto), dto.getEventId(), opprettOppgaveTopic);
     }
 
     @Transactional(KAFKA_TM)
+    @Override
     public void avsluttOppgave(DoneDTO dto) {
         send(done(dto), dto.getEventId(), avsluttOppgaveTopic);
     }
 
     @Transactional(KAFKA_TM)
+    @Override
     public void opprettBeskjed(BeskjedDTO dto) {
         send(beskjed(dto), dto.getEventId(), beskjedTopic);
     }
 
     @Transactional(KAFKA_TM)
+    @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        opprettBeskjed(tilDTO(h));
-    }
-
-    private BeskjedDTO tilDTO(InnsendingHendelse h) {
-        return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, "http://www.ap.no",
-                "Vi mottok din " + h.getHendelse().beskrivelse,
-                null, h.getReferanseId());
+        opprettBeskjed(InnsendingMapper.tilDTO(h));
     }
 
     private void send(Object msg, String eventId, String topic) {

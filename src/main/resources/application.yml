@@ -11,19 +11,21 @@ dokarkiv:
 sts:
   enabled: true           
 historikk:
+   dittnav:
+      enabled: false
    inntektsmelding:
       enabled: true
    oppslag:
       enabled: true
    kafka:
       topics:
-         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
-         topic: privat-tilbakekreving-brukerdialog-p
+         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
+         tilbakekreving: privat-tilbakekreving-brukerdialog-p
          oppgave:
-            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-            done: aapen-brukernotifikasjon-done-v1-testing
-         søknad_topic: fpsoknad-mottak
-         inntektsmelding_topic: privat-foreldrepenger-brukerdialog-inntektsmelding
+            opprett: aapen-brukernotifikasjon-nyOppgave-v1
+            done: aapen-brukernotifikasjon-done-v1
+         søknad: fpsoknad-mottak
+         inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:
    app:
       version: '@project.version@'
