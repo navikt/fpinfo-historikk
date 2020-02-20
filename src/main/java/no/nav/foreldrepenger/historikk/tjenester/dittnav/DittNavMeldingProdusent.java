@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,11 @@ import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper;
+import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
-public class DittNavMeldingProdusent implements DittNavOperasjoner {
+public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentAware {
 
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
@@ -37,6 +40,8 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     private final String opprettOppgaveTopic;
     private final String avsluttOppgaveTopic;
     private final String beskjedTopic;
+
+    private Environment env;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
             @Value("${historikk.kafka.topics.oppgave.opprett}") String opprettOppgaveTopic,
@@ -69,7 +74,11 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     @Transactional(KAFKA_TM)
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        opprettBeskjed(InnsendingMapper.tilDTO(h));
+        opprettBeskjed(InnsendingMapper.tilDTO(h, url()));
+    }
+
+    private String url() {
+        return EnvUtil.isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
     }
 
     private void send(Object msg, String eventId, String topic) {
@@ -128,6 +137,11 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
                 .setSynligFremTil(til)
                 .setTekst(dto.getTekst())
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
+    }
+
+    @Override
+    public void setEnvironment(Environment env) {
+        this.env = env;
     }
 
 }

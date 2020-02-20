@@ -31,6 +31,6 @@ public class LoggingDittNavMeldingProdusent implements DittNavOperasjoner {
 
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        opprettBeskjed(InnsendingMapper.tilDTO(h));
+        opprettBeskjed(InnsendingMapper.tilDTO(h, "https://foreldrepengesoknad.nav.no"));
     }
 }
