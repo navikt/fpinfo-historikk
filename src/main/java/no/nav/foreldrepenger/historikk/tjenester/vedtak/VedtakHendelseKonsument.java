@@ -28,7 +28,7 @@ public class VedtakHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        LOG.info("Mottok vedtakshendelse {}", h);
+        LOG.info("Mottok vedtakshendelse {} {} {} {}", h.getAktør(), h.getFagsystem(), h.getType(), h.getStatus());
         // dittNav.opprettBeskjed("TODO", String grupperingsId, String tekst, String
         // url);
     }
