@@ -3,9 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.minidialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DoneDTO;
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.OppgaveDTO;
-
 public final class MinidialogMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);
@@ -46,12 +43,4 @@ public final class MinidialogMapper {
         return innslag;
     }
 
-    public static OppgaveDTO tilOppgaveDTO(MinidialogHendelse h, String url) {
-        return new OppgaveDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, url, "minidialog TODO",
-                h.getDialogId());
-    }
-
-    public static DoneDTO tilDoneDTO(MinidialogHendelse h) {
-        return new DoneDTO(h.getFnr().getFnr(), h.getSaksnummer(), h.getDialogId());
-    }
 }
