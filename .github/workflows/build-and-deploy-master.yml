@@ -35,7 +35,10 @@ jobs:
       - name: Kompiler
         run: | 
           echo "::set-env name=IMAGE::$IMAGE_BASE:$TAG" 
-          mvn clean install --batch-mode --quiet 
+          mvn clean install --batch-mode --quiet  --settings .github/workflows/.m2/settings.xml
+        env:
+           GITHUB_USERNAME: x-access-token
+           GITHUB_PASSWORD: ${{ secrets.NOTIFICATION }}
                    
       - name: Bygg, tag og push Docker image  
         run: |
