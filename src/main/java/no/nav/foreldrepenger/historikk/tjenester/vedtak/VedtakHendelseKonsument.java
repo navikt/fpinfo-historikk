@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.vedtak;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,8 +30,9 @@ public class VedtakHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        LOG.info("Mottok vedtakshendelse {} {} {} {} {}", h.getAktør().getVerdi(), h.getFagsystem().getKode(),
-                h.getType().getKode(), h.getStatus().getKode(), h.getVedtattTidspunkt());
+        LOG.info("Mottatt vedtakshendelse {} {} {} {} {}", h.getAktør().getVerdi(), h.getFagsystem().getKode(),
+                h.getType().getKode(), h.getStatus().getKode(),
+                Optional.ofNullable(h.getVedtattTidspunkt().toString()).orElse("Ikke satt"));
         // dittNav.opprettBeskjed("TODO", String grupperingsId, String tekst, String
         // url);
     }
