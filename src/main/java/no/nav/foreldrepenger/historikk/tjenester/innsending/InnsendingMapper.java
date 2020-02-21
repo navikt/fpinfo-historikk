@@ -10,8 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.BeskjedDTO;
-
 public final class InnsendingMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingMapper.class);
@@ -74,9 +72,4 @@ public final class InnsendingMapper {
                 .collect(toList());
     }
 
-    public static BeskjedDTO tilBeskjedDTO(InnsendingHendelse h, String url) {
-        return new BeskjedDTO(h.getFnr().getFnr(), h.getSaksnummer(), 3, url,
-                "Vi mottok din " + h.getHendelse().beskrivelse,
-                null, h.getReferanseId());
-    }
 }

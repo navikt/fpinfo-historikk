@@ -47,18 +47,18 @@ public enum HendelseType {
                 this.equals(TILBAKEKREVING_SVAR);
     }
 
-    private boolean erForeldrepenger() {
+    public boolean erForeldrepenger() {
         return this.equals(INITIELL_FORELDREPENGER) ||
                 this.equals(ETTERSENDING_FORELDREPENGER) ||
                 this.equals(ENDRING_FORELDREPENGER);
     }
 
-    private boolean erEngangsstønad() {
+    public boolean erEngangsstønad() {
         return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
                 this.equals(INITIELL_ENGANGSSTØNAD);
     }
 
-    private boolean erSvangerskapspenger() {
+    public boolean erSvangerskapspenger() {
         return this.equals(ETTERSENDING_SVANGERSKAPSPENGER) ||
                 this.equals(INITIELL_SVANGERSKAPSPENGER) ||
                 this.equals(ENDRING_SVANGERSKAPSPENGER);

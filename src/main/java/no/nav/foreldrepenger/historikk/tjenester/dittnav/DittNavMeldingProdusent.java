@@ -20,6 +20,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
@@ -58,18 +60,13 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
     @Transactional(KAFKA_TM)
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        send(beskjed(h, url()), h.getReferanseId(), beskjedTopic);
+        send(beskjed(h, url(h.getHendelse())), h.getReferanseId(), beskjedTopic);
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(MinidialogHendelse h) {
-        send(oppgave(h, url()), h.getDialogId(), opprettOppgaveTopic);
-    }
-
-    private String url() {
-        // TODO
-        return EnvUtil.isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
+        send(oppgave(h, url(h.getYtelseType())), h.getDialogId(), opprettOppgaveTopic);
     }
 
     private void send(Object msg, String eventId, String topic) {
@@ -96,6 +93,43 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
                 .build();
         LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
         return nøkkel;
+    }
+
+    private String url(YtelseType ytelseType) {
+        switch (ytelseType) {
+        case ES:
+            return es();
+        case SVP:
+            return svp();
+        case FP:
+        default:
+            return fp();
+        }
+    }
+
+    private String url(HendelseType hendelse) {
+        if (hendelse.erEngangsstønad()) {
+            return es();
+        }
+        if (hendelse.erForeldrepenger()) {
+            return fp();
+        }
+        if (hendelse.erSvangerskapspenger()) {
+            return svp();
+        }
+        return fp();
+    }
+
+    private String fp() {
+        return EnvUtil.isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
+    }
+
+    private String svp() {
+        return EnvUtil.isDev(env) ? "https://svangerskapspenger-q.nav.no/" : "https://svangerskapspenger.nav.no";
+    }
+
+    private String es() {
+        return EnvUtil.isDev(env) ? "https://engangsstonad-q.nav.no/" : "https://engangsstonad.nav.no";
     }
 
     @Override

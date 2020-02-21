@@ -9,7 +9,9 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
-public class DittNavMapper {
+final class DittNavMapper {
+
+    private static final int SIKKERHETSNIVÅ = 3;
 
     private DittNavMapper() {
 
@@ -19,7 +21,7 @@ public class DittNavMapper {
         return Oppgave.newBuilder()
                 .setFodselsnummer(h.getFnr().getFnr())
                 .setGrupperingsId(h.getSaksnummer())
-                .setSikkerhetsnivaa(3)
+                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
                 .setLink(url)
                 .setTekst(h.getHendelse().beskrivelse)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
@@ -36,9 +38,8 @@ public class DittNavMapper {
         return Beskjed.newBuilder()
                 .setFodselsnummer(h.getFnr().getFnr()).setGrupperingsId(h.getSaksnummer())
                 .setLink(url)
-                .setSikkerhetsnivaa(3)
-                .setSynligFremTil(null)
-                .setTekst(h.getHendelse().beskrivelse)
+                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
+                .setTekst("Vi mottok din " + h.getHendelse().beskrivelse)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
