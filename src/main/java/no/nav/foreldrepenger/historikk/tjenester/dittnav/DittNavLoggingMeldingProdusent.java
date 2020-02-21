@@ -11,9 +11,9 @@ import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "false")
-public class LoggingDittNavMeldingProdusent implements DittNavOperasjoner {
+public class DittNavLoggingMeldingProdusent implements DittNavOperasjoner {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LoggingDittNavMeldingProdusent.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
