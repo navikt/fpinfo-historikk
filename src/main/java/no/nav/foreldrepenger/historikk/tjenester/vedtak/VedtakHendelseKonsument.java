@@ -30,7 +30,7 @@ public class VedtakHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        LOG.info("Mottatt vedtakshendelse {} {} {} {} {} {}", h.getAktør().getVerdi(), h.getSaksnummer(),
+        LOG.info("Mottok vedtakshendelse {} {} {} {} {} {}", h.getAktør().getVerdi(), h.getSaksnummer(),
                 h.getFagsystem().getKode(),
                 h.getType().getKode(), h.getStatus().getKode(),
                 Optional.ofNullable(h.getVedtattTidspunkt().toString()).orElse("Ikke satt"));
