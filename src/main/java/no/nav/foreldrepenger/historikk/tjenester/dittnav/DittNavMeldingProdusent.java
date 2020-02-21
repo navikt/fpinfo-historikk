@@ -1,13 +1,9 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.tilDoneDTO;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.tilOppgaveDTO;
-
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Optional;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.done;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -22,12 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import no.nav.brukernotifikasjon.schemas.Beskjed;
-import no.nav.brukernotifikasjon.schemas.Done;
 import no.nav.brukernotifikasjon.schemas.Nokkel;
-import no.nav.brukernotifikasjon.schemas.Oppgave;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
@@ -58,29 +51,24 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
 
     @Transactional(KAFKA_TM)
     @Override
-    public void opprettOppgave(OppgaveDTO dto) {
-        send(oppgave(dto), dto.getEventId(), opprettOppgaveTopic);
-    }
-
-    @Transactional(KAFKA_TM)
-    @Override
-    public void avsluttOppgave(DoneDTO dto) {
-        send(done(dto), dto.getEventId(), avsluttOppgaveTopic);
-    }
-
-    @Transactional(KAFKA_TM)
-    @Override
-    public void opprettBeskjed(BeskjedDTO dto) {
-        send(beskjed(dto), dto.getEventId(), beskjedTopic);
+    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        send(done(fnr, grupperingsId), eventId, avsluttOppgaveTopic);
     }
 
     @Transactional(KAFKA_TM)
     @Override
     public void opprettBeskjed(InnsendingHendelse h) {
-        opprettBeskjed(InnsendingMapper.tilBeskjedDTO(h, url()));
+        send(beskjed(h, url()), h.getReferanseId(), beskjedTopic);
+    }
+
+    @Override
+    @Transactional(KAFKA_TM)
+    public void opprettOppgave(MinidialogHendelse h) {
+        send(oppgave(h, url()), h.getDialogId(), opprettOppgaveTopic);
     }
 
     private String url() {
+        // TODO
         return EnvUtil.isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
     }
 
@@ -108,48 +96,6 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
                 .build();
         LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
         return nøkkel;
-    }
-
-    private static Oppgave oppgave(OppgaveDTO dto) {
-        return Oppgave.newBuilder()
-                .setFodselsnummer(dto.getFnr())
-                .setGrupperingsId(dto.getGrupperingsId())
-                .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
-                .setLink(dto.getLink())
-                .setTekst(dto.getTekst())
-                .setTidspunkt(Instant.now().toEpochMilli()).build();
-    }
-
-    private static Done done(DoneDTO dto) {
-        return Done.newBuilder()
-                .setFodselsnummer(dto.getFnr())
-                .setGrupperingsId(dto.getGrupperingsId())
-                .setTidspunkt(Instant.now().toEpochMilli()).build();
-    }
-
-    private static Beskjed beskjed(BeskjedDTO dto) {
-        var til = Optional.ofNullable(dto.getSynligFramTil())
-                .map(t -> t.atStartOfDay(ZoneId.systemDefault()))
-                .map(ZonedDateTime::toInstant)
-                .map(Instant::toEpochMilli)
-                .orElse(null);
-        return Beskjed.newBuilder()
-                .setFodselsnummer(dto.getFnr()).setGrupperingsId(dto.getGrupperingsId())
-                .setLink(dto.getLink())
-                .setSikkerhetsnivaa(dto.getSikkerhetsNivå())
-                .setSynligFremTil(til)
-                .setTekst(dto.getTekst())
-                .setTidspunkt(Instant.now().toEpochMilli()).build();
-    }
-
-    @Override
-    public void opprettOppgave(MinidialogHendelse h) {
-        opprettOppgave(tilOppgaveDTO(h, url()));
-    }
-
-    @Override
-    public void avsluttOppgave(MinidialogHendelse h) {
-        avsluttOppgave(tilDoneDTO(h));
     }
 
     @Override

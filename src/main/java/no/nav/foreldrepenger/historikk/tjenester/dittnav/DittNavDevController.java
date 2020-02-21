@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -26,20 +28,14 @@ public class DittNavDevController {
 
     @PostMapping("/opprettOppgave")
     @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
-    public void opprettOppgave(@RequestBody OppgaveDTO dto) {
-        dittNav.opprettOppgave(dto);
-    }
-
-    @PostMapping("/avsluttOppgave")
-    @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka")
-    public void avsluttOppgave(@RequestBody DoneDTO dto) {
-        dittNav.avsluttOppgave(dto);
+    public void opprettOppgave(@RequestBody MinidialogHendelse h) {
+        dittNav.opprettOppgave(h);
     }
 
     @PostMapping("/sendBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
-    public void sendBeskjed(@RequestBody BeskjedDTO dto) {
-        dittNav.opprettBeskjed(dto);
+    public void sendBeskjed(@RequestBody InnsendingHendelse h) {
+        dittNav.opprettBeskjed(h);
     }
 
     @Override
