@@ -25,19 +25,19 @@ public class MinidialogHendelseKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.topics.tilbakekreving}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(@Payload @Valid MinidialogHendelse hendelse) {
-        LOG.info("Mottok minidialoghendelse {}", hendelse);
-        switch (hendelse.getHendelse()) {
+    public void listen(@Payload @Valid MinidialogHendelse h) {
+        LOG.info("Mottok minidialoghendelse {}", h);
+        switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
-            dialog.lagre(hendelse);
-            dittNav.opprettOppgave(hendelse);
+            dialog.lagre(h);
+            dittNav.opprettOppgave(h);
             break;
         case TILBAKEKREVING_SVAR:
-            dialog.deaktiver(hendelse.getAktørId(), hendelse.getDialogId());
-            dittNav.avsluttOppgave(hendelse);
+            dialog.deaktiver(h.getAktørId(), h.getDialogId());
+            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
             break;
         default:
-            LOG.warn("Hendelsetype {} ikke støttet", hendelse.getHendelse());
+            LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
             break;
         }
     }
