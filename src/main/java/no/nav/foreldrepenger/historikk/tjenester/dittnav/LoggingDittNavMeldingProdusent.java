@@ -23,12 +23,15 @@ public class LoggingDittNavMeldingProdusent implements DittNavOperasjoner {
     @Override
     public void opprettOppgave(MinidialogHendelse h) {
         LOG.info("Oppretter oppgave fra {} i Ditt Nav", h);
-
     }
 
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
         LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
+    }
 
+    @Override
+    public void opprettBeskjed(String fnr, String grupperingsId, String tekst, String url) {
+        LOG.info("Oppretter beskjed for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, url);
     }
 }

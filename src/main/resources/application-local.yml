@@ -11,6 +11,8 @@ management:
 sts:
    enabled: false
 historikk:
+   vedtak:
+     enabled: true
    dittnav:
       enabled: false
    inntektsmelding:
