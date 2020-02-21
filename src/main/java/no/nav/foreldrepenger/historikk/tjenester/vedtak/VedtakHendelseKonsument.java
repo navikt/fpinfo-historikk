@@ -28,8 +28,8 @@ public class VedtakHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        LOG.info("Mottok vedtakshendelse {} {} {} {}", h.getAktør().getVerdi(), h.getFagsystem().getKode(),
-                h.getType().getKode(), h.getStatus().getKode());
+        LOG.info("Mottok vedtakshendelse {} {} {} {} {}", h.getAktør().getVerdi(), h.getFagsystem().getKode(),
+                h.getType().getKode(), h.getStatus().getKode(), h.getVedtattTidspunkt());
         // dittNav.opprettBeskjed("TODO", String grupperingsId, String tekst, String
         // url);
     }
