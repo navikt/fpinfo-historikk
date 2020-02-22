@@ -47,7 +47,8 @@ public class VedtakHendelseKonsument {
                 Optional.ofNullable(h.getVedtattTidspunkt())
                         .map(LocalDateTime::toString)
                         .orElse("Ikke satt"));
-        dittNav.opprettBeskjed(fnr, h.getSaksnummer(), tekst, url, h.getVedtakReferanse());
+        // dittNav.opprettBeskjed(fnr, h.getSaksnummer(), tekst, url,
+        // h.getVedtakReferanse());
     }
 
     private Fødselsnummer fnr(Aktør aktør) {

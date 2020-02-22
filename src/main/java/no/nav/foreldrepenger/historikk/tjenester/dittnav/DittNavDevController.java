@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.security.token.support.core.api.Unprotected;
@@ -23,9 +24,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class DittNavDevController {
     static final String DEVPATH = "dittnav/dev";
     private final DittNavOperasjoner dittNav;
-    private final DittNavUrlGenerator urlGenerator;
+    private final UrlGenerator urlGenerator;
 
-    DittNavDevController(DittNavOperasjoner dittNav, DittNavUrlGenerator urlGenerator) {
+    DittNavDevController(DittNavOperasjoner dittNav, UrlGenerator urlGenerator) {
         this.dittNav = dittNav;
         this.urlGenerator = urlGenerator;
     }

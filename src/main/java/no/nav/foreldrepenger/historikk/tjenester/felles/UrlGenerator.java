@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.dittnav;
+package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static no.nav.foreldrepenger.historikk.util.EnvUtil.isDev;
 
@@ -6,11 +6,8 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
-
 @Component
-public class DittNavUrlGenerator implements EnvironmentAware {
+public class UrlGenerator implements EnvironmentAware {
 
     private Environment env;
 
