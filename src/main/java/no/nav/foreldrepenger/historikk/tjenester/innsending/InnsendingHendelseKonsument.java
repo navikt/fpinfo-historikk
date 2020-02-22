@@ -51,7 +51,7 @@ public class InnsendingHendelseKonsument {
         case ETTERSENDING_ENGANGSSTØNAD:
         case ETTERSENDING_FORELDREPENGER:
         case ETTERSENDING_SVANGERSKAPSPENGER:
-            dittNav.opprettBeskjed(h);
+            // dittNav.opprettBeskjed(h.getFnr().getFnr(),);
             break;
         default:
             break;

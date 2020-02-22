@@ -4,14 +4,12 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.done;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.url;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
@@ -21,12 +19,10 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
-public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentAware {
+public class DittNavMeldingProdusent implements DittNavOperasjoner {
 
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
@@ -57,21 +53,14 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(String fnr, String grupperingsId, String tekst, String url) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Transactional(KAFKA_TM)
-    @Override
-    public void opprettBeskjed(InnsendingHendelse h) {
-        send(beskjed(h, url(h.getHendelse(), env)), h.getReferanseId(), beskjedTopic);
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
+        send(beskjed(fnr, grupperingsId, tekst, url), eventId, beskjedTopic);
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettOppgave(MinidialogHendelse h) {
-        send(oppgave(h, url(h.getYtelseType(), env)), h.getDialogId(), opprettOppgaveTopic);
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
+        send(oppgave(fnr, grupperingsId, tekst, url), eventId, opprettOppgaveTopic);
     }
 
     private void send(Object msg, String eventId, String topic) {
@@ -98,11 +87,6 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner, EnvironmentA
                 .build();
         LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
         return nøkkel;
-    }
-
-    @Override
-    public void setEnvironment(Environment env) {
-        this.env = env;
     }
 
 }

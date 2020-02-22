@@ -10,8 +10,6 @@ import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
 final class DittNavMapper {
@@ -22,13 +20,13 @@ final class DittNavMapper {
 
     }
 
-    static Oppgave oppgave(MinidialogHendelse h, String url) {
+    static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Oppgave.newBuilder()
-                .setFodselsnummer(h.getFnr().getFnr())
-                .setGrupperingsId(h.getSaksnummer())
-                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
+                .setFodselsnummer(fnr.getFnr())
+                .setGrupperingsId(grupperingsId)
                 .setLink(url)
-                .setTekst(h.getHendelse().beskrivelse)
+                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
+                .setTekst(tekst)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
@@ -39,18 +37,10 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Beskjed beskjed(InnsendingHendelse h, String url) {
+    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Beskjed.newBuilder()
-                .setFodselsnummer(h.getFnr().getFnr()).setGrupperingsId(h.getSaksnummer())
-                .setLink(url)
-                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
-                .setTekst("Vi mottok din " + h.getHendelse().beskrivelse)
-                .setTidspunkt(Instant.now().toEpochMilli()).build();
-    }
-
-    static Beskjed beskjed(String fnr, String grupperingsId, String tekst, String url) {
-        return Beskjed.newBuilder()
-                .setFodselsnummer(fnr).setGrupperingsId(grupperingsId)
+                .setFodselsnummer(fnr.getFnr())
+                .setGrupperingsId(grupperingsId)
                 .setLink(url)
                 .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
                 .setTekst(tekst)

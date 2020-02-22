@@ -26,6 +26,7 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Cacheable(cacheNames = "fnr")
+    @Override
     public Fødselsnummer fnr(AktørId aktørId) {
         return connection.hentFnr(aktørId);
     }
