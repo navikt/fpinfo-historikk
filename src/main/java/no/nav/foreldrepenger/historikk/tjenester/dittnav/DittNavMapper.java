@@ -12,7 +12,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
-final class DittNavMapper {
+public final class DittNavMapper {
 
     private static final int SIKKERHETSNIVÅ = 3;
 
@@ -20,7 +20,7 @@ final class DittNavMapper {
 
     }
 
-    static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    public static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Oppgave.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
@@ -30,14 +30,14 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Done done(Fødselsnummer fnr, String grupperingsId) {
+    public static Done done(Fødselsnummer fnr, String grupperingsId) {
         return Done.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    public static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Beskjed.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
@@ -47,7 +47,7 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static String url(YtelseType ytelseType, Environment env) {
+    public static String url(YtelseType ytelseType, Environment env) {
         switch (ytelseType) {
         case ES:
             return es(env);
@@ -59,7 +59,7 @@ final class DittNavMapper {
         }
     }
 
-    static String url(HendelseType hendelse, Environment env) {
+    public static String url(HendelseType hendelse, Environment env) {
         if (hendelse.erEngangsstønad()) {
             return es(env);
         }
