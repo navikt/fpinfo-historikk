@@ -22,7 +22,7 @@
     </licenses>
 
     <properties>
-        <confluent.version>5.3.1</confluent.version>
+        <confluent.version>5.4.0</confluent.version>
         <token-validation-version>1.1.4</token-validation-version>
         <springfox.version>2.9.2</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
-            <version>1.9.1</version>
+            <version>1.9.2</version>
         </dependency>
         <dependency>
             <groupId>io.confluent</groupId>
