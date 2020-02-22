@@ -15,7 +15,7 @@ public final class DittNavMapper {
 
     }
 
-    public static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Oppgave.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
@@ -25,14 +25,14 @@ public final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    public static Done done(Fødselsnummer fnr, String grupperingsId) {
+    static Done done(Fødselsnummer fnr, String grupperingsId) {
         return Done.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    public static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
         return Beskjed.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)

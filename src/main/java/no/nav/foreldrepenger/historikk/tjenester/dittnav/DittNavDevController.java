@@ -31,6 +31,7 @@ public class DittNavDevController {
     }
 
     @PostMapping("/avsluttOppgave/{fnr}/{grupperingsId}/{eventId}")
+    @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka")
     public void avsluttOppgave(@PathVariable("fnr") Fødselsnummer fnr,
             @PathVariable("grupperingsId") String grupperingsId,
             @PathVariable("eventId") String eventId) {

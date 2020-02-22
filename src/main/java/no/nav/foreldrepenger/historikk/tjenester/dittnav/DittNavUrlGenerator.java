@@ -1,12 +1,13 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import static no.nav.foreldrepenger.historikk.util.EnvUtil.isDev;
+
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
-import no.nav.foreldrepenger.historikk.util.EnvUtil;
 
 @Component
 public class DittNavUrlGenerator implements EnvironmentAware {
@@ -44,15 +45,15 @@ public class DittNavUrlGenerator implements EnvironmentAware {
     }
 
     private String fp() {
-        return EnvUtil.isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
+        return isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
     }
 
     private String svp() {
-        return EnvUtil.isDev(env) ? "https://svangerskapspenger-q.nav.no/" : "https://svangerskapspenger.nav.no";
+        return isDev(env) ? "https://svangerskapspenger-q.nav.no/" : "https://svangerskapspenger.nav.no";
     }
 
     private String es() {
-        return EnvUtil.isDev(env) ? "https://engangsstonad-q.nav.no/" : "https://engangsstonad.nav.no";
+        return isDev(env) ? "https://engangsstonad-q.nav.no/" : "https://engangsstonad.nav.no";
     }
 
 }
