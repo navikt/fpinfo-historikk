@@ -8,9 +8,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.op
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.env.Environment;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -29,38 +27,30 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
-    private final String opprettOppgaveTopic;
-    private final String avsluttOppgaveTopic;
-    private final String beskjedTopic;
 
-    private Environment env;
+    private final DittNavTopics topics;
 
-    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
-            @Value("${historikk.kafka.topics.oppgave.opprett}") String opprettOppgaveTopic,
-            @Value("${historikk.kafka.topics.oppgave.done}") String avsluttOppgaveTopic,
-            @Value("${historikk.kafka.topics.beskjed}") String beskjedTopic) {
+    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations, DittNavTopics topics) {
         this.kafkaOperations = kafkaOperations;
-        this.opprettOppgaveTopic = opprettOppgaveTopic;
-        this.avsluttOppgaveTopic = avsluttOppgaveTopic;
-        this.beskjedTopic = beskjedTopic;
+        this.topics = topics;
     }
 
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        send(done(fnr, grupperingsId), eventId, avsluttOppgaveTopic);
+        send(done(fnr, grupperingsId), eventId, topics.getAvsluttOppgaveTopic());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(beskjed(fnr, grupperingsId, tekst, url), eventId, beskjedTopic);
+        send(beskjed(fnr, grupperingsId, tekst, url), eventId, topics.getBeskjedTopic());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(oppgave(fnr, grupperingsId, tekst, url), eventId, opprettOppgaveTopic);
+        send(oppgave(fnr, grupperingsId, tekst, url), eventId, topics.getOpprettOppgaveTopic());
     }
 
     private void send(Object msg, String eventId, String topic) {

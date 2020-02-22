@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.vedtak;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -36,12 +37,17 @@ public class VedtakHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        LOG.info("Mottok vedtakshendelse {} {} {} {} {} {}", fnr(h.getAktør()), h.getSaksnummer(),
+        Fødselsnummer fnr = fnr(h.getAktør());
+        LOG.info("Mottok vedtakshendelse {} {} {} {} {} {}",
+                fnr,
+                h.getSaksnummer(),
                 h.getFagsystem().getKode(),
-                h.getType().getKode(), h.getStatus().getKode(),
-                Optional.ofNullable(h.getVedtattTidspunkt().toString()).orElse("Ikke satt"));
-        // dittNav.opprettBeskjed("TODO", String grupperingsId, String tekst, String
-        // url);
+                h.getType().getKode(),
+                h.getStatus().getKode(),
+                Optional.ofNullable(h.getVedtattTidspunkt())
+                        .map(LocalDateTime::toString)
+                        .orElse("Ikke satt"));
+        dittNav.opprettBeskjed(fnr, h.getSaksnummer(), tekst, url, h.getVedtakReferanse());
     }
 
     private Fødselsnummer fnr(Aktør aktør) {
@@ -52,9 +58,9 @@ public class VedtakHendelseKonsument {
             return Fødselsnummer.valueOf(aktør.getVerdi());
         }
         if (aktør.getVerdi().length() == 13) {
-            LOG.info("Slår opp fødselsnummer for {}", aktør.getVerdi());
+            LOG.info("Slår opp fnr for {}", aktør.getVerdi());
             var fnr = oppslag.fnr(AktørId.valueOf(aktør.getVerdi()));
-            LOG.info("Fødselsnummer for {} er {}", aktør.getVerdi(), fnr);
+            LOG.info("Fnr for {} er {}", aktør.getVerdi(), fnr);
             return fnr;
         }
         throw new IllegalArgumentException("Aktør ikke satt");
