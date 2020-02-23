@@ -1,8 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.vedtak;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,27 +25,21 @@ public class VedtakHendelseKonsument {
 
     private final Oppslag oppslag;
     private final DittNavOperasjoner dittNav;
+    private final VedtakTjeneste vedtak;
 
-    public VedtakHendelseKonsument(DittNavOperasjoner dittNav, Oppslag oppslag) {
+    public VedtakHendelseKonsument(VedtakTjeneste vedtak, DittNavOperasjoner dittNav, Oppslag oppslag) {
         this.dittNav = dittNav;
         this.oppslag = oppslag;
+        this.vedtak = vedtak;
     }
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
-        Fødselsnummer fnr = fnr(h.getAktør());
-        LOG.info("Mottok vedtakshendelse {} {} {} {} {} {}",
-                fnr,
-                h.getSaksnummer(),
-                h.getFagsystem().getKode(),
-                h.getType().getKode(),
-                h.getStatus().getKode(),
-                Optional.ofNullable(h.getVedtattTidspunkt())
-                        .map(LocalDateTime::toString)
-                        .orElse("Ikke satt"));
-        // dittNav.opprettBeskjed(fnr, h.getSaksnummer(), tekst, url,
-        // h.getVedtakReferanse());
+        LOG.info("Mottok vedtakshendelse {}", h);
+        vedtak.lagre(h);
+        dittNav.opprettBeskjed(fnr(h.getAktør()), h.getSaksnummer(), "Vedtak " + h.getFagsystem(), "http://www.vg.no",
+                h.getVedtakReferanse());
     }
 
     private Fødselsnummer fnr(Aktør aktør) {

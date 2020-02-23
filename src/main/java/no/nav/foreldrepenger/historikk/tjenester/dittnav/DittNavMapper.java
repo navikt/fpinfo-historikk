@@ -25,7 +25,7 @@ public final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Done done(Fødselsnummer fnr, String grupperingsId) {
+    static Done avslutt(Fødselsnummer fnr, String grupperingsId) {
         return Done.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)

@@ -95,7 +95,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger.abakus</groupId>
             <artifactId>abakus-kontrakt</artifactId>
-            <version>1.1-20200214145925-6514287</version>
+            <version>1.1-20200221155753-8aaa637</version>
         </dependency>
         <dependency>
             <groupId>org.apache.avro</groupId>

@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.done;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -38,7 +38,7 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        send(done(fnr, grupperingsId), eventId, topics.getAvsluttOppgaveTopic());
+        send(avslutt(fnr, grupperingsId), eventId, topics.getAvsluttOppgaveTopic());
     }
 
     @Override
