@@ -38,8 +38,9 @@ public class VedtakHendelseKonsument {
     public void behandle(@Payload @Valid YtelseV1 h) {
         LOG.info("Mottok vedtakshendelse {}", h);
         // vedtak.lagre(h);
-        dittNav.opprettBeskjed(fnr(h.getAktør()), h.getSaksnummer(), "Vedtak " + h.getFagsystem(), "http://www.vg.no",
-                h.getVedtakReferanse());
+        // dittNav.opprettBeskjed(fnr(h.getAktør()), h.getSaksnummer(), "Vedtak " +
+        // h.getFagsystem(), "http://www.vg.no",
+        // h.getVedtakReferanse());
     }
 
     private Fødselsnummer fnr(Aktør aktør) {
