@@ -11,6 +11,8 @@ dokarkiv:
 sts:
   enabled: true           
 historikk:
+   fordeling:
+      enabled: true
    vedtak:
      enabled: false
    dittnav:
