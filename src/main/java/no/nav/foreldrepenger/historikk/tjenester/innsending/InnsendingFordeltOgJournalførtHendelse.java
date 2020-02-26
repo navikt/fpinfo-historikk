@@ -14,7 +14,7 @@ public class InnsendingFordeltOgJournalførtHendelse {
     @JsonCreator
     public InnsendingFordeltOgJournalførtHendelse(
             @JsonProperty("journalpostId") String journalpostId,
-            @JsonProperty("journalpostId") String forsendelseId,
+            @JsonProperty("forsendelseId") String forsendelseId,
             @JsonProperty("fnr") Fødselsnummer fnr,
             @JsonProperty("saksnummer") String saksnummer) {
         this.journalpostId = journalpostId;
