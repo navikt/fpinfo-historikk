@@ -37,7 +37,7 @@ public class VedtakHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.topics.vedtak}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid YtelseV1 h) {
         LOG.info("Mottok vedtakshendelse {}", h);
-        vedtak.lagre(h);
+        // vedtak.lagre(h);
         dittNav.opprettBeskjed(fnr(h.getAktør()), h.getSaksnummer(), "Vedtak " + h.getFagsystem(), "http://www.vg.no",
                 h.getVedtakReferanse());
     }
