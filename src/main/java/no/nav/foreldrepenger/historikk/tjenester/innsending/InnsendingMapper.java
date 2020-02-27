@@ -42,6 +42,7 @@ public final class InnsendingMapper {
     static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse) {
         LOG.info("Mapper fra hendelse {}", hendelse);
         var innslag = new JPAInnsendingInnslag();
+        innslag.setLeveranseStatus(hendelse.getLeveranseStatus());
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
         innslag.setSaksnr(hendelse.getSaksnummer());

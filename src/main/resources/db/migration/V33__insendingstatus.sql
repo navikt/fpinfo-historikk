@@ -1,0 +1,1 @@
+ALTER TABLE INNSENDING ADD innsending_status VARCHAR(50);
