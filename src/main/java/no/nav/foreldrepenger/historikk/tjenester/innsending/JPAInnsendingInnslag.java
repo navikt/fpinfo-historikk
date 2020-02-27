@@ -45,16 +45,8 @@ public class JPAInnsendingInnslag {
     private LocalDate behandlingsdato;
     private String referanseId;
     private LocalDateTime innsendt;
-    @Enumerated(STRING)
-    private InnsendingLeveranseStatus leveranseStatus;
-
-    public InnsendingLeveranseStatus getLeveranseStatus() {
-        return leveranseStatus;
-    }
-
-    public void setLeveranseStatus(InnsendingLeveranseStatus leveranseStatus) {
-        this.leveranseStatus = leveranseStatus;
-    }
+    // @Enumerated(STRING)
+    // private InnsendingLeveranseStatus leveranseStatus;
 
     JPAInnsendingInnslag() {
     }
@@ -149,7 +141,7 @@ public class JPAInnsendingInnslag {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
                 + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet + ", vedlegg=" + vedlegg
                 + ", behandlingsdato=" + behandlingsdato + ", referanseId=" + referanseId + ", innsendt=" + innsendt
-                + ", leveranseStatus=" + leveranseStatus + "]";
+                + "]";
     }
 
 }
