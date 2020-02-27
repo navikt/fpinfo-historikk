@@ -50,6 +50,18 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
         return innsendinger(oppslag.aktørId());
     }
 
+    public void fordel(InnsendingFordeltOgJournalførtHendelse h) {
+        var eksisterende = dao.findByReferanseId(h.getForsendelseId());
+        if (eksisterende != null && eksisterende.getSaksnr() == null && eksisterende.getJournalpostId() == null) {
+            LOG.info("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
+            eksisterende.setSaksnr(h.getSaksnr());
+            eksisterende.setJournalpostId(h.getJournalpostId());
+            dao.save(eksisterende);
+        } else {
+            LOG.info("Ingenting å oppdatere fra hendelse");
+        }
+    }
+
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> innsendinger(AktørId id) {
         LOG.info("Henter innsendingsinnslag for {}", id);
