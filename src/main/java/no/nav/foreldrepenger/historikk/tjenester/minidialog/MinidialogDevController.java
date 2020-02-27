@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
-//@ConditionalOnDevOrLocal
+@ConditionalOnNotProd
 @RequestMapping(path = MinidialogDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 @Api(description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")

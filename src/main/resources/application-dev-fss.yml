@@ -22,7 +22,6 @@ historikk:
       enabled: true    
   kafka:
       topics:
-         fordeling: privat-foreldrepenger-historikk-fordeling
          beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
          oppgave:
             opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing

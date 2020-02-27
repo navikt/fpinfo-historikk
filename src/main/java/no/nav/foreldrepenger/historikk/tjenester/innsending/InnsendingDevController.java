@@ -31,15 +31,23 @@ public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InnsendingHendelseProdusent produsent;
     private final InnsendingTjeneste innsending;
+    private final FordelingHendelseProdusent fordeling;
 
-    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste innsending) {
+    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste innsending,
+            FordelingHendelseProdusent fordeling) {
         this.produsent = produsent;
         this.innsending = innsending;
+        this.fordeling = fordeling;
     }
 
     @PostMapping("/send")
     public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
         produsent.send(hendelse);
+    }
+
+    @PostMapping("/fordel")
+    public void fordel(@RequestBody InnsendingFordeltOgJournalførtHendelse hendelse) {
+        fordeling.send(hendelse);
     }
 
     @PostMapping("/lagre")

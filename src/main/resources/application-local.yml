@@ -11,6 +11,8 @@ management:
 sts:
    enabled: false
 historikk:
+   fordeling:
+     enabled: true
    vedtak:
      enabled: true
    dittnav:
@@ -46,12 +48,12 @@ spring:
       log-request-details: false
    kafka:
       properties:
-         schema.registry.url: http://localhost:8081
          security:
             protocol: PLAINTEXT 
       consumer:
-         bootstrap-servers: localhost:29092
+         bootstrap-servers: localhost:9092
       producer:
-         bootstrap-servers: localhost:29092
-         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+         bootstrap-servers: localhost:9092
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  

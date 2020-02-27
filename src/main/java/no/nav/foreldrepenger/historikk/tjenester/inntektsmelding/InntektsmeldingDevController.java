@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
-//@ConditionalOnDevOrLocal
+@ConditionalOnNotProd
 @Api(description = "Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
 @RequestMapping(path = InntektsmeldingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected

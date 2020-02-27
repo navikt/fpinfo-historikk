@@ -19,7 +19,8 @@ public enum HendelseType {
     ETTERSENDING_SVANGERSKAPSPENGER("ettersending til søknad om svangerskapspenger"),
     ENDRING_FORELDREPENGER("endring av søknad om foreldrepenger"),
     ENDRING_SVANGERSKAPSPENGER("endring av søknad om svangerskapspenger"),
-    UKJENT;
+    UKJENT,
+    FORDELING;
 
     private HendelseType() {
         this(null);

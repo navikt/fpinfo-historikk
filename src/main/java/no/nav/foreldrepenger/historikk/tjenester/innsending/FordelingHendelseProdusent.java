@@ -10,10 +10,10 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
 @ConditionalOnNotProd
-public class InnsendingHendelseProdusent extends AbstractHendelseProdusent<InnsendingHendelse> {
+public class FordelingHendelseProdusent extends AbstractHendelseProdusent<InnsendingFordeltOgJournalførtHendelse> {
 
-    public InnsendingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.topics.søknad}") String søknadTopic,
+    public FordelingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+            @Value("${historikk.kafka.topics.fordeling}") String søknadTopic,
             ObjectMapperWrapper mapper) {
         super(søknadTopic, kafkaOperations, mapper);
     }
