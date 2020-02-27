@@ -258,7 +258,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger</groupId>
             <artifactId>boot-conditionals</artifactId>
-            <version>1.0.20200227100107-9b6b707</version>
+            <version>1.0.20200227101910-240ff04</version>
         </dependency>
     </dependencies>
 </project>

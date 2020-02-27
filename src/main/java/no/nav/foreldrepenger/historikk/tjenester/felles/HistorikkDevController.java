@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import no.nav.foreldrepenger.boot.conditionals.ConditionalOnDev;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
-import no.nav.foreldrepenger.historikk.util.annoteringer.ConditionalOnDevOrLocal;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
-@ConditionalOnDevOrLocal
+@ConditionalOnDev
 @RequestMapping(path = HistorikkDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 public class HistorikkDevController {

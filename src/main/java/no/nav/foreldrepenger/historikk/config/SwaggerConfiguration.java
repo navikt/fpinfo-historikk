@@ -3,7 +3,7 @@ package no.nav.foreldrepenger.historikk.config;
 import static com.google.common.collect.Sets.newHashSet;
 import static io.swagger.models.Scheme.HTTP;
 import static io.swagger.models.Scheme.HTTPS;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.isLocal;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isLocal;
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 

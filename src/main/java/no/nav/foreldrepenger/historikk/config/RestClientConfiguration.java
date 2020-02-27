@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

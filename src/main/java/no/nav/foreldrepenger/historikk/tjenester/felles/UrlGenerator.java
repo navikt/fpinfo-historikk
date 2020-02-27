@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.isDev;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isDev;
 
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;

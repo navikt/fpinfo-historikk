@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.config;
 
 import static java.lang.System.getenv;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEFAULT;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV_FSS;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.DEV_GCP;
-import static no.nav.foreldrepenger.historikk.util.EnvUtil.LOCAL;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.DEFAULT;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.DEV_FSS;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.DEV_GCP;
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
 
 import java.util.Optional;
 
