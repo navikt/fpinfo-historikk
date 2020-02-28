@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
+import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
 import javax.validation.Valid;
 
@@ -29,7 +29,7 @@ public class FordelingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.fordeling}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
-        MDCUtil.toMDC(CALL_ID, h.getForsendelseId());
+        MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
         LOG.info("Mottok fordelingshendelse {}", h);
         innsending.fordel(h);
     }
