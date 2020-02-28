@@ -39,7 +39,7 @@ public class MinidialogHendelseKonsument {
             // h.getDialogId());
             break;
         case TILBAKEKREVING_SVAR:
-            // dialog.deaktiver(h.getAktørId(), h.getDialogId());
+            dialog.deaktiver(h.getAktørId(), h.getDialogId());
             // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
             break;
         default:
