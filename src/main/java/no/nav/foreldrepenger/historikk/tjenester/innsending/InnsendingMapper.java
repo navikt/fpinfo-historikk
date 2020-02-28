@@ -33,16 +33,23 @@ public final class InnsendingMapper {
         return innslag;
     }
 
-    private static List<String> tilVedlegg(JPAInnsendingInnslag innslag) {
-        return safeStream(innslag.getVedlegg())
-                .map(JPAInnsendingVedlegg::getVedleggId)
-                .collect(toList());
+    static JPAInnsendingInnslag nyFra(InnsendingFordeltOgJournalførtHendelse h) {
+        return oppdaterFra(h, new JPAInnsendingInnslag());
     }
 
-    static JPAInnsendingInnslag fraHendelse(InnsendingHendelse hendelse) {
-        LOG.info("Mapper fra hendelse {}", hendelse);
-        var innslag = new JPAInnsendingInnslag();
-        // innslag.setLeveranseStatus(hendelse.getLeveranseStatus());
+    static JPAInnsendingInnslag oppdaterFra(InnsendingFordeltOgJournalførtHendelse h,
+            JPAInnsendingInnslag innslag) {
+        innslag.setSaksnr(h.getSaksnr());
+        innslag.setJournalpostId(h.getJournalpostId());
+        return innslag;
+    }
+
+    static JPAInnsendingInnslag nyFra(InnsendingHendelse hendelse) {
+        return oppdaterFra(hendelse, new JPAInnsendingInnslag());
+
+    }
+
+    static JPAInnsendingInnslag oppdaterFra(InnsendingHendelse hendelse, JPAInnsendingInnslag innslag) {
         innslag.setAktørId(hendelse.getAktørId());
         innslag.setReferanseId(hendelse.getReferanseId());
         innslag.setSaksnr(hendelse.getSaksnummer());
@@ -58,6 +65,12 @@ public final class InnsendingMapper {
                 .forEach(innslag::addVedlegg);
         LOG.info("Mappet til innslag {}", innslag);
         return innslag;
+    }
+
+    private static List<String> tilVedlegg(JPAInnsendingInnslag innslag) {
+        return safeStream(innslag.getVedlegg())
+                .map(JPAInnsendingVedlegg::getVedleggId)
+                .collect(toList());
     }
 
     private static JPAInnsendingVedlegg fraVedlegg(String id, InnsendingType type) {

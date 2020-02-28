@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.tilInnslag;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsendingSpec.harAktørId;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse> {
+public class InnsendingTjeneste {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
 
@@ -32,16 +30,16 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
         this.oppslag = oppslag;
     }
 
-    @Override
-    public boolean lagre(InnsendingHendelse hendelse) {
-        if (!erAlleredeLagret(hendelse.getReferanseId())) {
-            LOG.info("Lagrer innsendingsinnslag fra {}", hendelse);
-            dao.save(fraHendelse(hendelse));
-            LOG.info("Lagret innsendingsinnslag OK");
-            return true;
+    public void lagreEllerOppdater(InnsendingHendelse h) {
+        var eksisterende = dao.findByReferanseId(h.getReferanseId());
+        if (eksisterende != null) {
+            LOG.info("Oppdaterer innsendingsinnslag fra {}", h);
+            dao.save(InnsendingMapper.oppdaterFra(h, eksisterende));
+            LOG.info("Oppdaterte innsendingsinnslag OK");
         } else {
-            LOG.info("Innsendingsinnslag med referanseId {} er allerede lagret", hendelse.getReferanseId());
-            return false;
+            LOG.info("Ingenting å oppdatere fra hendelse, insert istedet");
+            dao.save(InnsendingMapper.nyFra(h));
+            LOG.info("Insert fra hendelse OK");
         }
     }
 
@@ -52,13 +50,18 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
 
     public void fordel(InnsendingFordeltOgJournalførtHendelse h) {
         var eksisterende = dao.findByReferanseId(h.getForsendelseId());
-        if (eksisterende != null && eksisterende.getSaksnr() == null && eksisterende.getJournalpostId() == null) {
-            LOG.info("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
-            eksisterende.setSaksnr(h.getSaksnr());
-            eksisterende.setJournalpostId(h.getJournalpostId());
-            dao.save(eksisterende);
+        if (eksisterende != null) {
+            if (eksisterende.getSaksnr() == null && eksisterende.getJournalpostId() == null) {
+                LOG.info("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
+                dao.save(InnsendingMapper.oppdaterFra(h, eksisterende));
+                LOG.info("Oppdaterer fra hendelse OK");
+            } else {
+                LOG.info("Eksisterende innslag er allerede komplett");
+            }
         } else {
-            LOG.info("Ingenting å oppdatere fra hendelse");
+            LOG.info("Ingenting å oppdatere fra hendelse, insert istedet");
+            dao.save(InnsendingMapper.nyFra(h));
+            LOG.info("Insert fra hendelse OK");
         }
     }
 
@@ -71,13 +74,7 @@ public class InnsendingTjeneste implements IdempotentTjeneste<InnsendingHendelse
     }
 
     @Override
-    public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && dao.findByReferanseId(referanseId) != null;
-    }
-
-    @Override
     public String toString() {
         return getClass().getSimpleName() + "[dao=" + dao + "]";
     }
-
 }

@@ -45,8 +45,6 @@ public class JPAInnsendingInnslag {
     private LocalDate behandlingsdato;
     private String referanseId;
     private LocalDateTime innsendt;
-    // @Enumerated(STRING)
-    // private InnsendingLeveranseStatus leveranseStatus;
 
     JPAInnsendingInnslag() {
     }

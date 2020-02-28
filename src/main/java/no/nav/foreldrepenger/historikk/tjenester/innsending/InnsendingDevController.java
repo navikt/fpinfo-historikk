@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.status;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.token.support.core.api.Unprotected;
 
@@ -52,11 +50,8 @@ public class InnsendingDevController {
 
     @PostMapping("/lagre")
     public ResponseEntity<?> lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
-        boolean lagret = innsending.lagre(hendelse);
-        return lagret ? status(CREATED).build()
-                : status(CONFLICT)
-                        .body(new ApiError(CONFLICT,
-                                "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
+        innsending.lagreEllerOppdater(hendelse);
+        return status(CREATED).build();
     }
 
     @GetMapping("/søknader")

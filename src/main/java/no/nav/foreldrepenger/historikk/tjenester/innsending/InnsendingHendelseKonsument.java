@@ -36,7 +36,8 @@ public class InnsendingHendelseKonsument {
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
-        if (innsending.lagre(h) && h.erEttersending() && (h.getDialogId() != null)) {
+        innsending.lagreEllerOppdater(h);
+        if (h.erEttersending() && (h.getDialogId() != null)) {
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
