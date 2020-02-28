@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
+import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 public class InnsendingHendelseKonsument {
@@ -31,6 +34,7 @@ public class InnsendingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.kafka.topics.søknad}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
+        MDCUtil.toMDC(CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
         if (innsending.lagre(h) && h.erEttersending() && (h.getDialogId() != null)) {
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
