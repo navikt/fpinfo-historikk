@@ -26,6 +26,7 @@ public class FordelingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.topics.fordeling}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
         LOG.info("Mottok fordelingshendelse {}", h);
+        innsending.fordel(h);
     }
 
     @Override
