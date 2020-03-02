@@ -54,7 +54,7 @@ public class HistorikkController {
     @GetMapping("/me/minidialoger")
     public List<TilbakekrevingInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");
-        return minidialog.dialoger(activeOnly);
+        return minidialog.tilbakekrevinger(activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")

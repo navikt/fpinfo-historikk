@@ -32,29 +32,29 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Api(description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")
 public class TilbakekrevingDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
-    private final TilbakekrevingTjeneste minidialog;
+    private final TilbakekrevingTjeneste tilbakekreving;
 
-    TilbakekrevingDevController(TilbakekrevingTjeneste minidialog) {
-        this.minidialog = minidialog;
+    TilbakekrevingDevController(TilbakekrevingTjeneste tilbakekreving) {
+        this.tilbakekreving = tilbakekreving;
     }
 
-    @GetMapping("/minidialoger")
-    @ApiOperation("Hent alle minidialoger (spørsmål og svar) for en gitt aktør og status")
+    @GetMapping("/tilbakekrevinger")
+    @ApiOperation("Hent alle tilbakekrevinger (spørsmål og svar) for en gitt aktør og status")
     public List<TilbakekrevingInnslag> dialoger(@RequestParam("aktørId") AktørId aktørId,
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
-        return minidialog.dialoger(aktørId, activeOnly);
+        return tilbakekreving.tilbakekrevinger(aktørId, activeOnly);
     }
 
     @GetMapping("/spm")
-    @ApiOperation("Hent alle aktive minidialogspørsmål for en gitt aktør")
+    @ApiOperation("Hent alle aktive tilbakekrevingsspørsmål for en gitt aktør")
     public List<TilbakekrevingInnslag> aktive(@RequestParam("aktørId") AktørId id) {
-        return minidialog.aktive(id);
+        return tilbakekreving.aktive(id);
     }
 
-    @PostMapping("/lagreMinidialog")
-    @ApiOperation("Lagre en minidialoghendelse rett i databasen, utenom Kafka")
+    @PostMapping("/lagre")
+    @ApiOperation("Lagre en tilbakekreving rett i databasen, utenom Kafka")
     public ResponseEntity<?> lagre(@RequestBody @Valid TilbakekrevingHendelse hendelse) {
-        boolean lagret = minidialog.opprettOppgave(hendelse);
+        boolean lagret = tilbakekreving.opprettOppgave(hendelse);
         return lagret ? status(CREATED).build()
                 : status(CONFLICT)
                         .body(new ApiError(CONFLICT,
@@ -63,6 +63,6 @@ public class TilbakekrevingDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + minidialog + "]";
+        return getClass().getSimpleName() + "[minidialog=" + tilbakekreving + "]";
     }
 }

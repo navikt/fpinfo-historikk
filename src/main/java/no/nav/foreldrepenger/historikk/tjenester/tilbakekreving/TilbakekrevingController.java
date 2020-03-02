@@ -15,20 +15,20 @@ import no.nav.security.token.support.core.api.ProtectedWithClaims;
 public class TilbakekrevingController {
 
     static final String MINIDIALOG = "/minidialog";
-    private final TilbakekrevingTjeneste minidialog;
+    private final TilbakekrevingTjeneste tilbakekreving;
 
-    TilbakekrevingController(TilbakekrevingTjeneste minidialog) {
-        this.minidialog = minidialog;
+    TilbakekrevingController(TilbakekrevingTjeneste tilbakekreving) {
+        this.tilbakekreving = tilbakekreving;
     }
 
     @GetMapping("/me")
-    public List<TilbakekrevingInnslag> dialoger(
+    public List<TilbakekrevingInnslag> tilbakekrevinger(
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
-        return minidialog.dialoger(activeOnly);
+        return tilbakekreving.tilbakekrevinger(activeOnly);
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [minidialog=" + minidialog + "]";
+        return getClass().getSimpleName() + " [tilbakekreving=" + tilbakekreving + "]";
     }
 }

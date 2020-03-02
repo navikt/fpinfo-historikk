@@ -30,7 +30,7 @@ public class TilbakekrevingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.kafka.topics.tilbakekreving}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(@Payload @Valid TilbakekrevingHendelse h) {
-        LOG.info("Mottok minidialoghendelse {}", h);
+        LOG.info("Mottok tilbakekrevingshendelse {}", h);
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
             dialog.opprettOppgave(h);

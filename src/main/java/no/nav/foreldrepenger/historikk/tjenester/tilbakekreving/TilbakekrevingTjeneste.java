@@ -49,13 +49,13 @@ public class TilbakekrevingTjeneste implements IdempotentTjeneste<Tilbakekreving
 
     public void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
-        LOG.info("Deaktiverte {} minidialog{} for fnr {} og  dialogId {} etter hendelse", n, flertall(n),
+        LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {} etter hendelse", n, flertall(n),
                 fnr, dialogId);
     }
 
     public void deaktiver(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
-        LOG.info("Deaktiverte {} minidialog{} for aktør {} og  dialogId {} etter hendelse", n, flertall(n),
+        LOG.info("Deaktiverte {} tilbakekreving{} for aktør {} og  dialogId {} etter hendelse", n, flertall(n),
                 aktørId, dialogId);
     }
 
@@ -63,9 +63,9 @@ public class TilbakekrevingTjeneste implements IdempotentTjeneste<Tilbakekreving
     public boolean opprettOppgave(TilbakekrevingHendelse h) {
         var orig = dao.findByDialogId(h.getDialogId());
         if (orig == null) {
-            LOG.info("Lagrer minidialog {}", h);
+            LOG.info("Lagrer tilbakekreving {}", h);
             dao.save(fraHendelse(h));
-            LOG.info("Lagret minidialog OK");
+            LOG.info("Lagret tilbakekreving OK");
             if (TILBAKEKREVING_SVAR.equals(h.getHendelse())) {
                 avsluttOppgave(h.getFnr(), h.getDialogId());
             }
@@ -79,12 +79,12 @@ public class TilbakekrevingTjeneste implements IdempotentTjeneste<Tilbakekreving
     }
 
     @Transactional(readOnly = true)
-    public List<TilbakekrevingInnslag> dialoger(boolean activeOnly) {
-        return dialoger(oppslag.aktørId(), activeOnly);
+    public List<TilbakekrevingInnslag> tilbakekrevinger(boolean activeOnly) {
+        return tilbakekrevinger(oppslag.aktørId(), activeOnly);
     }
 
     @Transactional(readOnly = true)
-    public List<TilbakekrevingInnslag> dialoger(AktørId aktørId, boolean activeOnly) {
+    public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
         LOG.info("Henter dialoginnslag for {} og activeOnly={}", aktørId, activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
