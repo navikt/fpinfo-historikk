@@ -19,11 +19,11 @@ public interface JPATilbakekrevingRepository
     JPATilbakekrevingInnslag findByDialogId(String dialogId);
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.dialogId = :dialogId and m.dialogId is not null")
+    @Query("update JPATilbakekrevingInnslag m set m.aktiv = false where m.fnr = :fnr and m.dialogId = :dialogId and m.dialogId is not null")
     int deaktiver(@Param("fnr") Fødselsnummer fnr, @Param("dialogId") String dialogId);
 
     @Modifying
-    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.dialogId = :dialogId and m.dialogId is not null")
+    @Query("update JPATilbakekrevingInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.dialogId = :dialogId and m.dialogId is not null")
     int deaktiver(@Param("aktørId") AktørId aktørId, @Param("dialogId") String dialogId);
 
 }
