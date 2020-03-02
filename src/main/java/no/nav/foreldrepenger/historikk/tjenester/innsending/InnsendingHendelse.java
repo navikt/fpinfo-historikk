@@ -80,7 +80,10 @@ public class InnsendingHendelse extends Hendelse {
     public String toString() {
         return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", ikkeOpplastedeVedlegg="
                 + ikkeOpplastedeVedlegg + ", opplastedeVedlegg=" + opplastedeVedlegg + ", førsteBehandlingsdato="
-                + førsteBehandlingsdato + ", referanseId=" + referanseId + ", dialogId=" + dialogId + "]";
+                + førsteBehandlingsdato + ", referanseId=" + referanseId + ", dialogId=" + dialogId
+                + ", dokumentId=" + getDokumentId() + ", opprettet=" + getOpprettet() + ", hendelse="
+                + getHendelse() + ", aktørId=" + getAktørId() + ", journalpostId=" + getJournalpostId()
+                + ", fnr=" + getFnr() + ", saksnummer=" + getSaksnummer() + "]";
     }
 
 }
