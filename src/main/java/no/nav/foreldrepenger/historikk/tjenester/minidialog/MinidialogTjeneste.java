@@ -6,7 +6,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILB
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erIkkeTilbakekrevingSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harAktørId;
@@ -15,26 +14,32 @@ import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.boot.conditionals.EnvUtil;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse> {
+public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse>, EnvironmentAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
 
     private final JPAMinidialogRepository dao;
     private final Oppslag oppslag;
+
+    private Environment env;
 
     public MinidialogTjeneste(JPAMinidialogRepository dao, Oppslag oppslag) {
         this.dao = dao;
@@ -85,16 +90,21 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     @Transactional(readOnly = true)
     public List<MinidialogInnslag> aktive(AktørId aktørId) {
         LOG.info("Henter aktive dialoginnslag for {}", aktørId);
-        return tilInnslag(
-                dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+        if (EnvUtil.isDevOrLocal(env)) {
+            return tilInnslag(
+                    dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+        }
+        LOG.info("Returnerer ikke minidialoginnslag i prod foreløpig");
+        return Collections.emptyList(); // ikke i prod foreløpig
     }
 
     private static Specification<JPAMinidialogInnslag> spec(AktørId aktørId, boolean activeOnly) {
         var spec = harAktørId(aktørId);
-        return activeOnly ? spec
-                .and(erIkkeTilbakekrevingSpørsmål())
+        var retur = activeOnly ? spec
                 .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;
+
+        return retur;
     }
 
     private static List<MinidialogInnslag> tilInnslag(List<JPAMinidialogInnslag> innslag) {
@@ -103,6 +113,11 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
                 .collect(toList());
         LOG.info("Hentet {} dialog{} ({})", i.size(), flertall(i), i);
         return i;
+    }
+
+    @Override
+    public void setEnvironment(Environment env) {
+        this.env = env;
 
     }
 
@@ -115,4 +130,5 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     public String toString() {
         return getClass().getSimpleName() + " [dao=" + dao + "]";
     }
+
 }
