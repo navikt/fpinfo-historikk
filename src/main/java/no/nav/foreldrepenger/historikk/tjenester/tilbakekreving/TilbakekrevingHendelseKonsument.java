@@ -34,7 +34,8 @@ public class TilbakekrevingHendelseKonsument {
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
             dialog.opprettOppgave(h);
-            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "TODO", urlGenerator.url(h.getHendelse()),
+            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "Tilbakekrevingssak",
+                    urlGenerator.url(h.getHendelse()),
                     h.getDialogId());
             break;
         case TILBAKEKREVING_SVAR:
