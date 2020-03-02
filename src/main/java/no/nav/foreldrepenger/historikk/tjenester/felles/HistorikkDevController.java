@@ -27,18 +27,18 @@ public class HistorikkDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InnsendingTjeneste søknad;
     private final InntektsmeldingTjeneste inntektsmelding;
-    private final TilbakekrevingTjeneste minidialog;
+    private final TilbakekrevingTjeneste tilbakekreving;
 
     HistorikkDevController(InnsendingTjeneste søknad, InntektsmeldingTjeneste inntektsmelding,
-            TilbakekrevingTjeneste minidialog) {
+            TilbakekrevingTjeneste tilbakekreving) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;
-        this.minidialog = minidialog;
+        this.tilbakekreving = tilbakekreving;
     }
 
     @GetMapping
     public List<HistorikkInnslag> allHistorikkFor(@RequestParam("aktørId") AktørId id) {
-        return concat(minidialog.dialoger(id, false).stream(),
+        return concat(tilbakekreving.tilbakekrevinger(id, false).stream(),
                 concat(inntektsmelding.inntektsmeldinger(id).stream(), søknad.innsendinger(id).stream()))
                         .sorted()
                         .collect(toList());
