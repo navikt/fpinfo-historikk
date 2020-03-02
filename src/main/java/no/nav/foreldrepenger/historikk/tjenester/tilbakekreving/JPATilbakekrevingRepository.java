@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 
@@ -13,10 +13,10 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Transactional(JPA_TM)
-public interface JPAMinidialogRepository
-        extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
+public interface JPATilbakekrevingRepository
+        extends JpaRepository<JPATilbakekrevingInnslag, Long>, JpaSpecificationExecutor<JPATilbakekrevingInnslag> {
 
-    JPAMinidialogInnslag findByDialogId(String dialogId);
+    JPATilbakekrevingInnslag findByDialogId(String dialogId);
 
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.dialogId = :dialogId and m.dialogId is not null")

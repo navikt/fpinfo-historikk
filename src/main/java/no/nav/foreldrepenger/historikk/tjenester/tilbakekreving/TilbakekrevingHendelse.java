@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
@@ -17,7 +17,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
-public class MinidialogHendelse extends Hendelse {
+public class TilbakekrevingHendelse extends Hendelse {
 
     @ApiModelProperty(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
@@ -27,7 +27,7 @@ public class MinidialogHendelse extends Hendelse {
     private final YtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogHendelse(@JsonProperty("fnr") @JsonAlias("norskIdent") Fødselsnummer fnr,
+    public TilbakekrevingHendelse(@JsonProperty("fnr") @JsonAlias("norskIdent") Fødselsnummer fnr,
             @JsonProperty("dialogId") String dialogId,
             @JsonProperty("journalpostId") @JsonAlias("jounalpostId") String journalpostId,
             @JsonProperty("dokumentId") String dokumentId,

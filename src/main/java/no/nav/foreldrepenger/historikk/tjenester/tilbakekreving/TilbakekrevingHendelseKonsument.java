@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import javax.validation.Valid;
 
@@ -13,14 +13,14 @@ import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
 import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
-public class MinidialogHendelseKonsument {
+public class TilbakekrevingHendelseKonsument {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogHendelseKonsument.class);
-    private final MinidialogTjeneste dialog;
+    private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingHendelseKonsument.class);
+    private final TilbakekrevingTjeneste dialog;
     private final DittNavOperasjoner dittNav;
     private final UrlGenerator urlGenerator;
 
-    public MinidialogHendelseKonsument(MinidialogTjeneste dialog, DittNavOperasjoner dittNav,
+    public TilbakekrevingHendelseKonsument(TilbakekrevingTjeneste dialog, DittNavOperasjoner dittNav,
             UrlGenerator urlGenerator) {
         this.dialog = dialog;
         this.dittNav = dittNav;
@@ -29,7 +29,7 @@ public class MinidialogHendelseKonsument {
 
     @KafkaListener(topics = "#{'${historikk.kafka.topics.tilbakekreving}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
-    public void listen(@Payload @Valid MinidialogHendelse h) {
+    public void listen(@Payload @Valid TilbakekrevingHendelse h) {
         LOG.info("Mottok minidialoghendelse {}", h);
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:

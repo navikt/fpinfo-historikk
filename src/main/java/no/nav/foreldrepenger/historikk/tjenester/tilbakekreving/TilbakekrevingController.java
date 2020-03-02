@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import java.util.List;
 
@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RestController;
 import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
 @RestController
-@RequestMapping(value = MinidialogController.MINIDIALOG)
+@RequestMapping(value = TilbakekrevingController.MINIDIALOG)
 @ProtectedWithClaims(issuer = "selvbetjening", claimMap = { "acr=Level4" })
-public class MinidialogController {
+public class TilbakekrevingController {
 
     static final String MINIDIALOG = "/minidialog";
-    private final MinidialogTjeneste minidialog;
+    private final TilbakekrevingTjeneste minidialog;
 
-    MinidialogController(MinidialogTjeneste minidialog) {
+    TilbakekrevingController(TilbakekrevingTjeneste minidialog) {
         this.minidialog = minidialog;
     }
 
     @GetMapping("/me")
-    public List<MinidialogInnslag> dialoger(
+    public List<TilbakekrevingInnslag> dialoger(
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
         return minidialog.dialoger(activeOnly);
     }

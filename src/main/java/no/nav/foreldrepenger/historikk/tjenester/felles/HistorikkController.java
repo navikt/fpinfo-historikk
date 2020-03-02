@@ -17,8 +17,8 @@ import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
 import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
 @RestController
@@ -30,10 +30,10 @@ public class HistorikkController {
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkController.class);
     private final InnsendingTjeneste innsending;
     private final InntektsmeldingTjeneste inntektsmelding;
-    private final MinidialogTjeneste minidialog;
+    private final TilbakekrevingTjeneste minidialog;
 
     HistorikkController(InnsendingTjeneste innsending, InntektsmeldingTjeneste inntektsmelding,
-            MinidialogTjeneste minidialog) {
+            TilbakekrevingTjeneste minidialog) {
         this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
         this.minidialog = minidialog;
@@ -52,13 +52,13 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/minidialoger")
-    public List<MinidialogInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
+    public List<TilbakekrevingInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");
         return minidialog.dialoger(activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")
-    public List<MinidialogInnslag> aktive() {
+    public List<TilbakekrevingInnslag> aktive() {
         LOG.info("Henter aktive minidialoger for pålogget bruker");
         return minidialog.aktive();
     }

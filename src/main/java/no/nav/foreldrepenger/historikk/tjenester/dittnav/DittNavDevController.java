@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogHendelse;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingHendelse;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -40,7 +40,7 @@ public class DittNavDevController {
 
     @PostMapping("/opprettOppgave")
     @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
-    public void opprettOppgave(@RequestBody MinidialogHendelse h) {
+    public void opprettOppgave(@RequestBody TilbakekrevingHendelse h) {
         dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "opprett", urlGenerator.url(h.getHendelse()),
                 h.getDialogId());
     }

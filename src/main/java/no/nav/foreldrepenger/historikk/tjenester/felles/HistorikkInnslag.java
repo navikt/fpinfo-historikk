@@ -18,13 +18,13 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
 
 @JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
 @JsonSubTypes({
         @Type(value = InnsendingInnslag.class, name = "søknad"),
         @Type(value = InntektsmeldingInnslag.class, name = "inntekt"),
-        @Type(value = MinidialogInnslag.class, name = "minidialog")
+        @Type(value = TilbakekrevingInnslag.class, name = "minidialog")
 
 })
 public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {

@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import java.time.LocalDate;
 
@@ -9,7 +9,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
-public class MinidialogInnslag extends HistorikkInnslag {
+public class TilbakekrevingInnslag extends HistorikkInnslag {
 
     private final HendelseType hendelse;
     private final LocalDate gyldigTil;
@@ -19,7 +19,7 @@ public class MinidialogInnslag extends HistorikkInnslag {
     private final YtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogInnslag(
+    public TilbakekrevingInnslag(
             @JsonProperty("hendelse") HendelseType hendelse, @JsonProperty("gyldigTil") LocalDate gyldigTil,
             @JsonProperty("tekst") String tekst, @JsonProperty("ytelseType") YtelseType ytelseType) {
         this.hendelse = hendelse;

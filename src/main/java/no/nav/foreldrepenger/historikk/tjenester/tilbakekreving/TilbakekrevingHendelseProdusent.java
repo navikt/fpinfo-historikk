@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaOperations;
@@ -8,9 +8,9 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.AbstractHendelseProdusen
 import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 @Service
-public class MinidialogHendelseProdusent extends AbstractHendelseProdusent<MinidialogHendelse> {
+public class TilbakekrevingHendelseProdusent extends AbstractHendelseProdusent<TilbakekrevingHendelse> {
 
-    public MinidialogHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
+    public TilbakekrevingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
             @Value("${historikk.kafka.topics.tilbakekreving}") String topic, ObjectMapperWrapper mapper) {
         super(topic, kafkaOperations, mapper);
     }

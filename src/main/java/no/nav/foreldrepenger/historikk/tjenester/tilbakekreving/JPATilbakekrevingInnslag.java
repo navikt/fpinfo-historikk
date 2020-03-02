@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -26,7 +26,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 @Entity
 @Table(name = "minidialog")
 @EntityListeners(AuditingEntityListener.class)
-public class JPAMinidialogInnslag {
+public class JPATilbakekrevingInnslag {
 
     private String journalpostId;
     @Enumerated(STRING)
@@ -64,7 +64,7 @@ public class JPAMinidialogInnslag {
 
     private String dialogId;
 
-    JPAMinidialogInnslag() {
+    JPATilbakekrevingInnslag() {
     }
 
     public LocalDateTime getOpprettet() {

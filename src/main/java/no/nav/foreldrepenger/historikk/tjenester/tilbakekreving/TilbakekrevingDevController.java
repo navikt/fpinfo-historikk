@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogController.MINIDIALOG;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingController.MINIDIALOG;
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -27,33 +27,33 @@ import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
 @ConditionalOnNotProd
-@RequestMapping(path = MinidialogDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
+@RequestMapping(path = TilbakekrevingDevController.DEVPATH, produces = APPLICATION_JSON_VALUE)
 @Unprotected
 @Api(description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")
-public class MinidialogDevController {
+public class TilbakekrevingDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
-    private final MinidialogTjeneste minidialog;
+    private final TilbakekrevingTjeneste minidialog;
 
-    MinidialogDevController(MinidialogTjeneste minidialog) {
+    TilbakekrevingDevController(TilbakekrevingTjeneste minidialog) {
         this.minidialog = minidialog;
     }
 
     @GetMapping("/minidialoger")
     @ApiOperation("Hent alle minidialoger (spørsmål og svar) for en gitt aktør og status")
-    public List<MinidialogInnslag> dialoger(@RequestParam("aktørId") AktørId aktørId,
+    public List<TilbakekrevingInnslag> dialoger(@RequestParam("aktørId") AktørId aktørId,
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
         return minidialog.dialoger(aktørId, activeOnly);
     }
 
     @GetMapping("/spm")
     @ApiOperation("Hent alle aktive minidialogspørsmål for en gitt aktør")
-    public List<MinidialogInnslag> aktive(@RequestParam("aktørId") AktørId id) {
+    public List<TilbakekrevingInnslag> aktive(@RequestParam("aktørId") AktørId id) {
         return minidialog.aktive(id);
     }
 
     @PostMapping("/lagreMinidialog")
     @ApiOperation("Lagre en minidialoghendelse rett i databasen, utenom Kafka")
-    public ResponseEntity<?> lagre(@RequestBody @Valid MinidialogHendelse hendelse) {
+    public ResponseEntity<?> lagre(@RequestBody @Valid TilbakekrevingHendelse hendelse) {
         boolean lagret = minidialog.opprettOppgave(hendelse);
         return lagret ? status(CREATED).build()
                 : status(CONFLICT)

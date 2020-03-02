@@ -1,19 +1,19 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class MinidialogMapper {
+public final class TilbakekrevingMapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingMapper.class);
 
-    private MinidialogMapper() {
+    private TilbakekrevingMapper() {
 
     }
 
-    static JPAMinidialogInnslag fraHendelse(MinidialogHendelse m) {
+    static JPATilbakekrevingInnslag fraHendelse(TilbakekrevingHendelse m) {
         LOG.info("Mapper fra {}", m);
-        var dialog = new JPAMinidialogInnslag();
+        var dialog = new JPATilbakekrevingInnslag();
         dialog.setYtelseType(m.getYtelseType());
         dialog.setInnsendt(m.getOpprettet());
         dialog.setAktørId(m.getAktørId());
@@ -29,9 +29,9 @@ public final class MinidialogMapper {
         return dialog;
     }
 
-    static MinidialogInnslag tilInnslag(JPAMinidialogInnslag i) {
+    static TilbakekrevingInnslag tilInnslag(JPATilbakekrevingInnslag i) {
         LOG.info("Mapper fra innslag {}", i);
-        var innslag = new MinidialogInnslag(i.getHendelse(), i.getGyldigTil(), i.getTekst(), i.getYtelseType());
+        var innslag = new TilbakekrevingInnslag(i.getHendelse(), i.getGyldigTil(), i.getTekst(), i.getYtelseType());
         innslag.setAktørId(i.getAktørId());
         innslag.setFnr(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());

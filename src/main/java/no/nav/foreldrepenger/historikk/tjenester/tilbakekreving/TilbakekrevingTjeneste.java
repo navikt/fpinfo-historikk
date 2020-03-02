@@ -1,15 +1,15 @@
-package no.nav.foreldrepenger.historikk.tjenester.minidialog;
+package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SVAR;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erAktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erSpørsmål;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.gyldigErNull;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harAktørId;
-import static no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogMapper.fraHendelse;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erSpørsmål;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.gyldigErNull;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.harAktørId;
+import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingMapper.fraHendelse;
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -33,16 +33,16 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse>, EnvironmentAware {
+public class TilbakekrevingTjeneste implements IdempotentTjeneste<TilbakekrevingHendelse>, EnvironmentAware {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MinidialogTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingTjeneste.class);
 
-    private final JPAMinidialogRepository dao;
+    private final JPATilbakekrevingRepository dao;
     private final Oppslag oppslag;
 
     private Environment env;
 
-    public MinidialogTjeneste(JPAMinidialogRepository dao, Oppslag oppslag) {
+    public TilbakekrevingTjeneste(JPATilbakekrevingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }
@@ -60,7 +60,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Override
-    public boolean opprettOppgave(MinidialogHendelse h) {
+    public boolean opprettOppgave(TilbakekrevingHendelse h) {
         var orig = dao.findByDialogId(h.getDialogId());
         if (orig == null) {
             LOG.info("Lagrer minidialog {}", h);
@@ -79,23 +79,23 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> dialoger(boolean activeOnly) {
+    public List<TilbakekrevingInnslag> dialoger(boolean activeOnly) {
         return dialoger(oppslag.aktørId(), activeOnly);
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> dialoger(AktørId aktørId, boolean activeOnly) {
+    public List<TilbakekrevingInnslag> dialoger(AktørId aktørId, boolean activeOnly) {
         LOG.info("Henter dialoginnslag for {} og activeOnly={}", aktørId, activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> aktive() {
+    public List<TilbakekrevingInnslag> aktive() {
         return aktive(oppslag.aktørId());
     }
 
     @Transactional(readOnly = true)
-    public List<MinidialogInnslag> aktive(AktørId aktørId) {
+    public List<TilbakekrevingInnslag> aktive(AktørId aktørId) {
         LOG.info("Henter aktive dialoginnslag for {}", aktørId);
         if (EnvUtil.isDevOrLocal(env)) {
             return tilInnslag(
@@ -105,7 +105,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         return Collections.emptyList(); // ikke i prod foreløpig
     }
 
-    private static Specification<JPAMinidialogInnslag> spec(AktørId aktørId, boolean activeOnly) {
+    private static Specification<JPATilbakekrevingInnslag> spec(AktørId aktørId, boolean activeOnly) {
         var spec = harAktørId(aktørId);
         var retur = activeOnly ? spec
                 .and((erGyldig().or(gyldigErNull())))
@@ -114,9 +114,9 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         return retur;
     }
 
-    private static List<MinidialogInnslag> tilInnslag(List<JPAMinidialogInnslag> innslag) {
+    private static List<TilbakekrevingInnslag> tilInnslag(List<JPATilbakekrevingInnslag> innslag) {
         var i = safeStream(innslag)
-                .map(MinidialogMapper::tilInnslag)
+                .map(TilbakekrevingMapper::tilInnslag)
                 .collect(toList());
         LOG.info("Hentet {} dialog{} ({})", i.size(), flertall(i), i);
         return i;

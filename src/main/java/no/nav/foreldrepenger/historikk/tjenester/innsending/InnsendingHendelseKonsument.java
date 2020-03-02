@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
-import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
@@ -21,10 +21,10 @@ public class InnsendingHendelseKonsument {
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
     private final InnsendingTjeneste innsending;
-    private final MinidialogTjeneste dialog;
+    private final TilbakekrevingTjeneste dialog;
     private final DittNavOperasjoner dittNav;
 
-    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, MinidialogTjeneste dialog,
+    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, TilbakekrevingTjeneste dialog,
             DittNavOperasjoner dittNav) {
         this.innsending = innsending;
         this.dialog = dialog;
