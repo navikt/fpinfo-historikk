@@ -19,6 +19,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
@@ -36,6 +37,17 @@ public class JPAMinidialogInnslag {
     private int id;
     @Embedded
     private AktørId aktørId;
+    @Embedded
+    private Fødselsnummer fnr;
+
+    public Fødselsnummer getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(Fødselsnummer fnr) {
+        this.fnr = fnr;
+    }
+
     private String tekst;
     @Enumerated(STRING)
     private HendelseType hendelse;
@@ -162,9 +174,9 @@ public class JPAMinidialogInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[journalpostId=" + journalpostId + ", ytelseType=" + ytelseType + ", id="
-                + id + ", aktørId=" + aktørId + ", tekst=" + tekst + ", hendelse=" + hendelse + ", gyldigTil="
-                + gyldigTil + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret + ", aktiv="
-                + aktiv + ", innsendt=" + innsendt + ", dialogId=" + dialogId + "]";
+                + id + ", fnr=" + fnr + ", aktørId=" + aktørId + ", tekst=" + tekst + ", hendelse=" + hendelse
+                + ", gyldigTil=" + gyldigTil + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", endret=" + endret
+                + ", aktiv=" + aktiv + ", innsendt=" + innsendt + ", dialogId=" + dialogId + "]";
     }
 
 }

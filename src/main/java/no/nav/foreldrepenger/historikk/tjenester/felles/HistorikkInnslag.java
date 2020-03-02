@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.minidialog.MinidialogInnslag;
@@ -31,6 +32,8 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
     public static final Sort SORT_OPPRETTET_ASC = Sort.by(ASC, "opprettet");
 
     private AktørId aktørId;
+    private Fødselsnummer fnr;
+
     private String journalpostId;
     private String saksnr;
     private String referanseId;
@@ -90,6 +93,14 @@ public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 
     public void setInnsendt(LocalDateTime innsendt) {
         this.innsendt = innsendt;
+    }
+
+    public Fødselsnummer getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(Fødselsnummer fnr) {
+        this.fnr = fnr;
     }
 
     @Override

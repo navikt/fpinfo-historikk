@@ -17,6 +17,7 @@ public final class MinidialogMapper {
         dialog.setYtelseType(m.getYtelseType());
         dialog.setInnsendt(m.getOpprettet());
         dialog.setAktørId(m.getAktørId());
+        dialog.setFnr(m.getFnr());
         dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(true);
@@ -32,6 +33,7 @@ public final class MinidialogMapper {
         LOG.info("Mapper fra innslag {}", i);
         var innslag = new MinidialogInnslag(i.getHendelse(), i.getGyldigTil(), i.getTekst(), i.getYtelseType());
         innslag.setAktørId(i.getAktørId());
+        innslag.setFnr(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());

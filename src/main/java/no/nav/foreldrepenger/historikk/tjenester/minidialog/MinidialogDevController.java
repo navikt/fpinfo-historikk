@@ -33,17 +33,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class MinidialogDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
     private final MinidialogTjeneste minidialog;
-    private final MinidialogHendelseProdusent produsent;
 
-    MinidialogDevController(MinidialogTjeneste minidialog, MinidialogHendelseProdusent produsent) {
+    MinidialogDevController(MinidialogTjeneste minidialog) {
         this.minidialog = minidialog;
-        this.produsent = produsent;
-    }
-
-    @PostMapping("/sendMinidialog")
-    @ApiOperation("Send en minidialoghendelse via Kafka")
-    public void sendMinidialog(@RequestBody MinidialogHendelse hendelse) {
-        produsent.send(hendelse);
     }
 
     @GetMapping("/minidialoger")
@@ -62,7 +54,7 @@ public class MinidialogDevController {
     @PostMapping("/lagreMinidialog")
     @ApiOperation("Lagre en minidialoghendelse rett i databasen, utenom Kafka")
     public ResponseEntity<?> lagre(@RequestBody @Valid MinidialogHendelse hendelse) {
-        boolean lagret = minidialog.lagre(hendelse);
+        boolean lagret = minidialog.opprettOppgave(hendelse);
         return lagret ? status(CREATED).build()
                 : status(CONFLICT)
                         .body(new ApiError(CONFLICT,
@@ -71,6 +63,6 @@ public class MinidialogDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + minidialog + ", produsent=" + produsent + "]";
+        return getClass().getSimpleName() + "[minidialog=" + minidialog + "]";
     }
 }

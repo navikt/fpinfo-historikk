@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.boot.conditionals.EnvUtil;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
@@ -46,6 +47,12 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
         this.oppslag = oppslag;
     }
 
+    public void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
+        int n = dao.deaktiver(fnr, dialogId);
+        LOG.info("Deaktiverte {} minidialog{} for fnr {} og  dialogId {} etter hendelse", n, flertall(n),
+                fnr, dialogId);
+    }
+
     public void deaktiver(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
         LOG.info("Deaktiverte {} minidialog{} for aktør {} og  dialogId {} etter hendelse", n, flertall(n),
@@ -53,14 +60,14 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     }
 
     @Override
-    public boolean lagre(MinidialogHendelse h) {
+    public boolean opprettOppgave(MinidialogHendelse h) {
         var orig = dao.findByDialogId(h.getDialogId());
         if (orig == null) {
             LOG.info("Lagrer minidialog {}", h);
             dao.save(fraHendelse(h));
             LOG.info("Lagret minidialog OK");
             if (TILBAKEKREVING_SVAR.equals(h.getHendelse())) {
-                deaktiver(h.getAktørId(), h.getDialogId());
+                avsluttOppgave(h.getFnr(), h.getDialogId());
             }
             return true;
         }

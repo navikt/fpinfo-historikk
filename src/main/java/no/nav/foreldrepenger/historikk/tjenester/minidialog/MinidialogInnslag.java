@@ -67,8 +67,10 @@ public class MinidialogInnslag extends HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[hendelse=" + hendelse + ", gyldigTil=" + gyldigTil + ", tekst=" + tekst
-                + ", dialogId=" + dialogId + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", opprettet="
-                + opprettet + "]";
+                + ", dialogId=" + dialogId + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", referanseId="
+                + getReferanseId() + ", saksnr=" + getSaksnr() + ", opprettet=" + getOpprettet()
+                + ", aktørId=" + getAktørId() + ", journalpostId=" + getJournalpostId() + ", innsendt="
+                + getInnsendt() + ", getFnr()=" + getFnr() + "]";
     }
 
 }

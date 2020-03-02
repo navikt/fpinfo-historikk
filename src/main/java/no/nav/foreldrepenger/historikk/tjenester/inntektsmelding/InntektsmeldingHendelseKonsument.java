@@ -32,7 +32,7 @@ public class InntektsmeldingHendelseKonsument {
             @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);
         LOG.info("Mottok inntektsmeldinghendelse {}", h);
-        inntektsmelding.lagre(h);
+        inntektsmelding.opprettOppgave(h);
         LOG.info("Inntektsmeldinghendelse for {} med referanse {} er lagret", h.getAktørId(), h.getReferanseId());
     }
 

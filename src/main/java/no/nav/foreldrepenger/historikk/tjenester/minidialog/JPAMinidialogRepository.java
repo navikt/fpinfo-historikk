@@ -10,12 +10,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Transactional(JPA_TM)
 public interface JPAMinidialogRepository
         extends JpaRepository<JPAMinidialogInnslag, Long>, JpaSpecificationExecutor<JPAMinidialogInnslag> {
 
     JPAMinidialogInnslag findByDialogId(String dialogId);
+
+    @Modifying
+    @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.fnr = :fnr and m.dialogId = :dialogId and m.dialogId is not null")
+    int deaktiver(@Param("fnr") Fødselsnummer fnr, @Param("dialogId") String dialogId);
 
     @Modifying
     @Query("update JPAMinidialogInnslag m set m.aktiv = false where m.aktørId = :aktørId and m.dialogId = :dialogId and m.dialogId is not null")

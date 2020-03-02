@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
-import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
@@ -27,7 +27,7 @@ public class MinidialogHendelse extends Hendelse {
     private final YtelseType ytelseType;
 
     @JsonCreator
-    public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId,
+    public MinidialogHendelse(@JsonProperty("fnr") @JsonAlias("norskIdent") Fødselsnummer fnr,
             @JsonProperty("dialogId") String dialogId,
             @JsonProperty("journalpostId") @JsonAlias("jounalpostId") String journalpostId,
             @JsonProperty("dokumentId") String dokumentId,
@@ -37,7 +37,7 @@ public class MinidialogHendelse extends Hendelse {
             @JsonProperty("opprettet") LocalDateTime opprettet,
             @JsonProperty("aktiv") boolean aktiv,
             @JsonProperty("ytelseType") YtelseType ytelseType) {
-        super(aktørId, null, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
+        super(null, fnr, journalpostId, dokumentId, saksnummer, hendelse, opprettet);
         this.gyldigTil = gyldigTil;
         this.dialogId = dialogId;
         this.aktiv = aktiv;

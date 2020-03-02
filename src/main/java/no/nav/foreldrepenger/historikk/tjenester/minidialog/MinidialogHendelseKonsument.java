@@ -33,14 +33,13 @@ public class MinidialogHendelseKonsument {
         LOG.info("Mottok minidialoghendelse {}", h);
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
-            dialog.lagre(h);
-            // dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "TODO",
-            // urlGenerator.url(h.getHendelse()),
-            // h.getDialogId());
+            dialog.opprettOppgave(h);
+            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "TODO", urlGenerator.url(h.getHendelse()),
+                    h.getDialogId());
             break;
         case TILBAKEKREVING_SVAR:
-            dialog.deaktiver(h.getAktørId(), h.getDialogId());
-            // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+            dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
+            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
             break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
@@ -50,7 +49,8 @@ public class MinidialogHendelseKonsument {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[dialog=" + dialog + "]";
+        return getClass().getSimpleName() + "[dialog=" + dialog + ", dittNav=" + dittNav + ", urlGenerator="
+                + urlGenerator + "]";
     }
 
 }
