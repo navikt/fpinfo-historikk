@@ -34,7 +34,9 @@ public final class InnsendingMapper {
     }
 
     static JPAInnsendingInnslag nyFra(InnsendingFordeltOgJournalførtHendelse h) {
-        return oppdaterFra(h, new JPAInnsendingInnslag());
+        JPAInnsendingInnslag innslag = new JPAInnsendingInnslag();
+        innslag.setReferanseId(h.getForsendelseId());
+        return oppdaterFra(h, innslag);
     }
 
     static JPAInnsendingInnslag oppdaterFra(InnsendingFordeltOgJournalførtHendelse h,
@@ -46,7 +48,6 @@ public final class InnsendingMapper {
 
     static JPAInnsendingInnslag nyFra(InnsendingHendelse hendelse) {
         return oppdaterFra(hendelse, new JPAInnsendingInnslag());
-
     }
 
     static JPAInnsendingInnslag oppdaterFra(InnsendingHendelse hendelse, JPAInnsendingInnslag innslag) {
