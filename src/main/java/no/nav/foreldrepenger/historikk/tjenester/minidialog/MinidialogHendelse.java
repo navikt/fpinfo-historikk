@@ -29,7 +29,7 @@ public class MinidialogHendelse extends Hendelse {
     @JsonCreator
     public MinidialogHendelse(@JsonProperty("aktørId") AktørId aktørId,
             @JsonProperty("dialogId") String dialogId,
-            @JsonProperty("journalpostId") String journalpostId,
+            @JsonProperty("journalpostId") @JsonAlias("jounalpostId") String journalpostId,
             @JsonProperty("dokumentId") String dokumentId,
             @JsonProperty("saksnummer") @JsonAlias("saksnr") String saksnummer,
             @JsonProperty("hendelse") HendelseType hendelse,
