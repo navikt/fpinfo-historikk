@@ -6,6 +6,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILB
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erGyldig;
+import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erIkkeTilbakekrevingSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.gyldigErNull;
 import static no.nav.foreldrepenger.historikk.tjenester.minidialog.JPAMinidialogSpec.harAktørId;
@@ -91,6 +92,7 @@ public class MinidialogTjeneste implements IdempotentTjeneste<MinidialogHendelse
     private static Specification<JPAMinidialogInnslag> spec(AktørId aktørId, boolean activeOnly) {
         var spec = harAktørId(aktørId);
         return activeOnly ? spec
+                .and(erIkkeTilbakekrevingSpørsmål())
                 .and((erGyldig().or(gyldigErNull())))
                 .and(erAktiv()) : spec;
     }

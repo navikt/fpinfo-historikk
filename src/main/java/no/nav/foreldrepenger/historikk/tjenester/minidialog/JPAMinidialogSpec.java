@@ -17,6 +17,10 @@ public final class JPAMinidialogSpec {
 
     }
 
+    public static Specification<JPAMinidialogInnslag> erIkkeTilbakekrevingSpørsmål() {
+        return (innslag, cq, cb) -> cb.notEqual(innslag.get(hendelse), TILBAKEKREVING_SPM);
+    }
+
     public static Specification<JPAMinidialogInnslag> erGyldig() {
         return (innslag, cq, cb) -> cb.greaterThanOrEqualTo(innslag.get(gyldigTil), now());
     }
