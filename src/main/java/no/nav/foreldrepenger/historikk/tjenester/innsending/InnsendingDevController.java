@@ -27,25 +27,10 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Api(description = "Send og hent innsendingshendelser, kun for testing lokalt og i dev")
 public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
-    private final InnsendingHendelseProdusent produsent;
     private final InnsendingTjeneste innsending;
-    private final FordelingHendelseProdusent fordeling;
 
-    InnsendingDevController(InnsendingHendelseProdusent produsent, InnsendingTjeneste innsending,
-            FordelingHendelseProdusent fordeling) {
-        this.produsent = produsent;
+    InnsendingDevController(InnsendingTjeneste innsending) {
         this.innsending = innsending;
-        this.fordeling = fordeling;
-    }
-
-    @PostMapping("/send")
-    public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
-        produsent.send(hendelse);
-    }
-
-    @PostMapping("/fordel")
-    public void fordel(@RequestBody InnsendingFordeltOgJournalførtHendelse hendelse) {
-        fordeling.send(hendelse);
     }
 
     @PostMapping("/lagre")
@@ -61,7 +46,7 @@ public class InnsendingDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", innsending=" + innsending + "]";
+        return getClass().getSimpleName() + "[innsending=" + innsending + "]";
     }
 
 }

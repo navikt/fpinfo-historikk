@@ -63,6 +63,6 @@ public class TilbakekrevingDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[minidialog=" + tilbakekreving + "]";
+        return getClass().getSimpleName() + "[tilbakekreving=" + tilbakekreving + "]";
     }
 }

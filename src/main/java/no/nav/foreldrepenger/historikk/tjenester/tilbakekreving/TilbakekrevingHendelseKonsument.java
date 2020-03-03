@@ -38,10 +38,6 @@ public class TilbakekrevingHendelseKonsument {
                     urlGenerator.url(h.getHendelse()),
                     h.getDialogId());
             break;
-        case TILBAKEKREVING_SVAR:
-            dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
-            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
-            break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
             break;

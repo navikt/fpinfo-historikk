@@ -33,12 +33,9 @@ public class InntektsmeldingDevController {
 
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final InntektsmeldingTjeneste inntektsmelding;
-    private final InntektsmeldingHendelseProdusent produsent;
 
-    InntektsmeldingDevController(InntektsmeldingTjeneste inntektsmelding,
-            InntektsmeldingHendelseProdusent produsent) {
+    InntektsmeldingDevController(InntektsmeldingTjeneste inntektsmelding) {
         this.inntektsmelding = inntektsmelding;
-        this.produsent = produsent;
 
     }
 
@@ -55,16 +52,6 @@ public class InntektsmeldingDevController {
                         "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
     }
 
-    @PostMapping("/sendInntektsmelding")
-    public void send(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        produsent.send(hendelse);
-    }
-
-    @PostMapping("/sendInntektsmeldinger")
-    public void send(@RequestBody @Valid List<InntektsmeldingHendelse> hendelser) {
-        produsent.send(hendelser);
-    }
-
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("aktørId") AktørId id) {
         return inntektsmelding.inntektsmeldinger(id);
@@ -72,7 +59,7 @@ public class InntektsmeldingDevController {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[produsent=" + produsent + ", inntektsmelding=" + inntektsmelding + "]";
+        return getClass().getSimpleName() + "[inntektsmelding=" + inntektsmelding + "]";
     }
 
 }
