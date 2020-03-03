@@ -84,4 +84,10 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
         return nøkkel;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[urlGenerator=" + urlGenerator + ", kafkaOperations=" + kafkaOperations
+                + ", config=" + config + "]";
+    }
+
 }
