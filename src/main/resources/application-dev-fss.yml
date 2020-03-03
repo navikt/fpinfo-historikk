@@ -25,7 +25,7 @@ historikk:
          beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
          oppgave:
             opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-            done: aapen-brukernotifikasjon-done-v1-testing
+            avslutt: aapen-brukernotifikasjon-done-v1-testing
          søknad: fpsoknad-mottak
          inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
          tilbakekreving: privat-tilbakekreving-brukerdialog-q1

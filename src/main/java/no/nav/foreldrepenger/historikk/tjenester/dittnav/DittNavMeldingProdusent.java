@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -38,19 +38,19 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        send(avslutt(fnr, grupperingsId), eventId, topics.getAvsluttOppgaveTopic());
+        send(avslutt(fnr, grupperingsId), eventId, topics.getAvslutt());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(beskjed(fnr, grupperingsId, tekst, url), eventId, topics.getBeskjedTopic());
+        send(beskjed(fnr, grupperingsId, tekst, url), eventId, topics.getBeskjed());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(oppgave(fnr, grupperingsId, tekst, url), eventId, topics.getOpprettOppgaveTopic());
+        send(oppgave(fnr, grupperingsId, tekst, url), eventId, topics.getOpprett());
     }
 
     private void send(Object msg, String eventId, String topic) {

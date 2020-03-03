@@ -35,8 +35,7 @@ public class TilbakekrevingHendelseKonsument {
         case TILBAKEKREVING_SPM:
             dialog.opprettOppgave(h);
             dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "Tilbakekrevingssak",
-                    urlGenerator.url(h.getHendelse()),
-                    h.getDialogId());
+                    urlGenerator.url(h.getHendelse()), h.getDialogId());
             break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());

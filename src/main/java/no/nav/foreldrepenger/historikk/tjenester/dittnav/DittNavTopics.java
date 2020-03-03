@@ -1,38 +1,38 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
-@Component
+@ConfigurationProperties(prefix = "historikk.kafka.topics")
 public class DittNavTopics {
-    private final DittNavOppgaveTopics oppgaveTopics;
-    private final String beskjedTopic;
+    private final DittNavOppgaveTopics oppgave;
+    private final String beskjed;
 
-    public DittNavTopics(DittNavOppgaveTopics oppgaveTopics,
-            @Value("${historikk.kafka.topics.beskjed}") String beskjedTopic) {
-        this.oppgaveTopics = oppgaveTopics;
-        this.beskjedTopic = beskjedTopic;
+    @ConstructorBinding
+    public DittNavTopics(DittNavOppgaveTopics oppgave, String beskjed) {
+        this.oppgave = oppgave;
+        this.beskjed = beskjed;
     }
 
     public DittNavOppgaveTopics getOppgaveTopics() {
-        return oppgaveTopics;
+        return oppgave;
     }
 
-    public String getBeskjedTopic() {
-        return beskjedTopic;
+    public String getBeskjed() {
+        return beskjed;
     }
 
-    public String getAvsluttOppgaveTopic() {
-        return oppgaveTopics.getAvsluttOppgaveTopic();
+    public String getAvslutt() {
+        return oppgave.getAvslutt();
     }
 
-    public String getOpprettOppgaveTopic() {
-        return oppgaveTopics.getOpprettOppgaveTopic();
+    public String getOpprett() {
+        return oppgave.getOpprett();
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[oppgaveTopics=" + oppgaveTopics + ", beskjedTopic=" + beskjedTopic + "]";
+        return getClass().getSimpleName() + "[oppgave=" + oppgave + ", beskjed=" + beskjed + "]";
     }
 
 }

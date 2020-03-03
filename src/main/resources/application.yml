@@ -29,7 +29,7 @@ historikk:
          tilbakekreving: privat-tilbakekreving-brukerdialog-p
          oppgave:
             opprett: aapen-brukernotifikasjon-nyOppgave-v1
-            done: aapen-brukernotifikasjon-done-v1
+            avslutt: aapen-brukernotifikasjon-done-v1
          søknad: fpsoknad-mottak
          inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:

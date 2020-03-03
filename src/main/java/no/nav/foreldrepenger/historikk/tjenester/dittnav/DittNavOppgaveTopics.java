@@ -1,31 +1,25 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-@Component
 public class DittNavOppgaveTopics {
-    private final String opprettOppgaveTopic;
-    private final String avsluttOppgaveTopic;
+    private final String opprett;
+    private final String avslutt;
 
-    public DittNavOppgaveTopics(
-            @Value("${historikk.kafka.topics.oppgave.opprett}") String opprettOppgaveTopic,
-            @Value("${historikk.kafka.topics.oppgave.done}") String avsluttOppgaveTopic) {
-        this.opprettOppgaveTopic = opprettOppgaveTopic;
-        this.avsluttOppgaveTopic = avsluttOppgaveTopic;
+    public DittNavOppgaveTopics(String opprett, String avslutt) {
+        this.opprett = opprett;
+        this.avslutt = avslutt;
     }
 
-    public String getOpprettOppgaveTopic() {
-        return opprettOppgaveTopic;
+    public String getOpprett() {
+        return opprett;
     }
 
-    public String getAvsluttOppgaveTopic() {
-        return avsluttOppgaveTopic;
+    public String getAvslutt() {
+        return avslutt;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[opprettOppgaveTopic=" + opprettOppgaveTopic + ", avsluttOppgaveTopic="
-                + avsluttOppgaveTopic + "]";
+        return getClass().getSimpleName() + "[opprett=" + opprett + ", avslutt="
+                + avslutt + "]";
     }
 }
