@@ -1,6 +1,6 @@
 # REST-API for historikk for foreldrepenger/engangsstønad/svangerskapspenger
 
-## Kjøre opp lokalt
+## For å kjøre opp lokalt
 * Kjør klassen ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
 
 ## Bygg
