@@ -4,17 +4,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "historikk.kafka.topics")
-public class DittNavTopics {
-    private final DittNavOppgaveTopics oppgave;
+public class DittNavConfig {
+    private final DittNavOppgaveConfig oppgave;
     private final String beskjed;
 
     @ConstructorBinding
-    public DittNavTopics(DittNavOppgaveTopics oppgave, String beskjed) {
+    public DittNavConfig(DittNavOppgaveConfig oppgave, String beskjed) {
         this.oppgave = oppgave;
         this.beskjed = beskjed;
     }
 
-    public DittNavOppgaveTopics getOppgaveTopics() {
+    public DittNavOppgaveConfig getOppgaveTopics() {
         return oppgave;
     }
 

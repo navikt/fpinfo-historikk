@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-public class DittNavOppgaveTopics {
+public class DittNavOppgaveConfig {
     private final String opprett;
     private final String avslutt;
 
-    public DittNavOppgaveTopics(String opprett, String avslutt) {
+    public DittNavOppgaveConfig(String opprett, String avslutt) {
         this.opprett = opprett;
         this.avslutt = avslutt;
     }

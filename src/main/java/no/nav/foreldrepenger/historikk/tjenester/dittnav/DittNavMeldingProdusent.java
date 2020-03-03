@@ -28,9 +28,9 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
 
-    private final DittNavTopics topics;
+    private final DittNavConfig topics;
 
-    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations, DittNavTopics topics) {
+    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations, DittNavConfig topics) {
         this.kafkaOperations = kafkaOperations;
         this.topics = topics;
     }
