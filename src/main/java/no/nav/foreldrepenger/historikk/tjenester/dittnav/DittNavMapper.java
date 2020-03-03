@@ -7,7 +7,7 @@ import no.nav.brukernotifikasjon.schemas.Done;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-public final class DittNavMapper {
+final class DittNavMapper {
 
     private static final int SIKKERHETSNIVÅ = 3;
 

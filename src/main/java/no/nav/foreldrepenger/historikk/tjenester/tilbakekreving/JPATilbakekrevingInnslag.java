@@ -24,14 +24,13 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
 @Entity
-@Table(name = "minidialog")
+@Table(name = "tilbakekreving")
 @EntityListeners(AuditingEntityListener.class)
 public class JPATilbakekrevingInnslag {
 
     private String journalpostId;
     @Enumerated(STRING)
     private YtelseType ytelseType;
-
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
@@ -39,14 +38,6 @@ public class JPATilbakekrevingInnslag {
     private AktørId aktørId;
     @Embedded
     private Fødselsnummer fnr;
-
-    public Fødselsnummer getFnr() {
-        return fnr;
-    }
-
-    public void setFnr(Fødselsnummer fnr) {
-        this.fnr = fnr;
-    }
 
     private String tekst;
     @Enumerated(STRING)
@@ -169,6 +160,14 @@ public class JPATilbakekrevingInnslag {
 
     public void setYtelseType(YtelseType ytelseType) {
         this.ytelseType = ytelseType;
+    }
+
+    public Fødselsnummer getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(Fødselsnummer fnr) {
+        this.fnr = fnr;
     }
 
     @Override
