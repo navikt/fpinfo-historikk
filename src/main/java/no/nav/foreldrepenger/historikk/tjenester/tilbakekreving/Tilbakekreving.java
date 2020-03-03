@@ -85,7 +85,7 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
-        LOG.info("Henter dialoginnslag for {} og activeOnly={}", aktørId, activeOnly);
+        LOG.info("Henter tilbakekrevinger for {} og activeOnly={}", aktørId, activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
@@ -96,12 +96,12 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> aktive(AktørId aktørId) {
-        LOG.info("Henter aktive dialoginnslag for {}", aktørId);
+        LOG.info("Henter aktive tilbakekrevinger for {}", aktørId);
         if (EnvUtil.isDevOrLocal(env)) {
             return tilInnslag(
                     dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
         }
-        LOG.info("Returnerer ikke minidialoginnslag i prod foreløpig");
+        LOG.info("Returnerer ikke tilbakekrevinger i prod foreløpig");
         return Collections.emptyList(); // ikke i prod foreløpig
     }
 

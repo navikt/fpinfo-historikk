@@ -70,7 +70,7 @@ public class TilbakekrevingInnslag extends HistorikkInnslag {
                 + ", dialogId=" + dialogId + ", aktiv=" + aktiv + ", ytelseType=" + ytelseType + ", referanseId="
                 + getReferanseId() + ", saksnr=" + getSaksnr() + ", opprettet=" + getOpprettet()
                 + ", aktørId=" + getAktørId() + ", journalpostId=" + getJournalpostId() + ", innsendt="
-                + getInnsendt() + ", getFnr()=" + getFnr() + "]";
+                + getInnsendt() + ", fnr=" + getFnr() + "]";
     }
 
 }
