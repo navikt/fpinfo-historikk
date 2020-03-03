@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
+import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
@@ -23,12 +24,14 @@ public class InnsendingHendelseKonsument {
     private final InnsendingTjeneste innsending;
     private final TilbakekrevingTjeneste dialog;
     private final DittNavOperasjoner dittNav;
+    private final UrlGenerator urlGenerator;
 
     public InnsendingHendelseKonsument(InnsendingTjeneste innsending, TilbakekrevingTjeneste dialog,
-            DittNavOperasjoner dittNav) {
+            DittNavOperasjoner dittNav, UrlGenerator urlGenerator) {
         this.innsending = innsending;
         this.dialog = dialog;
         this.dittNav = dittNav;
+        this.urlGenerator = urlGenerator;
     }
 
     @Transactional
@@ -38,29 +41,17 @@ public class InnsendingHendelseKonsument {
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
+            LOG.info("Dette er en ettersending fra en minidialog");
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
+            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
-        opprettDittNavBeskjed(h);
-    }
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "Mottatt " + h.getHendelse().beskrivelse,
+                urlGenerator.url(h.getHendelse()), h.getSaksnummer());
 
-    private void opprettDittNavBeskjed(InnsendingHendelse h) {
-        switch (h.getHendelse()) {
-        case INITIELL_ENGANGSSTØNAD:
-        case INITIELL_FORELDREPENGER:
-        case INITIELL_SVANGERSKAPSPENGER:
-        case ENDRING_FORELDREPENGER:
-        case ENDRING_SVANGERSKAPSPENGER:
-        case ETTERSENDING_ENGANGSSTØNAD:
-        case ETTERSENDING_FORELDREPENGER:
-        case ETTERSENDING_SVANGERSKAPSPENGER:
-            // dittNav.opprettBeskjed(h.getFnr().getFnr(),);
-            break;
-        default:
-            break;
-        }
     }
 
     @Override
