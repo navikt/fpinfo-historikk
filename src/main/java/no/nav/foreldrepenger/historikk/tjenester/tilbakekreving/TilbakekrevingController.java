@@ -15,9 +15,9 @@ import no.nav.security.token.support.core.api.ProtectedWithClaims;
 public class TilbakekrevingController {
 
     static final String MINIDIALOG = "/minidialog";
-    private final TilbakekrevingTjeneste tilbakekreving;
+    private final Tilbakekreving tilbakekreving;
 
-    TilbakekrevingController(TilbakekrevingTjeneste tilbakekreving) {
+    TilbakekrevingController(Tilbakekreving tilbakekreving) {
         this.tilbakekreving = tilbakekreving;
     }
 

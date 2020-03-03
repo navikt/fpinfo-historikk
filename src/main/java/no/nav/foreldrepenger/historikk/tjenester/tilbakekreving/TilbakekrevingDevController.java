@@ -32,9 +32,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Api(description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")
 public class TilbakekrevingDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
-    private final TilbakekrevingTjeneste tilbakekreving;
+    private final Tilbakekreving tilbakekreving;
 
-    TilbakekrevingDevController(TilbakekrevingTjeneste tilbakekreving) {
+    TilbakekrevingDevController(Tilbakekreving tilbakekreving) {
         this.tilbakekreving = tilbakekreving;
     }
 

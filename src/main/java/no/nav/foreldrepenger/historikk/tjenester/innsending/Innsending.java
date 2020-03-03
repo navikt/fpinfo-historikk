@@ -20,14 +20,14 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class InnsendingTjeneste {
+public class Innsending {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InnsendingTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Innsending.class);
 
     private final JPAInnsendingRepository dao;
     private final Oppslag oppslag;
 
-    public InnsendingTjeneste(JPAInnsendingRepository dao, Oppslag oppslag) {
+    public Innsending(JPAInnsendingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }

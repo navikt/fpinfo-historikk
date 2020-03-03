@@ -20,9 +20,9 @@ public class FordelingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(FordelingHendelseKonsument.class);
 
-    private final InnsendingTjeneste innsending;
+    private final Innsending innsending;
 
-    public FordelingHendelseKonsument(InnsendingTjeneste innsending) {
+    public FordelingHendelseKonsument(Innsending innsending) {
         this.innsending = innsending;
     }
 

@@ -27,9 +27,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Api(description = "Send og hent innsendingshendelser, kun for testing lokalt og i dev")
 public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
-    private final InnsendingTjeneste innsending;
+    private final Innsending innsending;
 
-    InnsendingDevController(InnsendingTjeneste innsending) {
+    InnsendingDevController(Innsending innsending) {
         this.innsending = innsending;
     }
 

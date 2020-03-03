@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnDev;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -25,12 +25,12 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class HistorikkDevController {
 
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
-    private final InnsendingTjeneste søknad;
-    private final InntektsmeldingTjeneste inntektsmelding;
-    private final TilbakekrevingTjeneste tilbakekreving;
+    private final Innsending søknad;
+    private final Inntektsmelding inntektsmelding;
+    private final Tilbakekreving tilbakekreving;
 
-    HistorikkDevController(InnsendingTjeneste søknad, InntektsmeldingTjeneste inntektsmelding,
-            TilbakekrevingTjeneste tilbakekreving) {
+    HistorikkDevController(Innsending søknad, Inntektsmelding inntektsmelding,
+            Tilbakekreving tilbakekreving) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;
         this.tilbakekreving = tilbakekreving;

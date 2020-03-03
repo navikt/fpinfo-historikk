@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
-public class DittNavMeldingProdusent implements DittNavOperasjoner {
+public class DittNavMeldingProdusent implements DittNav {
 
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
@@ -48,13 +48,13 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getBeskjed());
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getOpprett());
     }
 

@@ -11,8 +11,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
-import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
@@ -20,12 +20,12 @@ public class InnsendingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
-    private final InnsendingTjeneste innsending;
-    private final TilbakekrevingTjeneste dialog;
-    private final DittNavOperasjoner dittNav;
+    private final Innsending innsending;
+    private final Tilbakekreving dialog;
+    private final DittNav dittNav;
 
-    public InnsendingHendelseKonsument(InnsendingTjeneste innsending, TilbakekrevingTjeneste dialog,
-            DittNavOperasjoner dittNav) {
+    public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving dialog,
+            DittNav dittNav) {
         this.innsending = innsending;
         this.dialog = dialog;
         this.dittNav = dittNav;
@@ -46,8 +46,8 @@ public class InnsendingHendelseKonsument {
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "Mottatt " + h.getHendelse().beskrivelse,
-                h.getHendelse(), h.getSaksnummer());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
+                "Mottatt " + h.getHendelse().beskrivelse, h.getHendelse());
 
     }
 

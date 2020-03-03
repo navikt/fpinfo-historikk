@@ -32,9 +32,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class InntektsmeldingDevController {
 
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
-    private final InntektsmeldingTjeneste inntektsmelding;
+    private final Inntektsmelding inntektsmelding;
 
-    InntektsmeldingDevController(InntektsmeldingTjeneste inntektsmelding) {
+    InntektsmeldingDevController(Inntektsmelding inntektsmelding) {
         this.inntektsmelding = inntektsmelding;
 
     }

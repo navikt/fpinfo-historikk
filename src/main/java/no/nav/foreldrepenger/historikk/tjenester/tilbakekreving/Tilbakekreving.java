@@ -33,16 +33,16 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class TilbakekrevingTjeneste implements IdempotentTjeneste<TilbakekrevingHendelse>, EnvironmentAware {
+public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse>, EnvironmentAware {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Tilbakekreving.class);
 
     private final JPATilbakekrevingRepository dao;
     private final Oppslag oppslag;
 
     private Environment env;
 
-    public TilbakekrevingTjeneste(JPATilbakekrevingRepository dao, Oppslag oppslag) {
+    public Tilbakekreving(JPATilbakekrevingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
     }

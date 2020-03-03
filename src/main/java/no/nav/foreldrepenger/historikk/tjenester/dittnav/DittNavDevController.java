@@ -21,9 +21,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 @Unprotected
 public class DittNavDevController {
     static final String DEVPATH = "dittnav/dev";
-    private final DittNavOperasjoner dittNav;
+    private final DittNav dittNav;
 
-    DittNavDevController(DittNavOperasjoner dittNav) {
+    DittNavDevController(DittNav dittNav) {
         this.dittNav = dittNav;
     }
 
@@ -38,15 +38,15 @@ public class DittNavDevController {
     @PostMapping("/opprettOppgave")
     @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
     public void opprettOppgave(@RequestBody TilbakekrevingHendelse h) {
-        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse(),
-                h.getDialogId());
+        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(), "opprett",
+                h.getHendelse());
     }
 
     @PostMapping("/opprettBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
     public void opprettBeskjed(@RequestBody InnsendingHendelse h) {
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse(),
-                h.getReferanseId());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "opprett",
+                h.getHendelse());
     }
 
     @Override

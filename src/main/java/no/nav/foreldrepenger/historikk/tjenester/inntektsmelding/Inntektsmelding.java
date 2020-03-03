@@ -19,15 +19,15 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class InntektsmeldingTjeneste implements IdempotentTjeneste<InntektsmeldingHendelse> {
+public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendelse> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingTjeneste.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Inntektsmelding.class);
 
     private final JPAInntektsmeldingRepository dao;
     private final InntektsmeldingMapper mapper;
     private final Oppslag oppslag;
 
-    public InntektsmeldingTjeneste(JPAInntektsmeldingRepository dao, InntektsmeldingMapper mapper,
+    public Inntektsmelding(JPAInntektsmeldingRepository dao, InntektsmeldingMapper mapper,
             Oppslag oppslag) {
         this.dao = dao;
         this.mapper = mapper;

@@ -9,16 +9,16 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
 
 @Service
 public class TilbakekrevingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingHendelseKonsument.class);
-    private final TilbakekrevingTjeneste dialog;
-    private final DittNavOperasjoner dittNav;
+    private final Tilbakekreving dialog;
+    private final DittNav dittNav;
 
-    public TilbakekrevingHendelseKonsument(TilbakekrevingTjeneste dialog, DittNavOperasjoner dittNav) {
+    public TilbakekrevingHendelseKonsument(Tilbakekreving dialog, DittNav dittNav) {
         this.dialog = dialog;
         this.dittNav = dittNav;
     }
@@ -30,8 +30,8 @@ public class TilbakekrevingHendelseKonsument {
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
             dialog.opprettOppgave(h);
-            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "Tilbakekrevingssak",
-                    h.getHendelse(), h.getDialogId());
+            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
+                    "Tilbakekrevingssak", h.getHendelse());
             break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());

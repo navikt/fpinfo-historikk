@@ -20,9 +20,9 @@ public class InntektsmeldingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InntektsmeldingHendelseKonsument.class);
 
-    private final InntektsmeldingTjeneste inntektsmelding;
+    private final Inntektsmelding inntektsmelding;
 
-    public InntektsmeldingHendelseKonsument(InntektsmeldingTjeneste inntektsmelding) {
+    public InntektsmeldingHendelseKonsument(Inntektsmelding inntektsmelding) {
         this.inntektsmelding = inntektsmelding;
     }
 

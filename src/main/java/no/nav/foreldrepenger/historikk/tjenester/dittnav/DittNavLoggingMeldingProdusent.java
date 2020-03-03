@@ -11,7 +11,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "false")
-public class DittNavLoggingMeldingProdusent implements DittNavOperasjoner {
+public class DittNavLoggingMeldingProdusent implements DittNav {
     private final UrlGenerator urlGenerator;
 
     public DittNavLoggingMeldingProdusent(UrlGenerator urlGenerator) {
@@ -26,12 +26,12 @@ public class DittNavLoggingMeldingProdusent implements DittNavOperasjoner {
     }
 
     @Override
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }
 
     @Override
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }
 }

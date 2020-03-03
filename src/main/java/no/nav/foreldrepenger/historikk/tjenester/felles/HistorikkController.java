@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
 @RestController
@@ -28,15 +28,15 @@ public class HistorikkController {
 
     public static final String HISTORIKK = "historikk";
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkController.class);
-    private final InnsendingTjeneste innsending;
-    private final InntektsmeldingTjeneste inntektsmelding;
-    private final TilbakekrevingTjeneste minidialog;
+    private final Innsending innsending;
+    private final Inntektsmelding inntektsmelding;
+    private final Tilbakekreving tilbakekreving;
 
-    HistorikkController(InnsendingTjeneste innsending, InntektsmeldingTjeneste inntektsmelding,
-            TilbakekrevingTjeneste minidialog) {
+    HistorikkController(Innsending innsending, Inntektsmelding inntektsmelding,
+            Tilbakekreving tilbakekreving) {
         this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
-        this.minidialog = minidialog;
+        this.tilbakekreving = tilbakekreving;
     }
 
     @GetMapping("/me/søknader")
@@ -54,13 +54,13 @@ public class HistorikkController {
     @GetMapping("/me/minidialoger")
     public List<TilbakekrevingInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");
-        return minidialog.tilbakekrevinger(activeOnly);
+        return tilbakekreving.tilbakekrevinger(activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")
     public List<TilbakekrevingInnslag> aktive() {
         LOG.info("Henter aktive minidialoger for pålogget bruker");
-        return minidialog.aktive();
+        return tilbakekreving.aktive();
     }
 
     @GetMapping("/me/all")
@@ -75,7 +75,7 @@ public class HistorikkController {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[innsending=" + innsending + ", inntektsmelding=" + inntektsmelding
-                + ", minidialog=" + minidialog + "]";
+                + ", tilbakekreving=" + tilbakekreving + "]";
     }
 
 }
