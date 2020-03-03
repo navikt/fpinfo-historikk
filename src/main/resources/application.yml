@@ -88,6 +88,9 @@ spring:
          ddl-auto: none
    kafka:
       properties:
+         schema:
+           registry:
+             url:   https://kafka-schema-registry.nais.adeo.no
          security:
             protocol: SASL_SSL
          sasl:
@@ -103,8 +106,8 @@ spring:
          value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       producer:
          bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-         key-serializer: org.apache.kafka.common.serialization.StringSerializer
-         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer 
          transaction-id-prefix: tx.
    main:
       banner-mode: 'off'

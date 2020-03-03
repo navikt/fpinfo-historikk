@@ -41,5 +41,3 @@ spring:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
       producer:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
-         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
