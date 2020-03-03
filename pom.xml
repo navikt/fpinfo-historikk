@@ -260,5 +260,10 @@
             <artifactId>boot-conditionals</artifactId>
             <version>1.0.20200227142245-5be6349</version>
         </dependency>
+        <dependency>
+            <groupId>no.nav.foreldrepenger.kontrakter.topics</groupId>
+            <artifactId>fp-topics</artifactId>
+            <version>5.1-20200225123631-afeacc4</version>
+        </dependency>
     </dependencies>
 </project>
