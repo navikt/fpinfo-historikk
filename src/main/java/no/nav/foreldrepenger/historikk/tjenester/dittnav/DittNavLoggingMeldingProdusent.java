@@ -6,10 +6,17 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "false")
 public class DittNavLoggingMeldingProdusent implements DittNavOperasjoner {
+    private final UrlGenerator urlGenerator;
+
+    public DittNavLoggingMeldingProdusent(UrlGenerator urlGenerator) {
+        this.urlGenerator = urlGenerator;
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 
@@ -19,13 +26,13 @@ public class DittNavLoggingMeldingProdusent implements DittNavOperasjoner {
     }
 
     @Override
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, url, eventId);
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+        LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }
 
     @Override
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, url, eventId);
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
 
     }
 }

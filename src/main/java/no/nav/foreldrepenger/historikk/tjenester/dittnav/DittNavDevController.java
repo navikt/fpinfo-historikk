@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingHendelse;
 import no.nav.security.token.support.core.api.Unprotected;
@@ -23,11 +22,9 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class DittNavDevController {
     static final String DEVPATH = "dittnav/dev";
     private final DittNavOperasjoner dittNav;
-    private final UrlGenerator urlGenerator;
 
-    DittNavDevController(DittNavOperasjoner dittNav, UrlGenerator urlGenerator) {
+    DittNavDevController(DittNavOperasjoner dittNav) {
         this.dittNav = dittNav;
-        this.urlGenerator = urlGenerator;
     }
 
     @PostMapping("/avsluttOppgave/{fnr}/{grupperingsId}/{eventId}")
@@ -41,14 +38,14 @@ public class DittNavDevController {
     @PostMapping("/opprettOppgave")
     @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
     public void opprettOppgave(@RequestBody TilbakekrevingHendelse h) {
-        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "opprett", urlGenerator.url(h.getHendelse()),
+        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse(),
                 h.getDialogId());
     }
 
     @PostMapping("/opprettBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
     public void opprettBeskjed(@RequestBody InnsendingHendelse h) {
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "opprett", urlGenerator.url(h.getHendelse()),
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse(),
                 h.getReferanseId());
     }
 

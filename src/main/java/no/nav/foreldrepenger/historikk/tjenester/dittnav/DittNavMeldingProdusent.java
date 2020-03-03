@@ -17,6 +17,8 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
@@ -25,32 +27,35 @@ public class DittNavMeldingProdusent implements DittNavOperasjoner {
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
+    private final UrlGenerator urlGenerator;
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
 
-    private final DittNavConfig topics;
+    private final DittNavConfig config;
 
-    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations, DittNavConfig topics) {
+    public DittNavMeldingProdusent(UrlGenerator urlGenerator, KafkaOperations<Nokkel, Object> kafkaOperations,
+            DittNavConfig config) {
+        this.urlGenerator = urlGenerator;
         this.kafkaOperations = kafkaOperations;
-        this.topics = topics;
+        this.config = config;
     }
 
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        send(avslutt(fnr, grupperingsId), eventId, topics.getAvslutt());
+        send(avslutt(fnr, grupperingsId), eventId, config.getAvslutt());
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(beskjed(fnr, grupperingsId, tekst, url), eventId, topics.getBeskjed());
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+        send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getBeskjed());
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url, String eventId) {
-        send(oppgave(fnr, grupperingsId, tekst, url), eventId, topics.getOpprett());
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h, String eventId) {
+        send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getOpprett());
     }
 
     private void send(Object msg, String eventId, String topic) {

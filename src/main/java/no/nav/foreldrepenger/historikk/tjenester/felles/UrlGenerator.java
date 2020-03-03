@@ -16,18 +16,6 @@ public class UrlGenerator implements EnvironmentAware {
         this.env = env;
     }
 
-    public String url(YtelseType ytelseType) {
-        switch (ytelseType) {
-        case ES:
-            return es();
-        case SVP:
-            return svp();
-        case FP:
-        default:
-            return fp();
-        }
-    }
-
     public String url(HendelseType hendelse) {
         if (hendelse.erEngangsstønad()) {
             return es();

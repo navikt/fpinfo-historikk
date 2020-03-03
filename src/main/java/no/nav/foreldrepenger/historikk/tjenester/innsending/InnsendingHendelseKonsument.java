@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavOperasjoner;
-import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingTjeneste;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
@@ -24,14 +23,12 @@ public class InnsendingHendelseKonsument {
     private final InnsendingTjeneste innsending;
     private final TilbakekrevingTjeneste dialog;
     private final DittNavOperasjoner dittNav;
-    private final UrlGenerator urlGenerator;
 
     public InnsendingHendelseKonsument(InnsendingTjeneste innsending, TilbakekrevingTjeneste dialog,
-            DittNavOperasjoner dittNav, UrlGenerator urlGenerator) {
+            DittNavOperasjoner dittNav) {
         this.innsending = innsending;
         this.dialog = dialog;
         this.dittNav = dittNav;
-        this.urlGenerator = urlGenerator;
     }
 
     @Transactional
@@ -50,7 +47,7 @@ public class InnsendingHendelseKonsument {
             // lag minidialoginnslag ?
         }
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "Mottatt " + h.getHendelse().beskrivelse,
-                urlGenerator.url(h.getHendelse()), h.getSaksnummer());
+                h.getHendelse(), h.getSaksnummer());
 
     }
 
