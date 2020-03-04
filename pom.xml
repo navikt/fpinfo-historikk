@@ -36,8 +36,8 @@
     </scm>
     <repositories>
         <repository>
-           <id>github-package-registry-navikt</id>
-           <url>https://maven.pkg.github.com/navikt/maven-release</url>
+            <id>github-package-registry-navikt</id>
+            <url>https://maven.pkg.github.com/navikt/maven-release</url>
         </repository>
         <repository>
             <id>confluent</id>
@@ -267,7 +267,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger.kontrakter.topics</groupId>
             <artifactId>hendelse-historikk-innslag</artifactId>
-            <version>5.1-20200225123631-afeacc4</version>
+            <version>5.1-20200304132743-18ac1de</version>
         </dependency>
     </dependencies>
 </project>
