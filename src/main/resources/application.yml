@@ -17,20 +17,20 @@ historikk:
      enabled: false
    dittnav:
       enabled: false
+      topics :
+        beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
+        oppgave:
+           opprett: aapen-brukernotifikasjon-nyOppgave-v1
+           avslutt: aapen-brukernotifikasjon-done-v1
    inntektsmelding:
       enabled: true
    oppslag:
       enabled: true
    kafka:
       topics:
-         brev: privat-foreldrepenger-historikkinnslag
          fordeling: privat-foreldrepenger-historikk-fordeling
          vedtak: privat-familie-vedtakFattet-v1
-         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
          tilbakekreving: privat-tilbakekreving-brukerdialog-p
-         oppgave:
-            opprett: aapen-brukernotifikasjon-nyOppgave-v1
-            avslutt: aapen-brukernotifikasjon-done-v1
          søknad: fpsoknad-mottak
          inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
 info:

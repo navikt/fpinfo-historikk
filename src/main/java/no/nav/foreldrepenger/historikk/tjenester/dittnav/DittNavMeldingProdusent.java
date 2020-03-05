@@ -43,19 +43,19 @@ public class DittNavMeldingProdusent implements DittNav {
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        send(avslutt(fnr, grupperingsId), eventId, config.getAvslutt());
+        send(avslutt(fnr, grupperingsId), eventId, config.getTopics().getAvslutt());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
-        send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getBeskjed());
+        send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getBeskjed());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
-        send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getOpprett());
+        send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getOpprett());
     }
 
     private void send(Object msg, String eventId, String topic) {

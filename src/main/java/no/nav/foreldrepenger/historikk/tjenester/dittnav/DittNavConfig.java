@@ -3,36 +3,24 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
-@ConfigurationProperties(prefix = "historikk.kafka.topics")
+@ConfigurationProperties(prefix = "historikk.dittnav")
 public class DittNavConfig {
-    private final DittNavOppgaveConfig oppgave;
-    private final String beskjed;
+    private final DittNavTopics topics;
+    private final boolean enabled;
 
     @ConstructorBinding
-    public DittNavConfig(DittNavOppgaveConfig oppgave, String beskjed) {
-        this.oppgave = oppgave;
-        this.beskjed = beskjed;
+    public DittNavConfig(DittNavTopics topics, boolean enabled) {
+        this.topics = topics;
+        this.enabled = enabled;
     }
 
-    public DittNavOppgaveConfig getOppgaveTopics() {
-        return oppgave;
-    }
-
-    public String getBeskjed() {
-        return beskjed;
-    }
-
-    public String getAvslutt() {
-        return oppgave.getAvslutt();
-    }
-
-    public String getOpprett() {
-        return oppgave.getOpprett();
+    public DittNavTopics getTopics() {
+        return topics;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[oppgave=" + oppgave + ", beskjed=" + beskjed + "]";
+        return getClass().getSimpleName() + "[topics=" + topics + ", enabled=" + enabled + "]";
     }
 
 }

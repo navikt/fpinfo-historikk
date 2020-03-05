@@ -18,15 +18,15 @@ historikk:
      enabled: true
   dittnav:
       enabled: true
+      topics:
+         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
+         oppgave:  
+            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
+            avslutt: aapen-brukernotifikasjon-done-v1-testing
   fordeling:
       enabled: true    
   kafka:
       topics:
-         brev: privat-foreldrepenger-historikkinnslag-q1
-         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
-         oppgave:
-            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-            avslutt: aapen-brukernotifikasjon-done-v1-testing
          søknad: fpsoknad-mottak
          inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
          tilbakekreving: privat-tilbakekreving-brukerdialog-q1
@@ -37,7 +37,9 @@ spring:
       log-request-details: true
    kafka:
       properties:
-         schema.registry.url: https://kafka-schema-registry.nais-q.adeo.no/
+         schema:
+           registry:
+              url: https://kafka-schema-registry.nais-q.adeo.no
       consumer:
          bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
       producer:
