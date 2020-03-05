@@ -267,7 +267,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger.kontrakter.topics</groupId>
             <artifactId>hendelse-historikk-innslag</artifactId>
-            <version>5.1-20200304151956-98dd17f</version>
+              <version>5.1-20200304153900-35f604d</version>            
         </dependency>
     </dependencies>
 </project>
