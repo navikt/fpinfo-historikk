@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "historikk.dokarkiv.enabled")
 public class JoarkJournalføringTjeneste implements Journalføring {
 
     private static final Logger LOG = LoggerFactory.getLogger(JoarkJournalføringTjeneste.class);

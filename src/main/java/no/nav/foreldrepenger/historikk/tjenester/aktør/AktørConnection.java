@@ -45,14 +45,15 @@ public class AktørConnection extends AbstractRestConnection {
     }
 
     public AktørId aktørId() {
-
-        LOG.info("Henter aktør for {} via REST", tokenUtil.autentisertBruker());
-        var headers = new HttpHeaders();
-        headers.add(NAV_PERSONIDENTER, tokenUtil.autentisertBruker());
-        headers.add(NAV_CALL_ID1, MDCUtil.callId());
-        var map = exchangeGet(cfg.aktørUri(), Map.class, headers);
-        LOG.info("Fikk map {}", map);
-        // TODO
+        if (cfg.isEnabled()) {
+            LOG.info("Henter aktør for {} via REST", tokenUtil.autentisertBruker());
+            var headers = new HttpHeaders();
+            headers.add(NAV_PERSONIDENTER, tokenUtil.autentisertBruker());
+            headers.add(NAV_CALL_ID1, MDCUtil.callId());
+            var map = exchangeGet(cfg.aktørUri(), Map.class, headers);
+            LOG.info("Fikk map {}", map);
+        }
+        LOG.info("Aktørtjenesten er disabled");
         return AktørId.valueOf("42");
     }
 }

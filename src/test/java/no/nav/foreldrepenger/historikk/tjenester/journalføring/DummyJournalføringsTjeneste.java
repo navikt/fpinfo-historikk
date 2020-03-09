@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.JoarkJournalføringTjeneste;
-import no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalpost;
+import no.nav.foreldrepenger.historikk.tjenester.dokarkiv.JoarkJournalføringTjeneste;
+import no.nav.foreldrepenger.historikk.tjenester.dokarkiv.Journalpost;
 
 @Primary
 @Service

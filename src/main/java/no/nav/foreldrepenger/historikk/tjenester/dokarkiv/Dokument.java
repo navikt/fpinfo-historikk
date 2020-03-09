@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.DokumentKategori.ELEKTRONISK_DIALOG;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.DokumentKategori.ELEKTRONISK_DIALOG;
 
 import java.util.Arrays;
 import java.util.List;

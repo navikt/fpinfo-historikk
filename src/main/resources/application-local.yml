@@ -1,5 +1,3 @@
-import.enabled : true
-import.name : /Users/jan-olaveide/EclipseWS/fpinfo-historikk/src/test/resources/im
 management:
    endpoints:
       web:
@@ -8,29 +6,29 @@ management:
    endpoint:
       health:
          show-details: always
-sts:
-   enabled: false
+
 historikk:
-   fordeling:
-     enabled: true
-   vedtak:
-     enabled: true
+   aktoer: 
+      enabled: false
    dittnav:
       enabled: false
-      topics:
-         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
-         oppgave:
-            opprett: aapen-brukernotifikasjon-nyOppgave-v1
-            avslutt: aapen-brukernotifikasjon-done-v1
-   inntektsmelding:
-      enabled: true
-   oppslag:
+   dokarkiv:
       enabled: false
-   kafka:
-      topics:
-         tilbakekreving: privat-tilbakekreving-brukerdialog-local      
-dokarkiv:
-   enabled: false
+   inntektsmelding:
+      enabled: false
+   oppslag:
+      enabled: false     
+   sts:
+      enabled: false 
+   søknad:
+      innsending:
+        enabled: false
+      fordeling:
+        enabled: false
+   tilbakekreving:
+      enabled: false
+   vedtak:
+      enabled: false
 server:
    port: 9001    
 spring:

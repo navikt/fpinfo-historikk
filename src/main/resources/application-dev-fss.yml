@@ -1,10 +1,10 @@
-no.nav.security.jwt.issuer.selvbetjening.discoveryurl: https://login.microsoftonline.com/NAVtestB2C.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten_ver1
-dokarkiv:
-   enabled: false
-   service: https://dokarkiv-q1.nais.preprod.local
+no.nav:
+  security:
+    jwt:
+      issuer:
+        selvbetjening:
+           discoveryUrl: https://login.microsoftonline.com/NAVtestB2C.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1A_idporten_ver1
 
-aktoer:
-  base-uri: https://app-q1.adeo.no/aktoerregister/api
 management:
    endpoints:
       web:
@@ -14,22 +14,20 @@ management:
       health:
          show-details: always
 historikk:
-  vedtak:
-     enabled: true
-  dittnav:
+   dittnav:
       enabled: true
-      topics:
-         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
-         oppgave:  
-            opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-            avslutt: aapen-brukernotifikasjon-done-v1-testing
-  fordeling:
-      enabled: true    
-  kafka:
-      topics:
-         søknad: fpsoknad-mottak
-         inntektsmelding: privat-foreldrepenger-brukerdialog-inntektsmelding
-         tilbakekreving: privat-tilbakekreving-brukerdialog-q1
+      topics :
+        beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
+        oppgave:
+           opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
+           avslutt: aapen-brukernotifikasjon-done-v1-testing        
+   sts:
+      enabled: false  
+   tilbakekreving:
+      enabled: true
+      topic: privat-tilbakekreving-brukerdialog-q1    
+   vedtak:
+      enabled: false
 spring:
    datasource:
       url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod

@@ -18,6 +18,10 @@ public class DittNavConfig {
         return topics;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[topics=" + topics + ", enabled=" + enabled + "]";

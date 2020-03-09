@@ -14,7 +14,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "historikk.sts.enabled")
 public class STSClientRequestInterceptor implements ClientHttpRequestInterceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(STSClientRequestInterceptor.class);

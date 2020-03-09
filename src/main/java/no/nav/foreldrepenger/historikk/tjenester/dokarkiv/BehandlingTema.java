@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
 public enum BehandlingTema {
     FORELDREPENGER_VED_FØDSEL("ab0047"),

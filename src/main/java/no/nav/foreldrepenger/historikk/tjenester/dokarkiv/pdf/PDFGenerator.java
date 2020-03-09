@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring.pdf;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv.pdf;
 
 import java.io.ByteArrayOutputStream;
 

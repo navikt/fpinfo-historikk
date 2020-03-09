@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
 
 @Service
+@ConditionalOnProperty(name = "historikk.tilbakekreving.enabled")
 public class TilbakekrevingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingHendelseKonsument.class);
@@ -23,7 +25,7 @@ public class TilbakekrevingHendelseKonsument {
         this.dittNav = dittNav;
     }
 
-    @KafkaListener(topics = "#{'${historikk.kafka.topics.tilbakekreving}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(@Payload @Valid TilbakekrevingHendelse h) {
         LOG.info("Mottok tilbakekrevingshendelse {}", h);

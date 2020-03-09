@@ -2,23 +2,21 @@ package no.nav.foreldrepenger.historikk.http;
 
 import java.net.URI;
 
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@ConstructorBinding
 public abstract class AbstractConfig {
+
+    private final boolean enabled;
+
+    public AbstractConfig(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     protected abstract URI pingURI();
 
-    private boolean enabled = true;
-
     public boolean isEnabled() {
         return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     protected URI uri(String base, String path) {

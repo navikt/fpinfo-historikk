@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 import java.net.URI;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
@@ -18,31 +19,33 @@ public class OppslagConfig extends AbstractConfig {
     private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag/api";
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
-    private final URI baseURI;
+    private final URI uri;
 
-    public OppslagConfig(@DefaultValue({ DEFAULT_BASE_URI }) URI baseURI) {
-        this.baseURI = baseURI;
+    @ConstructorBinding
+    public OppslagConfig(@DefaultValue({ DEFAULT_BASE_URI }) URI uri, boolean enabled) {
+        super(enabled);
+        this.uri = uri;
     }
 
     public URI aktørURI() {
-        return uri(baseURI, AKTØR);
+        return uri(uri, AKTØR);
     }
 
     public URI fnrURI(String aktørId) {
-        return uri(baseURI, FNR, queryParams("aktorId", aktørId));
+        return uri(uri, FNR, queryParams("aktorId", aktørId));
     }
 
     @Override
     public URI pingURI() {
-        return uri(baseURI, DEFAULT_PING_PATH);
+        return uri(uri, DEFAULT_PING_PATH);
     }
 
     public URI personNavnURI(String fnr) {
-        return uri(baseURI, NAVN, queryParams("fnr", fnr));
+        return uri(uri, NAVN, queryParams("fnr", fnr));
 
     }
 
     public URI orgNavnURI(String orgnr) {
-        return uri(baseURI, ORGNAVN, queryParams("orgnr", orgnr));
+        return uri(uri, ORGNAVN, queryParams("orgnr", orgnr));
     }
 }

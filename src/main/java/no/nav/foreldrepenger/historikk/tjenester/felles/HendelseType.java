@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.ENGANGSSTØNAD;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDREPENGER;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.ENGANGSSTØNAD;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.FORELDREPENGER;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
 
 public enum HendelseType {
 

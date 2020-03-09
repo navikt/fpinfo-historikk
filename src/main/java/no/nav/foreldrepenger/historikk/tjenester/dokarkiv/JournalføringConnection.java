@@ -1,7 +1,7 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
 import static no.nav.foreldrepenger.historikk.config.RestClientConfiguration.DOKARKIV;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.Journalstatus.ENDELIG;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.Journalstatus.ENDELIG;
 
 import java.net.URI;
 

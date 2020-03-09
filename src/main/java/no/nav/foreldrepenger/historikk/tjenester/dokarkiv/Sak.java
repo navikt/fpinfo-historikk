@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.ArkivsakSystem.GSAK;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.ArkivsakSystem.GSAK;
 
 public class Sak {
     private final String arkivsaksnummer;

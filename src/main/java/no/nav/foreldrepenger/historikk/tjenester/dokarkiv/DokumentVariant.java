@@ -1,7 +1,7 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.FilType.PDFA;
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.VariantFormat.ARKIV;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.FilType.PDFA;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.VariantFormat.ARKIV;
 
 import java.util.Arrays;
 

@@ -59,7 +59,7 @@ public class RestClientConfiguration {
     }
 
     @Qualifier(STS)
-    @ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
+    @ConditionalOnProperty(name = "historikk.sts.enabled")
     @Bean
     public RestOperations stsRestTemplate(RestTemplateBuilder builder,
             @Value("${kafka.username}") String user,
@@ -74,7 +74,7 @@ public class RestClientConfiguration {
     }
 
     @Qualifier(DOKARKIV)
-    @ConditionalOnProperty(name = "dokarkiv.enabled", havingValue = "true")
+    @ConditionalOnProperty(name = "historikk.dokarkiv.enabled")
     @Bean
     public RestOperations dokarkivRestTemplate(RestTemplateBuilder builder,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,

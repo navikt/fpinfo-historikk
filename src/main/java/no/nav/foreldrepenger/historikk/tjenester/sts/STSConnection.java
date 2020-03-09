@@ -16,7 +16,7 @@ import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.TokenRespons;
 
 @Component
-@ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "historikk.sts.enabled")
 public class STSConnection extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(STSConnection.class);
     private final STSConfig cfg;

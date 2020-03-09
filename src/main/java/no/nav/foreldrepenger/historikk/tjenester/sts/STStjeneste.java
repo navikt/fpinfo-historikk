@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
-@ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "historikk.sts.enabled")
 public class STStjeneste {
 
     private final STSConnection connection;

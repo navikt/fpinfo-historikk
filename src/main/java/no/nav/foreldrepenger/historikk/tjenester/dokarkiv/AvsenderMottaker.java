@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.journalføring;
+package no.nav.foreldrepenger.historikk.tjenester.dokarkiv;
 
-import static no.nav.foreldrepenger.historikk.tjenester.journalføring.IdType.FNR;
+import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.IdType.FNR;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 

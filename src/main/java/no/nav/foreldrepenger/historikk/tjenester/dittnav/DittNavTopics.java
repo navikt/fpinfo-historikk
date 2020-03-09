@@ -29,5 +29,4 @@ public class DittNavTopics {
     public String toString() {
         return getClass().getSimpleName() + "[oppgave=" + oppgave + ", beskjed=" + beskjed + "]";
     }
-
 }

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
+@ConditionalOnProperty(name = "historikk.innsending.søknad.enabled")
 public class InnsendingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
@@ -32,7 +34,7 @@ public class InnsendingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.kafka.topics.søknad}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);

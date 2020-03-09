@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import no.nav.foreldrepenger.historikk.health.AbstractPingableHealthIndicator;
 
 @Component
-@ConditionalOnProperty(name = "sts.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "historikk.sts.enabled")
 public class STSHealthIndicator extends AbstractPingableHealthIndicator {
     public STSHealthIndicator(STSConnection connection) {
         super(connection);
