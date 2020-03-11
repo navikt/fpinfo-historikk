@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
+import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
+import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @ConditionalOnProperty(name = "historikk.tilbakekreving.enabled")
@@ -28,6 +31,7 @@ public class TilbakekrevingHendelseKonsument {
     @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     @Transactional
     public void listen(@Payload @Valid TilbakekrevingHendelse h) {
+        MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
         LOG.info("Mottok tilbakekrevingshendelse {}", h);
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:

@@ -125,7 +125,6 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
     @Override
     public void setEnvironment(Environment env) {
         this.env = env;
-
     }
 
     @Override

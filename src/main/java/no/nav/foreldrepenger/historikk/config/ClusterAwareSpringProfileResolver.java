@@ -22,12 +22,12 @@ public final class ClusterAwareSpringProfileResolver {
     }
 
     public static String[] profiles() {
-        return Optional.ofNullable(clusterFra(getenv(NAIS_CLUSTER_NAME)))
+        return Optional.ofNullable(profilFra(getenv(NAIS_CLUSTER_NAME)))
                 .map(c -> new String[] { c })
                 .orElse(new String[0]);
     }
 
-    private static String clusterFra(String cluster) {
+    private static String profilFra(String cluster) {
         if (cluster == null) {
             LOG.info("{} ikke satt, setter til {}", NAIS_CLUSTER_NAME, LOCAL);
             System.setProperty(NAIS_CLUSTER_NAME, LOCAL);
