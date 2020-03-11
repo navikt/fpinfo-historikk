@@ -25,8 +25,8 @@ historikk:
       enabled: true     
    sts:
       enabled: true  
-   søknad:
-      innsending:
+   innsending:
+      søknad:
         enabled: true
         topic: fpsoknad-mottak
       fordeling:
