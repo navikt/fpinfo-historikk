@@ -48,8 +48,12 @@ public class InnsendingHendelseKonsument {
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
-                "Mottatt " + h.getHendelse().beskrivelse, h.getHendelse());
+        if (h.getSaksnummer() != null) {
+            dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
+                    "Mottatt " + h.getHendelse().beskrivelse, h.getHendelse());
+        } else {
+            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
+        }
 
     }
 
