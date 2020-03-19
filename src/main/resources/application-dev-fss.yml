@@ -15,12 +15,7 @@ management:
          show-details: always
 historikk:
    dittnav:
-      enabled: true
-      topics :
-        beskjed: aapen-brukernotifikasjon-nyBeskjed-v1-testing
-        oppgave:
-           opprett: aapen-brukernotifikasjon-nyOppgave-v1-testing
-           avslutt: aapen-brukernotifikasjon-done-v1-testing        
+      enabled: true       
    sts:
       enabled: false  
    tilbakekreving:

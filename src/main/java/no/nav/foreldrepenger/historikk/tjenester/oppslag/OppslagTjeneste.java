@@ -25,14 +25,14 @@ public class OppslagTjeneste implements Oppslag {
         return connection.hentAktørId();
     }
 
-    @Cacheable(cacheNames = "fnr")
+    // @Cacheable(cacheNames = "fnr")
     @Override
     public Fødselsnummer fnr(AktørId aktørId) {
         return connection.hentFnr(aktørId);
     }
 
     @Override
-    @Cacheable(cacheNames = "fnr")
+    // @Cacheable(cacheNames = "fnr")
     public String personNavn(AktørId aktørId) {
         try {
             return connection.hentNavn(aktørId);
