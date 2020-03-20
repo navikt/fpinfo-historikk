@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 public class TilbakekrevingHendelseProdusent extends AbstractHendelseProdusent<TilbakekrevingHendelse> {
 
     public TilbakekrevingHendelseProdusent(KafkaOperations<String, String> kafkaOperations,
-            @Value("${historikk.kafka.topics.tilbakekreving}") String topic, ObjectMapperWrapper mapper) {
+            @Value("${historikk.tilbakekreving.topic}") String topic, ObjectMapperWrapper mapper) {
         super(topic, kafkaOperations, mapper);
     }
 }
