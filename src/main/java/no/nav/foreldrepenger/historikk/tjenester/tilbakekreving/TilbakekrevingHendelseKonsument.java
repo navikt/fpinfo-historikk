@@ -35,22 +35,30 @@ public class TilbakekrevingHendelseKonsument {
         LOG.info("Mottok tilbakekrevingshendelse {}", h);
         switch (h.getHendelse()) {
         case TILBAKEKREVING_SPM:
-            dialog.opprettOppgave(h);
-            dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
-                    "Tilbakekrevingssak", h.getHendelse());
+            opprettOppgave(h);
             break;
         case TILBAKEKREVING_FATTET_VEDTAK:
         case TILBAKEKREVING_SPM_LUKKET:
         case TILBAKEKREVING_HENLAGT:
-            LOG.info("Avslutter dialog {} grunnet hendelse {} for {}", h.getDialogId(), h.getHendelse(),
-                    h.getDialogId());
-            dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
-            dittNav.avsluttOppgave(h.getFnr(), h.getDialogId(), h.getDialogId());
+            avsluttOppgave(h);
             break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
             break;
         }
+    }
+
+    private void avsluttOppgave(TilbakekrevingHendelse h) {
+        LOG.info("Avslutter oppgave i selvbetjening og Ditt Nav {} grunnet hendelse {}", h);
+        dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
+        dittNav.avsluttOppgave(h.getFnr(), h.getDialogId(), h.getDialogId());
+    }
+
+    private void opprettOppgave(TilbakekrevingHendelse h) {
+        LOG.info("Oppretter oppgave i selvbetjening og Ditt Nav {} grunnet hendelse {}", h);
+        dialog.opprettOppgave(h);
+        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
+                "Tilbakekrevingssak", h.getHendelse());
     }
 
     @Override
