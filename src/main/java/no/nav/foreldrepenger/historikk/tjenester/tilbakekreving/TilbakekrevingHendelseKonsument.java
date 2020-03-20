@@ -46,6 +46,7 @@ public class TilbakekrevingHendelseKonsument {
                     h.getDialogId());
             dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
             dittNav.avsluttOppgave(h.getFnr(), h.getDialogId(), h.getDialogId());
+            break;
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
             break;
