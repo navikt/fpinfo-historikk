@@ -39,6 +39,13 @@ public class TilbakekrevingHendelseKonsument {
             dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
                     "Tilbakekrevingssak", h.getHendelse());
             break;
+        case TILBAKEKREVING_FATTET_VEDTAK:
+        case TILBAKEKREVING_SPM_LUKKET:
+        case TILBAKEKREVING_HENLAGT:
+            LOG.info("Avslutter dialog {} grunnet hendelse {} for {}", h.getDialogId(), h.getHendelse(),
+                    h.getDialogId());
+            dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
+            dittNav.avsluttOppgave(h.getFnr(), h.getDialogId(), h.getDialogId());
         default:
             LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
             break;
