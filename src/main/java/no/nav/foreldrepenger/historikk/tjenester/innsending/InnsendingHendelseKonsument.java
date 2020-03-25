@@ -50,7 +50,7 @@ public class InnsendingHendelseKonsument {
         }
         if (h.getSaksnummer() != null) {
             dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
-                    "Mottatt " + h.getHendelse().beskrivelse, h.getHendelse());
+                    "Mottatt ", h.getHendelse());
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
         }
