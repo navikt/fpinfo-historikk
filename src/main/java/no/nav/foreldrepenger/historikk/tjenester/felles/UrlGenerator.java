@@ -30,15 +30,15 @@ public class UrlGenerator implements EnvironmentAware {
     }
 
     private String fp() {
-        return isDev(env) ? "https://foreldrepengesoknad-q.nav.no/" : "https://foreldrepengesoknad.nav.no";
+        return isDev(env) ? "https://foreldrepenger-q.nav.no/" : "https://foreldrepenger.nav.no";
     }
 
     private String svp() {
-        return isDev(env) ? "https://svangerskapspenger-q.nav.no/" : "https://svangerskapspenger.nav.no";
+        return isDev(env) ? "https://foreldrepenger-q.nav.no/" : "https://foreldrepenger.nav.no";
     }
 
     private String es() {
-        return isDev(env) ? "https://engangsstonad-q.nav.no/" : "https://engangsstonad.nav.no";
+        return isDev(env) ? "https://foreldrepenger-q.nav.no/" : "https://foreldrepenger.nav.no";
     }
 
 }

@@ -40,10 +40,9 @@ public class InnsendingHendelseKonsument {
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
-            LOG.info("Dette er en ettersending fra en minidialog");
+            LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog");
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
             dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
-
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?

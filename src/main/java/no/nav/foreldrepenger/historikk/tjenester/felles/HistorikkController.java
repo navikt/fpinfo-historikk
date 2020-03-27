@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
+import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
 import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
 @RestController
@@ -52,7 +52,7 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/minidialoger")
-    public List<TilbakekrevingInnslag> dialoger(@RequestParam(defaultValue = "true") boolean activeOnly) {
+    public List<TilbakekrevingInnslag> tilbakekrevinger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");
         return tilbakekreving.tilbakekrevinger(activeOnly);
     }
@@ -66,7 +66,7 @@ public class HistorikkController {
     @GetMapping("/me/all")
     public List<HistorikkInnslag> allHistorikk() {
         LOG.info("Henter all historikk for pålogget bruker");
-        return concat(dialoger(false).stream(),
+        return concat(tilbakekrevinger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
                         .collect(toList());
