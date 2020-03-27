@@ -43,23 +43,27 @@ public class DittNavMeldingProdusent implements DittNav {
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
         send(avslutt(fnr, grupperingsId), eventId, config.getTopics().getAvslutt());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
+        LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
         send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getBeskjed());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
+        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
         send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getOpprett());
     }
 
     private void send(Object msg, String eventId, String topic) {
         ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, nøkkel(eventId), msg);
+        LOG.info("Sender {}", melding);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override

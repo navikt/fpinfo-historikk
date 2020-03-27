@@ -42,6 +42,7 @@ public class InnsendingHendelseKonsument {
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog");
             dialog.deaktiver(h.getAktørId(), h.getDialogId());
+            LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
             dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
