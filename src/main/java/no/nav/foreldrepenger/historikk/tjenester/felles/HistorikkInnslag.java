@@ -30,6 +30,7 @@ import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingIn
 public abstract class HistorikkInnslag implements Comparable<HistorikkInnslag> {
 
     public static final Sort SORT_OPPRETTET_ASC = Sort.by(ASC, "opprettet");
+    public static final Sort SORT_ENDRET_ASC = Sort.by(ASC, "endret");
 
     private AktørId aktørId;
     private Fødselsnummer fnr;

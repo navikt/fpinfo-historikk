@@ -23,13 +23,13 @@ public class InnsendingHendelseKonsument {
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
     private final Innsending innsending;
-    private final Tilbakekreving dialog;
+    private final Tilbakekreving tilbakekreving;
     private final DittNav dittNav;
 
-    public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving dialog,
+    public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving tilbakekreving,
             DittNav dittNav) {
         this.innsending = innsending;
-        this.dialog = dialog;
+        this.tilbakekreving = tilbakekreving;
         this.dittNav = dittNav;
     }
 
@@ -41,25 +41,20 @@ public class InnsendingHendelseKonsument {
         innsending.lagreEllerOppdater(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog");
-            dialog.deaktiver(h.getAktørId(), h.getDialogId());
+            tilbakekreving.deaktiver(h.getAktørId(), h.getDialogId());
             LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
             dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
-        if (h.getSaksnummer() != null) {
-            dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
-                    "Mottatt ", h.getHendelse());
-        } else {
-            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
-        }
-
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getSaksnummer(),
+                "Mottatt ", h.getHendelse());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + dialog + ", dittNav="
+        return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + tilbakekreving + ", dittNav="
                 + dittNav + "]";
     }
 

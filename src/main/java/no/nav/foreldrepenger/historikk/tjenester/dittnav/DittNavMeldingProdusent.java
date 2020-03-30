@@ -50,15 +50,22 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
-        LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
-        send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getBeskjed());
+        if (grupperingsId != null) {
+            LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
+                    eventId);
+            send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getBeskjed());
+        } else {
+            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
+        }
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
-        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
+        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
+                eventId);
         send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getOpprett());
+
     }
 
     private void send(Object msg, String eventId, String topic) {
