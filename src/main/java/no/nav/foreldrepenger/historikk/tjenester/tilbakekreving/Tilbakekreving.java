@@ -27,12 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.boot.conditionals.EnvUtil;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse>, EnvironmentAware {
+public class Tilbakekreving implements EnvironmentAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(Tilbakekreving.class);
 
@@ -48,23 +47,21 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
 
     public void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
-        LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {} etter hendelse", n, flertall(n),
+        LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
                 fnr, dialogId);
     }
 
     public void deaktiver(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
-        LOG.info("Deaktiverte {} tilbakekreving{} for aktør {} og  dialogId {} etter hendelse", n, flertall(n),
+        LOG.info("Deaktiverte {} tilbakekreving{} for aktør {} og  dialogId {}", n, flertall(n),
                 aktørId, dialogId);
     }
 
-    @Override
-    public boolean opprettOppgave(TilbakekrevingHendelse h) {
+    public void opprettOppgave(TilbakekrevingHendelse h) {
         avsluttOppgave(h.getFnr(), h.getDialogId());
         LOG.info("Lagrer tilbakekreving {}", h);
         dao.save(fraHendelse(h));
         LOG.info("Lagret tilbakekreving OK");
-        return true;
     }
 
     @Transactional(readOnly = true)
@@ -114,11 +111,6 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
     @Override
     public void setEnvironment(Environment env) {
         this.env = env;
-    }
-
-    @Override
-    public boolean erAlleredeLagret(String dialogId) {
-        return dialogId != null && dao.findByDialogId(dialogId) != null;
     }
 
     @Override
