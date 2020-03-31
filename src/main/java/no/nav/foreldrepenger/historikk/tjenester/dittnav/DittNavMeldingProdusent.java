@@ -53,7 +53,8 @@ public class DittNavMeldingProdusent implements DittNav {
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
                     eventId);
-            send(beskjed(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getBeskjed());
+            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h)), eventId,
+                    config.getTopics().getBeskjed());
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
         }
