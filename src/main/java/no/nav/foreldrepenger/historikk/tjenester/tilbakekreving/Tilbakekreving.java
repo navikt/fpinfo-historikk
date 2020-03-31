@@ -58,7 +58,11 @@ public class Tilbakekreving implements EnvironmentAware {
     }
 
     public void opprettOppgave(TilbakekrevingHendelse h) {
-        avsluttOppgave(h.getFnr(), h.getDialogId());
+        if (h.getFnr() != null) {
+            avsluttOppgave(h.getFnr(), h.getDialogId());
+        } else {
+            avsluttOppgave(h.getAktørId(), h.getDialogId());
+        }
         LOG.info("Lagrer tilbakekreving {}", h);
         dao.save(fraHendelse(h));
         LOG.info("Lagret tilbakekreving OK");
