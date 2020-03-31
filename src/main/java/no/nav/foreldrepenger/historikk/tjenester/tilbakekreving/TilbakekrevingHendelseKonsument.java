@@ -20,11 +20,11 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 public class TilbakekrevingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingHendelseKonsument.class);
-    private final Tilbakekreving dialog;
+    private final Tilbakekreving tilbakekreving;
     private final DittNav dittNav;
 
-    public TilbakekrevingHendelseKonsument(Tilbakekreving dialog, DittNav dittNav) {
-        this.dialog = dialog;
+    public TilbakekrevingHendelseKonsument(Tilbakekreving tilbakekreving, DittNav dittNav) {
+        this.tilbakekreving = tilbakekreving;
         this.dittNav = dittNav;
     }
 
@@ -50,20 +50,20 @@ public class TilbakekrevingHendelseKonsument {
 
     private void avsluttOppgave(TilbakekrevingHendelse h) {
         LOG.info("Avslutter oppgave i selvbetjening og Ditt Nav grunnet hendelse {}", h);
-        dialog.avsluttOppgave(h.getFnr(), h.getDialogId());
+        tilbakekreving.avsluttOppgave(h.getFnr(), h.getDialogId());
         dittNav.avsluttOppgave(h.getFnr(), h.getDialogId(), h.getDialogId());
     }
 
     private void opprettOppgave(TilbakekrevingHendelse h) {
         LOG.info("Oppretter oppgave i selvbetjening og Ditt Nav grunnet hendelse {}", h);
-        dialog.opprettOppgave(h);
+        tilbakekreving.opprettOppgave(h);
         dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
                 "Tilbakekrevingssak", h.getHendelse());
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[dialog=" + dialog + ", dittNav=" + dittNav + "]";
+        return getClass().getSimpleName() + "[tilbakekreving=" + tilbakekreving + ", dittNav=" + dittNav + "]";
     }
 
 }

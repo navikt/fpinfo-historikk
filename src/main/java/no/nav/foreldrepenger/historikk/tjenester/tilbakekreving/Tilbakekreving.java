@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.TILBAKEKREVING_SVAR;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_ENDRET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erGyldig;
@@ -61,21 +60,11 @@ public class Tilbakekreving implements IdempotentTjeneste<TilbakekrevingHendelse
 
     @Override
     public boolean opprettOppgave(TilbakekrevingHendelse h) {
-        var orig = dao.findByDialogId(h.getDialogId());
-        if (orig == null) {
-            LOG.info("Lagrer tilbakekreving {}", h);
-            dao.save(fraHendelse(h));
-            LOG.info("Lagret tilbakekreving OK");
-            if (TILBAKEKREVING_SVAR.equals(h.getHendelse())) {
-                avsluttOppgave(h.getFnr(), h.getDialogId());
-            }
-            return true;
-        }
-        LOG.info("Hendelse med dialogId {} er allerede lagret, oppdaterer felter", h.getDialogId());
-        orig.setAktiv(h.isAktiv());
-        orig.setGyldigTil(h.getGyldigTil());
-        dao.save(orig);
-        return false;
+        avsluttOppgave(h.getFnr(), h.getDialogId());
+        LOG.info("Lagrer tilbakekreving {}", h);
+        dao.save(fraHendelse(h));
+        LOG.info("Lagret tilbakekreving OK");
+        return true;
     }
 
     @Transactional(readOnly = true)

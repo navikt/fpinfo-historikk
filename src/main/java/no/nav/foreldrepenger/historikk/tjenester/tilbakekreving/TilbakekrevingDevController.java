@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingController.MINIDIALOG;
-import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.status;
@@ -22,7 +21,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -54,11 +52,8 @@ public class TilbakekrevingDevController {
     @PostMapping("/lagre")
     @ApiOperation("Lagre en tilbakekreving rett i databasen, utenom Kafka")
     public ResponseEntity<?> lagre(@RequestBody @Valid TilbakekrevingHendelse hendelse) {
-        boolean lagret = tilbakekreving.opprettOppgave(hendelse);
-        return lagret ? status(CREATED).build()
-                : status(CONFLICT)
-                        .body(new ApiError(CONFLICT,
-                                "dialogId " + hendelse.getDialogId() + " er allerede lagret"));
+        tilbakekreving.opprettOppgave(hendelse);
+        return status(CREATED).build();
     }
 
     @Override
