@@ -34,7 +34,7 @@ public final class TilbakekrevingMapper {
         var innslag = new TilbakekrevingInnslag(i.getHendelse(), i.getGyldigTil(), i.getTekst(), i.getYtelseType());
         innslag.setAktørId(i.getAktørId());
         innslag.setFnr(i.getFnr());
-        innslag.setOpprettet(i.getEndret()); // Ser rart ut, men slipper å endre klienten
+        innslag.setOpprettet(i.getOpprettet());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktiv(i.isAktiv());
         innslag.setDialogId(i.getDialogId());
