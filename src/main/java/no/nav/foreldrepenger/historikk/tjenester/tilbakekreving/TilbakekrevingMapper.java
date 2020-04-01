@@ -20,7 +20,7 @@ public final class TilbakekrevingMapper {
         dialog.setFnr(m.getFnr());
         dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
-        dialog.setAktiv(true);
+        dialog.setAktiv(m.isAktiv());
         dialog.setTekst("tekst");
         dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
