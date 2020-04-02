@@ -48,8 +48,7 @@ public class DittNavDevController {
     @PostMapping("/opprettBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
     public void opprettBeskjed(@RequestBody InnsendingHendelse h) {
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "opprett",
-                h.getHendelse());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse());
     }
 
     @Override

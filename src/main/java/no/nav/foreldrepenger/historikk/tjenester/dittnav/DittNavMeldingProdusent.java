@@ -56,11 +56,10 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h) {
         if (grupperingsId != null) {
-            LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
-                    eventId);
-            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet), eventId,
+            LOG.info("Oppretter beskjed for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse);
+            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet),
                     config.getTopics().getBeskjed());
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
@@ -80,7 +79,7 @@ public class DittNavMeldingProdusent implements DittNav {
      * }
      */
 
-    private void send(Object msg, String eventId, String topic) {
+    private void send(Object msg, String topic) {
         ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(), msg);
         LOG.info("Sender {}", melding);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
