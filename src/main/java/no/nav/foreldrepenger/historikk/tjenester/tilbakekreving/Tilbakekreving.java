@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_ENDRET_ASC;
+import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erAktiv;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erGyldig;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erSpørsmål;
@@ -82,7 +82,7 @@ public class Tilbakekreving implements EnvironmentAware {
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
         LOG.info("Henter tilbakekrevinger for {} og activeOnly={}", aktørId, activeOnly);
-        return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_ENDRET_ASC));
+        return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
     @Transactional(readOnly = true)
@@ -95,7 +95,7 @@ public class Tilbakekreving implements EnvironmentAware {
         LOG.info("Henter aktive tilbakekrevinger for {}", aktørId);
         if (EnvUtil.isDevOrLocal(env)) {
             return tilInnslag(
-                    dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_ENDRET_ASC));
+                    dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
         }
         LOG.info("Returnerer ikke tilbakekrevinger i prod foreløpig");
         return Collections.emptyList(); // ikke i prod foreløpig
