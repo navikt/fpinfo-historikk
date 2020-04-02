@@ -3,6 +3,8 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 
+import java.util.UUID;
+
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +76,7 @@ public class DittNavMeldingProdusent implements DittNav {
      */
 
     private void send(Object msg, String eventId, String topic) {
-        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, nøkkel(eventId), msg);
+        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(), msg);
         LOG.info("Sender {}", melding);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
@@ -91,9 +93,9 @@ public class DittNavMeldingProdusent implements DittNav {
         });
     }
 
-    private static Nokkel nøkkel(String eventId) {
+    private static Nokkel beskjedNøkkel() {
         var nøkkel = Nokkel.newBuilder()
-                .setEventId(eventId)
+                .setEventId(UUID.randomUUID().toString())
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
         LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
