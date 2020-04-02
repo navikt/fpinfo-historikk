@@ -1,9 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -40,12 +38,14 @@ public class DittNavMeldingProdusent implements DittNav {
         this.config = config;
     }
 
-    @Transactional(KAFKA_TM)
-    @Override
-    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
-        send(avslutt(fnr, grupperingsId), eventId, config.getTopics().getAvslutt());
-    }
+    /*
+     * @Transactional(KAFKA_TM)
+     * 
+     * @Override public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
+     * String eventId) { LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr,
+     * grupperingsId, eventId); send(avslutt(fnr, grupperingsId), eventId,
+     * config.getTopics().getAvslutt()); }
+     */
 
     @Override
     @Transactional(KAFKA_TM)
@@ -60,14 +60,18 @@ public class DittNavMeldingProdusent implements DittNav {
         }
     }
 
-    @Override
-    @Transactional(KAFKA_TM)
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
-        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
-                eventId);
-        send(oppgave(fnr, grupperingsId, tekst, urlGenerator.url(h)), eventId, config.getTopics().getOpprett());
-
-    }
+    /*
+     * @Override
+     * 
+     * @Transactional(KAFKA_TM) public void opprettOppgave(Fødselsnummer fnr, String
+     * grupperingsId, String eventId, String tekst, HendelseType h) {
+     * LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr,
+     * grupperingsId, tekst, h.beskrivelse, eventId); send(oppgave(fnr,
+     * grupperingsId, tekst, urlGenerator.url(h)), eventId,
+     * config.getTopics().getOpprett());
+     * 
+     * }
+     */
 
     private void send(Object msg, String eventId, String topic) {
         ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, nøkkel(eventId), msg);

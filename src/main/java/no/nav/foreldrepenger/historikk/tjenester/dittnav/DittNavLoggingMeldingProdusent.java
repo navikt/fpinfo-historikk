@@ -20,7 +20,7 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 
-    @Override
+    // @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
         LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
     }
@@ -30,7 +30,7 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
         LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }
 
-    @Override
+    // @Override
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }

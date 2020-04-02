@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.ApiOperation;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingHendelse;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
@@ -27,20 +24,26 @@ public class DittNavDevController {
         this.dittNav = dittNav;
     }
 
-    @PostMapping("/avsluttOppgave/{fnr}/{grupperingsId}/{eventId}")
-    @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka")
-    public void avsluttOppgave(@PathVariable("fnr") Fødselsnummer fnr,
-            @PathVariable("grupperingsId") String grupperingsId,
-            @PathVariable("eventId") String eventId) {
-        dittNav.avsluttOppgave(fnr, grupperingsId, eventId);
-    }
+    /*
+     * @PostMapping("/avsluttOppgave/{fnr}/{grupperingsId}/{eventId}")
+     * 
+     * @ApiOperation("Avslutt oppgave i Ditt Nav via Kafka") public void
+     * avsluttOppgave(@PathVariable("fnr") Fødselsnummer fnr,
+     * 
+     * @PathVariable("grupperingsId") String grupperingsId,
+     * 
+     * @PathVariable("eventId") String eventId) { dittNav.avsluttOppgave(fnr,
+     * grupperingsId, eventId); }
+     */
 
-    @PostMapping("/opprettOppgave")
-    @ApiOperation("Opprett oppgave i Ditt Nav via Kafka")
-    public void opprettOppgave(@RequestBody TilbakekrevingHendelse h) {
-        dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(), "opprett",
-                h.getHendelse());
-    }
+    /*
+     * @PostMapping("/opprettOppgave")
+     * 
+     * @ApiOperation("Opprett oppgave i Ditt Nav via Kafka") public void
+     * opprettOppgave(@RequestBody TilbakekrevingHendelse h) {
+     * dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
+     * "opprett", h.getHendelse()); }
+     */
 
     @PostMapping("/opprettBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
