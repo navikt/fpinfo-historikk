@@ -21,7 +21,7 @@ public final class TilbakekrevingMapper {
         dialog.setSaksnr(m.getSaksnummer());
         dialog.setGyldigTil(m.getGyldigTil());
         dialog.setAktiv(m.isAktiv());
-        dialog.setTekst("tekst");
+        dialog.setTekst("TODO");
         dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
         dialog.setJournalpostId(m.getJournalpostId());

@@ -45,10 +45,16 @@ public class Tilbakekreving implements EnvironmentAware {
         this.oppslag = oppslag;
     }
 
-    public void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
+    public void avsluttOppgave(TilbakekrevingHendelse h) {
+        avsluttOppgave(h.getFnr(), h.getDialogId());
+        dao.save(fraHendelse(h));
+    }
+
+    private void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
         LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
                 fnr, dialogId);
+
     }
 
     public void deaktiver(AktørId aktørId, String dialogId) {
