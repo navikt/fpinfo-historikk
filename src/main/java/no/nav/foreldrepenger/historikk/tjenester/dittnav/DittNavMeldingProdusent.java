@@ -3,11 +3,13 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 
+import java.time.Duration;
 import java.util.UUID;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
@@ -33,11 +35,14 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private final DittNavConfig config;
 
+    private final Duration varighet;
+
     public DittNavMeldingProdusent(UrlGenerator urlGenerator, KafkaOperations<Nokkel, Object> kafkaOperations,
-            DittNavConfig config) {
+            DittNavConfig config, @Value("${dittnav.beskjed.levetid:30d}") Duration varighet) {
         this.urlGenerator = urlGenerator;
         this.kafkaOperations = kafkaOperations;
         this.config = config;
+        this.varighet = varighet;
     }
 
     /*
@@ -55,7 +60,7 @@ public class DittNavMeldingProdusent implements DittNav {
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse,
                     eventId);
-            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h)), eventId,
+            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet), eventId,
                     config.getTopics().getBeskjed());
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");

@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import java.time.Duration;
 import java.time.Instant;
 
 import no.nav.brukernotifikasjon.schemas.Beskjed;
@@ -32,8 +33,9 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, Duration duration) {
         return Beskjed.newBuilder()
+                .setSynligFremTil(Instant.now().plus(duration).toEpochMilli())
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
                 .setLink(url)
