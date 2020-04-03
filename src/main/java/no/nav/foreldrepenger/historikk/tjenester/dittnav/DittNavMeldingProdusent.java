@@ -4,7 +4,6 @@ import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 
 import java.time.Duration;
-import java.util.UUID;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -56,11 +55,11 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String tekst, HendelseType h) {
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse);
             send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet),
-                    config.getTopics().getBeskjed());
+                    config.getTopics().getBeskjed(), eventId);
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
         }
@@ -79,8 +78,8 @@ public class DittNavMeldingProdusent implements DittNav {
      * }
      */
 
-    private void send(Object msg, String topic) {
-        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(), msg);
+    private void send(Object msg, String eventId, String topic) {
+        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(eventId), msg);
         LOG.info("Sender {}", melding);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
@@ -97,9 +96,9 @@ public class DittNavMeldingProdusent implements DittNav {
         });
     }
 
-    private static Nokkel beskjedNøkkel() {
+    private static Nokkel beskjedNøkkel(String eventId) {
         var nøkkel = Nokkel.newBuilder()
-                .setEventId(UUID.randomUUID().toString())
+                .setEventId(eventId)
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
         LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());

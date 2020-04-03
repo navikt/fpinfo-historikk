@@ -48,7 +48,8 @@ public class InnsendingHendelseKonsument {
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             // lag minidialoginnslag ?
         }
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "Mottatt ", h.getHendelse());
+
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Mottatt ", h.getHendelse());
     }
 
     @Override

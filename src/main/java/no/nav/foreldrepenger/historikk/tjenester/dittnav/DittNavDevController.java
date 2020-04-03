@@ -2,6 +2,8 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import java.util.UUID;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +50,7 @@ public class DittNavDevController {
     @PostMapping("/opprettBeskjed")
     @ApiOperation("Opprett beskjed i Ditt Nav via Kafka")
     public void opprettBeskjed(@RequestBody InnsendingHendelse h) {
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), "opprett", h.getHendelse());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), UUID.randomUUID().toString(), "opprett", h.getHendelse());
     }
 
     @Override
