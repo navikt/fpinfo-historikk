@@ -40,8 +40,8 @@ public class InnsendingHendelseKonsument {
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
-            LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog");
-            tilbakekreving.deaktiver(h.getAktørId(), h.getDialogId());
+            LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
+            tilbakekreving.avsluttDialog(h.getAktørId(), h.getDialogId());
             // LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
             // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
         }

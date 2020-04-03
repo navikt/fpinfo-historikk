@@ -25,6 +25,15 @@ public final class JPATilbakekrevingSpec {
         return (innslag, cq, cb) -> cb.isNull(innslag.get(gyldigTil));
     }
 
+    static Specification<JPATilbakekrevingInnslag> spec(AktørId aktørId, boolean activeOnly) {
+        var spec = harAktørId(aktørId);
+        var retur = activeOnly ? spec
+                .and((erGyldig().or(gyldigErNull())))
+                .and(erAktiv()) : spec;
+
+        return retur;
+    }
+
     public static Specification<JPATilbakekrevingInnslag> erAktiv() {
         return (innslag, cq, cb) -> cb.isTrue(innslag.get(aktiv));
     }
