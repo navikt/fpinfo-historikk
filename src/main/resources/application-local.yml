@@ -8,11 +8,7 @@ management:
          show-details: always
 
 historikk:
-   aktoer: 
-      enabled: false
    dittnav:
-      enabled: false
-   dokarkiv:
       enabled: false
    inntektsmelding:
       enabled: false
@@ -24,8 +20,6 @@ historikk:
       fordeling:
         enabled: false
    tilbakekreving:
-      enabled: false
-   vedtak:
       enabled: false
 server:
    port: 9001    

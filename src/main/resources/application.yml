@@ -7,8 +7,6 @@ no.nav:
          cookie_name: selvbetjening-idtoken
          
 historikk:
-   aktoer: 
-      enabled: false
    dittnav:
       enabled: false
       topics :
@@ -16,8 +14,6 @@ historikk:
         oppgave:
            opprett: aapen-brukernotifikasjon-nyOppgave-v1
            avslutt: aapen-brukernotifikasjon-done-v1   
-   dokarkiv:
-      enabled: false
    inntektsmelding:
       enabled: true
       topic: privat-foreldrepenger-brukerdialog-inntektsmelding   
@@ -32,10 +28,7 @@ historikk:
         topic: privat-foreldrepenger-historikk-fordeling
    tilbakekreving:
       enabled: false
-      topic: privat-tilbakekreving-brukerdialog-p   
-   vedtak:
-      enabled: false
-      topic: privat-familie-vedtakFattet-v1         
+      topic: privat-tilbakekreving-brukerdialog-p     
 info:
    app:
       version: '@project.version@'
