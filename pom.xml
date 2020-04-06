@@ -129,7 +129,7 @@
         <dependency>
             <groupId>no.nav</groupId>
             <artifactId>brukernotifikasjon-schemas</artifactId>
-            <version>1.2020.02.11-13.20-46252a031986</version>
+            <version>1.2020.03.25-11.14-c3621e6d211a</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
