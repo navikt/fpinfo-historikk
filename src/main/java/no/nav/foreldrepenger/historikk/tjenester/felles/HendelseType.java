@@ -1,9 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.ENGANGSSTØNAD;
-import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.FORELDREPENGER;
-import static no.nav.foreldrepenger.historikk.tjenester.dokarkiv.BehandlingTema.FORELDRE_OG_SVANGERSKAPSPENGER;
-
 public enum HendelseType {
 
     TILBAKEKREVING_SPM,
@@ -74,19 +70,6 @@ public enum HendelseType {
         } catch (Exception e) {
             return UKJENT;
         }
-    }
-
-    public String tema() {
-        if (erSvangerskapspenger()) {
-            return FORELDRE_OG_SVANGERSKAPSPENGER.getTema();
-        }
-        if (erEngangsstønad()) {
-            return ENGANGSSTØNAD.getTema();
-        }
-        if (erForeldrepenger()) {
-            return FORELDREPENGER.getTema();
-        }
-        return FORELDREPENGER.getTema();
     }
 
 }
