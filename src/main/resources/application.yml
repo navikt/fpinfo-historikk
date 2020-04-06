@@ -23,8 +23,6 @@ historikk:
       topic: privat-foreldrepenger-brukerdialog-inntektsmelding   
    oppslag:
       enabled: true     
-   sts:
-      enabled: true  
    innsending:
       søknad:
         enabled: true

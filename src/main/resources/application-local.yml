@@ -18,8 +18,6 @@ historikk:
       enabled: false
    oppslag:
       enabled: false     
-   sts:
-      enabled: false 
    søknad:
       innsending:
         enabled: false

@@ -2,14 +2,12 @@ package no.nav.foreldrepenger.historikk.tjenester.aktør;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID1;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_PERSONIDENTER;
-import static no.nav.foreldrepenger.historikk.config.RestClientConfiguration.REST;
 
 import java.net.URI;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +24,7 @@ public class AktørConnection extends AbstractRestConnection {
     private final AktørConfig cfg;
     private final TokenUtil tokenUtil;
 
-    public AktørConnection(@Qualifier(REST) RestTemplate restOperations, AktørConfig cfg, TokenUtil tokenUtil) {
+    public AktørConnection(RestTemplate restOperations, AktørConfig cfg, TokenUtil tokenUtil) {
         super(restOperations, cfg);
         this.cfg = cfg;
         this.tokenUtil = tokenUtil;

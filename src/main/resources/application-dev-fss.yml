@@ -16,8 +16,6 @@ management:
 historikk:
    dittnav:
       enabled: true       
-   sts:
-      enabled: false  
    tilbakekreving:
       enabled: true
       topic: privat-tilbakekreving-brukerdialog-q1    
