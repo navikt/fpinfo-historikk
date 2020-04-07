@@ -9,14 +9,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -29,7 +25,6 @@ import org.springframework.web.client.RestOperations;
 
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
-import no.nav.foreldrepenger.historikk.tjenester.sts.STSClientRequestInterceptor;
 import no.nav.security.token.support.core.context.TokenValidationContext;
 import no.nav.security.token.support.core.context.TokenValidationContextHolder;
 import no.nav.security.token.support.spring.SpringTokenValidationContextHolder;
@@ -38,15 +33,9 @@ import no.nav.security.token.support.spring.validation.interceptor.BearerTokenCl
 @Configuration
 public class RestClientConfiguration {
 
-    public static final String STS = "sts";
-    public static final String REST = "rest";
-    public static final String DOKARKIV = "dokarkiv";
-
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
 
     @Bean
-    @Primary
-    @Qualifier(REST)
     public RestOperations restTemplate(RestTemplateBuilder builder,
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
@@ -55,33 +44,6 @@ public class RestClientConfiguration {
                 mdcInterceptor);
         return builder
                 .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
-                .build();
-    }
-
-    @Qualifier(STS)
-    @ConditionalOnProperty(name = "historikk.sts.enabled")
-    @Bean
-    public RestOperations stsRestTemplate(RestTemplateBuilder builder,
-            @Value("${kafka.username}") String user,
-            @Value("${kafka.password}") String pw,
-            TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
-            MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer {},{} for STS", timingInterceptor, mdcInterceptor);
-        return builder
-                .interceptors(timingInterceptor, mdcInterceptor)
-                .basicAuthentication(user, pw)
-                .build();
-    }
-
-    @Qualifier(DOKARKIV)
-    @ConditionalOnProperty(name = "historikk.dokarkiv.enabled")
-    @Bean
-    public RestOperations dokarkivRestTemplate(RestTemplateBuilder builder,
-            TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
-            STSClientRequestInterceptor stsInterceptor, MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer {},{},{} for dokarkiv", stsInterceptor, timingInterceptor, mdcInterceptor);
-        return builder
-                .interceptors(stsInterceptor, timingInterceptor, mdcInterceptor)
                 .build();
     }
 
