@@ -10,7 +10,6 @@ import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -20,7 +19,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.boot.conditionals.EnvUtil;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
@@ -55,7 +53,7 @@ public class Tilbakekreving implements EnvironmentAware {
 
     public void avsluttDialog(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
-        LOG.info("Deaktiverte {} tilbakekreving{} for aktør {} og  dialogId {}", n, flertall(n),
+        LOG.info("Deaktiverte {} tilbakekrevingsdialoger{} for aktør {} og  dialogId {}", n, flertall(n),
                 aktørId, dialogId);
     }
 
@@ -65,9 +63,9 @@ public class Tilbakekreving implements EnvironmentAware {
         } else {
             avsluttDialog(h.getAktørId(), h.getDialogId());
         }
-        LOG.info("Lagrer tilbakekreving {}", h);
+        LOG.info("Lagrer tilbakekrevingsdialog {}", h);
         dao.save(fraHendelse(h));
-        LOG.info("Lagret tilbakekreving OK");
+        LOG.info("Lagret tilbakekrevingsdialog OK");
     }
 
     @Transactional(readOnly = true)
@@ -77,7 +75,7 @@ public class Tilbakekreving implements EnvironmentAware {
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
-        LOG.info("Henter tilbakekrevinger for {} og activeOnly={}", aktørId, activeOnly);
+        LOG.info("Henter tilbakekrevingsdialoger for {} og activeOnly={}", aktørId, activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
@@ -88,21 +86,17 @@ public class Tilbakekreving implements EnvironmentAware {
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> aktive(AktørId aktørId) {
-        LOG.info("Henter aktive tilbakekrevinger for {}", aktørId);
-        if (EnvUtil.isDevOrLocal(env)) {
-            return tilInnslag(
-                    dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
-        }
-        LOG.info("Returnerer ikke tilbakekrevinger i prod foreløpig");
-        return Collections.emptyList(); // ikke i prod foreløpig
+        LOG.info("Henter aktive tilbakekrevingsdialoger for {}", aktørId);
+        return tilInnslag(
+                dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
     }
 
     private static List<TilbakekrevingInnslag> tilInnslag(List<JPATilbakekrevingInnslag> innslag) {
-        var i = safeStream(innslag)
+        var spm = safeStream(innslag)
                 .map(TilbakekrevingMapper::tilInnslag)
                 .collect(toList());
-        LOG.info("Hentet {} dialog{} ({})", i.size(), flertall(i), i);
-        return i;
+        LOG.info("Hentet {} tilbakekrevingsdialog{}", spm.size(), flertall(spm));
+        return spm;
     }
 
     @Override
