@@ -57,7 +57,8 @@ public class DittNavMeldingProdusent implements DittNav {
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         if (grupperingsId != null) {
-            LOG.info("Oppretter beskjed for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse);
+            LOG.info("Oppretter beskjed med id {} for {} {} {} {} i Ditt Nav", eventId, fnr, grupperingsId, tekst,
+                    h.beskrivelse);
             send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet),
                     config.getTopics().getBeskjed(), eventId);
         } else {
