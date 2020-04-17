@@ -8,7 +8,7 @@ no.nav:
          
 historikk:
    dittnav:
-      enabled: true
+      enabled: false
       topics :
         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
         oppgave:
