@@ -4,7 +4,7 @@
 * Kjør   ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
 
 ## Bygg
-* Krever minst Java 11
+* Krever  Java 11 eller høyere
     
 ---
 # Henvendelser
