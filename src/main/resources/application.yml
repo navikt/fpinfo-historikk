@@ -27,7 +27,7 @@ historikk:
         enabled: true
         topic: privat-foreldrepenger-historikk-fordeling
    tilbakekreving:
-      enabled: false
+      enabled: true
       topic: privat-tilbakekreving-brukerdialog-p     
 info:
    app:
