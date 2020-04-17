@@ -1,7 +1,7 @@
 # REST-API for historikk for foreldrepenger/engangsstønad/svangerskapspenger
 
 ## For å kjøre lokalt
-* Kjør klassen ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
+* Kjør  klassen ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
 
 ## Bygg
 * Krever minst Java 11
