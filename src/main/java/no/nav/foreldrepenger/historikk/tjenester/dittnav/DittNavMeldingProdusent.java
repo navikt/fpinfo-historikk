@@ -62,7 +62,7 @@ public class DittNavMeldingProdusent implements DittNav {
             send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h), varighet),
                     eventId, config.getTopics().getBeskjed());
         } else {
-            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten saksnummer");
+            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten grupperingsId(saksnr)");
         }
     }
 
@@ -81,18 +81,18 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private void send(Object msg, String eventId, String topic) {
         ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(eventId), msg);
-        LOG.info("Sender {}", melding);
+        LOG.info("Sender melding med id {} på {}", eventId, topic);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Object> result) {
-                LOG.info("Sendte melding {} med offset {} på {}", melding.value(),
+                LOG.info("Sendte melding med id {} og offset {} på {}", eventId,
                         result.getRecordMetadata().offset(), topic);
             }
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding {} på {}", melding.value(), topic, e);
+                LOG.warn("Kunne ikke sende melding {} på {}", eventId, topic, e);
             }
         });
     }
