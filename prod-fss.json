@@ -1,3 +1,3 @@
 {
-  "ingress" : "https://fpinfo-historikk.nais.adeo.no"
+  "ingresses":  ["https://fpinfo-historikk.nais.adeo.no", "https://fpinfo-historikk.prod-fss.nais.io"]
 }
