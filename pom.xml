@@ -262,7 +262,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger</groupId>
             <artifactId>boot-conditionals</artifactId>
-            <version>1.0.20200301232451-61d66ff</version>
+            <version>1.0.20200420142221-ac36c70</version>
         </dependency>
         <dependency>
             <groupId>no.nav.foreldrepenger.kontrakter.topics</groupId>
