@@ -42,11 +42,11 @@ public class InnsendingHendelseKonsument {
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             tilbakekreving.avsluttDialog(h.getAktørId(), h.getDialogId());
-            // LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
-            // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+            LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
+            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            // lag minidialoginnslag ?
+            LOG.info("({}) Følgende vedlegg er ikke lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
         }
 
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Mottatt ", h.getHendelse());
