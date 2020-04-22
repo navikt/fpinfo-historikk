@@ -50,7 +50,7 @@ public class TilbakekrevingHendelseKonsument {
 
     private void avsluttOppgave(TilbakekrevingHendelse h) {
         LOG.info("Avslutter oppgave i selvbetjening og Ditt Nav grunnet hendelse {}", h);
-        tilbakekreving.avsluttDialog(h);
+        tilbakekreving.avsluttOppgave(h);
         dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 

@@ -41,15 +41,24 @@ public class InnsendingHendelseKonsument {
         innsending.lagreEllerOppdater(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
-            tilbakekreving.avsluttDialog(h.getAktørId(), h.getDialogId());
-            LOG.info("Avslutter oppgave i Ditt Nav etter {}", h);
-            dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+            avsluttOppgave(h);
+        }
+        logVedlegg(h);
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Mottatt ", h.getHendelse());
+    }
+
+    private void avsluttOppgave(InnsendingHendelse h) {
+        tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
+        dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+    }
+
+    private static void logVedlegg(InnsendingHendelse h) {
+        if (!h.getOpplastedeVedlegg().isEmpty()) {
+            LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er ikke lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
+            LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
         }
-
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Mottatt ", h.getHendelse());
     }
 
     @Override

@@ -39,19 +39,19 @@ public class Tilbakekreving implements EnvironmentAware {
         this.oppslag = oppslag;
     }
 
-    public void avsluttDialog(TilbakekrevingHendelse h) {
-        avsluttDialog(h.getFnr(), h.getDialogId());
+    public void avsluttOppgave(TilbakekrevingHendelse h) {
+        avsluttOppgave(h.getFnr(), h.getDialogId());
         dao.save(fraHendelse(h));
     }
 
-    private void avsluttDialog(Fødselsnummer fnr, String dialogId) {
+    private void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
         LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
                 fnr, dialogId);
 
     }
 
-    public void avsluttDialog(AktørId aktørId, String dialogId) {
+    public void avsluttOppgave(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
         LOG.info("Deaktiverte {} tilbakekrevingsdialoger{} for aktør {} og  dialogId {}", n, flertall(n),
                 aktørId, dialogId);
@@ -59,9 +59,9 @@ public class Tilbakekreving implements EnvironmentAware {
 
     public void opprettOppgave(TilbakekrevingHendelse h) {
         if (h.getFnr() != null) {
-            avsluttDialog(h.getFnr(), h.getDialogId());
+            avsluttOppgave(h.getFnr(), h.getDialogId());
         } else {
-            avsluttDialog(h.getAktørId(), h.getDialogId());
+            avsluttOppgave(h.getAktørId(), h.getDialogId());
         }
         LOG.info("Lagrer tilbakekrevingsdialog {}", h);
         dao.save(fraHendelse(h));
