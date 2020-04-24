@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -62,7 +63,10 @@ public class DittNavMeldingProdusent implements DittNav {
                     varighet),
                     eventId, config.getTopics().getBeskjed());
         } else {
-            LOG.info("Kan ikke opprette beskjed i Ditt Nav uten grupperingsId(saksnr)");
+            LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
+            send(beskjed(fnr, UUID.randomUUID().toString(), tekst + h.beskrivelse, urlGenerator.url(h),
+                    varighet),
+                    eventId, config.getTopics().getBeskjed());
         }
     }
 
