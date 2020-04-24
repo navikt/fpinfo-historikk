@@ -44,7 +44,8 @@ public class InnsendingHendelseKonsument {
             avsluttOppgave(h);
         }
         logVedlegg(h);
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Mottatt ", h.getHendelse());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "(" + h.getOpprettet() + ") Mottatt ",
+                h.getHendelse());
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {
