@@ -264,10 +264,5 @@
             <artifactId>boot-conditionals</artifactId>
             <version>1.0.20200420142221-ac36c70</version>
         </dependency>
-        <dependency>
-            <groupId>no.nav.foreldrepenger.kontrakter.topics</groupId>
-            <artifactId>hendelse-historikk-innslag</artifactId>
-            <version>5.1-20200305094605-61b51c9</version>
-        </dependency>
     </dependencies>
 </project>

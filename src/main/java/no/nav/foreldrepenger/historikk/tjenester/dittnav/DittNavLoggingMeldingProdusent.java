@@ -30,7 +30,7 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
         LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, eventId, tekst, h.beskrivelse);
     }
 
-    @Override
+    // @Override
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, h.beskrivelse, eventId);
     }

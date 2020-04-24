@@ -35,8 +35,8 @@ public class Innsending {
     public void lagreEllerOppdater(InnsendingHendelse h) {
         var eksisterende = dao.findByReferanseId(h.getReferanseId());
         if (eksisterende != null) {
-            LOG.info("fant et eksisterende innsendingsinnslag i innsending {}", eksisterende);
-            LOG.info("Oppdaterer innsendingsinnslag i innsending fra {}", h);
+            LOG.info("Fant et eksisterende innsendingsinnslag i innsending {}", eksisterende);
+            LOG.info("Oppdaterer eksisterende innsendingsinnslag i innsending fra {}", h);
             JPAInnsendingInnslag oppdatert = oppdaterFra(h, eksisterende);
             LOG.info("Oppdaterer innsendingsinnslag  i innsending er {}", oppdatert);
             dao.save(oppdatert);

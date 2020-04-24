@@ -49,7 +49,7 @@ public class InnsendingHendelseKonsument {
 
     private void avsluttOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
-        dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+        // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
     private static void logVedlegg(InnsendingHendelse h) {

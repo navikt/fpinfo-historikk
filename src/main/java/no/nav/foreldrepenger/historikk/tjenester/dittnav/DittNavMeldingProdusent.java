@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 
 import java.time.Duration;
 
@@ -43,13 +43,13 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     // @Transactional(KAFKA_TM)
-    @Override
+    // @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
         LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr,
                 grupperingsId, eventId);
-        send(avslutt(fnr, grupperingsId), eventId,
-                config.getTopics().getAvslutt());
+        // send(avslutt(fnr, grupperingsId), eventId,
+        // config.getTopics().getAvslutt());
     }
 
     @Override
@@ -58,15 +58,15 @@ public class DittNavMeldingProdusent implements DittNav {
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed med id {} for {} {} {} {} i Ditt Nav", eventId, fnr, grupperingsId, tekst,
                     h.beskrivelse);
-            // send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h),
-            // varighet),
-            // eventId, config.getTopics().getBeskjed());
+            send(beskjed(fnr, grupperingsId, tekst + h.beskrivelse, urlGenerator.url(h),
+                    varighet),
+                    eventId, config.getTopics().getBeskjed());
         } else {
             LOG.info("Kan ikke opprette beskjed i Ditt Nav uten grupperingsId(saksnr)");
         }
     }
 
-    @Override
+    // @Override
     // @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, HendelseType h) {
         LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr,
