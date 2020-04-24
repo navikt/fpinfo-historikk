@@ -22,7 +22,7 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 @ConditionalOnProperty(name = "historikk.innsending.søknad.enabled")
 public class InnsendingHendelseKonsument {
 
-    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
@@ -49,7 +49,7 @@ public class InnsendingHendelseKonsument {
         }
         logVedlegg(h);
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                "(" + FMT.format(h.getOpprettet()) + ") Mottatt ",
+                "[" + FMT.format(h.getOpprettet()) + "] Mottatt ",
                 h.getHendelse());
     }
 
