@@ -22,7 +22,7 @@
     </licenses>
 
     <properties>
-        <confluent.version>5.4.1</confluent.version>
+        <confluent.version>5.5.0</confluent.version>
         <token-validation-version>1.1.4</token-validation-version>
         <springfox.version>2.9.2</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
@@ -262,7 +262,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger</groupId>
             <artifactId>boot-conditionals</artifactId>
-            <version>1.0.20200420142221-ac36c70</version>
+            <version>1.0.20200423091637-4219fe7</version>
         </dependency>
     </dependencies>
 </project>
