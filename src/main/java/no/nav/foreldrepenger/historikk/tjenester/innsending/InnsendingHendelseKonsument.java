@@ -49,7 +49,7 @@ public class InnsendingHendelseKonsument {
         }
         logVedlegg(h);
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                "[" + FMT.format(h.getOpprettet()) + "] Mottatt ",
+                "Vi mottok den " + FMT.format(h.getOpprettet()),
                 h.getHendelse());
     }
 
