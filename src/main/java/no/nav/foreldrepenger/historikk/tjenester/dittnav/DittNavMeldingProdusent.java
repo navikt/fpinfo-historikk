@@ -36,7 +36,7 @@ public class DittNavMeldingProdusent implements DittNav {
     private final Duration varighet;
 
     public DittNavMeldingProdusent(UrlGenerator urlGenerator, KafkaOperations<Nokkel, Object> kafkaOperations,
-            DittNavConfig config, @Value("${dittnav.beskjed.levetid:30d}") Duration varighet) {
+            DittNavConfig config, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
         this.urlGenerator = urlGenerator;
         this.kafkaOperations = kafkaOperations;
         this.config = config;
