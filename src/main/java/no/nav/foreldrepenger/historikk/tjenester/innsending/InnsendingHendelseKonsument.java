@@ -49,8 +49,7 @@ public class InnsendingHendelseKonsument {
         }
         logVedlegg(h);
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                "Vi mottok den " + FMT.format(h.getOpprettet()) + " en ",
-                h.getHendelse());
+                "Vi mottok en ", h.getHendelse());
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {
