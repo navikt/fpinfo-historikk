@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
-import java.time.format.DateTimeFormatter;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -21,8 +19,6 @@ import no.nav.foreldrepenger.historikk.util.MDCUtil;
 @Service
 @ConditionalOnProperty(name = "historikk.innsending.søknad.enabled")
 public class InnsendingHendelseKonsument {
-
-    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private static final Logger LOG = LoggerFactory.getLogger(InnsendingHendelseKonsument.class);
 
