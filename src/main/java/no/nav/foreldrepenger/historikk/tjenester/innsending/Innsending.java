@@ -9,6 +9,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsending
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,12 @@ public class Innsending {
     public Innsending(JPAInnsendingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
+    }
+
+    public List<InnsendingInnslag> finnForSaksnr(String saksnr) {
+        return dao.findBySaksnr(saksnr).stream()
+                .map(InnsendingMapper::tilInnslag)
+                .collect(Collectors.toList());
     }
 
     public void lagreEllerOppdater(InnsendingHendelse h) {

@@ -53,12 +53,24 @@ public class InnsendingHendelseKonsument {
         // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
-    private static void logVedlegg(InnsendingHendelse h) {
+    private void logVedlegg(InnsendingHendelse h) {
+        tidligere(h);
         if (!h.getOpplastedeVedlegg().isEmpty()) {
             LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
         }
         if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
             LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
+        }
+    }
+
+    private void tidligere(InnsendingHendelse h) {
+        try {
+            if (h.getSaksnummer() != null) {
+                var tidligere = innsending.finnForSaksnr(h.getSaksnummer());
+                LOG.info("Tidligere innsendinger for {} er {}", tidligere);
+            }
+        } catch (Exception e) {
+            LOG.warn("Kunne ikke hente tidligere innsendinger", e);
         }
     }
 
