@@ -13,6 +13,6 @@ public interface JPAInnsendingRepository
         extends JpaRepository<JPAInnsendingInnslag, Long>, JpaSpecificationExecutor<JPAInnsendingInnslag> {
     JPAInnsendingInnslag findByReferanseId(String referanseId);
 
-    List<JPAInnsendingInnslag> findBySaksnr(String saksnr);
+    List<JPAInnsendingInnslag> findBySaksnrOrderByOpprettetAsc(String saksnr);
 
 }

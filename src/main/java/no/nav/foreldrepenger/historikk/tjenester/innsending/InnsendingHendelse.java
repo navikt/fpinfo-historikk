@@ -2,7 +2,9 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -47,8 +49,8 @@ public class InnsendingHendelse extends Hendelse {
         this.leveranseStatus = leveranseStatus;
         this.dialogId = dialogId;
         this.referanseId = referanseId;
-        this.opplastedeVedlegg = opplastedeVedlegg;
-        this.ikkeOpplastedeVedlegg = ikkeOpplastedeVedlegg;
+        this.opplastedeVedlegg = Optional.ofNullable(opplastedeVedlegg).orElse(Collections.emptyList());
+        this.ikkeOpplastedeVedlegg = Optional.ofNullable(ikkeOpplastedeVedlegg).orElse(Collections.emptyList());
         this.førsteBehandlingsdato = førsteBehandlingsdato;
     }
 

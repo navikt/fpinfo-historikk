@@ -34,7 +34,7 @@ public class Innsending {
     }
 
     public List<InnsendingInnslag> finnForSaksnr(String saksnr) {
-        return dao.findBySaksnr(saksnr).stream()
+        return dao.findBySaksnrOrderByOpprettetAsc(saksnr).stream()
                 .map(InnsendingMapper::tilInnslag)
                 .collect(Collectors.toList());
     }

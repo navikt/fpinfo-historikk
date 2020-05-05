@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.util.Pair;
 
 public final class InnsendingMapper {
 
@@ -68,10 +69,15 @@ public final class InnsendingMapper {
         return innslag;
     }
 
-    private static List<String> tilVedlegg(JPAInnsendingInnslag innslag) {
+    private static List<Pair<String, InnsendingType>> tilVedlegg(JPAInnsendingInnslag innslag) {
         return safeStream(innslag.getVedlegg())
-                .map(JPAInnsendingVedlegg::getVedleggId)
+                .map(InnsendingMapper::tilVedlegg)
                 .collect(toList());
+    }
+
+    private static Pair<String, InnsendingType> tilVedlegg(JPAInnsendingVedlegg vedlegg) {
+        return Pair.of(vedlegg.getVedleggId(), vedlegg.getInnsendingType());
+
     }
 
     private static JPAInnsendingVedlegg fraVedlegg(String id, InnsendingType type) {

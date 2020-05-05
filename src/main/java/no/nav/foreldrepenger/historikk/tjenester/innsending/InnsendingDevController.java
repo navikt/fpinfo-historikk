@@ -28,15 +28,22 @@ import no.nav.security.token.support.core.api.Unprotected;
 public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final Innsending innsending;
+    private final InnsendingHendelseProdusent produsent;
 
-    InnsendingDevController(Innsending innsending) {
+    InnsendingDevController(Innsending innsending, InnsendingHendelseProdusent produsent) {
         this.innsending = innsending;
+        this.produsent = produsent;
     }
 
     @PostMapping("/lagre")
     public ResponseEntity<?> lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
         innsending.lagreEllerOppdater(hendelse);
         return status(CREATED).build();
+    }
+
+    @PostMapping("/send")
+    public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
+        produsent.send(hendelse);
     }
 
     @GetMapping("/søknader")

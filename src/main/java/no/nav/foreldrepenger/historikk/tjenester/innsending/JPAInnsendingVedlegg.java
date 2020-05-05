@@ -64,7 +64,8 @@ public class JPAInnsendingVedlegg {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", vedleggId=" + vedlegg + "]";
+        return getClass().getSimpleName() + "[id=" + id + ", vedlegg=" + vedlegg + ", innsendingType="
+                + innsendingType + "]";
     }
 
 }

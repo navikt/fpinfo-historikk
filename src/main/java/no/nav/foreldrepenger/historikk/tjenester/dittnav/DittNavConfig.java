@@ -12,6 +12,7 @@ public class DittNavConfig {
     public DittNavConfig(DittNavTopics topics, boolean enabled) {
         this.topics = topics;
         this.enabled = enabled;
+
     }
 
     public DittNavTopics getTopics() {
@@ -20,6 +21,18 @@ public class DittNavConfig {
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public String getBeskjed() {
+        return topics.getBeskjed();
+    }
+
+    public String getDone() {
+        return topics.getDone();
+    }
+
+    public String getOppgave() {
+        return topics.getOppgave();
     }
 
     @Override

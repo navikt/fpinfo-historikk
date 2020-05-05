@@ -34,7 +34,6 @@ final class DittNavMapper {
     }
 
     static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, Duration duration) {
-        // LocalDateTime.now(; //ZoneId.systemDefault()
         return Beskjed.newBuilder()
                 .setSynligFremTil(Instant.now().plus(duration).toEpochMilli())
                 .setFodselsnummer(fnr.getFnr())

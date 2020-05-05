@@ -1,6 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
+import static java.util.Collections.emptyList;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
+import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
@@ -25,12 +30,14 @@ public class InnsendingHendelseKonsument {
     private final Innsending innsending;
     private final Tilbakekreving tilbakekreving;
     private final DittNav dittNav;
+    private final UrlGenerator generator;
 
     public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving tilbakekreving,
-            DittNav dittNav) {
+            DittNav dittNav, UrlGenerator generator) {
         this.innsending = innsending;
         this.tilbakekreving = tilbakekreving;
         this.dittNav = dittNav;
+        this.generator = generator;
     }
 
     @Transactional
@@ -39,22 +46,22 @@ public class InnsendingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
+        sjekkManglede(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
         }
         logVedlegg(h);
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                "Vi mottok en ", h.getHendelse());
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Vi mottok en " + h.getHendelse(),
+                generator.url(h.getHendelse()));
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
-        // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+        dittNav.avslutt(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
     private void logVedlegg(InnsendingHendelse h) {
-        tidligere(h);
         if (!h.getOpplastedeVedlegg().isEmpty()) {
             LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
         }
@@ -63,15 +70,43 @@ public class InnsendingHendelseKonsument {
         }
     }
 
-    private void tidligere(InnsendingHendelse h) {
+    private List<String> sjekkManglede(InnsendingHendelse h) {
+
+        if (h.getSaksnummer() == null) {
+            return emptyList();
+        }
+
         try {
-            if (h.getSaksnummer() != null) {
-                var tidligere = innsending.finnForSaksnr(h.getSaksnummer());
-                LOG.info("Tidligere innsendinger for {} er {}", tidligere);
+            var manglende = new ArrayList<String>();
+            for (var t : innsending.finnForSaksnr(h.getSaksnummer())) {
+                if (!t.getIkkeOpplastedeVedleggIds().isEmpty()) {
+                    if (h.getReferanseId() != t.getReferanseId()) {
+                        dittNav.avslutt(h.getFnr(), h.getSaksnummer(), t.getReferanseId());
+                    }
+                    LOG.trace("Legger til {} i {}", t.getIkkeOpplastedeVedleggIds(), manglende);
+                    manglende.addAll(t.getIkkeOpplastedeVedleggIds());
+                }
+                if (!t.getOpplastedeVedleggIds().isEmpty()) {
+                    LOG.trace("Fjerner {} fra {}", t.getOpplastedeVedleggIds(), manglende);
+                    t.getOpplastedeVedleggIds().stream().forEach(manglende::remove);
+                    LOG.trace("Ikke sendt inn etter fjerning er {}", manglende);
+                }
             }
+            LOG.info("{} ikke-innsendte vedlegg for {} ({})", manglende.size(), h.getSaksnummer(), manglende);
+            if (!manglende.isEmpty()) {
+                dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), manglendeVedlegg(manglende),
+                        generator.url(h.getHendelse()));
+            }
+            return manglende;
+
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
+            return emptyList();
         }
+    }
+
+    private String manglendeVedlegg(ArrayList<String> manglende) {
+        return "Vi mangler følgende vedlegg: " + manglende.toString();
     }
 
     @Override
