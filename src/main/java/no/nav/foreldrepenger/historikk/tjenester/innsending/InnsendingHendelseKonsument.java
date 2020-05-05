@@ -80,16 +80,18 @@ public class InnsendingHendelseKonsument {
 
         try {
             var manglende = new ArrayList<String>();
-            for (var t : innsending.finnForSaksnr(h.getSaksnummer())) {
-                LOG.trace("Avslutter {}", t.getReferanseId());
-                dittNav.avslutt(h.getFnr(), h.getSaksnummer(), t.getReferanseId());
-                LOG.trace("Legger til {} i {}", t.ikkeOpplastedeVedlegg(), manglende);
-                manglende.addAll(t.ikkeOpplastedeVedlegg());
-                LOG.trace("Fjerner {} fra {}", t.opplastedeVedlegg(), manglende);
-                t.opplastedeVedlegg().stream().forEach(manglende::remove);
-                LOG.trace("Ikke sendt inn etter fjerning er {}", manglende);
+            for (var tidligere : innsending.finnForSaksnr(h.getSaksnummer())) {
+                if (!tidligere.ikkeOpplastedeVedlegg().isEmpty() && tidligere.getReferanseId() != h.getReferanseId()) {
+                    LOG.trace("Avslutter tidligere oppgave {}", tidligere.getReferanseId());
+                    dittNav.avslutt(h.getFnr(), h.getSaksnummer(), tidligere.getReferanseId());
+                }
+                LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
+                manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
+                LOG.trace("Fjerner {} fra {}", tidligere.opplastedeVedlegg(), manglende);
+                tidligere.opplastedeVedlegg().stream().forEach(manglende::remove);
+                LOG.trace("Ikke opplastede etter fjerning er {}", manglende);
             }
-            LOG.info("{} ikke-innsendte vedlegg for {} ({})", manglende.size(), h.getSaksnummer(), manglende);
+            LOG.info("Ikke-opplastede vedlegg for {} {}", h.getSaksnummer(), manglende);
             if (!manglende.isEmpty()) {
                 dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), manglendeVedlegg(manglende),
                         generator.url(h.getHendelse()));
