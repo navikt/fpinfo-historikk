@@ -10,7 +10,6 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
@@ -41,16 +40,14 @@ public class InnsendingInnslag extends HistorikkInnslag {
                 .collect(toList());
     }
 
-    @JsonIgnore
-    List<String> getOpplastedeVedleggIds() {
+    List<String> opplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> LASTET_OPP.equals(v.getSecond()))
                 .map(Pair::getFirst)
                 .collect(toList());
     }
 
-    @JsonIgnore
-    List<String> getIkkeOpplastedeVedleggIds() {
+    List<String> ikkeOpplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> SEND_SENERE.equals(v.getSecond()))
                 .map(Pair::getFirst)
