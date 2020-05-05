@@ -52,7 +52,8 @@ public class InnsendingHendelseKonsument {
             avsluttOppgave(h);
         }
         logVedlegg(h);
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), "Vi mottok en " + h.getHendelse(),
+        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
+                "Vi mottok en " + h.getHendelse().beskrivelse,
                 generator.url(h.getHendelse()));
     }
 
