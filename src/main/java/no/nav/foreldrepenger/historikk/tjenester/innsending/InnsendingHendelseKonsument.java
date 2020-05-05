@@ -74,6 +74,7 @@ public class InnsendingHendelseKonsument {
     private List<String> sjekkManglede(InnsendingHendelse h) {
 
         if (h.getSaksnummer() == null) {
+            LOG.warn("Saksnummer ikke satt, søknaden er rutet til GOSYS");
             return emptyList();
         }
 
