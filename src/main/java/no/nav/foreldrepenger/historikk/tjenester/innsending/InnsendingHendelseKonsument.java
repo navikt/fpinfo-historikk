@@ -81,18 +81,13 @@ public class InnsendingHendelseKonsument {
         try {
             var manglende = new ArrayList<String>();
             for (var t : innsending.finnForSaksnr(h.getSaksnummer())) {
-                if (!t.ikkeOpplastedeVedlegg().isEmpty()) {
-                    if (h.getReferanseId() != t.getReferanseId()) {
-                        dittNav.avslutt(h.getFnr(), h.getSaksnummer(), t.getReferanseId());
-                    }
-                    LOG.trace("Legger til {} i {}", t.ikkeOpplastedeVedlegg(), manglende);
-                    manglende.addAll(t.ikkeOpplastedeVedlegg());
-                }
-                if (!t.opplastedeVedlegg().isEmpty()) {
-                    LOG.trace("Fjerner {} fra {}", t.opplastedeVedlegg(), manglende);
-                    t.opplastedeVedlegg().stream().forEach(manglende::remove);
-                    LOG.trace("Ikke sendt inn etter fjerning er {}", manglende);
-                }
+                LOG.trace("Avslutter {}", t.getReferanseId());
+                dittNav.avslutt(h.getFnr(), h.getSaksnummer(), t.getReferanseId());
+                LOG.trace("Legger til {} i {}", t.ikkeOpplastedeVedlegg(), manglende);
+                manglende.addAll(t.ikkeOpplastedeVedlegg());
+                LOG.trace("Fjerner {} fra {}", t.opplastedeVedlegg(), manglende);
+                t.opplastedeVedlegg().stream().forEach(manglende::remove);
+                LOG.trace("Ikke sendt inn etter fjerning er {}", manglende);
             }
             LOG.info("{} ikke-innsendte vedlegg for {} ({})", manglende.size(), h.getSaksnummer(), manglende);
             if (!manglende.isEmpty()) {
@@ -100,7 +95,6 @@ public class InnsendingHendelseKonsument {
                         generator.url(h.getHendelse()));
             }
             return manglende;
-
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
             return emptyList();
