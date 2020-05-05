@@ -81,16 +81,16 @@ public class InnsendingHendelseKonsument {
         try {
             var manglende = new ArrayList<String>();
             for (var t : innsending.finnForSaksnr(h.getSaksnummer())) {
-                if (!t.getIkkeOpplastedeVedleggIds().isEmpty()) {
+                if (!t.ikkeOpplastedeVedlegg().isEmpty()) {
                     if (h.getReferanseId() != t.getReferanseId()) {
                         dittNav.avslutt(h.getFnr(), h.getSaksnummer(), t.getReferanseId());
                     }
-                    LOG.trace("Legger til {} i {}", t.getIkkeOpplastedeVedleggIds(), manglende);
-                    manglende.addAll(t.getIkkeOpplastedeVedleggIds());
+                    LOG.trace("Legger til {} i {}", t.ikkeOpplastedeVedlegg(), manglende);
+                    manglende.addAll(t.ikkeOpplastedeVedlegg());
                 }
-                if (!t.getOpplastedeVedleggIds().isEmpty()) {
-                    LOG.trace("Fjerner {} fra {}", t.getOpplastedeVedleggIds(), manglende);
-                    t.getOpplastedeVedleggIds().stream().forEach(manglende::remove);
+                if (!t.opplastedeVedlegg().isEmpty()) {
+                    LOG.trace("Fjerner {} fra {}", t.opplastedeVedlegg(), manglende);
+                    t.opplastedeVedlegg().stream().forEach(manglende::remove);
                     LOG.trace("Ikke sendt inn etter fjerning er {}", manglende);
                 }
             }

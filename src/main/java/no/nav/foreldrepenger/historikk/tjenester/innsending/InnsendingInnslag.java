@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.data.util.Pair;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
@@ -34,31 +35,23 @@ public class InnsendingInnslag extends HistorikkInnslag {
         this.behandlingsdato = behandlingsdato;
     }
 
-    public List<Pair<String, InnsendingType>> getVedlegg() {
-        return vedlegg;
+    public List<String> getVedlegg() {
+        return vedlegg.stream()
+                .map(Pair::getFirst)
+                .collect(toList());
     }
 
-    public List<String> getOpplastedeVedleggIds() {
-        return getVedlegg().stream()
+    @JsonIgnore
+    List<String> getOpplastedeVedleggIds() {
+        return vedlegg.stream()
                 .filter(v -> LASTET_OPP.equals(v.getSecond()))
                 .map(Pair::getFirst)
                 .collect(toList());
     }
 
-    private List<Pair<String, InnsendingType>> getOpplastedeVedlegg() {
-        return getVedlegg().stream()
-                .filter(v -> LASTET_OPP.equals(v.getSecond()))
-                .collect(toList());
-    }
-
-    private List<Pair<String, InnsendingType>> getIkkeOpplastedeVedlegg() {
-        return getVedlegg().stream()
-                .filter(v -> SEND_SENERE.equals(v.getSecond()))
-                .collect(toList());
-    }
-
-    public List<String> getIkkeOpplastedeVedleggIds() {
-        return getVedlegg().stream()
+    @JsonIgnore
+    List<String> getIkkeOpplastedeVedleggIds() {
+        return vedlegg.stream()
                 .filter(v -> SEND_SENERE.equals(v.getSecond()))
                 .map(Pair::getFirst)
                 .collect(toList());
@@ -75,8 +68,7 @@ public class InnsendingInnslag extends HistorikkInnslag {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[hendelse=" + hendelse + ", behandlingsdato=" + behandlingsdato
-                + ", opplastedeVedlegg=" + getOpplastedeVedlegg() + ", ikkeOpplastedeVedlegg="
-                + getIkkeOpplastedeVedlegg() + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnr()
+                + ", vedlegg=" + vedlegg + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnr()
                 + ", opprettet=" + getOpprettet() + ", aktørId=" + getAktørId() + ", journalpostId="
                 + getJournalpostId() + ", innsendt=" + getInnsendt() + ", fnr=" + getFnr() + "]";
     }
