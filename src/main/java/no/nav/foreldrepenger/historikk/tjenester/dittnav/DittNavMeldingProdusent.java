@@ -105,12 +105,10 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
     }
 
     private static Nokkel beskjedNøkkel(String eventId) {
-        var nøkkel = Nokkel.newBuilder()
+        return Nokkel.newBuilder()
                 .setEventId(eventId)
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
-        LOG.info("Bruker nøkkel med eventId {} og systembruker {}", nøkkel.getEventId(), nøkkel.getSystembruker());
-        return nøkkel;
     }
 
     @Override
