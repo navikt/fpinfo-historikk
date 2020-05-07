@@ -2,8 +2,11 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isDevOrLocal;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjedNøkkel;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgaveNøkkel;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -28,8 +31,6 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
 public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
 
-    private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
-
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
@@ -49,26 +50,41 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
 
     @Transactional(KAFKA_TM)
     @Override
-    public void avslutt(Fødselsnummer fnr, String grupperingsId,
+    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
-        LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", eventId, fnr, grupperingsId);
+        Nokkel key = oppgaveNøkkel(eventId);
+        LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
         if (isDevOrLocal(env)) {
-            send(DittNavMapper.avslutt(fnr, grupperingsId), eventId, config.getDone());
+            send(avslutt(fnr, grupperingsId), key, config.getDone());
         } else {
-            LOG.info("Avslutter ikke oppgaver/beskjeder i prod foreløpig");
+            LOG.info("Avslutter ikke oppgave i prod foreløpig");
+        }
+    }
+
+    @Transactional(KAFKA_TM)
+    @Override
+    public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        Nokkel key = beskjedNøkkel(eventId);
+        LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+        if (isDevOrLocal(env)) {
+            send(avslutt(fnr, grupperingsId), key, config.getDone());
+        } else {
+            LOG.info("Avslutter ikke beskjed i prod foreløpig");
         }
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
+        Nokkel key = beskjedNøkkel(eventId);
         if (grupperingsId != null) {
-            LOG.info("Oppretter beskjed med eventId {} for {} {} {} {} i Ditt Nav", eventId, fnr, grupperingsId, tekst,
+            LOG.info("Oppretter beskjed med eventId {} for {} {} {} {} i Ditt Nav", key.getEventId(), fnr,
+                    grupperingsId, tekst,
                     url);
-            send(beskjed(fnr, grupperingsId, tekst, url, varighet), eventId, config.getBeskjed());
+            send(beskjed(fnr, grupperingsId, tekst, url, varighet), key, config.getBeskjed());
         } else {
             LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-            send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), eventId,
+            send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
                     config.getBeskjed());
         }
     }
@@ -76,49 +92,43 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
-        LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", eventId, fnr, grupperingsId, tekst,
+        Nokkel key = oppgaveNøkkel(eventId);
+        LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
+                tekst,
                 url);
         if (isDevOrLocal(env)) {
-            send(oppgave(fnr, grupperingsId, tekst, url), eventId, config.getOppgave());
+            send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
         } else {
             LOG.info("Lager ikke oppgaver i prod foreløpig");
         }
-
     }
 
-    private void send(Object msg, String eventId, String topic) {
-        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, beskjedNøkkel(eventId), msg);
-        LOG.info("Sender melding med id {} på {}", eventId, topic);
+    private void send(Object msg, Nokkel key, String topic) {
+        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, key, msg);
+        LOG.info("Sender melding med id {} på {}", key.getEventId(), topic);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Object> result) {
-                LOG.info("Sendte melding med id {} og offset {} på {}", eventId,
+                LOG.info("Sendte melding med id {} og offset {} på {}", key.getEventId(),
                         result.getRecordMetadata().offset(), topic);
             }
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding med id {} på {}", eventId, topic, e);
+                LOG.warn("Kunne ikke sende melding med id {} på {}", key.getEventId(), topic, e);
             }
         });
-    }
-
-    private static Nokkel beskjedNøkkel(String eventId) {
-        return Nokkel.newBuilder()
-                .setEventId(eventId)
-                .setSystembruker(SYSTEMBRUKER)
-                .build();
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + ", kafkaOperations=" + kafkaOperations + ", config=" + config + "]";
     }
 
     @Override
     public void setEnvironment(Environment env) {
         this.env = env;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ", kafkaOperations=" + kafkaOperations + ", config=" + config + "]";
     }
 
 }

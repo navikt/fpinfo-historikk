@@ -59,7 +59,7 @@ public class InnsendingHendelseKonsument {
 
     private void avsluttOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
-        dittNav.avslutt(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+        dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
     private void logVedlegg(InnsendingHendelse h) {
@@ -83,7 +83,7 @@ public class InnsendingHendelseKonsument {
             for (var tidligere : innsending.finnForSaksnr(h.getSaksnummer())) {
                 if (!tidligere.ikkeOpplastedeVedlegg().isEmpty() && tidligere.getReferanseId() != h.getReferanseId()) {
                     LOG.trace("Avslutter tidligere oppgave {}", tidligere.getReferanseId());
-                    dittNav.avslutt(h.getFnr(), h.getSaksnummer(), tidligere.getReferanseId());
+                    dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), tidligere.getReferanseId());
                 }
                 LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
                 manglende.addAll(tidligere.ikkeOpplastedeVedlegg());

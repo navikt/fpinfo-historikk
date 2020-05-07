@@ -5,10 +5,13 @@ import java.time.Instant;
 
 import no.nav.brukernotifikasjon.schemas.Beskjed;
 import no.nav.brukernotifikasjon.schemas.Done;
+import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.brukernotifikasjon.schemas.Oppgave;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 final class DittNavMapper {
+
+    private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
     private static final int SIKKERHETSNIVÅ = 3;
 
@@ -42,6 +45,20 @@ final class DittNavMapper {
                 .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
                 .setTekst(tekst)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
+    }
+
+    static Nokkel beskjedNøkkel(String eventId) {
+        return Nokkel.newBuilder()
+                .setEventId("B" + eventId)
+                .setSystembruker(SYSTEMBRUKER)
+                .build();
+    }
+
+    static Nokkel oppgaveNøkkel(String eventId) {
+        return Nokkel.newBuilder()
+                .setEventId("O" + eventId)
+                .setSystembruker(SYSTEMBRUKER)
+                .build();
     }
 
 }

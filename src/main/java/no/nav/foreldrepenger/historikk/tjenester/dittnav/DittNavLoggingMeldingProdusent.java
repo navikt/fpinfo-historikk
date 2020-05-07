@@ -20,11 +20,6 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
     private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 
     @Override
-    public void avslutt(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        LOG.info("Avslutter for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
-    }
-
-    @Override
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
         LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId, url);
     }
@@ -32,5 +27,15 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
     @Override
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
         LOG.info("Oppretter oppgave for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId);
+    }
+
+    @Override
+    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        LOG.info("Avslutter oppgave for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
+    }
+
+    @Override
+    public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        LOG.info("Avslutter beskjed for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
     }
 }
