@@ -75,12 +75,10 @@ public class InnsendingHendelseKonsument {
         try {
             var manglende = new ArrayList<String>();
             var refs = new ArrayList<String>();
+
             for (var tidligere : innsending.finnForSaksnr(h.getSaksnummer())) {
-                if (!tidligere.ikkeOpplastedeVedlegg().isEmpty() && tidligere.getReferanseId() != h.getReferanseId()) {
-                    // LOG.trace("Avslutter tidligere oppgave {}", tidligere.getReferanseId());
+                if (tidligere.getReferanseId() != h.getReferanseId()) {
                     refs.add(tidligere.getReferanseId());
-                    // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(),
-                    // tidligere.getReferanseId());
                 }
                 LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
                 manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
