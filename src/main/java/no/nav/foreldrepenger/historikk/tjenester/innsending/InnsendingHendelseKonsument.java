@@ -3,6 +3,8 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -97,8 +99,16 @@ public class InnsendingHendelseKonsument {
         }
     }
 
-    private static String manglendeVedlegg(ArrayList<String> manglende) {
-        return "Vi mangler følgende vedlegg: " + manglende.toString();
+    private String manglendeVedlegg(List<String> ids) {
+        return "Vi mangler følgende " + ids.size() + " vedlegg: " + beskrivelseFor(ids);
+    }
+
+    private String beskrivelseFor(List<String> ids) {
+        return ids.stream().map(this::beskrivelseFor).collect(Collectors.joining(","));
+    }
+
+    private String beskrivelseFor(String id) {
+        return DokumentType.valueOf(id).getBeskrivelse();
     }
 
     @Override
