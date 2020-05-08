@@ -1,10 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static java.util.Collections.emptyList;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -46,7 +44,9 @@ public class InnsendingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
-        sjekkManglede(h);
+        if (h.getSaksnummer() != null) {
+            sjekkManglede(h);
+        }
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
@@ -71,19 +71,16 @@ public class InnsendingHendelseKonsument {
         }
     }
 
-    private List<String> sjekkManglede(InnsendingHendelse h) {
-
-        if (h.getSaksnummer() == null) {
-            LOG.warn("Saksnummer ikke satt, søknaden er rutet til GOSYS");
-            return emptyList();
-        }
-
+    private void sjekkManglede(InnsendingHendelse h) {
         try {
             var manglende = new ArrayList<String>();
+            var refs = new ArrayList<String>();
             for (var tidligere : innsending.finnForSaksnr(h.getSaksnummer())) {
                 if (!tidligere.ikkeOpplastedeVedlegg().isEmpty() && tidligere.getReferanseId() != h.getReferanseId()) {
-                    LOG.trace("Avslutter tidligere oppgave {}", tidligere.getReferanseId());
-                    dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), tidligere.getReferanseId());
+                    // LOG.trace("Avslutter tidligere oppgave {}", tidligere.getReferanseId());
+                    refs.add(tidligere.getReferanseId());
+                    // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(),
+                    // tidligere.getReferanseId());
                 }
                 LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
                 manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
@@ -91,19 +88,18 @@ public class InnsendingHendelseKonsument {
                 tidligere.opplastedeVedlegg().stream().forEach(manglende::remove);
                 LOG.trace("Ikke opplastede etter fjerning er {}", manglende);
             }
+            refs.stream().forEach(r -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), r));
             LOG.info("Ikke-opplastede vedlegg for {} {}", h.getSaksnummer(), manglende);
             if (!manglende.isEmpty()) {
                 dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(), manglendeVedlegg(manglende),
                         generator.url(h.getHendelse()));
             }
-            return manglende;
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
-            return emptyList();
         }
     }
 
-    private String manglendeVedlegg(ArrayList<String> manglende) {
+    private static String manglendeVedlegg(ArrayList<String> manglende) {
         return "Vi mangler følgende vedlegg: " + manglende.toString();
     }
 
