@@ -7,7 +7,7 @@
 * Krever  Java 11 eller høyere
     
 ---
-# Henvendelser
+# Henvendelser etc
 
 Spørsmål knyttet  til koden eller prosjektet kan rettes til:
 
