@@ -82,6 +82,9 @@ public class InnsendingHendelseKonsument {
                 if (tidligere.getReferanseId() != h.getReferanseId()) {
                     refs.add(tidligere.getReferanseId());
                 }
+                if (tidligere.getHendelse().erInitiell()) {
+                    manglende.clear();
+                }
                 LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
                 manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
                 LOG.trace("Fjerner {} fra {}", tidligere.opplastedeVedlegg(), manglende);

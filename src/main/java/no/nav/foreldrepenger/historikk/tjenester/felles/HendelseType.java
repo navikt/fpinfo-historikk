@@ -72,4 +72,10 @@ public enum HendelseType {
         }
     }
 
+    public boolean erInitiell() {
+        return this.equals(INITIELL_ENGANGSSTØNAD) ||
+                this.equals(INITIELL_FORELDREPENGER) ||
+                this.equals(INITIELL_SVANGERSKAPSPENGER);
+    }
+
 }
