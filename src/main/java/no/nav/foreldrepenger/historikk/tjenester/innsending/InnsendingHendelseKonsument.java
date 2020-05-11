@@ -52,7 +52,6 @@ public class InnsendingHendelseKonsument {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
         }
-        logVedlegg(h);
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
                 "Vi mottok en " + h.getHendelse().beskrivelse,
                 generator.url(h.getHendelse()));
@@ -76,9 +75,10 @@ public class InnsendingHendelseKonsument {
         try {
             var manglende = new ArrayList<String>();
             var refs = new ArrayList<String>();
-
+            logVedlegg(h);
             String saksnummer = Optional.ofNullable(h.getSaksnummer()).orElse(h.getReferanseId());
             for (var tidligere : innsending.finnForSaksnr(saksnummer)) {
+                LOG.trace("Tidligere innsending for {} er {} ", saksnummer, tidligere);
                 if (tidligere.getReferanseId() != h.getReferanseId()) {
                     refs.add(tidligere.getReferanseId());
                 }
@@ -86,7 +86,7 @@ public class InnsendingHendelseKonsument {
                 manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
                 LOG.trace("Fjerner {} fra {}", tidligere.opplastedeVedlegg(), manglende);
                 tidligere.opplastedeVedlegg().stream().forEach(manglende::remove);
-                LOG.trace("Ikke opplastede etter fjerning er {}", manglende);
+                LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
             }
             refs.stream().forEach(r -> dittNav.avsluttOppgave(h.getFnr(), saksnummer, r));
             LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglende);
@@ -106,7 +106,7 @@ public class InnsendingHendelseKonsument {
     private String beskrivelseFor(List<String> ids) {
         return ids.stream()
                 .map(this::beskrivelseFor)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(", "));
     }
 
     private String beskrivelseFor(String id) {
