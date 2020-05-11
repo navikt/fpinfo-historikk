@@ -2,10 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -47,7 +44,7 @@ public class InnsendingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
-        sjekkManglede(h);
+        sjekkMangledeVedlegg(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
@@ -71,49 +68,22 @@ public class InnsendingHendelseKonsument {
         }
     }
 
-    private void sjekkManglede(InnsendingHendelse h) {
+    private void sjekkMangledeVedlegg(InnsendingHendelse h) {
         try {
-            var manglende = new ArrayList<String>();
-            var refs = new ArrayList<String>();
             logVedlegg(h);
             String saksnummer = Optional.ofNullable(h.getSaksnummer()).orElse(h.getReferanseId());
-            for (var tidligere : innsending.finnForSaksnr(saksnummer)) {
-                LOG.trace("Tidligere innsending for {} er {} ", saksnummer, tidligere);
-                if (tidligere.getReferanseId() != h.getReferanseId()) {
-                    refs.add(tidligere.getReferanseId());
-                }
-                if (tidligere.getHendelse().erInitiell()) {
-                    manglende.clear();
-                }
-                LOG.trace("Legger til {} i {}", tidligere.ikkeOpplastedeVedlegg(), manglende);
-                manglende.addAll(tidligere.ikkeOpplastedeVedlegg());
-                LOG.trace("Fjerner {} fra {}", tidligere.opplastedeVedlegg(), manglende);
-                tidligere.opplastedeVedlegg().stream().forEach(manglende::remove);
-                LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
-            }
-            refs.stream().forEach(r -> dittNav.avsluttOppgave(h.getFnr(), saksnummer, r));
-            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglende);
-            if (!manglende.isEmpty()) {
-                dittNav.opprettOppgave(h.getFnr(), saksnummer, h.getReferanseId(), manglendeVedlegg(manglende),
+            VedleggsInfo info = innsending.vedleggsInfo(h.getSaksnummer(), h.getReferanseId());
+            info.getRefs()
+                    .stream()
+                    .forEach(r -> dittNav.avsluttOppgave(h.getFnr(), saksnummer, r));
+            if (info.manglerVedlegg()) {
+                dittNav.opprettOppgave(h.getFnr(), saksnummer, h.getReferanseId(),
+                        info.manglendeVedleggTekst(),
                         generator.url(h.getHendelse()));
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
         }
-    }
-
-    private String manglendeVedlegg(List<String> ids) {
-        return "Vi mangler følgende " + ids.size() + " vedlegg: " + beskrivelseFor(ids);
-    }
-
-    private String beskrivelseFor(List<String> ids) {
-        return ids.stream()
-                .map(this::beskrivelseFor)
-                .collect(Collectors.joining(", "));
-    }
-
-    private String beskrivelseFor(String id) {
-        return DokumentType.valueOf(id).getBeskrivelse();
     }
 
     @Override

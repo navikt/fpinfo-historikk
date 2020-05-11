@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
+import static java.util.Collections.emptyList;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.nyFra;
@@ -8,8 +9,9 @@ import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMap
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPAInnsendingSpec.harAktørId;
 import static org.springframework.data.jpa.domain.Specification.where;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +33,6 @@ public class Innsending {
     public Innsending(JPAInnsendingRepository dao, Oppslag oppslag) {
         this.dao = dao;
         this.oppslag = oppslag;
-    }
-
-    public List<InnsendingInnslag> finnForSaksnr(String saksnr) {
-        return dao.findBySaksnrOrderByOpprettetAsc(saksnr).stream()
-                .map(InnsendingMapper::tilInnslag)
-                .collect(Collectors.toList());
     }
 
     public void lagreEllerOppdater(InnsendingHendelse h) {
@@ -90,6 +86,40 @@ public class Innsending {
         var innslag = tilInnslag(dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC));
         LOG.info("Hentet innsendingsinnslag {}", innslag);
         return innslag;
+    }
+
+    public VedleggsInfo vedleggsInfo(String saksnummer, String currentRef) {
+        try {
+            var manglende = new ArrayList<String>();
+            var refs = new ArrayList<String>();
+            for (var hendelse : hendelserForSaksnr(saksnummer)) {
+                LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
+                if (hendelse.getReferanseId() != currentRef) {
+                    refs.add(hendelse.getReferanseId());
+                }
+                if (hendelse.getHendelse().erInitiell()) {
+                    LOG.trace("Ny førstegangsinnsending for {}, fjerner gamle manglende vedlegg", saksnummer);
+                    manglende.clear();
+                }
+                LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglende);
+                manglende.addAll(hendelse.ikkeOpplastedeVedlegg());
+                LOG.trace("Fjerner {} fra {}", hendelse.opplastedeVedlegg(), manglende);
+                hendelse.opplastedeVedlegg().stream().forEach(manglende::remove);
+                LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
+            }
+            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglende);
+            return new VedleggsInfo(refs, manglende);
+        } catch (Exception e) {
+            LOG.warn("Kunne ikke hente tidligere innsendinger", e);
+            return VedleggsInfo.NONE;
+        }
+    }
+
+    private List<InnsendingInnslag> hendelserForSaksnr(String saksnr) {
+        return Optional.ofNullable(saksnr)
+                .map(dao::findBySaksnrOrderByOpprettetAsc)
+                .map(InnsendingMapper::tilInnslag)
+                .orElse(emptyList());
     }
 
     @Override

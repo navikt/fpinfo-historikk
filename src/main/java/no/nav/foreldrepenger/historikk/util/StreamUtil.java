@@ -38,4 +38,10 @@ public final class StreamUtil {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
         return t -> seen.add(keyExtractor.apply(t));
     }
+
+    public static <T> Predicate<T> from(Predicate<T> test) {
+        boolean[] found = { false };
+        // once found, always true
+        return t -> found[0] || (found[0] = test.test(t));
+    }
 }
