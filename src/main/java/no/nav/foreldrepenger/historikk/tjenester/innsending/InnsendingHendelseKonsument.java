@@ -63,7 +63,7 @@ public class InnsendingHendelseKonsument {
         try {
             logVedlegg(h);
             String saksnummer = Optional.ofNullable(h.getSaksnummer()).orElse(h.getReferanseId());
-            VedleggsInfo info = innsending.vedleggsInfo(h.getSaksnummer(), h.getReferanseId());
+            VedleggsInfo info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             info.getRefs()
                     .stream()
                     .forEach(r -> dittNav.avsluttOppgave(h.getFnr(), saksnummer, r));

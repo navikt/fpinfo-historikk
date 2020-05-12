@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
@@ -88,11 +89,11 @@ public class Innsending {
         return innslag;
     }
 
-    public VedleggsInfo vedleggsInfo(String saksnummer) {
-        return vedleggsInfo(saksnummer, null);
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
+        return vedleggsInfo(fnr, saksnummer, null);
     }
 
-    public VedleggsInfo vedleggsInfo(String saksnummer, String currentRef) {
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
         try {
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
