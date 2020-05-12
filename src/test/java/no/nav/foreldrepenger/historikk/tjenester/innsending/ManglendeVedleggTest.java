@@ -34,7 +34,6 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 @ContextConfiguration(classes = Innsending.class)
 public class ManglendeVedleggTest {
 
-    private static final String REF = "666";
     private static final String SAKSNR = "42";
     @MockBean
     private JPAInnsendingRepository dao;
@@ -46,7 +45,7 @@ public class ManglendeVedleggTest {
 
     @Test
     public void testIngenTidligereHendelser() {
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertFalse(info.manglerVedlegg());
     }
 
@@ -54,7 +53,7 @@ public class ManglendeVedleggTest {
     public void testMangler1() {
         when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000001.name());
@@ -66,7 +65,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000002.name());
@@ -78,7 +77,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertFalse(info.manglerVedlegg());
         assertTrue(info.getManglende().isEmpty());
     }
@@ -89,7 +88,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000001.name());
@@ -102,13 +101,14 @@ public class ManglendeVedleggTest {
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP),
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE, SEND_SENERE),
-                        innslag(I000002, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(SAKSNR, REF);
+                        innslag(I000002, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)))
+                .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, LASTET_OPP)));
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(2, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000002.name());
         assertEquals(info.getManglende().get(1), I000002.name());
-
+        assertFalse(innsending.vedleggsInfo(SAKSNR).manglerVedlegg());
     }
 
     private static JPAInnsendingInnslag innslag(DokumentType id, HendelseType hendelse, String saksnr,

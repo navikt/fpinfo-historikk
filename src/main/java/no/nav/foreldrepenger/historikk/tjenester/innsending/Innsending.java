@@ -88,6 +88,10 @@ public class Innsending {
         return innslag;
     }
 
+    public VedleggsInfo vedleggsInfo(String saksnummer) {
+        return vedleggsInfo(saksnummer, null);
+    }
+
     public VedleggsInfo vedleggsInfo(String saksnummer, String currentRef) {
         try {
             var manglende = new ArrayList<String>();
