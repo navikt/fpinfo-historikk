@@ -94,25 +94,25 @@ public class Innsending {
 
     public VedleggsInfo vedleggsInfo(String saksnummer, String currentRef) {
         try {
-            var manglende = new ArrayList<String>();
-            var refs = new ArrayList<String>();
+            var manglendeDokumentIder = new ArrayList<String>();
+            var eventIder = new ArrayList<String>();
             for (var hendelse : hendelserForSaksnr(saksnummer)) {
                 LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
-                if (hendelse.getReferanseId() != currentRef) {
-                    refs.add(hendelse.getReferanseId());
+                if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
+                    eventIder.add(hendelse.getReferanseId());
                 }
                 if (hendelse.getHendelse().erInitiell()) {
                     LOG.trace("Ny førstegangsinnsending for {}, fjerner gamle manglende vedlegg", saksnummer);
-                    manglende.clear();
+                    manglendeDokumentIder.clear();
                 }
-                LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglende);
-                manglende.addAll(hendelse.ikkeOpplastedeVedlegg());
-                LOG.trace("Fjerner {} fra {}", hendelse.opplastedeVedlegg(), manglende);
-                hendelse.opplastedeVedlegg().stream().forEach(manglende::remove);
-                LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
+                LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglendeDokumentIder);
+                manglendeDokumentIder.addAll(hendelse.ikkeOpplastedeVedlegg());
+                LOG.trace("Fjerner {} fra {}", hendelse.opplastedeVedlegg(), manglendeDokumentIder);
+                hendelse.opplastedeVedlegg().stream().forEach(manglendeDokumentIder::remove);
+                LOG.trace("Ikke-opplastede etter fjerning er {}", manglendeDokumentIder);
             }
-            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglende);
-            return new VedleggsInfo(refs, manglende);
+            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglendeDokumentIder);
+            return new VedleggsInfo(eventIder, manglendeDokumentIder);
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
             return VedleggsInfo.NONE;

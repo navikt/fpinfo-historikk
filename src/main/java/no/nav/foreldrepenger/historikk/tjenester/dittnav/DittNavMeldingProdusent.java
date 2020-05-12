@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isDevOrLocal;
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
@@ -16,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.core.env.Environment;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -29,7 +26,7 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
-public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
+public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
@@ -38,8 +35,6 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
     private final DittNavConfig config;
 
     private final Duration varighet;
-
-    private Environment env;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
             DittNavConfig config, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
@@ -54,11 +49,7 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
             String eventId) {
         Nokkel key = oppgaveNøkkel(eventId);
         LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-        if (isDevOrLocal(env)) {
-            send(avslutt(fnr, grupperingsId), key, config.getDone());
-        } else {
-            LOG.info("Avslutter ikke oppgave i prod foreløpig");
-        }
+        send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
 
     @Transactional(KAFKA_TM)
@@ -66,11 +57,7 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         Nokkel key = beskjedNøkkel(eventId);
         LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-        if (isDevOrLocal(env)) {
-            send(avslutt(fnr, grupperingsId), key, config.getDone());
-        } else {
-            LOG.info("Avslutter ikke beskjed i prod foreløpig");
-        }
+        send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
 
     @Override
@@ -96,11 +83,7 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
         LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
                 tekst,
                 url);
-        if (isDevOrLocal(env)) {
-            send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
-        } else {
-            LOG.info("Lager ikke oppgaver i prod foreløpig");
-        }
+        send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
     }
 
     private void send(Object msg, Nokkel key, String topic) {
@@ -119,11 +102,6 @@ public class DittNavMeldingProdusent implements DittNav, EnvironmentAware {
                 LOG.warn("Kunne ikke sende melding med id {} på {}", key.getEventId(), topic, e);
             }
         });
-    }
-
-    @Override
-    public void setEnvironment(Environment env) {
-        this.env = env;
     }
 
     @Override

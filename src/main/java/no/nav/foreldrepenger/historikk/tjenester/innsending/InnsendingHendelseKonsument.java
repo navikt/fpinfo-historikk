@@ -59,15 +59,6 @@ public class InnsendingHendelseKonsument {
         dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
-    private void logVedlegg(InnsendingHendelse h) {
-        if (!h.getOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
-        }
-        if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
-        }
-    }
-
     private void sjekkMangledeVedlegg(InnsendingHendelse h) {
         try {
             logVedlegg(h);
@@ -83,6 +74,15 @@ public class InnsendingHendelseKonsument {
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
+        }
+    }
+
+    private void logVedlegg(InnsendingHendelse h) {
+        if (!h.getOpplastedeVedlegg().isEmpty()) {
+            LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
+        }
+        if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
+            LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
         }
     }
 
