@@ -25,7 +25,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import no.nav.foreldrepenger.boot.conditionals.ConditionalOnFSS;
+
 @Configuration
+@ConditionalOnFSS
 public class TxConfiguration implements KafkaListenerConfigurer {
 
     public static final String KAFKA_TM = "kafkaTM";

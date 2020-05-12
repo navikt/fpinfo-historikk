@@ -124,6 +124,7 @@ public class Innsending {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[dao=" + dao + "]";
+        return getClass().getSimpleName() + "[dao=" + dao + ", oppslag=" + oppslag + "]";
     }
+
 }

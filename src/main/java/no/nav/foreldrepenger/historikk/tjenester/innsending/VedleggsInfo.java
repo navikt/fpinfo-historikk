@@ -20,6 +20,10 @@ public class VedleggsInfo {
         return refs;
     }
 
+    List<String> getManglende() {
+        return manglende;
+    }
+
     public boolean manglerVedlegg() {
         return !manglende.isEmpty();
     }
