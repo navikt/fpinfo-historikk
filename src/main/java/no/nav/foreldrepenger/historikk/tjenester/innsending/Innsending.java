@@ -92,8 +92,8 @@ public class Innsending {
         return innslag;
     }
 
-    public List<String> manglendeVedlegg(String saksnummer) {
-        return vedleggsInfo(tokenUtil.autentisertFNR(), saksnummer).getManglende();
+    public VedleggsInfo vedleggsInfo(String saksnummer) {
+        return vedleggsInfo(tokenUtil.autentisertFNR(), saksnummer);
     }
 
     VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
