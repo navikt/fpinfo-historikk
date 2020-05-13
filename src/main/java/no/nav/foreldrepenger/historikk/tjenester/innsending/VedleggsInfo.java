@@ -20,7 +20,7 @@ public class VedleggsInfo {
         return refs;
     }
 
-    List<String> getManglende() {
+    public List<String> getManglende() {
         return manglende;
     }
 

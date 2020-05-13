@@ -2,8 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -60,30 +58,22 @@ public class InnsendingHendelseKonsument {
     }
 
     private void sjekkMangledeVedlegg(InnsendingHendelse h) {
+        if (h.getSaksnummer() == null) {
+            LOG.info("Søknaden ble rutet til GOSYS, intet saksnummer");
+            return;
+        }
         try {
-            logVedlegg(h);
-            String saksnummer = Optional.ofNullable(h.getSaksnummer()).orElse(h.getReferanseId());
-            VedleggsInfo info = innsending.vedleggsInfo(h.getFnr(), h.getAktørId(), h.getSaksnummer(),
-                    h.getReferanseId());
+            VedleggsInfo info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             info.getRefs()
                     .stream()
-                    .forEach(r -> dittNav.avsluttOppgave(h.getFnr(), saksnummer, r));
+                    .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
-                dittNav.opprettOppgave(h.getFnr(), saksnummer, h.getReferanseId(),
+                dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
                         info.manglendeVedleggTekst(),
                         generator.url(h.getHendelse()));
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
-        }
-    }
-
-    private void logVedlegg(InnsendingHendelse h) {
-        if (!h.getOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
-        }
-        if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
         }
     }
 

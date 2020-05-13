@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
+import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
@@ -30,10 +31,12 @@ public class Innsending {
 
     private final JPAInnsendingRepository dao;
     private final Oppslag oppslag;
+    private final TokenUtil tokenUtil;
 
-    public Innsending(JPAInnsendingRepository dao, Oppslag oppslag) {
+    public Innsending(JPAInnsendingRepository dao, Oppslag oppslag, TokenUtil tokenUtil) {
         this.dao = dao;
         this.oppslag = oppslag;
+        this.tokenUtil = tokenUtil;
     }
 
     public void lagreEllerOppdater(InnsendingHendelse h) {
@@ -89,21 +92,29 @@ public class Innsending {
         return innslag;
     }
 
-    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, AktørId aktørId, String saksnummer) {
-        return vedleggsInfo(fnr, aktørId, saksnummer, null);
+    public List<String> manglendeVedlegg(String saksnummer) {
+        return vedleggsInfo(tokenUtil.autentisertFNR(), saksnummer).getManglende();
     }
 
-    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, AktørId aktørId, String saksnummer, String currentRef) {
+    VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
+        return vedleggsInfo(fnr, saksnummer, null);
+    }
+
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
+        return vedleggsInfo(hendelserForFnrAndSaksnr(saksnummer, fnr), currentRef);
+    }
+
+    private VedleggsInfo vedleggsInfo(List<InnsendingInnslag> innslag, String currentRef) {
         try {
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
-            for (var hendelse : hendelserForSaksnr(saksnummer)) {
-                LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
+            for (var hendelse : innslag) {
+                LOG.trace("Tidligere innsending er {} ", hendelse);
                 if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
                     eventIder.add(hendelse.getReferanseId());
                 }
                 if (hendelse.getHendelse().erInitiell()) {
-                    LOG.trace("Ny førstegangsinnsending for {}, fjerner gamle manglende vedlegg", saksnummer);
+                    LOG.trace("Ny førstegangsinnsending, fjerner gamle manglende vedlegg");
                     manglendeDokumentIder.clear();
                 }
                 LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglendeDokumentIder);
@@ -112,7 +123,7 @@ public class Innsending {
                 hendelse.opplastedeVedlegg().stream().forEach(manglendeDokumentIder::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglendeDokumentIder);
             }
-            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglendeDokumentIder);
+            LOG.info("Ikke-opplastede vedlegg  {}", manglendeDokumentIder);
             return new VedleggsInfo(eventIder, manglendeDokumentIder);
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
@@ -120,9 +131,9 @@ public class Innsending {
         }
     }
 
-    private List<InnsendingInnslag> hendelserForSaksnr(String saksnr) {
+    private List<InnsendingInnslag> hendelserForFnrAndSaksnr(String saksnr, Fødselsnummer fnr) {
         return Optional.ofNullable(saksnr)
-                .map(dao::findBySaksnrOrderByOpprettetAsc)
+                .map(s -> dao.findBySaksnrAndFnrOrderByOpprettetAsc(s, fnr))
                 .map(InnsendingMapper::tilInnslag)
                 .orElse(emptyList());
     }

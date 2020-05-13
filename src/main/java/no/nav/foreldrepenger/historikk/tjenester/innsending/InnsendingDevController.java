@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 import no.nav.security.token.support.core.api.Unprotected;
 
@@ -49,6 +50,12 @@ public class InnsendingDevController {
     @GetMapping("/søknader")
     public List<InnsendingInnslag> søknader(@RequestParam("aktørId") AktørId id) {
         return innsending.innsendinger(id);
+    }
+
+    @GetMapping("/manglendevedlegg")
+    public List<String> vedlegg(@RequestParam("saksnummer") String saksnummer,
+            @RequestParam("fnr") Fødselsnummer fnr) {
+        return innsending.vedleggsInfo(fnr, saksnummer).getManglende();
     }
 
     @Override
