@@ -26,6 +26,7 @@ public final class InnsendingMapper {
         innslag.setJournalpostId(i.getJournalpostId());
         innslag.setSaksnr(i.getSaksnr());
         innslag.setAktørId(i.getAktørId());
+        innslag.setFnr(i.getFnr());
         innslag.setVedlegg(tilVedlegg(i));
         innslag.setBehandlingsdato(i.getBehandlingsdato());
         innslag.setInnsendt(i.getInnsendt());
@@ -53,6 +54,7 @@ public final class InnsendingMapper {
 
     static JPAInnsendingInnslag oppdaterFra(InnsendingHendelse hendelse, JPAInnsendingInnslag innslag) {
         innslag.setAktørId(hendelse.getAktørId());
+        innslag.setFnr(hendelse.getFnr());
         innslag.setReferanseId(hendelse.getReferanseId());
         innslag.setSaksnr(hendelse.getSaksnummer());
         innslag.setJournalpostId(hendelse.getJournalpostId());

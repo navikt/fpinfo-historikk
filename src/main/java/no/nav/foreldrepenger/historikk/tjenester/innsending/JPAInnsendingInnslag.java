@@ -22,6 +22,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
@@ -34,6 +35,8 @@ public class JPAInnsendingInnslag {
     private int id;
     @Embedded
     private AktørId aktørId;
+    @Embedded
+    private Fødselsnummer fnr;
     private String journalpostId;
     private String saksnr;
     @Enumerated(STRING)
@@ -140,6 +143,14 @@ public class JPAInnsendingInnslag {
                 + ", saksnr=" + saksnr + ", hendelse=" + hendelse + ", opprettet=" + opprettet + ", vedlegg=" + vedlegg
                 + ", behandlingsdato=" + behandlingsdato + ", referanseId=" + referanseId + ", innsendt=" + innsendt
                 + "]";
+    }
+
+    public Fødselsnummer getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(Fødselsnummer fnr) {
+        this.fnr = fnr;
     }
 
 }

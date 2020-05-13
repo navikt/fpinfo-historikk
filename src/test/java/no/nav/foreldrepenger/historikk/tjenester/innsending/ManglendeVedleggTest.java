@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -26,6 +27,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
@@ -36,6 +38,8 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 public class ManglendeVedleggTest {
 
     private static final String SAKSNR = "42";
+    private static final AktørId AKTØR = AktørId.valueOf("666");
+
     private static final Fødselsnummer FNR = Fødselsnummer.valueOf("01010111111");
     @MockBean
     private JPAInnsendingRepository dao;
@@ -45,25 +49,30 @@ public class ManglendeVedleggTest {
     @Autowired
     private Innsending innsending;
 
+    @BeforeEach
+    public void init() {
+        when(oppslag.aktørId()).thenReturn(AKTØR);
+    }
+
     @Test
     public void testIngenTidligereHendelser() {
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
-        assertFalse(info.manglerVedlegg());
+        assertFalse(innsending.vedleggsInfo(SAKSNR).manglerVedlegg());
+        assertFalse(innsending.vedleggsInfo(FNR, SAKSNR).manglerVedlegg());
     }
 
     @Test
     public void testMangler1() {
-        when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
+        when(dao.findBySaksnrAndAktørIdOrderByOpprettetAsc(eq(AKTØR), eq(SAKSNR)))
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000001.name());
     }
 
     @Test
-    public void testSisteInitielleOverskriverGamle() {
-        when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
+    public void testSisteInitielleOverskriverGamleFNR() {
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(FNR), eq(SAKSNR)))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
@@ -74,19 +83,31 @@ public class ManglendeVedleggTest {
     }
 
     @Test
+    public void testSisteInitielleOverskriverGamleAktør() {
+        when(dao.findBySaksnrAndAktørIdOrderByOpprettetAsc(eq(AKTØR), eq(SAKSNR)))
+                .thenReturn(List.of(
+                        innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
+                        innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
+        var info = innsending.vedleggsInfo(SAKSNR);
+        assertTrue(info.manglerVedlegg());
+        assertEquals(1, info.getManglende().size());
+        assertEquals(info.getManglende().get(0), I000002.name());
+    }
+
+    @Test
     public void testInnsendingAvManglende() {
-        when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(FNR), eq(SAKSNR)))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(SAKSNR);
         assertFalse(info.manglerVedlegg());
         assertTrue(info.getManglende().isEmpty());
     }
 
     @Test
     public void testInnsendingAvManglende1() {
-        when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(FNR), eq(SAKSNR)))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
@@ -98,7 +119,7 @@ public class ManglendeVedleggTest {
 
     @Test
     public void testInnsendingAvManglende2() {
-        when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(FNR), eq(SAKSNR)))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP),
@@ -117,6 +138,8 @@ public class ManglendeVedleggTest {
             InnsendingType... typer) {
         var innslag = new JPAInnsendingInnslag();
         innslag.setId(id.ordinal());
+        innslag.setFnr(FNR);
+        innslag.setAktørId(AKTØR);
         innslag.setHendelse(hendelse);
         innslag.setSaksnr(saksnr);
         innslag.setInnsendt(LocalDateTime.now());

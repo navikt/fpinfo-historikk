@@ -51,6 +51,12 @@ public class HistorikkController {
         return inntektsmelding.inntektsmeldinger();
     }
 
+    @GetMapping("/me/manglendevedlegg")
+    public List<String> vedlegg(@RequestParam String saksnummer) {
+        LOG.info("Henter manglende vedlegg for pålogget bruker");
+        return innsending.manglendeVedlegg(saksnummer);
+    }
+
     @GetMapping("/me/minidialoger")
     public List<TilbakekrevingInnslag> tilbakekrevinger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");

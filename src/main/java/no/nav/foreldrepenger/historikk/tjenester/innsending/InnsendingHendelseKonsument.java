@@ -61,7 +61,6 @@ public class InnsendingHendelseKonsument {
 
     private void sjekkMangledeVedlegg(InnsendingHendelse h) {
         try {
-            logVedlegg(h);
             String saksnummer = Optional.ofNullable(h.getSaksnummer()).orElse(h.getReferanseId());
             VedleggsInfo info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             info.getRefs()
@@ -74,15 +73,6 @@ public class InnsendingHendelseKonsument {
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
-        }
-    }
-
-    private void logVedlegg(InnsendingHendelse h) {
-        if (!h.getOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er  lastet opp {}", h.getHendelse(), h.getOpplastedeVedlegg());
-        }
-        if (!h.getIkkeOpplastedeVedlegg().isEmpty()) {
-            LOG.info("({}) Følgende vedlegg er IKKE lastet opp {}", h.getHendelse(), h.getIkkeOpplastedeVedlegg());
         }
     }
 

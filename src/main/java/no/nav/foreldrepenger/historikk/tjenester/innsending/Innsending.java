@@ -89,21 +89,33 @@ public class Innsending {
         return innslag;
     }
 
+    public List<String> manglendeVedlegg(String saksnummer) {
+        return vedleggsInfo(saksnummer).getManglende();
+    }
+
+    public VedleggsInfo vedleggsInfo(String saksnummer) {
+        return vedleggsInfo(hendelser(oppslag.aktørId(), saksnummer), null);
+    }
+
     public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
         return vedleggsInfo(fnr, saksnummer, null);
     }
 
-    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String referanseId) {
+        return vedleggsInfo(hendelser(fnr, saksnummer), referanseId);
+    }
+
+    public VedleggsInfo vedleggsInfo(List<InnsendingInnslag> hendelser, String currentRef) {
         try {
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
-            for (var hendelse : hendelserForSaksnr(saksnummer)) {
-                LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
+            for (var hendelse : hendelser) {
+                LOG.trace("Tidligere innsending for {} er {} ", hendelse.getSaksnr(), hendelse);
                 if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
                     eventIder.add(hendelse.getReferanseId());
                 }
                 if (hendelse.getHendelse().erInitiell()) {
-                    LOG.trace("Ny førstegangsinnsending for {}, fjerner gamle manglende vedlegg", saksnummer);
+                    LOG.trace("Ny førstegangsinnsending for {}, fjerner gamle manglende vedlegg", hendelse.getSaksnr());
                     manglendeDokumentIder.clear();
                 }
                 LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglendeDokumentIder);
@@ -112,7 +124,6 @@ public class Innsending {
                 hendelse.opplastedeVedlegg().stream().forEach(manglendeDokumentIder::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglendeDokumentIder);
             }
-            LOG.info("Ikke-opplastede vedlegg for {} {}", saksnummer, manglendeDokumentIder);
             return new VedleggsInfo(eventIder, manglendeDokumentIder);
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
@@ -120,9 +131,16 @@ public class Innsending {
         }
     }
 
-    private List<InnsendingInnslag> hendelserForSaksnr(String saksnr) {
+    private List<InnsendingInnslag> hendelser(AktørId aktørId, String saksnr) {
         return Optional.ofNullable(saksnr)
-                .map(dao::findBySaksnrOrderByOpprettetAsc)
+                .map(s -> dao.findBySaksnrAndAktørIdOrderByOpprettetAsc(aktørId, s))
+                .map(InnsendingMapper::tilInnslag)
+                .orElse(emptyList());
+    }
+
+    private List<InnsendingInnslag> hendelser(Fødselsnummer fnr, String saksnr) {
+        return Optional.ofNullable(saksnr)
+                .map(s -> dao.findBySaksnrAndFnrOrderByOpprettetAsc(fnr, s))
                 .map(InnsendingMapper::tilInnslag)
                 .orElse(emptyList());
     }
