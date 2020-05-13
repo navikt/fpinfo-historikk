@@ -29,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
+import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -42,6 +43,8 @@ public class ManglendeVedleggTest {
     private JPAInnsendingRepository dao;
     @MockBean
     private Oppslag oppslag;
+    @MockBean
+    private TokenUtil tokenUtil;
 
     @Autowired
     private Innsending innsending;
