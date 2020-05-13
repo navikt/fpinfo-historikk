@@ -96,7 +96,7 @@ public class Innsending {
     public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
         try {
             // var aktørId = oppslag.aktørId();
-            LOG.info("AktørID for {} er {}", fnr, aktørId);
+            // LOG.info("AktørID for {} er {}", fnr, aktørId);
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
             for (var hendelse : hendelserForSaksnrAndAktørId(saksnummer/* , aktørId */)) {
