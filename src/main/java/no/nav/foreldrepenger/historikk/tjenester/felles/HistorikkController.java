@@ -46,7 +46,7 @@ public class HistorikkController {
     }
 
     @GetMapping("/me/manglendevedlegg")
-    public List<String> manglendeVedlegg(@RequestParam String saksnummer) {
+    public List<String> manglendeVedlegg(@RequestParam(name = "saksnummer") String saksnummer) {
         LOG.info("Henter manglende vedlegg for pålogget bruker");
         return innsending.vedleggsInfo(saksnummer).getManglende();
     }
