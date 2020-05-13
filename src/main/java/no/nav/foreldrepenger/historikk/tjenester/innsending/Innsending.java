@@ -95,11 +95,11 @@ public class Innsending {
 
     public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
         try {
-            var aktørId = oppslag.aktørId();
+            // var aktørId = oppslag.aktørId();
             LOG.info("AktørID for {} er {}", fnr, aktørId);
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
-            for (var hendelse : hendelserForSaksnrAndAktørId(saksnummer, aktørId)) {
+            for (var hendelse : hendelserForSaksnrAndAktørId(saksnummer/* , aktørId */)) {
                 LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
                 if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
                     eventIder.add(hendelse.getReferanseId());
@@ -122,7 +122,7 @@ public class Innsending {
         }
     }
 
-    private List<InnsendingInnslag> hendelserForSaksnrAndAktørId(String saksnr, AktørId id) {
+    private List<InnsendingInnslag> hendelserForSaksnrAndAktørId(String saksnr/* , AktørId id */) {
         return Optional.ofNullable(saksnr)
                 .map(dao::findBySaksnrOrderByOpprettetAsc)
                 .map(InnsendingMapper::tilInnslag)
