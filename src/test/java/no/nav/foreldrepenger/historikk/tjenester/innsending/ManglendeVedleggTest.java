@@ -26,6 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
@@ -37,6 +38,8 @@ public class ManglendeVedleggTest {
 
     private static final String SAKSNR = "42";
     private static final Fødselsnummer FNR = Fødselsnummer.valueOf("01010111111");
+    private static final AktørId AKTØR = AktørId.valueOf("666");
+
     @MockBean
     private JPAInnsendingRepository dao;
     @MockBean
@@ -47,7 +50,7 @@ public class ManglendeVedleggTest {
 
     @Test
     public void testIngenTidligereHendelser() {
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertFalse(info.manglerVedlegg());
     }
 
@@ -55,7 +58,7 @@ public class ManglendeVedleggTest {
     public void testMangler1() {
         when(dao.findBySaksnrOrderByOpprettetAsc(eq(SAKSNR)))
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000001.name());
@@ -67,7 +70,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000002.name());
@@ -79,7 +82,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertFalse(info.manglerVedlegg());
         assertTrue(info.getManglende().isEmpty());
     }
@@ -90,7 +93,7 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(1, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000001.name());
@@ -105,12 +108,12 @@ public class ManglendeVedleggTest {
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE, SEND_SENERE),
                         innslag(I000002, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)))
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, LASTET_OPP)));
-        var info = innsending.vedleggsInfo(FNR, SAKSNR);
+        var info = innsending.vedleggsInfo(FNR, AKTØR, SAKSNR);
         assertTrue(info.manglerVedlegg());
         assertEquals(2, info.getManglende().size());
         assertEquals(info.getManglende().get(0), I000002.name());
         assertEquals(info.getManglende().get(1), I000002.name());
-        assertFalse(innsending.vedleggsInfo(FNR, SAKSNR).manglerVedlegg());
+        assertFalse(innsending.vedleggsInfo(FNR, AKTØR, SAKSNR).manglerVedlegg());
     }
 
     private static JPAInnsendingInnslag innslag(DokumentType id, HendelseType hendelse, String saksnr,

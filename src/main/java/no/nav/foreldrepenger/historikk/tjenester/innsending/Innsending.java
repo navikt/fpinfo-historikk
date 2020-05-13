@@ -89,17 +89,15 @@ public class Innsending {
         return innslag;
     }
 
-    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
-        return vedleggsInfo(fnr, saksnummer, null);
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, AktørId aktørId, String saksnummer) {
+        return vedleggsInfo(fnr, aktørId, saksnummer, null);
     }
 
-    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer, String currentRef) {
+    public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, AktørId aktørId, String saksnummer, String currentRef) {
         try {
-            // var aktørId = oppslag.aktørId();
-            // LOG.info("AktørID for {} er {}", fnr, aktørId);
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();
-            for (var hendelse : hendelserForSaksnrAndAktørId(saksnummer/* , aktørId */)) {
+            for (var hendelse : hendelserForSaksnr(saksnummer)) {
                 LOG.trace("Tidligere innsending for {} er {} ", saksnummer, hendelse);
                 if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
                     eventIder.add(hendelse.getReferanseId());
@@ -122,7 +120,7 @@ public class Innsending {
         }
     }
 
-    private List<InnsendingInnslag> hendelserForSaksnrAndAktørId(String saksnr/* , AktørId id */) {
+    private List<InnsendingInnslag> hendelserForSaksnr(String saksnr) {
         return Optional.ofNullable(saksnr)
                 .map(dao::findBySaksnrOrderByOpprettetAsc)
                 .map(InnsendingMapper::tilInnslag)
