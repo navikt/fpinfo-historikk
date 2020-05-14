@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnDev;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
@@ -28,12 +29,14 @@ public class HistorikkDevController {
     private final Innsending søknad;
     private final Inntektsmelding inntektsmelding;
     private final Tilbakekreving tilbakekreving;
+    private final Innsending innsending;
 
     HistorikkDevController(Innsending søknad, Inntektsmelding inntektsmelding,
-            Tilbakekreving tilbakekreving) {
+            Tilbakekreving tilbakekreving, Innsending innsending) {
         this.søknad = søknad;
         this.inntektsmelding = inntektsmelding;
         this.tilbakekreving = tilbakekreving;
+        this.innsending = innsending;
     }
 
     @GetMapping
@@ -42,5 +45,10 @@ public class HistorikkDevController {
                 concat(inntektsmelding.inntektsmeldinger(id).stream(), søknad.innsendinger(id).stream()))
                         .sorted()
                         .collect(toList());
+    }
+
+    @GetMapping("/vedlegg")
+    public List<String> vedlegg(@RequestParam("fnr") Fødselsnummer fnr, @RequestParam("saksnummer") String saksnummer) {
+        return innsending.vedleggsInfo(fnr, saksnummer).getManglende();
     }
 }
