@@ -22,7 +22,7 @@ historikk:
 spring:
    datasource:
       url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
-   http:
+   mvc:
       log-request-details: true
    kafka:
       properties:

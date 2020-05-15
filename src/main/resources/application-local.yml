@@ -39,7 +39,7 @@ spring:
          ddl-auto: update
    flyway:
       enabled: false
-   http:
+   mvc:
       log-request-details: false
    kafka:
       properties:
