@@ -13,10 +13,10 @@ spec:
       max: 2
       cpuThresholdPercentage: 50  
   liveness:
-      path: api/actuator/info
+      path: api/actuator/health/liveness
       initialDelay: 60
   readiness:
-      path: api/actuator/info
+      path: api/actuator/health/readiness
       initialDelay: 60  
   prometheus:
       enabled: true
