@@ -7,7 +7,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTyp
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.data.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,21 +36,21 @@ public class InnsendingInnslag extends HistorikkInnslag {
 
     public List<String> getVedlegg() {
         return vedlegg.stream()
-                .map(Pair::getFirst)
+                .map(Pair::getLeft)
                 .collect(toList());
     }
 
     List<String> opplastedeVedlegg() {
         return vedlegg.stream()
-                .filter(v -> LASTET_OPP.equals(v.getSecond()))
-                .map(Pair::getFirst)
+                .filter(v -> LASTET_OPP.equals(v.getRight()))
+                .map(Pair::getLeft)
                 .collect(toList());
     }
 
     List<String> ikkeOpplastedeVedlegg() {
         return vedlegg.stream()
-                .filter(v -> SEND_SENERE.equals(v.getSecond()))
-                .map(Pair::getFirst)
+                .filter(v -> SEND_SENERE.equals(v.getRight()))
+                .map(Pair::getLeft)
                 .collect(toList());
     }
 
