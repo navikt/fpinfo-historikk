@@ -26,18 +26,7 @@
 		</turboFilter>
 	</springProfile>
 	<springProfile name="dev-fss,local">
-	    <logger name="org.springframework.vault" level="trace" />
-		<logger name="no.nav.foreldrepenger" level="info" />
-		<logger name="org.springframework.web.client.RestOperations" level="trace" />	
-		<logger name="org.flywaydb" level="info" />
-		<logger name="org.springframework.kafka" level="warn" />
-		<logger name="no.nav.security.spring" level="info" />
-		<logger name="org.springframework.transaction" level="info" />
-		<logger name="org.hibernate" level="info" />
-		<logger name="org.apache.kafka.transaction" level="info" />
-		<logger name="org.hibernate.SQL" level="trace" />
-		<logger name="org.springframework.kafka.listener.DeadLetterPublishingRecoverer" level="info" />
-		<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
+		<logger name="no.nav.foreldrepenger" level="trace" />
 	</springProfile>
 </configuration>
 
