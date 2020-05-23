@@ -25,6 +25,9 @@ historikk:
 server:
    port: 9001    
 spring:
+   output:
+    ansi:
+      enabled: always
    application:
       admin:
          enabled: true
