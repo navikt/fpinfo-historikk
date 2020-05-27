@@ -4,7 +4,7 @@
 * Kjør   ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
 
 ## Bygg
-* Krever  Java 11+
+* Krever  Java 11+  
     
 ---
 # Henvendelser
@@ -15,5 +15,5 @@ Spørsmål knyttet  til koden eller prosjektet kan rettes til:
 
 ## For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen #fp-teknisk.
+Interne henvendelser kan sendes via Slack i kanalen #fp-teknisk.  
 
