@@ -41,10 +41,9 @@ public class Inntektsmelding {
             dao.save(fraHendelse(hendelse));
             LOG.info("Lagret inntektsmeldinginnslag OK");
             return true;
-        } else {
-            LOG.info("Hendelse {} er allerede lagret", hendelse);
-            return false;
         }
+        LOG.info("inntektsmeldinginnslag fra hendelse {} er allerede lagret", hendelse);
+        return false;
     }
 
     @Transactional(readOnly = true)
