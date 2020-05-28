@@ -41,7 +41,7 @@ public class InntektsmeldingDevController {
 
     @PostMapping("/lagreInntektsmelding")
     public ResponseEntity<?> lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        boolean lagret = inntektsmelding.opprettOppgave(hendelse);
+        boolean lagret = inntektsmelding.lagre(hendelse);
         ResponseEntity<Object> created = status(CREATED).build();
         return lagret ? created : conflict(hendelse);
     }

@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.felles.IdempotentTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendelse> {
+public class Inntektsmelding {
 
     private static final String INGEN_REFERANSE = "INGEN";
 
@@ -36,8 +35,7 @@ public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendel
         this.oppslag = oppslag;
     }
 
-    @Override
-    public boolean opprettOppgave(InntektsmeldingHendelse hendelse) {
+    public boolean lagre(InntektsmeldingHendelse hendelse) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
             LOG.info("Lagrer inntektsmeldinginnslag fra hendelse {}", hendelse);
             dao.save(fraHendelse(hendelse));
@@ -63,7 +61,6 @@ public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendel
         return innslag;
     }
 
-    @Override
     public boolean erAlleredeLagret(String referanseId) {
         LOG.info("Sjekker referanse {}", referanseId);
         if (INGEN_REFERANSE.equals(referanseId)) {
