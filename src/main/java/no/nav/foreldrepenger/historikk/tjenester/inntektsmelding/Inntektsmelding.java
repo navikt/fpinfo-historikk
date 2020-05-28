@@ -21,6 +21,8 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 @Transactional(JPA_TM)
 public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendelse> {
 
+    private static final String INGEN_REFERANSE = "INGEN";
+
     private static final Logger LOG = LoggerFactory.getLogger(Inntektsmelding.class);
 
     private final JPAInntektsmeldingRepository dao;
@@ -63,7 +65,7 @@ public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendel
 
     @Override
     public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && dao.findByReferanseId(referanseId) != null;
+        return referanseId != null && referanseId != INGEN_REFERANSE && dao.findByReferanseId(referanseId) != null;
     }
 
     @Override
