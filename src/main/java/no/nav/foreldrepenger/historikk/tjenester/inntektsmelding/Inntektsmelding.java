@@ -44,7 +44,7 @@ public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendel
             LOG.info("Lagret inntektsmeldinginnslag OK");
             return true;
         } else {
-            LOG.info("Hendelse med referanseId {} er allerede lagret", hendelse.getReferanseId());
+            LOG.info("Hendelse {} er allerede lagret", hendelse);
             return false;
         }
     }
@@ -65,7 +65,11 @@ public class Inntektsmelding implements IdempotentTjeneste<InntektsmeldingHendel
 
     @Override
     public boolean erAlleredeLagret(String referanseId) {
-        return referanseId != null && referanseId != INGEN_REFERANSE && dao.findByReferanseId(referanseId) != null;
+        LOG.info("Sjekker referanse {}", referanseId);
+        if (INGEN_REFERANSE.equals(referanseId)) {
+            return false;
+        }
+        return referanseId != null && dao.findByReferanseId(referanseId) != null;
     }
 
     @Override
