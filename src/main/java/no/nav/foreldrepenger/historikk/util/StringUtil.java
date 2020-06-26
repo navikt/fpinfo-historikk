@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import org.springframework.util.CollectionUtils;
 
-import com.google.common.base.Strings;
-
 public final class StringUtil {
     private static final String DEFAULT_FLERTALL = "er";
     private static final int DEFAULT_LENGTH = 50;
@@ -38,7 +36,7 @@ public final class StringUtil {
     }
 
     public static String mask(String value) {
-        return (value != null) && (value.length() == 11) ? Strings.padEnd(value.substring(0, 6), 11, '*') : value;
+        return (value != null) && (value.length() == 11) ? padEnd(value.substring(0, 6), 11, '*') : value;
     }
 
     public static String flertall(int n) {
@@ -50,5 +48,19 @@ public final class StringUtil {
             return flertall;
         }
         return "";
+    }
+
+    public static String padEnd(String string, int minLength, char padChar) {
+        if (string == null)
+            return null;
+        if (string.length() >= minLength) {
+            return string;
+        }
+        StringBuilder sb = new StringBuilder(minLength);
+        sb.append(string);
+        for (int i = string.length(); i < minLength; i++) {
+            sb.append(padChar);
+        }
+        return sb.toString();
     }
 }

@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static com.google.common.collect.Sets.newHashSet;
 import static io.swagger.models.Scheme.HTTP;
 import static io.swagger.models.Scheme.HTTPS;
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isLocal;
@@ -15,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 public class SwaggerConfiguration implements EnvironmentAware {
     private Environment env;
 
@@ -32,7 +31,7 @@ public class SwaggerConfiguration implements EnvironmentAware {
     }
 
     private Set<String> protocol() {
-        return isLocal(env) ? newHashSet(HTTP.toValue()) : newHashSet(HTTPS.toValue());
+        return isLocal(env) ? Set.of(HTTP.toValue()) : Set.of(HTTPS.toValue());
     }
 
     @Override

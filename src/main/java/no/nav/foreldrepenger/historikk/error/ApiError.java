@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.collect.Lists;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError {
@@ -60,7 +59,7 @@ public class ApiError {
     }
 
     private static List<String> messages(Throwable t, List<Object> objects) {
-        List<Object> messages = Lists.newArrayList(objects);
+        List<Object> messages = List.of(objects);
         if (t != null) {
             messages.add(getMostSpecificCause(t).getMessage());
         }

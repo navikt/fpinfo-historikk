@@ -1,9 +1,10 @@
 package no.nav.foreldrepenger.historikk.domain;
 
+import java.util.Objects;
+
 import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.google.common.base.Objects;
 
 import io.swagger.annotations.ApiModelProperty;
 

@@ -2,10 +2,11 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import static no.nav.foreldrepenger.historikk.util.StringUtil.mask;
 
+import java.util.Objects;
+
 import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.google.common.base.Objects;
 
 @Embeddable
 public class Fødselsnummer {
