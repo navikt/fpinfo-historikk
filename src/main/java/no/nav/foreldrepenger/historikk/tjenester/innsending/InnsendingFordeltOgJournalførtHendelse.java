@@ -30,6 +30,7 @@ public class InnsendingFordeltOgJournalførtHendelse extends Hendelse {
         return forsendelseId;
     }
 
+    @Override
     public Fødselsnummer getFnr() {
         return fnr;
     }

@@ -43,18 +43,16 @@ public class InntektsmeldingDevController {
     public ResponseEntity<?> lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
         boolean lagret = inntektsmelding.lagre(hendelse);
         ResponseEntity<Object> created = status(CREATED).build();
-        return lagret ? created : conflict(hendelse);
-    }
-
-    private ResponseEntity<ApiError> conflict(InntektsmeldingHendelse hendelse) {
-        return status(CONFLICT)
-                .body(new ApiError(CONFLICT,
-                        "referanseId " + hendelse.getReferanseId() + " er allerede lagret"));
+        return lagret ? created : conflict(hendelse.getReferanseId());
     }
 
     @GetMapping("/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger(@RequestParam("aktørId") AktørId id) {
         return inntektsmelding.inntektsmeldinger(id);
+    }
+
+    private static ResponseEntity<ApiError> conflict(String id) {
+        return status(CONFLICT).body(new ApiError(CONFLICT, "referanseId " + id + " er allerede lagret"));
     }
 
     @Override

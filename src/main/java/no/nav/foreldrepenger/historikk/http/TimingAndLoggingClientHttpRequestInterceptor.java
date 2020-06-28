@@ -42,7 +42,7 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
                 .tags("uri", uri.getPath(), "method", request.getMethodValue(), "host", uri.getHost())
                 .publishPercentiles(0.5, 0.95)
                 .publishPercentileHistogram()
-                .sla(Duration.ofMillis(100))
+                .serviceLevelObjectives(Duration.ofMillis(100))
                 .minimumExpectedValue(Duration.ofMillis(100))
                 .maximumExpectedValue(Duration.ofSeconds(1))
                 .register(registry);

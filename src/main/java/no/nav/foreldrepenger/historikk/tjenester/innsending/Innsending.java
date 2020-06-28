@@ -104,7 +104,7 @@ public class Innsending {
         return vedleggsInfo(hendelserForFnrAndSaksnr(saksnummer, fnr), currentRef);
     }
 
-    private VedleggsInfo vedleggsInfo(List<InnsendingInnslag> innslag, String currentRef) {
+    private static VedleggsInfo vedleggsInfo(List<InnsendingInnslag> innslag, String currentRef) {
         try {
             var manglendeDokumentIder = new ArrayList<String>();
             var eventIder = new ArrayList<String>();

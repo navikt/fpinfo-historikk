@@ -6,16 +6,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "false")
 public class DittNavLoggingMeldingProdusent implements DittNav {
-    private final UrlGenerator urlGenerator;
-
-    public DittNavLoggingMeldingProdusent(UrlGenerator urlGenerator) {
-        this.urlGenerator = urlGenerator;
-    }
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 

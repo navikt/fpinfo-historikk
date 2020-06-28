@@ -14,8 +14,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.EnvironmentAware;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +23,12 @@ import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Transactional(JPA_TM)
-public class Tilbakekreving implements EnvironmentAware {
+public class Tilbakekreving {
 
     private static final Logger LOG = LoggerFactory.getLogger(Tilbakekreving.class);
 
     private final JPATilbakekrevingRepository dao;
     private final Oppslag oppslag;
-
-    private Environment env;
 
     public Tilbakekreving(JPATilbakekrevingRepository dao, Oppslag oppslag) {
         this.dao = dao;
@@ -97,11 +93,6 @@ public class Tilbakekreving implements EnvironmentAware {
                 .collect(toList());
         LOG.info("Hentet {} tilbakekrevingsdialog{}", spm.size(), flertall(spm));
         return spm;
-    }
-
-    @Override
-    public void setEnvironment(Environment env) {
-        this.env = env;
     }
 
     @Override

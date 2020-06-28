@@ -3,8 +3,6 @@ package no.nav.foreldrepenger.historikk;
 import static no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver.profiles;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
-import java.io.IOException;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -29,7 +27,7 @@ import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration;
 @Import(value = TokenGeneratorConfiguration.class)
 @ComponentScan(excludeFilters = { @Filter(type = ASSIGNABLE_TYPE, value = FPInfoHistorikkApplication.class) })
 public class FPInfoHistorikkApplicationLocal {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new SpringApplicationBuilder(FPInfoHistorikkApplicationLocal.class)
                 .profiles(profiles())
                 .main(FPInfoHistorikkApplicationLocal.class)
