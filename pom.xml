@@ -248,5 +248,9 @@
             <artifactId>boot-conditionals</artifactId>
             <version>1.0.20200618143940-e78f33f</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 </project>
