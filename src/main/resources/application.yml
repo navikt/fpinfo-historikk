@@ -94,7 +94,7 @@ spring:
          sasl:
             mechanism: PLAIN
             jaas:
-               config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
+               config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
       consumer:
          enable-auto-commit: false
          bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
