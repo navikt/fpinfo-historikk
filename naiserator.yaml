@@ -2,7 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: fpinfo-historikk
-  namespace: default
+  namespace: teamforeldrepenger
   labels:
     team: teamforeldrepenger
 spec:
@@ -36,5 +36,3 @@ spec:
       requests:
         cpu: 250m
         memory: 1536Mi 
-  vault:
-      enabled: false      
