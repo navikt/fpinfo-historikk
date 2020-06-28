@@ -37,4 +37,4 @@ spec:
         cpu: 250m
         memory: 1536Mi 
   vault:
-      enabled: true      
+      enabled: false      
