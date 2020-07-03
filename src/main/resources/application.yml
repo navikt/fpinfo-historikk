@@ -17,6 +17,7 @@ historikk:
       enabled: true
       topic: privat-foreldrepenger-brukerdialog-inntektsmelding   
    oppslag:
+      uri: http://fpsoknad-oppslag.default/api
       enabled: true     
    innsending:
       søknad:
