@@ -1,5 +1,0 @@
-{
-  "namespace" : "default",
-  "ingresses":  ["https://fpinfo-historikk.nais.adeo.no",
-                 "https://fpinfo-historikk.prod-fss.nais.io"]
-}
