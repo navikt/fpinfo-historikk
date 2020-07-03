@@ -1,5 +1,5 @@
 {
-  "namespace" : "default",
+  "namespace" : "teamforeldrepenger",
   "ingresses":  ["https://fpinfo-historikk.nais.preprod.local", 
                  "https://fpinfo-historikk.dev-fss.nais.io"]
 }
