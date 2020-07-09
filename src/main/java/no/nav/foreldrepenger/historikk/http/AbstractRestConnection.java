@@ -13,7 +13,6 @@ import org.slf4j.MarkerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
@@ -55,7 +54,7 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
             return null;
         }
         try {
-            T respons = restOperations.getForObject(uri, responseType);
+            var respons = restOperations.getForObject(uri, responseType);
             if (respons != null) {
                 LOG.trace(CONFIDENTIAL, RESPONS, respons);
             }
@@ -81,7 +80,7 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
             return null;
         }
         try {
-            ResponseEntity<T> respons = restOperations.getForEntity(uri, responseType);
+            var respons = restOperations.getForEntity(uri, responseType);
             LOG.trace(CONFIDENTIAL, RESPONS, respons.getBody());
             return respons.getBody();
 
@@ -100,7 +99,7 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
     }
 
     private <T> T exchange(URI uri, HttpMethod method, HttpEntity<String> entity, Class<T> responseType) {
-        ResponseEntity<T> respons = restOperations.exchange(uri, method, entity, responseType);
+        var respons = restOperations.exchange(uri, method, entity, responseType);
         if (respons.hasBody()) {
             return respons.getBody();
         }
@@ -116,7 +115,7 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
             LOG.info("Service er ikke aktiv, poster ikke til {}", uri);
             return null;
         }
-        ResponseEntity<T> respons = restOperations.postForEntity(uri, payload, responseType);
+        var respons = restOperations.postForEntity(uri, payload, responseType);
         LOG.trace(CONFIDENTIAL, RESPONS, respons.getBody());
         return respons.getBody();
     }

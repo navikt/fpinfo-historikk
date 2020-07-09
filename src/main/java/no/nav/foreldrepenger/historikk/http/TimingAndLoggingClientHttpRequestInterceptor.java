@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
 
 import java.io.IOException;
-import java.net.URI;
 import java.time.Duration;
 
 import org.apache.commons.lang3.time.StopWatch;
@@ -37,8 +36,8 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
 
-        URI uri = UriComponentsBuilder.fromHttpRequest(request).replaceQuery(null).build().toUri();
-        Timer t = Timer.builder("rest.calls")
+        var uri = UriComponentsBuilder.fromHttpRequest(request).replaceQuery(null).build().toUri();
+        var t = Timer.builder("rest.calls")
                 .tags("uri", uri.getPath(), "method", request.getMethodValue(), "host", uri.getHost())
                 .publishPercentiles(0.5, 0.95)
                 .publishPercentileHistogram()
@@ -47,9 +46,9 @@ public class TimingAndLoggingClientHttpRequestInterceptor implements ClientHttpR
                 .maximumExpectedValue(Duration.ofSeconds(1))
                 .register(registry);
         LOG.info("{} - {}", request.getMethodValue(), uri);
-        StopWatch timer = new StopWatch();
+        var timer = new StopWatch();
         timer.start();
-        ClientHttpResponse respons = execution.execute(request, body);
+        var respons = execution.execute(request, body);
         Metrics.counter("url", "endpoint", uri.toString(), "method", request.getMethodValue(), "status",
                 String.valueOf(respons.getRawStatusCode()))
                 .increment();

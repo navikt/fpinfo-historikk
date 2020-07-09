@@ -55,7 +55,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        Nokkel key = beskjedNøkkel(eventId);
+        var key = beskjedNøkkel(eventId);
         LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
         send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
@@ -63,7 +63,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
-        Nokkel key = beskjedNøkkel(eventId);
+        var key = beskjedNøkkel(eventId);
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed med eventId {} for {} {} {} {} i Ditt Nav", key.getEventId(), fnr,
                     grupperingsId, tekst,
@@ -79,7 +79,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
-        Nokkel key = oppgaveNøkkel(eventId);
+        var key = oppgaveNøkkel(eventId);
         LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
                 tekst,
                 url);
@@ -87,7 +87,7 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     private void send(Object msg, Nokkel key, String topic) {
-        ProducerRecord<Nokkel, Object> melding = new ProducerRecord<>(topic, key, msg);
+        var melding = new ProducerRecord<>(topic, key, msg);
         LOG.info("Sender melding med id {} på {}", key.getEventId(), topic);
         kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 

@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
 @ConfigurationProperties(prefix = "historikk.oppslag")
@@ -40,8 +41,8 @@ public class OppslagConfig extends AbstractConfig {
         return uri(uri, DEFAULT_PING_PATH);
     }
 
-    public URI personNavnURI(String fnr) {
-        return uri(uri, NAVN, queryParams("fnr", fnr));
+    public URI personNavnURI(Fødselsnummer fnr) {
+        return uri(uri, NAVN, queryParams("fnr", fnr.getFnr()));
 
     }
 

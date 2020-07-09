@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
-import org.springframework.vault.core.lease.domain.RequestedSecret;
 import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
 
 import com.zaxxer.hikari.HikariDataSource;
@@ -37,11 +36,11 @@ public class VaultHikariConfiguration implements InitializingBean {
         container.setLeaseEndpoints(SysLeases);
         String path = props.getBackend() + "/creds/" + props.getRole();
         LOG.info("Henter hemmelighet fra {}", path);
-        RequestedSecret secret = rotating(path);
+        var secret = rotating(path);
         container.addLeaseListener(leaseEvent -> {
             if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent)) {
                 LOG.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
-                Map<String, Object> secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
+                var secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
                 ds.setUsername(get("username", secrets));
                 ds.setPassword(get("password", secrets));
                 ds.getHikariPoolMXBean().softEvictConnections();

@@ -35,7 +35,7 @@ public abstract class AbstractConfig {
     }
 
     protected HttpHeaders queryParams(String key, String value) {
-        HttpHeaders queryParams = new HttpHeaders();
+        var queryParams = new HttpHeaders();
         queryParams.add(key, value);
         return queryParams;
     }

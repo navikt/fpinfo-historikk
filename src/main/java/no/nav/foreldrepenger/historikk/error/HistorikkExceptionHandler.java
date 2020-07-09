@@ -89,7 +89,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> logAndHandle(HttpStatus status, Exception e, WebRequest req, HttpHeaders headers,
             List<Object> messages) {
-        ApiError apiError = apiErrorFra(status, e, messages);
+        var apiError = apiErrorFra(status, e, messages);
         LOG.warn("({}) {} {} ({})", subject(), status, apiError.getMessages(), status.value(), e);
         return handleExceptionInternal(e, apiError, headers, status, req);
     }

@@ -34,17 +34,9 @@ public class TilbakekrevingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
         LOG.info("Mottok tilbakekrevingshendelse {}", h);
         switch (h.getHendelse()) {
-        case TILBAKEKREVING_SPM:
-            opprettOppgave(h);
-            break;
-        case TILBAKEKREVING_FATTET_VEDTAK:
-        case TILBAKEKREVING_SPM_LUKKET:
-        case TILBAKEKREVING_HENLAGT:
-            avsluttOppgave(h);
-            break;
-        default:
-            LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
-            break;
+            case TILBAKEKREVING_SPM -> opprettOppgave(h);
+            case TILBAKEKREVING_FATTET_VEDTAK, TILBAKEKREVING_SPM_LUKKET, TILBAKEKREVING_HENLAGT -> avsluttOppgave(h);
+            default -> LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
         }
     }
 
