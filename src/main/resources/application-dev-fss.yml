@@ -1,4 +1,4 @@
-debug: true
+debug: false
 no.nav:
   security:
     jwt:
