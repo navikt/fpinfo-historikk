@@ -23,7 +23,7 @@
     <properties>
         <confluent.version>5.5.1</confluent.version>
         <token-validation-version>1.3.0</token-validation-version>
-        <springfox.version>2.10.5</springfox.version>
+        <springfox.version>3.0.0</springfox.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     </properties>
