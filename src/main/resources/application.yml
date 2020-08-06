@@ -41,18 +41,27 @@ management:
             request:
               autotime:
                  enabled: true
-   endpoint:
-      health:    
-         show-details : never            
    endpoints:
       web:
          exposure:
             include: info, health, metrics, prometheus
-   health:
+   health :
+      livenessstate:
+        enabled: true
+      readynessstate:
+        enabled: true
       refresh:
          enabled: false
       diskspace:
          enabled: false
+   endpoint:
+      health:
+         group:
+           liveness:
+             include: livenessStateProbeIndicator
+           readiness:
+             include: readinessStateProbeIndicator    
+         show-details : never
 server:
    servlet:
       context-path: /api
