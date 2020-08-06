@@ -46,6 +46,10 @@ management:
          exposure:
             include: info, health, metrics, prometheus
    health :
+      livenessstate:
+        enabled: true
+      readynessstate:
+        enabled: true
       refresh:
          enabled: false
       diskspace:
@@ -53,6 +57,11 @@ management:
    endpoint:
       health:
          show-details : never
+         group:
+           liveness:
+             include: livenessStateProbeIndicator
+           readiness:
+             include: readinessStateProbeIndicator
 server:
    servlet:
       context-path: /api
