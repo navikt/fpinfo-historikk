@@ -17,7 +17,7 @@ historikk:
       enabled: true
       topic: privat-foreldrepenger-brukerdialog-inntektsmelding   
    oppslag:
-      uri: http://fpsoknad-oppslag.default.svc.nais.local/api
+      uri: http://fpsoknad-oppslag/api
       enabled: true     
    innsending:
       søknad:
