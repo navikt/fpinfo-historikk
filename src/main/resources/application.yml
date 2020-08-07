@@ -49,7 +49,7 @@ management:
       livenessstate:
         enabled: true
       readinessstate:
-        enabled: true
+        enabled: true 
       refresh:
          enabled: false
       diskspace:
@@ -57,11 +57,6 @@ management:
    endpoint:
       health:
          show-details : never
-         group:
-           liveness:
-             include: livenessStateProbeIndicator
-           readiness:
-             include: readinessStateProbeIndicator
 server:
    servlet:
       context-path: /api
