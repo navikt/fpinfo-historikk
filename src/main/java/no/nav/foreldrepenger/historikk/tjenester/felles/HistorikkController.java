@@ -2,28 +2,23 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
-import static no.nav.foreldrepenger.historikk.config.Constants.SELVBETJENING;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
+import no.nav.foreldrepenger.historikk.http.ProtectedRestController;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
-import no.nav.security.token.support.core.api.ProtectedWithClaims;
 
-@RestController
-@RequestMapping(value = HistorikkController.HISTORIKK)
-@ProtectedWithClaims(issuer = SELVBETJENING, claimMap = { "acr=Level4" })
+@ProtectedRestController(HistorikkController.HISTORIKK)
 public class HistorikkController {
 
     public static final String HISTORIKK = "historikk";
