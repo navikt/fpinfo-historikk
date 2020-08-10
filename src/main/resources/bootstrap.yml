@@ -15,5 +15,5 @@ spring:
          kv:
             enabled: true
             backend: kv/prod/fss
-            application-name: fpinfo-historikk/default
-            default-context: fpinfo-historikk/default
+            application-name: fpinfo-historikk/teamforeldrepenger
+            default-context: fpinfo-historikk/teamforeldrepenger
