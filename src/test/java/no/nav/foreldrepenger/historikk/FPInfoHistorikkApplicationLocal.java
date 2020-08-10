@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk;
 
-import static no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver.profiles;
+import static no.nav.foreldrepenger.boot.conditionals.Cluster.profiler;
 import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,7 +29,7 @@ import no.nav.security.token.support.test.spring.TokenGeneratorConfiguration;
 public class FPInfoHistorikkApplicationLocal {
     public static void main(String[] args) {
         new SpringApplicationBuilder(FPInfoHistorikkApplicationLocal.class)
-                .profiles(profiles())
+                .profiles(profiler())
                 .main(FPInfoHistorikkApplicationLocal.class)
                 .run(args);
     }

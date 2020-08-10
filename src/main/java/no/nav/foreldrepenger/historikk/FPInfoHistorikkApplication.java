@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk;
 
-import static no.nav.foreldrepenger.historikk.config.ClusterAwareSpringProfileResolver.profiles;
+import static no.nav.foreldrepenger.boot.conditionals.Cluster.profiler;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -23,7 +23,7 @@ public class FPInfoHistorikkApplication {
     public static void main(String[] args) {
 
         new SpringApplicationBuilder(FPInfoHistorikkApplication.class)
-                .profiles(profiles())
+                .profiles(profiler())
                 .main(FPInfoHistorikkApplication.class)
                 .run(args);
     }
