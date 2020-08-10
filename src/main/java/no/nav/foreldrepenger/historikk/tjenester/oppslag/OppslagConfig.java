@@ -17,7 +17,7 @@ public class OppslagConfig extends AbstractConfig {
     private static final String NAVN = "person/navn";
     private static final String ARBEID = "arbeidsforhold";
     private static final String ORGNAVN = ARBEID + "/navn";
-    private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag/api";
+    private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag.teamforeldrepenger/api";
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
     private final URI uri;
