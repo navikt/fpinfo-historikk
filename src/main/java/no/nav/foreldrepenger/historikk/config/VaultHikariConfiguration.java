@@ -38,9 +38,9 @@ public class VaultHikariConfiguration implements InitializingBean {
         LOG.info("Henter hemmelighet fra {}", path);
         var secret = rotating(path);
         container.addLeaseListener(leaseEvent -> {
-            if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent)) {
+            if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent event)) {
                 LOG.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
-                var secrets = SecretLeaseCreatedEvent.class.cast(leaseEvent).getSecrets();
+                var secrets = event.getSecrets();
                 ds.setUsername(get("username", secrets));
                 ds.setPassword(get("password", secrets));
                 ds.getHikariPoolMXBean().softEvictConnections();

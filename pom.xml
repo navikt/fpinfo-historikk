@@ -249,7 +249,7 @@
         <dependency>
             <groupId>no.nav.foreldrepenger</groupId>
             <artifactId>boot-conditionals</artifactId>
-            <version>1.0.20200618143940-e78f33f</version>
+            <version>1.0.20200808220720-90be01e</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
