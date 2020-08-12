@@ -1,4 +1,4 @@
 {
   "namespace" : "teamforeldrepenger",
-  "ingresses":  ["https://fpinfo-historikk1.nais.adeo.no"]
+  "ingresses":  ["https://fpinfo-historikk.nais.adeo.no"]
 }
