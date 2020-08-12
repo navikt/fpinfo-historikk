@@ -23,7 +23,7 @@ public class OppslagConfig extends AbstractConfig {
     private final URI uri;
 
     @ConstructorBinding
-    public OppslagConfig(@DefaultValue({ DEFAULT_BASE_URI }) URI uri, boolean enabled) {
+    public OppslagConfig(@DefaultValue(DEFAULT_BASE_URI) URI uri, @DefaultValue("true") boolean enabled) {
         super(enabled);
         this.uri = uri;
     }

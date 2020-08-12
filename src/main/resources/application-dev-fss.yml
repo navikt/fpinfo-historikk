@@ -15,8 +15,6 @@ management:
       health:
          show-details: always
 historikk:
-   oppslag:
-      uri: http://fpsoknad-oppslag/api 
    dittnav:
       enabled: true       
    tilbakekreving:
