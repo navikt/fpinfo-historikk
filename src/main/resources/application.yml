@@ -15,8 +15,9 @@ historikk:
         done: aapen-brukernotifikasjon-done-v1   
    inntektsmelding:
       enabled: true
-      topic: privat-foreldrepenger-brukerdialog-inntektsmelding   
-   oppslag:
+      topic: privat-foreldrepenger-brukerdialog-inntektsmelding  
+       
+   oppslag: 
       uri: http://fpsoknad-oppslag.teamforeldrepenger/api
       enabled: true     
    innsending:
