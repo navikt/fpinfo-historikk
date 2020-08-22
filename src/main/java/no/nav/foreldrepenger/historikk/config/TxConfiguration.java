@@ -37,7 +37,7 @@ public class TxConfiguration implements KafkaListenerConfigurer {
 
     @Bean(name = KAFKA_TM)
     public KafkaTransactionManager<Object, Object> kafkaTM(ProducerFactory<Object, Object> pf) {
-        KafkaTransactionManager<Object, Object> tm = new KafkaTransactionManager<>(pf);
+        var tm = new KafkaTransactionManager<>(pf);
         tm.setNestedTransactionAllowed(true);
         return tm;
     }
@@ -50,7 +50,7 @@ public class TxConfiguration implements KafkaListenerConfigurer {
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
             ConsumerFactory<Object, Object> cf, KafkaTransactionManager<Object, Object> tm, ObjectMapper mapper) {
-        ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        var factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setTransactionManager(tm);

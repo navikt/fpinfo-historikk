@@ -63,7 +63,7 @@ public class InnsendingHendelseKonsument {
             return;
         }
         try {
-            VedleggsInfo info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
+            var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             info.getRefs()
                     .stream()
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));

@@ -18,14 +18,23 @@ public class OppslagConfig extends AbstractConfig {
     private static final String ARBEID = "arbeidsforhold";
     private static final String ORGNAVN = ARBEID + "/navn";
     private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag/api";
+    private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api";
+
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
     private final URI uri;
+    private final URI mottakUri;
 
     @ConstructorBinding
-    public OppslagConfig(@DefaultValue(DEFAULT_BASE_URI) URI uri, @DefaultValue("true") boolean enabled) {
+    public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI mottakUri, @DefaultValue(DEFAULT_BASE_URI) URI uri,
+            @DefaultValue("true") boolean enabled) {
         super(enabled);
         this.uri = uri;
+        this.mottakUri = mottakUri;
+    }
+
+    public URI getMottakUri() {
+        return mottakUri;
     }
 
     public URI aktørURI() {
@@ -47,6 +56,6 @@ public class OppslagConfig extends AbstractConfig {
     }
 
     public URI orgNavnURI(String orgnr) {
-        return uri(uri, ORGNAVN, queryParams("orgnr", orgnr));
+        return uri(mottakUri, ORGNAVN, queryParams("orgnr", orgnr));
     }
 }

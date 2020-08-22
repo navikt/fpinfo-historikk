@@ -14,7 +14,7 @@ public class Versjon {
     private String versjon;
 
     public static Versjon valueOf(String versjon) {
-        Versjon v = new Versjon();
+        var v = new Versjon();
         v.setVersjon(versjon);
         return v;
     }

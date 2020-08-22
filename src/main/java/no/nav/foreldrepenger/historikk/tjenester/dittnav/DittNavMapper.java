@@ -11,6 +11,10 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 final class DittNavMapper {
 
+    private static final String OPPGAVE = "O";
+
+    private static final String BESKJED = "B";
+
     private static final String SYSTEMBRUKER = "srvfpinfo-historikk";
 
     private static final int SIKKERHETSNIVÅ = 3;
@@ -49,14 +53,14 @@ final class DittNavMapper {
 
     static Nokkel beskjedNøkkel(String eventId) {
         return Nokkel.newBuilder()
-                .setEventId("B" + eventId)
+                .setEventId(BESKJED + eventId)
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
     }
 
     static Nokkel oppgaveNøkkel(String eventId) {
         return Nokkel.newBuilder()
-                .setEventId("O" + eventId)
+                .setEventId(OPPGAVE + eventId)
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
     }
