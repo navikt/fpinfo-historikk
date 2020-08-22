@@ -59,6 +59,9 @@ public class ApiError {
     }
 
     private static List<String> messages(Throwable t, List<Object> objects) {
+        if (objects == null) {
+            return emptyList();
+        }
         List<Object> messages = List.of(objects);
         if (t != null) {
             messages.add(getMostSpecificCause(t).getMessage());
