@@ -9,8 +9,8 @@ import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 import static org.springframework.core.NestedExceptionUtils.getMostSpecificCause;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +63,7 @@ public class ApiError {
         if (objects == null) {
             return emptyList();
         }
-        List<Object> messages = List.of(objects);
+        var messages = new ArrayList<>(objects);
         if (t != null) {
             messages.add(getMostSpecificCause(t).getMessage());
         }
