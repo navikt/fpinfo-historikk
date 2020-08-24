@@ -16,7 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
-public abstract class AbstractRestConnection implements RestConnection, PingEndpointAware {
+public abstract class AbstractRestConnection implements RetryAware, PingEndpointAware {
     private static final String RESPONS = "Respons: {}";
     private final RestOperations restOperations;
     private final AbstractConfig config;
@@ -37,17 +37,14 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
         return getForObject(uri, String.class);
     }
 
-    @Override
     public <T> T getForObject(URI uri, Class<T> responseType) {
         return getForObject(uri, responseType, false);
     }
 
-    @Override
     public <T> T postForEntity(URI uri, Object payload, Class<T> responseType) {
         return postForEntity(uri, new HttpEntity<>(payload), responseType);
     }
 
-    @Override
     public <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke fra {}", uri);
@@ -68,12 +65,10 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
         }
     }
 
-    @Override
     public <T> T getForEntity(URI uri, Class<T> responseType) {
         return getForEntity(uri, responseType, true);
     }
 
-    @Override
     public <T> T getForEntity(URI uri, Class<T> responseType, boolean doThrow) {
         if (!isEnabled()) {
             LOG.info("Service er ikke aktiv, henter ikke entitet fra {}", uri);
@@ -93,7 +88,6 @@ public abstract class AbstractRestConnection implements RestConnection, PingEndp
         }
     }
 
-    @Override
     public <T> T exchangeGet(URI uri, Class<T> responseType, HttpHeaders headers) {
         return exchange(uri, GET, new HttpEntity<>(headers), responseType);
     }
