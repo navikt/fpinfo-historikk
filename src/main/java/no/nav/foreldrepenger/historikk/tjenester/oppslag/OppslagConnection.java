@@ -46,7 +46,7 @@ public class OppslagConnection extends AbstractRestConnection {
         return getForObject(cfg.personNavnURI(fnr), String.class);
     }
 
-    @Cacheable(cacheNames = "organisaasjon")
+    @Cacheable(cacheNames = "organisasjon")
     String orgNavn(String orgnr) {
         return getForObject(cfg.orgNavnURI(orgnr), String.class);
     }
