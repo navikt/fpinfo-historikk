@@ -8,6 +8,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntekts
 import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,18 +75,15 @@ final class InntektsmeldingMapper {
     }
 
     private String arbeidsgiverNavn(String arbeidsgiver) {
-        if (arbeidsgiver == null) {
-            return null;
-        }
-        if (arbeidsgiver.length() == 9) {
-            return oppslag.orgNavn(arbeidsgiver);
-        }
-
-        if (arbeidsgiver.length() == 13) {
-            return oppslag.personNavn(AktørId.valueOf(arbeidsgiver));
-        }
-        LOG.warn("Arbeidsgiver {} kan ikke håndteres", arbeidsgiver);
-        return null;
+        return Optional.ofNullable(arbeidsgiver)
+                .map(a -> switch (a.length()) {
+                case 9 -> oppslag.orgNavn(a);
+                case 13 -> oppslag.personNavn(AktørId.valueOf(a));
+                default -> {
+                LOG.warn("Arbeidsgiver {} kan ikke håndteres", a);
+                yield null;
+                }
+                }).orElse(null);
     }
 
     @Override

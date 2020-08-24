@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -35,7 +34,6 @@ public class OppslagTjeneste implements Oppslag {
         }
     }
 
-    @Cacheable(cacheNames = "organisasjon")
     @Override
     public String orgNavn(String orgnr) {
         try {
