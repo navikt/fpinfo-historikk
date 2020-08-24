@@ -1,10 +1,10 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
+import static org.springframework.retry.RetryContext.NAME;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -81,33 +81,41 @@ public class RestClientConfiguration {
 
     @Bean
     public List<RetryListener> retryListeners() {
-        Logger log = LoggerFactory.getLogger(getClass());
-
-        return Collections.singletonList(new RetryListener() {
+        List<RetryListener> listener = singletonList(new RetryListener() {
 
             @Override
-            public <T, E extends Throwable> boolean open(RetryContext context, RetryCallback<T, E> callback) {
-                Field labelField = ReflectionUtils.findField(callback.getClass(), "val$label");
+            public <T, E extends Throwable> void onError(RetryContext ctx, RetryCallback<T, E> cb,
+                    Throwable throwable) {
+                LOG.warn("Metode {} kastet exception {} for {}. gang",
+                        ctx.getAttribute(NAME), throwable.toString(), ctx.getRetryCount());
+            }
+
+            @Override
+            public <T, E extends Throwable> void close(RetryContext ctx, RetryCallback<T, E> cb, Throwable t) {
+                if (t != null) {
+                    LOG.warn("Metode {} avslutter ikke-vellykket retry etter {}. forsøk grunnet {}",
+                            ctx.getAttribute(NAME), ctx.getRetryCount(), t.toString(), t);
+                } else {
+                    if (ctx.getRetryCount() > 0) {
+                        LOG.info("Metode {} avslutter vellykket retry etter {}. forsøk",
+                                ctx.getAttribute(NAME), ctx.getRetryCount());
+                    }
+                }
+            }
+
+            @Override
+            public <T, E extends Throwable> boolean open(RetryContext ctx, RetryCallback<T, E> cb) {
+                var labelField = ReflectionUtils.findField(cb.getClass(), "val$label");
                 ReflectionUtils.makeAccessible(labelField);
-                String label = (String) ReflectionUtils.getField(labelField, callback);
-                log.trace("Starting retryable method {}", label);
+                String metode = (String) ReflectionUtils.getField(labelField, cb);
+                if (ctx.getRetryCount() > 0) {
+                    LOG.info("Metode {} gjør retry for {}. gang", metode, ctx.getRetryCount());
+                }
                 return true;
             }
-
-            @Override
-            public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback,
-                    Throwable throwable) {
-                log.warn("Retryable method {} threw {}th exception {}",
-                        context.getAttribute("context.name"), context.getRetryCount(), throwable.toString());
-            }
-
-            @Override
-            public <T, E extends Throwable> void close(RetryContext context, RetryCallback<T, E> callback,
-                    Throwable throwable) {
-                log.trace("Finished retryable method {} {}", context.getRetryCount(),
-                        context.getAttribute("context.name"));
-            }
         });
+        return listener;
+
     }
 
 }
