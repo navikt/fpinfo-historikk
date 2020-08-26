@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
@@ -40,8 +41,8 @@ public class OppslagConfig extends AbstractConfig {
         return uri(uri, AKTØR);
     }
 
-    public URI fnrURI(String aktørId) {
-        return uri(uri, FNR, queryParams("aktorId", aktørId));
+    public URI fnrURI(AktørId aktørId) {
+        return uri(uri, FNR, queryParams("aktorId", aktørId.getAktørId()));
     }
 
     @Override

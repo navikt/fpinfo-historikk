@@ -34,6 +34,10 @@ public abstract class AbstractRestConnection implements RetryAware, PingEndpoint
     }
 
     protected String ping(URI uri) {
+        return getForObject(uri);
+    }
+
+    public String getForObject(URI uri) {
         return getForObject(uri, String.class);
     }
 

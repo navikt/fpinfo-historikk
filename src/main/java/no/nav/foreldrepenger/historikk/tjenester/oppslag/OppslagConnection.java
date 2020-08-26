@@ -33,7 +33,7 @@ public class OppslagConnection extends AbstractRestConnection {
 
     @Cacheable(cacheNames = "fnr")
     public Fødselsnummer hentFnr(AktørId aktørId) {
-        return getForObject(cfg.fnrURI(aktørId.getAktørId()), Fødselsnummer.class, true);
+        return getForObject(cfg.fnrURI(aktørId), Fødselsnummer.class, true);
     }
 
     @Cacheable(cacheNames = "aktør")
@@ -43,12 +43,12 @@ public class OppslagConnection extends AbstractRestConnection {
 
     @Cacheable(cacheNames = "fnr")
     private String hentNavn(Fødselsnummer fnr) {
-        return getForObject(cfg.personNavnURI(fnr), String.class);
+        return getForObject(cfg.personNavnURI(fnr));
     }
 
     @Cacheable(cacheNames = "organisasjon")
     String orgNavn(String orgnr) {
-        return getForObject(cfg.orgNavnURI(orgnr), String.class);
+        return getForObject(cfg.orgNavnURI(orgnr));
     }
 
     @Override
