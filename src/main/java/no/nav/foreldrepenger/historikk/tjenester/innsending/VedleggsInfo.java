@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 public class VedleggsInfo {
 
+    private static final int MAX_LENGDE = 500;
+
     public static final VedleggsInfo NONE = new VedleggsInfo(emptyList(), emptyList());
     private final List<String> refs;
     private final List<String> manglende;
@@ -29,7 +31,9 @@ public class VedleggsInfo {
     }
 
     public String manglendeVedleggTekst() {
-        return "Vi mangler følgende " + manglende.size() + " vedlegg: " + beskrivelseFor(manglende);
+        var intro = "Vi mangler " + manglende.size() + " vedlegg";
+        var tekst = intro + ": " + beskrivelseFor(manglende);
+        return tekst.length() >= MAX_LENGDE ? intro : tekst;
 
     }
 

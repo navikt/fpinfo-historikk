@@ -47,7 +47,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
-        Nokkel key = oppgaveNøkkel(eventId);
+        var key = oppgaveNøkkel(eventId);
         LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
         send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
