@@ -27,11 +27,6 @@ historikk:
    tilbakekreving:
       enabled: true
       topic: privat-tilbakekreving-brukerdialog-p     
-info:
-   app:
-      version: '@project.version@'
-      build:
-         time: '@timestamp@'
 management:
    metrics:
       web:
