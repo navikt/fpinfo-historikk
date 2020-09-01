@@ -30,7 +30,7 @@ public class MDCValuesPropagatingClienHttpRequesInterceptor implements ClientHtt
     }
 
     private static void propagerFraMDC(HttpRequest request, String... keys) {
-        for (String key : keys) {
+        for (var key : keys) {
             String value = MDC.get(key);
             if (value != null) {
                 request.getHeaders().add(key, value);
