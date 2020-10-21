@@ -27,6 +27,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import no.nav.foreldrepenger.historikk.util.StringUtil;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
@@ -96,6 +97,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
 
     private String subject() {
         return Optional.ofNullable(tokenUtil.getSubject())
+                .map(StringUtil::mask)
                 .orElse("Uautentisert");
     }
 
