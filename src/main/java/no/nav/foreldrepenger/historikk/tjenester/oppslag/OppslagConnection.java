@@ -1,6 +1,9 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
 import java.net.URI;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,15 @@ public class OppslagConnection extends AbstractRestConnection {
         return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
+    public AktørId hentAktørIdPDL() {
+        try {
+            return getForObject(cfg.aktørURIPDL(), AktørId.class, true);
+        } catch (Exception e) {
+            LOG.warn("Feil ved oppslag av aktørid via PDL", e);
+            return null;
+        }
+    }
+
     @Cacheable(cacheNames = "fnr")
     public Fødselsnummer hentFnr(AktørId aktørId) {
         return getForObject(cfg.fnrURI(aktørId), Fødselsnummer.class, true);
@@ -56,9 +68,35 @@ public class OppslagConnection extends AbstractRestConnection {
         return cfg.isEnabled();
     }
 
+    public Fødselsnummer hentFnrPDL(AktørId aktørId) {
+        try {
+            return getForObject(cfg.fnrURIPDL(aktørId), Fødselsnummer.class, true);
+        } catch (Exception e) {
+            LOG.warn("Feil ved oppslag av FNR via PDL", e);
+            return null;
+        }
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + " [cfg=" + cfg + "]";
+    }
+
+    public boolean isBrukPdl() {
+        return cfg.isBrukPdl();
+    }
+
+    public String getNavnPDL(AktørId aktørId) {
+        try {
+            var navn = getForObject(cfg.personNavnPDLURI(aktørId), Navn.class, true);
+            return Stream.of(navn.fornavn(), navn.mellomnavn(), navn.etternavn())
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.joining(" "));
+
+        } catch (Exception e) {
+            LOG.warn("Feil ved oppslag av NAVN via PDL", e);
+            return null;
+        }
     }
 
 }

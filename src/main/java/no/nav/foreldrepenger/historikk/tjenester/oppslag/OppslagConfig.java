@@ -24,13 +24,20 @@ public class OppslagConfig extends AbstractConfig {
 
     private final URI uri;
     private final URI mottakUri;
+    private final boolean brukPdl;
 
     @ConstructorBinding
     public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI mottakUri, @DefaultValue(DEFAULT_BASE_URI) URI uri,
-            @DefaultValue("true") boolean enabled) {
+            @DefaultValue("true") boolean enabled,
+            @DefaultValue("false") boolean brukPdl) {
         super(enabled);
         this.uri = uri;
         this.mottakUri = mottakUri;
+        this.brukPdl = brukPdl;
+    }
+
+    public boolean isBrukPdl() {
+        return brukPdl;
     }
 
     public URI getMottakUri() {
@@ -58,4 +65,19 @@ public class OppslagConfig extends AbstractConfig {
     public URI orgNavnURI(String orgnr) {
         return uri(mottakUri, ORGNAVN, queryParams("orgnr", orgnr));
     }
+
+    public URI aktørURIPDL() {
+        return uri(mottakUri, "aktoer");
+
+    }
+
+    public URI fnrURIPDL(AktørId aktørId) {
+        return uri(mottakUri, "fnr", queryParams("aktorId", aktørId.getAktørId()));
+
+    }
+
+    public URI personNavnPDLURI(AktørId aktørId) {
+        return uri(mottakUri, "navn", queryParams("aktorId", aktørId.getAktørId()));
+    }
+
 }
