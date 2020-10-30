@@ -18,7 +18,7 @@ public class OppslagConfig extends AbstractConfig {
     private static final String NAVN = "person/navn";
     private static final String ORGNAVN = "innsyn/orgnavn";
     private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag/api";
-    private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api";
+    private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api/oppslag";
 
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
