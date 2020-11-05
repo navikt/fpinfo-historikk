@@ -58,7 +58,7 @@ jobs:
       - name: Kompiler
         run: |
           mvn versions:set -DnewVersion=${TAG}
-          echo "IMAGE::$IMAGE_BASE:$TAG" >> $GITHUB_ENV
+          echo "IMAGE=$IMAGE_BASE:$TAG" >> $GITHUB_ENV
           mvn clean install --batch-mode --quiet  --settings .github/workflows/.m2/settings.xml
         env:
            GITHUB_USERNAME: x-access-token
