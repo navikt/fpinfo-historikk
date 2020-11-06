@@ -54,6 +54,7 @@ public class OppslagTjeneste implements Oppslag {
             LOG.warn("TPS-{} og PDL-{} er ulike, tps={}, pdl={}", name, name, tps, pdl);
             return connection.isBrukPdl() ? pdl : tps;
         } else {
+            LOG.warn("TPS-{} og PDL-{} er like", name, name);
             return pdl;
         }
     }
