@@ -21,21 +21,18 @@ public class OppslagTjeneste implements Oppslag {
 
     @Override
     public AktørId aktørId() {
-        return sammenlign(connection.hentAktørId(), connection.hentAktørIdPDL());
+        return /* sammenlign(connection.hentAktørId(), */connection.hentAktørIdPDL(); // );
     }
 
     @Override
     public Fødselsnummer fnr(AktørId aktørId) {
-        return sammenlign(connection.hentFnr(aktørId), connection.hentFnrPDL(aktørId));
+        return /* sammenlign(connection.hentFnr(aktørId), */connection.hentFnrPDL(aktørId); // );
     }
 
     @Override
     public String personNavn(AktørId aktørId) {
-        try {
-            return sammenlign(connection.hentNavn(aktørId), connection.getNavnPDL(aktørId));
-        } catch (HttpClientErrorException.Unauthorized e) {
-            return null;
-        }
+        return /* sammenlign(connection.hentNavn(aktørId), */connection.getNavnPDL(aktørId); // );
+
     }
 
     @Override
