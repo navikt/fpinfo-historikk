@@ -12,44 +12,26 @@ import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
 @ConfigurationProperties(prefix = "historikk.oppslag")
 public class OppslagConfig extends AbstractConfig {
-    private static final String AKTØR = "oppslag/aktor";
+    private static final String AKTØR = "oppslag/aktoer";
     private static final String FNR = "oppslag/fnr";
 
-    private static final String NAVN = "person/navn";
+    private static final String NAVN = "oppslag/navn";
     private static final String ORGNAVN = "innsyn/orgnavn";
-    private static final String DEFAULT_BASE_URI = "http://fpsoknad-oppslag/api";
     private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api";
 
     private static final String DEFAULT_PING_PATH = "actuator/info";
 
     private final URI uri;
-    private final URI mottakUri;
-    private final boolean brukPdl;
 
     @ConstructorBinding
-    public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI mottakUri, @DefaultValue(DEFAULT_BASE_URI) URI uri,
-            @DefaultValue("true") boolean enabled,
-            @DefaultValue("false") boolean brukPdl) {
+    public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI uri,
+            @DefaultValue("true") boolean enabled) {
         super(enabled);
         this.uri = uri;
-        this.mottakUri = mottakUri;
-        this.brukPdl = brukPdl;
-    }
-
-    public boolean isBrukPdl() {
-        return brukPdl;
     }
 
     public URI getMottakUri() {
-        return mottakUri;
-    }
-
-    public URI aktørURI() {
-        return uri(uri, AKTØR);
-    }
-
-    public URI fnrURI(AktørId aktørId) {
-        return uri(uri, FNR, queryParams("aktorId", aktørId.getAktørId()));
+        return uri;
     }
 
     @Override
@@ -63,21 +45,16 @@ public class OppslagConfig extends AbstractConfig {
     }
 
     public URI orgNavnURI(String orgnr) {
-        return uri(mottakUri, ORGNAVN, queryParams("orgnr", orgnr));
+        return uri(uri, ORGNAVN, queryParams("orgnr", orgnr));
     }
 
-    public URI aktørURIPDL() {
-        return uri(mottakUri, "/oppslag/aktoer");
-
+    public URI aktørURI() {
+        return uri(uri, AKTØR);
     }
 
-    public URI fnrURIPDL(AktørId aktørId) {
-        return uri(mottakUri, "fnr", queryParams("aktorId", aktørId.getAktørId()));
+    public URI fnrURI(AktørId aktørId) {
+        return uri(uri, "fnr", queryParams("aktorId", aktørId.getAktørId()));
 
-    }
-
-    public URI personNavnPDLURI(AktørId aktørId) {
-        return uri(mottakUri, "navn", queryParams("aktorId", aktørId.getAktørId()));
     }
 
 }
