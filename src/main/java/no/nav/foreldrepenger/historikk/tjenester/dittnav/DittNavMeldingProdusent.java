@@ -83,6 +83,7 @@ public class DittNavMeldingProdusent implements DittNav {
         LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
                 tekst,
                 url);
+
         send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
     }
 
