@@ -1,0 +1,1 @@
+CREATE INDEX idx_ref ON DITTNAVOPPGAVER(referanse_id);    
