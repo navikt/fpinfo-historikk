@@ -54,7 +54,7 @@ public class DittNavMeldingProdusent implements DittNav {
         var key = oppgaveNøkkel(eventId);
         LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
         send(avslutt(fnr, grupperingsId), key, config.getDone());
-        oppgave.slett(eventId);
+        oppgave.slett(key.getEventId());
     }
 
     @Transactional(KAFKA_TM)
@@ -62,7 +62,7 @@ public class DittNavMeldingProdusent implements DittNav {
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
         LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-        oppgave.slett(eventId);
+        oppgave.slett(key.getEventId());
         send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
 
@@ -79,7 +79,7 @@ public class DittNavMeldingProdusent implements DittNav {
             LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
             send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
                     config.getBeskjed());
-            oppgave.opprett(fnr, eventId, saksnr);
+            oppgave.opprett(fnr, key.getEventId(), saksnr);
         }
     }
 
@@ -92,7 +92,7 @@ public class DittNavMeldingProdusent implements DittNav {
                 url);
 
         send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
-        oppgave.opprett(fnr, eventId, saksnr);
+        oppgave.opprett(fnr, key.getEventId(), saksnr);
     }
 
     private void send(Object msg, Nokkel key, String topic) {

@@ -22,13 +22,18 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
-        LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
-        var oppgave = new JPADittNavOppgave();
-        oppgave.setFnr(fnr);
-        oppgave.setReferanseId(referanseId);
-        oppgave.setSaksnr(saksnr);
-        dao.save(oppgave);
-        LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
+        var oppgave = dao.findByReferanseId(referanseId);
+        if (oppgave == null) {
+            LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
+            var ny = new JPADittNavOppgave();
+            ny.setFnr(fnr);
+            ny.setReferanseId(referanseId);
+            ny.setSaksnr(saksnr);
+            dao.save(ny);
+            LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
+        } else {
+            LOG.info("Oppgave allerede opprettet for {} {} {}", fnr, referanseId, saksnr);
+        }
     }
 
     public boolean slett(String referanseId) {
