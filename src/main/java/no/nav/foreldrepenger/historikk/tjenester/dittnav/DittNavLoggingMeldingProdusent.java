@@ -14,8 +14,8 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
     private static final Logger LOG = LoggerFactory.getLogger(DittNavLoggingMeldingProdusent.class);
 
     @Override
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
-        LOG.info("Oppretter beskjed for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId, url);
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
+        LOG.info("Oppretter beskjed for {} {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId, url, saksnr);
     }
 
     @Override
