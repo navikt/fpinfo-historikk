@@ -49,7 +49,7 @@ public class InnsendingHendelseKonsument {
         }
         dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
                 "Vi mottok en " + h.getHendelse().beskrivelse,
-                generator.url(h.getHendelse()));
+                generator.url(h.getHendelse()), h.getSaksnummer());
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {

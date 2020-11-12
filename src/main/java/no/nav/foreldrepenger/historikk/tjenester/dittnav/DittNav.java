@@ -9,7 +9,7 @@ public interface DittNav {
     void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId);
 
     void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId,
-            String tekst, String url);
+            String tekst, String url, String saksnr);
 
     void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId,
             String tekst, String url, String saksnr);

@@ -54,6 +54,7 @@ public class DittNavMeldingProdusent implements DittNav {
         var key = oppgaveNøkkel(eventId);
         LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
         send(avslutt(fnr, grupperingsId), key, config.getDone());
+        oppgave.slett(eventId);
     }
 
     @Transactional(KAFKA_TM)
@@ -61,12 +62,13 @@ public class DittNavMeldingProdusent implements DittNav {
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
         LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+        oppgave.slett(eventId);
         send(avslutt(fnr, grupperingsId), key, config.getDone());
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
         var key = beskjedNøkkel(eventId);
         if (grupperingsId != null) {
             LOG.info("Oppretter beskjed med eventId {} for {} {} {} {} i Ditt Nav", key.getEventId(), fnr,
@@ -77,6 +79,7 @@ public class DittNavMeldingProdusent implements DittNav {
             LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
             send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
                     config.getBeskjed());
+            oppgave.opprett(fnr, eventId, saksnr);
         }
     }
 
