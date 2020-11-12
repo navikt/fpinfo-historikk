@@ -12,6 +12,6 @@ public interface DittNav {
             String tekst, String url);
 
     void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId,
-            String tekst, String url);
+            String tekst, String url, String saksnr);
 
 }

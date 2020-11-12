@@ -19,8 +19,8 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
     }
 
     @Override
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
-        LOG.info("Oppretter oppgave for {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId);
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
+        LOG.info("Oppretter oppgave for {} {} {} {} {} i Ditt Nav", fnr, grupperingsId, tekst, eventId, saksnr);
     }
 
     @Override

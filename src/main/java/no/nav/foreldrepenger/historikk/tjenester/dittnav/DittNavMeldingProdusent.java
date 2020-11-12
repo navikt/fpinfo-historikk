@@ -23,6 +23,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.DittNavOppgave;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
@@ -34,13 +35,16 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private final DittNavConfig config;
 
+    private final DittNavOppgave oppgave;
+
     private final Duration varighet;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
-            DittNavConfig config, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
+            DittNavConfig config, DittNavOppgave oppgave, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
         this.kafkaOperations = kafkaOperations;
         this.config = config;
         this.varighet = varighet;
+        this.oppgave = oppgave;
     }
 
     @Transactional(KAFKA_TM)
@@ -78,13 +82,14 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url) {
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
         var key = oppgaveNøkkel(eventId);
         LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
                 tekst,
                 url);
 
         send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
+        oppgave.opprett(fnr, eventId, saksnr);
     }
 
     private void send(Object msg, Nokkel key, String topic) {

@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+
 @Service
 @Transactional(JPA_TM)
 public class DittNavOppgave {
@@ -19,12 +21,14 @@ public class DittNavOppgave {
         this.dao = dao;
     }
 
-    public void opprett(InnsendingHendelse h) {
+    public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
+        LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
         var oppgave = new JPADittNavOppgave();
-        oppgave.setFnr(h.getFnr());
-        oppgave.setReferanseId(h.getReferanseId());
-        oppgave.setSaksnr(h.getSaksnummer());
+        oppgave.setFnr(fnr);
+        oppgave.setReferanseId(referanseId);
+        oppgave.setSaksnr(saksnr);
         dao.save(oppgave);
+        LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
     }
 
     public boolean slett(String referanseId) {

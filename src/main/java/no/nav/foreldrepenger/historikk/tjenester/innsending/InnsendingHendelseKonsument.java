@@ -70,7 +70,7 @@ public class InnsendingHendelseKonsument {
             if (info.manglerVedlegg()) {
                 dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
                         info.manglendeVedleggTekst(),
-                        generator.url(h.getHendelse()));
+                        generator.url(h.getHendelse()), h.getSaksnummer());
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
