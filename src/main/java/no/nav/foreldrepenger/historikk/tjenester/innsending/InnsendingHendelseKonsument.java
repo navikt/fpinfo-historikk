@@ -64,6 +64,7 @@ public class InnsendingHendelseKonsument {
         }
         try {
             var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
+            LOG.info("Vedleggsinfo {}", info);
             info.getRefs()
                     .stream()
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
