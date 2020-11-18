@@ -51,7 +51,7 @@ public class DittNavMeldingProdusent implements DittNav {
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
         var key = oppgaveNøkkel(eventId);
-        if (oppgave.erOpprettet(key.getEventId())) {
+        if (oppgave.harOpprettetForReferanse(key.getEventId())) {
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(fnr, grupperingsId), key, config.getDone());
             oppgave.slett(key.getEventId());
@@ -64,7 +64,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
-        if (oppgave.erOpprettet(key.getEventId())) {
+        if (oppgave.harOpprettetForReferanse(key.getEventId())) {
             LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             oppgave.slett(key.getEventId());
             send(avslutt(fnr, grupperingsId), key, config.getDone());
@@ -121,6 +121,17 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public String toString() {
         return getClass().getSimpleName() + ", kafkaOperations=" + kafkaOperations + ", config=" + config + "]";
+    }
+
+    @Override
+    public boolean oppgaveOpprettet(String saksnr) {
+        return oppgave.harOpprettetForSak(saksnr);
+    }
+
+    @Override
+    public void registrerOppgaveOpprettet(Fødselsnummer fnr, String saksnr, String referanseId) {
+        oppgave.opprett(fnr, referanseId, saksnr);
+
     }
 
 }

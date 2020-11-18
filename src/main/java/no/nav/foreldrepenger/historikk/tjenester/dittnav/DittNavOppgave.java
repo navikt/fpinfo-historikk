@@ -22,7 +22,7 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
-        if (erOpprettet(referanseId)) {
+        if (harOpprettetForReferanse(referanseId)) {
             LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
             var ny = new JPADittNavOppgave();
             ny.setFnr(fnr);
@@ -47,12 +47,16 @@ public class DittNavOppgave {
         return false;
     }
 
+    public boolean harOpprettetForReferanse(String referanseId) {
+        return dao.findByReferanseId(referanseId) != null;
+    }
+
+    public boolean harOpprettetForSak(String saksnr) {
+        return dao.findBySaksnr(saksnr) != null;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[dao=" + dao + "]";
-    }
-
-    public boolean erOpprettet(String referanseId) {
-        return dao.findByReferanseId(referanseId) != null;
     }
 }

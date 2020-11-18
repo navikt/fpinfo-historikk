@@ -69,10 +69,13 @@ public class InnsendingHendelseKonsument {
                     .stream()
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
-                LOG.info("Det mangler vedlegg {}", info.getManglende());
-                dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                        info.manglendeVedleggTekst(),
-                        generator.url(h.getHendelse()), h.getSaksnummer());
+                LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
+                if (!dittNav.oppgaveOpprettet(h.getSaksnummer())) {
+                    dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
+                            info.manglendeVedleggTekst(),
+                            generator.url(h.getHendelse()), h.getSaksnummer());
+                    dittNav.registrerOppgaveOpprettet(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
+                }
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
