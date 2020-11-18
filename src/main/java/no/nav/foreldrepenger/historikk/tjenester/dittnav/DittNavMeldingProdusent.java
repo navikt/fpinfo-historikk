@@ -68,7 +68,6 @@ public class DittNavMeldingProdusent implements DittNav {
             LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             oppgave.slett(key.getEventId());
             send(avslutt(fnr, grupperingsId), key, config.getDone());
-            oppgave.slett(key.getEventId());
         } else {
             LOG.info("Ingen beskjed å avslutte i Ditt Nav");
         }
