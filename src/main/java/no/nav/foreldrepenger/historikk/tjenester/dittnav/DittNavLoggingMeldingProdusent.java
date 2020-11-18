@@ -33,13 +33,4 @@ public class DittNavLoggingMeldingProdusent implements DittNav {
         LOG.info("Avslutter beskjed for {} {} {} i Ditt Nav", fnr, grupperingsId, eventId);
     }
 
-    @Override
-    public boolean oppgaveOpprettet(String saksnr) {
-        return false;
-    }
-
-    @Override
-    public void registrerOppgaveOpprettet(Fødselsnummer fnr, String saksnummer, String referanseId) {
-
-    }
 }

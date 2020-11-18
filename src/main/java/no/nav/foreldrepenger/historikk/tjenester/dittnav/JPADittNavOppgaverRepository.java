@@ -11,6 +11,4 @@ public interface JPADittNavOppgaverRepository
         extends JpaRepository<JPADittNavOppgave, Long>, JpaSpecificationExecutor<JPADittNavOppgave> {
     JPADittNavOppgave findByReferanseId(String referanseId);
 
-    JPADittNavOppgave findBySaksnr(String saksnr);
-
 }

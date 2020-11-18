@@ -22,17 +22,13 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
-        if (!harOpprettetForReferanse(referanseId)) {
-            LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
-            var ny = new JPADittNavOppgave();
-            ny.setFnr(fnr);
-            ny.setReferanseId(referanseId);
-            ny.setSaksnr(saksnr);
-            dao.save(ny);
-            LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
-        } else {
-            LOG.info("Oppgave allerede opprettet for {} {} {}", fnr, referanseId, saksnr);
-        }
+        LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
+        var ny = new JPADittNavOppgave();
+        ny.setFnr(fnr);
+        ny.setReferanseId(referanseId);
+        ny.setSaksnr(saksnr);
+        dao.save(ny);
+        LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
     }
 
     public boolean slett(String referanseId) {
@@ -45,14 +41,6 @@ public class DittNavOppgave {
         }
         LOG.info("Ingen oppgave å slette for {}", referanseId);
         return false;
-    }
-
-    public boolean harOpprettetForReferanse(String referanseId) {
-        return dao.findByReferanseId(referanseId) != null;
-    }
-
-    public boolean harOpprettetForSak(String saksnr) {
-        return dao.findBySaksnr(saksnr) != null;
     }
 
     @Override

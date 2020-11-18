@@ -51,10 +51,9 @@ public class DittNavMeldingProdusent implements DittNav {
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
         var key = oppgaveNøkkel(eventId);
-        if (oppgave.harOpprettetForReferanse(key.getEventId())) {
+        if (oppgave.slett(key.getEventId())) {
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(fnr, grupperingsId), key, config.getDone());
-            oppgave.slett(key.getEventId());
         } else {
             LOG.info("Ingen oppgave å avslutte i Ditt Nav");
         }
@@ -64,9 +63,8 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
-        if (oppgave.harOpprettetForReferanse(key.getEventId())) {
+        if (oppgave.slett(key.getEventId())) {
             LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-            oppgave.slett(key.getEventId());
             send(avslutt(fnr, grupperingsId), key, config.getDone());
         } else {
             LOG.info("Ingen beskjed å avslutte i Ditt Nav");
@@ -87,6 +85,7 @@ public class DittNavMeldingProdusent implements DittNav {
             send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
                     config.getBeskjed());
         }
+        oppgave.opprett(fnr, eventId, saksnr);
     }
 
     @Override
@@ -96,8 +95,9 @@ public class DittNavMeldingProdusent implements DittNav {
         LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
                 tekst,
                 url);
-
         send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
+        oppgave.opprett(fnr, eventId, saksnr);
+
     }
 
     private void send(Object msg, Nokkel key, String topic) {
@@ -121,17 +121,6 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public String toString() {
         return getClass().getSimpleName() + ", kafkaOperations=" + kafkaOperations + ", config=" + config + "]";
-    }
-
-    @Override
-    public boolean oppgaveOpprettet(String saksnr) {
-        return oppgave.harOpprettetForSak(saksnr);
-    }
-
-    @Override
-    public void registrerOppgaveOpprettet(Fødselsnummer fnr, String saksnr, String referanseId) {
-        oppgave.opprett(fnr, referanseId, saksnr);
-
     }
 
 }

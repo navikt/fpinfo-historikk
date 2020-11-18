@@ -14,8 +14,4 @@ public interface DittNav {
     void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId,
             String tekst, String url, String saksnr);
 
-    boolean oppgaveOpprettet(String saksnr);
-
-    void registrerOppgaveOpprettet(Fødselsnummer fnr, String saksnummer, String referanseId);
-
 }
