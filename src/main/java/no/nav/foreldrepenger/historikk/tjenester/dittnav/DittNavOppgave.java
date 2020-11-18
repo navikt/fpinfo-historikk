@@ -22,7 +22,7 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
-        if (harOpprettetForReferanse(referanseId)) {
+        if (!harOpprettetForReferanse(referanseId)) {
             LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
             var ny = new JPADittNavOppgave();
             ny.setFnr(fnr);

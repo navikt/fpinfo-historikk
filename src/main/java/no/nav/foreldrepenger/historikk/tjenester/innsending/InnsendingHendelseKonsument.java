@@ -75,6 +75,8 @@ public class InnsendingHendelseKonsument {
                             info.manglendeVedleggTekst(),
                             generator.url(h.getHendelse()), h.getSaksnummer());
                     dittNav.registrerOppgaveOpprettet(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
+                } else {
+                    LOG.info("Det finnes allerede en oppgave i Ditt Nav for sak {}", h.getSaksnummer());
                 }
             }
         } catch (Exception e) {
