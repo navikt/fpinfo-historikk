@@ -23,7 +23,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.DittNavOppgave;
 
 @Service
 @ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
@@ -52,18 +51,26 @@ public class DittNavMeldingProdusent implements DittNav {
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
             String eventId) {
         var key = oppgaveNøkkel(eventId);
-        LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-        send(avslutt(fnr, grupperingsId), key, config.getDone());
-        oppgave.slett(key.getEventId());
+        if (oppgave.erOpprettet(key.getEventId())) {
+            LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+            send(avslutt(fnr, grupperingsId), key, config.getDone());
+            oppgave.slett(key.getEventId());
+        } else {
+            LOG.info("Ingen oppgave å avslutte i Ditt Nav");
+        }
     }
 
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
-        LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-        oppgave.slett(key.getEventId());
-        send(avslutt(fnr, grupperingsId), key, config.getDone());
+        if (oppgave.erOpprettet(key.getEventId())) {
+            LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+            oppgave.slett(key.getEventId());
+            send(avslutt(fnr, grupperingsId), key, config.getDone());
+        } else {
+            LOG.info("Ingen beskjed å avslutte i Ditt Nav");
+        }
     }
 
     @Override
@@ -79,7 +86,6 @@ public class DittNavMeldingProdusent implements DittNav {
             LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
             send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
                     config.getBeskjed());
-            oppgave.opprett(fnr, key.getEventId(), saksnr);
         }
     }
 
@@ -92,7 +98,6 @@ public class DittNavMeldingProdusent implements DittNav {
                 url);
 
         send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
-        oppgave.opprett(fnr, key.getEventId(), saksnr);
     }
 
     private void send(Object msg, Nokkel key, String topic) {

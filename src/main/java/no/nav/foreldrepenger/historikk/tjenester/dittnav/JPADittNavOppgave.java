@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
