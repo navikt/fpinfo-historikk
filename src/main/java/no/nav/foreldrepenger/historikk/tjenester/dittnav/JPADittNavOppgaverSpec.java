@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.tjenester.innsending.JPADittNavOppgave_.referanseId;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave_.referanseId;
 
 import org.springframework.data.jpa.domain.Specification;
 

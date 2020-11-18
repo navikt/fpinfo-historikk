@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.tjenester.innsending;
+package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
 
@@ -22,8 +22,7 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
-        var oppgave = dao.findByReferanseId(referanseId);
-        if (oppgave == null) {
+        if (erOpprettet(referanseId)) {
             LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
             var ny = new JPADittNavOppgave();
             ny.setFnr(fnr);
@@ -51,5 +50,9 @@ public class DittNavOppgave {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[dao=" + dao + "]";
+    }
+
+    public boolean erOpprettet(String referanseId) {
+        return dao.findByReferanseId(referanseId) != null;
     }
 }
