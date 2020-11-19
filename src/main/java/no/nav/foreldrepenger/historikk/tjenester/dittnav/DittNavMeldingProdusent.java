@@ -110,7 +110,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding med id {} på {}", key.getEventId(), topic, e);
+                LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, e);
             }
         });
     }

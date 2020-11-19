@@ -30,15 +30,15 @@ public class DittNavOppgave {
         ny.setSaksnr(saksnr);
         ny.setHendelse(hendelse);
         dao.save(ny);
-        LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
+        LOG.info("Opprettet info om  melding til Ditt Nav i DB OK {} {} {}", fnr, referanseId, saksnr);
     }
 
     public boolean slett(String referanseId) {
         var oppgave = dao.findByReferanseId(referanseId);
         if (oppgave != null) {
-            LOG.info("Sletter oppgave {}", referanseId);
+            LOG.info("Sletter oppgave fra DB {}", referanseId);
             dao.delete(oppgave);
-            LOG.info("Slettet oppgave {} OK", referanseId);
+            LOG.info("Slettet oppgave {} fra DB OK", referanseId);
             return true;
         }
         LOG.info("Ingen oppgave å slette for {}", referanseId);
