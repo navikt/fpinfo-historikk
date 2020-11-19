@@ -1,5 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -7,12 +10,18 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class DittNavConfig {
     private final DittNavTopics topics;
     private final boolean enabled;
+    private final Duration varighet;
 
     @ConstructorBinding
-    public DittNavConfig(DittNavTopics topics, boolean enabled) {
+    public DittNavConfig(DittNavTopics topics, boolean enabled, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
         this.topics = topics;
         this.enabled = enabled;
+        this.varighet = varighet;
 
+    }
+
+    public Duration getVarighet() {
+        return varighet;
     }
 
     public DittNavTopics getTopics() {
@@ -37,7 +46,7 @@ public class DittNavConfig {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[topics=" + topics + ", enabled=" + enabled + "]";
+        return getClass().getSimpleName() + " [topics=" + topics + ", enabled=" + enabled + ", varighet=" + varighet + "]";
     }
 
 }

@@ -7,14 +7,11 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.be
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgaveNøkkel;
 
-import java.time.Duration;
 import java.util.UUID;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -23,33 +20,30 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.LandingssideGenerator;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
-@ConditionalOnProperty(name = "historikk.dittnav.enabled", havingValue = "true")
 public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
     private final KafkaOperations<Nokkel, Object> kafkaOperations;
-
     private final DittNavConfig config;
-
     private final DittNavOppgave oppgave;
-
-    private final Duration varighet;
+    private final LandingssideGenerator landingssideGenerator;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
-            DittNavConfig config, DittNavOppgave oppgave, @Value("${dittnav.beskjed.levetid:90d}") Duration varighet) {
+            DittNavConfig config, DittNavOppgave oppgave, LandingssideGenerator landingssideGenerator) {
         this.kafkaOperations = kafkaOperations;
         this.config = config;
-        this.varighet = varighet;
         this.oppgave = oppgave;
+        this.landingssideGenerator = landingssideGenerator;
     }
 
     @Transactional(KAFKA_TM)
     @Override
-    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId,
-            String eventId) {
+    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = oppgaveNøkkel(eventId);
         if (oppgave.slett(key.getEventId())) {
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
@@ -73,31 +67,34 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
-        var key = beskjedNøkkel(eventId);
-        if (grupperingsId != null) {
-            LOG.info("Oppretter beskjed med eventId {} for {} {} {} {} i Ditt Nav", key.getEventId(), fnr,
-                    grupperingsId, tekst,
-                    url);
-            send(beskjed(fnr, grupperingsId, tekst, url, varighet), key, config.getBeskjed());
+    public void opprettBeskjed(InnsendingHendelse h, String tekst) {
+        var key = beskjedNøkkel(h.getReferanseId());
+        var url = landingssideGenerator.uri(h.getHendelse());
+        if (h.getSaksnummer() != null) {
+            LOG.info("Oppretter beskjed for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
+                    tekst, url);
+            send(beskjed(h.getFnr(), h.getSaksnummer(), tekst, url, config.getVarighet()), key, config.getBeskjed());
         } else {
             LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-            send(beskjed(fnr, UUID.randomUUID().toString(), tekst, url, varighet), key,
+            send(beskjed(h.getFnr(), UUID.randomUUID().toString(), tekst, url, config.getVarighet()), key,
                     config.getBeskjed());
         }
-        oppgave.opprett(fnr, eventId, saksnr);
+        oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(), h.getHendelse());
     }
 
     @Override
     @Transactional(KAFKA_TM)
-    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId, String tekst, String url, String saksnr) {
-        var key = oppgaveNøkkel(eventId);
-        LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId,
-                tekst,
-                url);
-        send(oppgave(fnr, grupperingsId, tekst, url), key, config.getOppgave());
-        oppgave.opprett(fnr, eventId, saksnr);
-
+    public void opprettOppgave(InnsendingHendelse h, String tekst) {
+        if (!oppgave.erOpprettet(h.getSaksnummer(), h.getHendelse())) {
+            var key = oppgaveNøkkel(h.getReferanseId());
+            var url = landingssideGenerator.uri(h.getHendelse());
+            LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
+                    tekst, url);
+            send(oppgave(h.getFnr(), h.getSaksnummer(), tekst, url), key, config.getOppgave());
+            oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(), h.getHendelse());
+        } else {
+            LOG.info("Det finnes allerede en oppgave av type {} for sak {}", h.getHendelse(), h.getSaksnummer());
+        }
     }
 
     private void send(Object msg, Nokkel key, String topic) {
@@ -120,7 +117,8 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + ", kafkaOperations=" + kafkaOperations + ", config=" + config + "]";
+        return getClass().getSimpleName() + " [kafkaOperations=" + kafkaOperations + ", config=" + config + ", oppgave=" + oppgave
+                + ", landingssideGenerator=" + landingssideGenerator + "]";
     }
 
 }

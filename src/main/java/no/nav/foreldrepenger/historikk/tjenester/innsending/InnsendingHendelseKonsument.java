@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
-import no.nav.foreldrepenger.historikk.tjenester.felles.UrlGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
@@ -26,14 +25,12 @@ public class InnsendingHendelseKonsument {
     private final Innsending innsending;
     private final Tilbakekreving tilbakekreving;
     private final DittNav dittNav;
-    private final UrlGenerator generator;
 
     public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving tilbakekreving,
-            DittNav dittNav, UrlGenerator generator) {
+            DittNav dittNav) {
         this.innsending = innsending;
         this.tilbakekreving = tilbakekreving;
         this.dittNav = dittNav;
-        this.generator = generator;
     }
 
     @Transactional
@@ -47,9 +44,7 @@ public class InnsendingHendelseKonsument {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
         }
-        dittNav.opprettBeskjed(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                "Vi mottok en " + h.getHendelse().beskrivelse,
-                generator.url(h.getHendelse()), h.getSaksnummer());
+        dittNav.opprettBeskjed(h, "Vi mottok en " + h.getHendelse().beskrivelse);
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {
@@ -70,9 +65,7 @@ public class InnsendingHendelseKonsument {
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
-                dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getReferanseId(),
-                        info.manglendeVedleggTekst(),
-                        generator.url(h.getHendelse()), h.getSaksnummer());
+                dittNav.opprettOppgave(h, info.manglendeVedleggTekst());
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);

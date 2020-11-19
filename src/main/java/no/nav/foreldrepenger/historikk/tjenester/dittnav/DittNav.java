@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 public interface DittNav {
 
@@ -8,10 +9,8 @@ public interface DittNav {
 
     void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId);
 
-    void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId,
-            String tekst, String url, String saksnr);
+    void opprettBeskjed(InnsendingHendelse h, String tekst);
 
-    void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String eventId,
-            String tekst, String url, String saksnr);
+    void opprettOppgave(InnsendingHendelse h, String tekst);
 
 }

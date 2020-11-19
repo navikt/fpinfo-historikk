@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Service
 @Transactional(JPA_TM)
@@ -21,12 +22,13 @@ public class DittNavOppgave {
         this.dao = dao;
     }
 
-    public void opprett(Fødselsnummer fnr, String referanseId, String saksnr) {
+    public void opprett(Fødselsnummer fnr, String referanseId, String saksnr, HendelseType hendelse) {
         LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
         var ny = new JPADittNavOppgave();
         ny.setFnr(fnr);
         ny.setReferanseId(referanseId);
         ny.setSaksnr(saksnr);
+        ny.setHendelse(hendelse);
         dao.save(ny);
         LOG.info("Opprettet oppgave OK {} {} {}", fnr, referanseId, saksnr);
     }
@@ -41,6 +43,10 @@ public class DittNavOppgave {
         }
         LOG.info("Ingen oppgave å slette for {}", referanseId);
         return false;
+    }
+
+    public boolean erOpprettet(String saksnr, HendelseType hendelse) {
+        return dao.findBySaksnrAndHendelse(saksnr, hendelse) != null;
     }
 
     @Override

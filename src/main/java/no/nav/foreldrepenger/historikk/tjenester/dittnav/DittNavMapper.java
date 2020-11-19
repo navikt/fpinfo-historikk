@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -23,11 +24,11 @@ final class DittNavMapper {
 
     }
 
-    static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, String url) {
+    static Oppgave oppgave(Fødselsnummer fnr, String grupperingsId, String tekst, URI landingsside) {
         return Oppgave.newBuilder()
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
-                .setLink(url)
+                .setLink(landingsside.toString())
                 .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
                 .setTekst(tekst)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
@@ -40,12 +41,12 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, String url, Duration duration) {
+    static Beskjed beskjed(Fødselsnummer fnr, String grupperingsId, String tekst, URI landingsside, Duration duration) {
         return Beskjed.newBuilder()
                 .setSynligFremTil(Instant.now().plus(duration).toEpochMilli())
                 .setFodselsnummer(fnr.getFnr())
                 .setGrupperingsId(grupperingsId)
-                .setLink(url)
+                .setLink(landingsside.toString())
                 .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
                 .setTekst(tekst)
                 .setTidspunkt(Instant.now().toEpochMilli()).build();

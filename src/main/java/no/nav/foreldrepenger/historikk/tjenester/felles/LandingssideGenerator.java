@@ -2,12 +2,14 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.isDev;
 
+import java.net.URI;
+
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UrlGenerator implements EnvironmentAware {
+public class LandingssideGenerator implements EnvironmentAware {
 
     private Environment env;
 
@@ -16,17 +18,17 @@ public class UrlGenerator implements EnvironmentAware {
         this.env = env;
     }
 
-    public String url(HendelseType hendelse) {
+    public URI uri(HendelseType hendelse) {
         if (hendelse.erEngangsstønad()) {
-            return es();
+            return URI.create(es());
         }
         if (hendelse.erForeldrepenger()) {
-            return fp();
+            return URI.create(fp());
         }
         if (hendelse.erSvangerskapspenger()) {
-            return svp();
+            return URI.create(svp());
         }
-        return fp();
+        return URI.create(fp());
     }
 
     private String fp() {

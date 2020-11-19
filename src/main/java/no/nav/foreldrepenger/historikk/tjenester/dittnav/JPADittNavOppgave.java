@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,6 +17,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
 @Table(name = "dittnavoppgaver")
@@ -30,6 +33,16 @@ public class JPADittNavOppgave {
     @CreatedDate
     private LocalDateTime opprettet;
     private String referanseId;
+    @Enumerated(STRING)
+    private HendelseType hendelse;
+
+    public HendelseType getHendelse() {
+        return hendelse;
+    }
+
+    public void setHendelse(HendelseType hendelse) {
+        this.hendelse = hendelse;
+    }
 
     JPADittNavOppgave() {
     }
@@ -76,9 +89,8 @@ public class JPADittNavOppgave {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", saksnr=" + saksnr + ", opprettet="
-                + opprettet
-                + ", referanseId=" + referanseId + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", referanseId="
+                + referanseId + ", hendelse=" + hendelse + "]";
     }
 
 }
