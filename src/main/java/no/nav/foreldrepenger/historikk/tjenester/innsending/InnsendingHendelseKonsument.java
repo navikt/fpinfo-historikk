@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
@@ -65,11 +66,24 @@ public class InnsendingHendelseKonsument {
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
-                dittNav.opprettOppgave(h, info.manglendeVedleggTekst());
+                dittNav.opprettOppgave(h, "Det mangler vedlegg i søknaden din om {}", sak(h.getHendelse()));
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
         }
+    }
+
+    private String sak(HendelseType hendelse) {
+        if (hendelse.erEngangsstønad()) {
+            return "engangsstønad";
+        }
+        if (hendelse.erForeldrepenger()) {
+            return "foreldrepenger";
+        }
+        if (hendelse.erSvangerskapspenger()) {
+            return "svangerskapspenger";
+        }
+        return "foreldrepenger";
     }
 
     @Override
