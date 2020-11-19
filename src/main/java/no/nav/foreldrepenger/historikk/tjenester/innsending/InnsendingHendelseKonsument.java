@@ -66,14 +66,14 @@ public class InnsendingHendelseKonsument {
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
-                dittNav.opprettOppgave(h, "Det mangler vedlegg i søknaden din om {}", sak(h.getHendelse()));
+                dittNav.opprettOppgave(h, String.format("Det mangler vedlegg i søknaden din om %s", sak(h.getHendelse())));
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
         }
     }
 
-    private String sak(HendelseType hendelse) {
+    private static String sak(HendelseType hendelse) {
         if (hendelse.erEngangsstønad()) {
             return "engangsstønad";
         }
