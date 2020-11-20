@@ -117,12 +117,12 @@ public class Innsending {
                     LOG.trace("Ny førstegangsinnsending, fjerner gamle manglende vedlegg");
                     manglende.clear();
                 }
-                if (!hendelse.ikkeOpplastedeVedlegg().isEmpty()) {
-                    LOG.trace("Legger til {} i {}", hendelse.ikkeOpplastedeVedlegg(), manglende);
-                    manglende.addAll(hendelse.ikkeOpplastedeVedlegg());
+                if (!hendelse.getIkkeOpplastedeVedlegg().isEmpty()) {
+                    LOG.trace("Legger til {} i {}", hendelse.getIkkeOpplastedeVedlegg(), manglende);
+                    manglende.addAll(hendelse.getIkkeOpplastedeVedlegg());
                 }
-                LOG.trace("Fjerner {} fra {}", hendelse.opplastedeVedlegg(), manglende);
-                hendelse.opplastedeVedlegg().stream().forEach(manglende::remove);
+                LOG.trace("Fjerner {} fra {}", hendelse.getOpplastedeVedlegg(), manglende);
+                hendelse.getOpplastedeVedlegg().stream().forEach(manglende::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
             }
             LOG.info("Ikke-opplastede vedlegg  er {}", manglende);

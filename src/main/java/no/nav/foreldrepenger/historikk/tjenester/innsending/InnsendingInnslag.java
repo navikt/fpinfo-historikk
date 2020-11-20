@@ -40,14 +40,14 @@ public class InnsendingInnslag extends HistorikkInnslag {
                 .collect(toList());
     }
 
-    List<String> opplastedeVedlegg() {
+    public List<String> getOpplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> LASTET_OPP.equals(v.getRight()))
                 .map(Pair::getLeft)
                 .collect(toList());
     }
 
-    List<String> ikkeOpplastedeVedlegg() {
+    public List<String> getIkkeOpplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> SEND_SENERE.equals(v.getRight()))
                 .map(Pair::getLeft)
