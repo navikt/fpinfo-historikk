@@ -23,7 +23,7 @@ jobs:
          echo ${{ github.event.client_payload.github.payload.issue.title }} | awk '{print $NF}'   >> $GITHUB_ENV
          echo 'EOF' >> $GITHUB_ENV
                
-         echo "CLUSTER=${{github.event.client_payload.slash_command.unnamed.arg1}}" >> $GITHUB_ENV
+         echo "CLUSTER=${{github.event.client_payload.slash_command.args.unnamed.arg1}}" >> $GITHUB_ENV
      
       - name: Sett variabel for image
         run: echo IMAGE=$IMAGE_BASE:$NAME >> $GITHUB_ENV
