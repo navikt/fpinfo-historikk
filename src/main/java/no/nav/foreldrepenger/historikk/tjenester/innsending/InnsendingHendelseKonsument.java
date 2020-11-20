@@ -67,6 +67,9 @@ public class InnsendingHendelseKonsument {
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
                 dittNav.opprettOppgave(h, String.format("Det mangler vedlegg i søknaden din om %s", sak(h.getHendelse())));
+            } else {
+                LOG.info("Det mangler ingen vedlegg for sak {}", h.getSaksnummer());
+
             }
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);

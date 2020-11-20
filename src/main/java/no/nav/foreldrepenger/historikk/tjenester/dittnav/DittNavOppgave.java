@@ -23,14 +23,14 @@ public class DittNavOppgave {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId, String saksnr, HendelseType hendelse) {
-        LOG.info("Oppretter oppgave {} {} {}", fnr, referanseId, saksnr);
+        LOG.info("Oppretter info om  melding til Ditt Nav i DB {} {} {}", fnr, referanseId, saksnr);
         var ny = new JPADittNavOppgave();
         ny.setFnr(fnr);
         ny.setReferanseId(referanseId);
         ny.setSaksnr(saksnr);
         ny.setHendelse(hendelse);
-        dao.save(ny);
-        LOG.info("Opprettet info om  melding til Ditt Nav i DB OK {} {} {}", fnr, referanseId, saksnr);
+        var saved = dao.save(ny);
+        LOG.info("Opprettet info om  melding til Ditt Nav i DB OK {}", saved);
     }
 
     public boolean slett(String referanseId) {

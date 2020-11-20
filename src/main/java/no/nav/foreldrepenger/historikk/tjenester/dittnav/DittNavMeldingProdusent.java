@@ -79,7 +79,8 @@ public class DittNavMeldingProdusent implements DittNav {
             send(beskjed(h.getFnr(), UUID.randomUUID().toString(), tekst, url, config.getVarighet()), key,
                     config.getBeskjed());
         }
-        oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(), h.getHendelse());
+        // oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(),
+        // h.getHendelse());
     }
 
     @Override

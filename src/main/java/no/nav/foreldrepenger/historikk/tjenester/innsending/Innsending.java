@@ -125,7 +125,7 @@ public class Innsending {
                 hendelse.opplastedeVedlegg().stream().forEach(manglendeDokumentIder::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglendeDokumentIder);
             }
-            LOG.info("Ikke-opplastede vedlegg  {}", manglendeDokumentIder);
+            LOG.info("Ikke-opplastede vedlegg  er {}", manglendeDokumentIder);
             return new VedleggsInfo(eventIder, manglendeDokumentIder);
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);
