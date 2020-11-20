@@ -66,7 +66,8 @@ public class InnsendingHendelseKonsument {
                     .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
-                dittNav.opprettOppgave(h, String.format("Det mangler vedlegg i søknaden din om %s", sak(h.getHendelse())));
+                dittNav.opprettOppgave(h,
+                        String.format("Det mangler %s vedlegg i søknaden din om %s", info.getManglende().size(), sak(h.getHendelse())));
             } else {
                 LOG.info("Det mangler ingen vedlegg for sak {}", h.getSaksnummer());
 
