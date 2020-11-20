@@ -10,16 +10,16 @@ public class VedleggsInfo {
     private static final int MAX_LENGDE = 500;
 
     public static final VedleggsInfo NONE = new VedleggsInfo(emptyList(), emptyList());
-    private final List<String> refs;
+    private final List<String> innsendte;
     private final List<String> manglende;
 
-    public VedleggsInfo(List<String> refs, List<String> manglende) {
-        this.refs = refs;
+    public VedleggsInfo(List<String> innsendte, List<String> manglende) {
+        this.innsendte = innsendte;
         this.manglende = manglende;
     }
 
-    public List<String> getRefs() {
-        return refs;
+    public List<String> getInnsendte() {
+        return innsendte;
     }
 
     public List<String> getManglende() {
@@ -49,7 +49,7 @@ public class VedleggsInfo {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[refs=" + refs + ", manglende=" + manglende + "]";
+        return getClass().getSimpleName() + "[innsendte=" + innsendte + ", manglende=" + manglende + "]";
     }
 
 }
