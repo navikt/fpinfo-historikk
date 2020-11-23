@@ -55,7 +55,7 @@ public class InnsendingHendelseKonsument {
 
     private void sjekkMangledeVedlegg(InnsendingHendelse h) {
         if (h.getSaksnummer() == null) {
-            LOG.info("Søknaden ble rutet til GOSYS, intet saksnummer");
+            LOG.info("Søknaden har intet saksnummer");
             return;
         }
         try {

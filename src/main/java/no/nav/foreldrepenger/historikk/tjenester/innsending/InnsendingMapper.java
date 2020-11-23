@@ -20,7 +20,7 @@ public final class InnsendingMapper {
     }
 
     static InnsendingInnslag tilInnslag(JPAInnsendingInnslag i) {
-        LOG.info("Mapper fra innslag {}", i);
+        LOG.trace("Mapper fra innslag {}", i);
         var innslag = new InnsendingInnslag(i.getHendelse());
         innslag.setFnr(i.getFnr());
         innslag.setOpprettet(i.getOpprettet());
@@ -31,7 +31,7 @@ public final class InnsendingMapper {
         innslag.setBehandlingsdato(i.getBehandlingsdato());
         innslag.setInnsendt(i.getInnsendt());
         innslag.setReferanseId(i.getReferanseId());
-        LOG.info("Mappet til innslag {}", innslag);
+        LOG.trace("Mappet til innslag {}", innslag);
         return innslag;
     }
 
@@ -67,7 +67,7 @@ public final class InnsendingMapper {
         safeStream(hendelse.getIkkeOpplastedeVedlegg())
                 .map(v -> fraVedlegg(v, SEND_SENERE))
                 .forEach(innslag::addVedlegg);
-        LOG.info("Mappet til innslag {}", innslag);
+        LOG.info("trace til innslag {}", innslag);
         return innslag;
     }
 
