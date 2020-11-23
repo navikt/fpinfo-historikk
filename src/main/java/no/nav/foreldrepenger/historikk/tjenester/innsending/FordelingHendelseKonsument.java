@@ -27,11 +27,11 @@ public class FordelingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.søknad.fordeling.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.søknad.fordeling.topic}'}", groupId = "fordeling")
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
         LOG.info("Mottok fordelingshendelse {}", h);
-        innsending.lagreEllerOppdater(h);
+        // innsending.lagreEllerOppdater(h);
     }
 
     @Override
