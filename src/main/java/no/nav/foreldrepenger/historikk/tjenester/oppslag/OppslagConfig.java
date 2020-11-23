@@ -53,8 +53,7 @@ public class OppslagConfig extends AbstractConfig {
     }
 
     public URI fnrURI(AktørId aktørId) {
-        return uri(uri, "fnr", queryParams("aktorId", aktørId.getAktørId()));
-
+        return uri(uri, FNR, queryParams("aktorId", aktørId.getAktørId()));
     }
 
 }
