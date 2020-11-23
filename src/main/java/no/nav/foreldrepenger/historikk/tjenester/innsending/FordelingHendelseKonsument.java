@@ -27,7 +27,7 @@ public class FordelingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.søknad.fordeling.topic}'}", groupId = "fordeling")
+    @KafkaListener(topics = "#{'${historikk.søknad.fordeling.topic}'}", groupId = "#{'${historikk.søknad.fordeling.group-id}'}")
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
         LOG.info("Mottok fordelingshendelse {}", h);
