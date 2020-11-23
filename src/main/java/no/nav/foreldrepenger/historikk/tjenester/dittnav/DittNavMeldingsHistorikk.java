@@ -22,23 +22,23 @@ public class DittNavMeldingsHistorikk {
     }
 
     public void opprett(Fødselsnummer fnr, String referanseId) {
-        LOG.info("Oppretter info om  melding til Ditt Nav i DB {} {}", fnr, referanseId);
+        LOG.info("Oppretter info om  melding/oppgave til Ditt Nav i DB {} {}", fnr, referanseId);
         var ny = new JPADittNavOppgave();
         ny.setFnr(fnr);
         ny.setReferanseId(referanseId);
         var saved = dao.save(ny);
-        LOG.info("Opprettet info om  melding til Ditt Nav i DB OK {}", saved);
+        LOG.info("Opprettet info om  melding/oppgave til Ditt Nav i DB OK {}", saved);
     }
 
     public boolean slett(String referanseId) {
         var oppgave = dao.findByReferanseId(referanseId);
         if (oppgave != null) {
-            LOG.info("Sletter oppgave fra DB {}", referanseId);
+            LOG.info("Sletter melding/oppgave fra DB {}", referanseId);
             dao.delete(oppgave);
-            LOG.info("Slettet oppgave {} fra DB OK", referanseId);
+            LOG.info("Slettet melding/oppgave {} fra DB OK", referanseId);
             return true;
         }
-        LOG.info("Ingen oppgave å slette for {}", referanseId);
+        LOG.info("Ingen oppgave/melding å slette for {}", referanseId);
         return false;
     }
 
