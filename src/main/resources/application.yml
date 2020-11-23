@@ -27,7 +27,7 @@ historikk:
       fordeling:
         enabled: true
         topic: privat-foreldrepenger-historikk-fordeling
-        client-id: fordeling
+        group-id: fordeling
    tilbakekreving:
       enabled: true
       topic: privat-tilbakekreving-brukerdialog-p     
