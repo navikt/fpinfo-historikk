@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
-@ConditionalOnProperty(name = "historikk.søknad.fordeling.enabled")
+@ConditionalOnProperty(name = "historikk.innsending.fordeling.enabled")
 public class FordelingHendelseKonsument {
 
     private static final Logger LOG = LoggerFactory.getLogger(FordelingHendelseKonsument.class);
@@ -27,7 +27,7 @@ public class FordelingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.søknad.fordeling.topic}'}", groupId = "#{'${historikk.søknad.fordeling.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.innsending.fordeling.topic}'}", groupId = "#{'${historikk.innsending.fordeling.group-id}'}")
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
         LOG.info("Mottok fordelingshendelse {}", h);
