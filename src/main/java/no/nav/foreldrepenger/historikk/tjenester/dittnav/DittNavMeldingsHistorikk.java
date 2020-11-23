@@ -11,13 +11,13 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Service
 @Transactional(JPA_TM)
-public class DittNavOpprettetHistorikk {
+public class DittNavMeldingsHistorikk {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DittNavOpprettetHistorikk.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingsHistorikk.class);
 
     private final JPADittNavOppgaverRepository dao;
 
-    public DittNavOpprettetHistorikk(JPADittNavOppgaverRepository dao) {
+    public DittNavMeldingsHistorikk(JPADittNavOppgaverRepository dao) {
         this.dao = dao;
     }
 

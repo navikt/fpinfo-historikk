@@ -29,10 +29,10 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private final KafkaOperations<Nokkel, Object> kafka;
     private final DittNavConfig config;
-    private final DittNavOpprettetHistorikk lager;
+    private final DittNavMeldingsHistorikk lager;
 
     public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafka,
-            DittNavConfig config, DittNavOpprettetHistorikk lager) {
+            DittNavConfig config, DittNavMeldingsHistorikk lager) {
         this.kafka = kafka;
         this.config = config;
         this.lager = lager;
