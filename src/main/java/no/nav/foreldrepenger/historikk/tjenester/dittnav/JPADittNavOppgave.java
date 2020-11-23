@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -8,7 +7,6 @@ import java.time.LocalDateTime;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,7 +15,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Entity
 @Table(name = "dittnavoppgaver")
@@ -29,20 +26,9 @@ public class JPADittNavOppgave {
     private int id;
     @Embedded
     private Fødselsnummer fnr;
-    private String saksnr;
     @CreatedDate
     private LocalDateTime opprettet;
     private String referanseId;
-    @Enumerated(STRING)
-    private HendelseType hendelse;
-
-    public HendelseType getHendelse() {
-        return hendelse;
-    }
-
-    public void setHendelse(HendelseType hendelse) {
-        this.hendelse = hendelse;
-    }
 
     JPADittNavOppgave() {
     }
@@ -63,20 +49,12 @@ public class JPADittNavOppgave {
         this.opprettet = opprettet;
     }
 
-    public String getSaksnr() {
-        return saksnr;
-    }
-
     public String getReferanseId() {
         return referanseId;
     }
 
     public void setReferanseId(String referanseId) {
         this.referanseId = referanseId;
-    }
-
-    public void setSaksnr(String saksnr) {
-        this.saksnr = saksnr;
     }
 
     public Fødselsnummer getFnr() {
@@ -89,8 +67,8 @@ public class JPADittNavOppgave {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", referanseId="
-                + referanseId + ", hendelse=" + hendelse + "]";
+        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", opprettet=" + opprettet + ", referanseId="
+                + referanseId + "]";
     }
 
 }

@@ -53,15 +53,16 @@ final class DittNavMapper {
     }
 
     static Nokkel beskjedNøkkel(String eventId) {
-        return Nokkel.newBuilder()
-                .setEventId(BESKJED + eventId)
-                .setSystembruker(SYSTEMBRUKER)
-                .build();
+        return nøkkel(BESKJED, eventId);
     }
 
     static Nokkel oppgaveNøkkel(String eventId) {
+        return nøkkel(OPPGAVE, eventId);
+    }
+
+    private static Nokkel nøkkel(String prefix, String eventId) {
         return Nokkel.newBuilder()
-                .setEventId(OPPGAVE + eventId)
+                .setEventId(prefix + eventId)
                 .setSystembruker(SYSTEMBRUKER)
                 .build();
     }

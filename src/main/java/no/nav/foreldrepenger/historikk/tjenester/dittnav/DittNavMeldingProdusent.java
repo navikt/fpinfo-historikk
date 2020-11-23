@@ -20,7 +20,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.LandingssideGenerator;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
@@ -28,24 +27,22 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
-    private final KafkaOperations<Nokkel, Object> kafkaOperations;
+    private final KafkaOperations<Nokkel, Object> kafka;
     private final DittNavConfig config;
-    private final DittNavOppgave oppgave;
-    private final LandingssideGenerator landingssideGenerator;
+    private final DittNavOpprettetHistorikk lager;
 
-    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafkaOperations,
-            DittNavConfig config, DittNavOppgave oppgave, LandingssideGenerator landingssideGenerator) {
-        this.kafkaOperations = kafkaOperations;
+    public DittNavMeldingProdusent(KafkaOperations<Nokkel, Object> kafka,
+            DittNavConfig config, DittNavOpprettetHistorikk lager) {
+        this.kafka = kafka;
         this.config = config;
-        this.oppgave = oppgave;
-        this.landingssideGenerator = landingssideGenerator;
+        this.lager = lager;
     }
 
     @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = oppgaveNøkkel(eventId);
-        if (oppgave.slett(key.getEventId())) {
+        if (lager.slett(key.getEventId())) {
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(fnr, grupperingsId), key, config.getDone());
         } else {
@@ -57,7 +54,7 @@ public class DittNavMeldingProdusent implements DittNav {
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(eventId);
-        if (oppgave.slett(key.getEventId())) {
+        if (lager.slett(key.getEventId())) {
             LOG.info("Avslutter beskjed med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(fnr, grupperingsId), key, config.getDone());
         } else {
@@ -69,39 +66,40 @@ public class DittNavMeldingProdusent implements DittNav {
     @Transactional(KAFKA_TM)
     public void opprettBeskjed(InnsendingHendelse h, String tekst) {
         var key = beskjedNøkkel(h.getReferanseId());
-        var url = landingssideGenerator.uri(h.getHendelse());
-        if (h.getSaksnummer() != null) {
-            LOG.info("Oppretter beskjed for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
-                    tekst, url);
-            send(beskjed(h.getFnr(), h.getSaksnummer(), tekst, url, config.getVarighet()), key, config.getBeskjed());
+        if (!lager.erOpprettet(key.getEventId())) {
+            if (h.getSaksnummer() != null) {
+                LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
+                        tekst);
+                send(beskjed(h.getFnr(), h.getSaksnummer(), tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+            } else {
+                LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
+                send(beskjed(h.getFnr(), UUID.randomUUID().toString(), tekst, config.uri(), config.getVarighet()), key,
+                        config.getBeskjed());
+            }
+            lager.opprett(h.getFnr(), key.getEventId());
         } else {
-            LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-            send(beskjed(h.getFnr(), UUID.randomUUID().toString(), tekst, url, config.getVarighet()), key,
-                    config.getBeskjed());
+            LOG.info("Det er allerde opprettet en beskjed {} ", key.getEventId());
         }
-        // oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(),
-        // h.getHendelse());
     }
 
     @Override
     @Transactional(KAFKA_TM)
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
-        if (!oppgave.erOpprettet(h.getSaksnummer(), h.getHendelse())) {
-            var key = oppgaveNøkkel(h.getReferanseId());
-            var url = landingssideGenerator.uri(h.getHendelse());
-            LOG.info("Oppretter oppgave for med eventId {} {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
-                    tekst, url);
-            send(oppgave(h.getFnr(), h.getSaksnummer(), tekst, url), key, config.getOppgave());
-            oppgave.opprett(h.getFnr(), key.getEventId(), h.getSaksnummer(), h.getHendelse());
+        var key = oppgaveNøkkel(h.getReferanseId());
+        if (!lager.erOpprettet(key.getEventId())) {
+            LOG.info("Oppretter oppgave for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
+                    tekst);
+            send(oppgave(h.getFnr(), h.getSaksnummer(), tekst, config.uri()), key, config.getOppgave());
+            lager.opprett(h.getFnr(), key.getEventId());
         } else {
-            LOG.info("Det finnes allerede en oppgave av type {} for sak {}", h.getHendelse(), h.getSaksnummer());
+            LOG.info("Det er allerde opprettet en oppgave {} ", key.getEventId());
         }
     }
 
     private void send(Object msg, Nokkel key, String topic) {
         var melding = new ProducerRecord<>(topic, key, msg);
         LOG.info("Sender melding med id {} på {}", key.getEventId(), topic);
-        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
+        kafka.send(melding).addCallback(new ListenableFutureCallback<SendResult<Nokkel, Object>>() {
 
             @Override
             public void onSuccess(SendResult<Nokkel, Object> result) {
@@ -118,8 +116,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [kafkaOperations=" + kafkaOperations + ", config=" + config + ", oppgave=" + oppgave
-                + ", landingssideGenerator=" + landingssideGenerator + "]";
+        return getClass().getSimpleName() + " [kafka=" + kafka + ", config=" + config + ", lager=" + lager + "]";
     }
 
 }

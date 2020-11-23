@@ -8,27 +8,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
 @Service
 @Transactional(JPA_TM)
-public class DittNavOppgave {
+public class DittNavOpprettetHistorikk {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DittNavOppgave.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DittNavOpprettetHistorikk.class);
 
     private final JPADittNavOppgaverRepository dao;
 
-    public DittNavOppgave(JPADittNavOppgaverRepository dao) {
+    public DittNavOpprettetHistorikk(JPADittNavOppgaverRepository dao) {
         this.dao = dao;
     }
 
-    public void opprett(Fødselsnummer fnr, String referanseId, String saksnr, HendelseType hendelse) {
-        LOG.info("Oppretter info om  melding til Ditt Nav i DB {} {} {}", fnr, referanseId, saksnr);
+    public void opprett(Fødselsnummer fnr, String referanseId) {
+        LOG.info("Oppretter info om  melding til Ditt Nav i DB {} {}", fnr, referanseId);
         var ny = new JPADittNavOppgave();
         ny.setFnr(fnr);
         ny.setReferanseId(referanseId);
-        ny.setSaksnr(saksnr);
-        ny.setHendelse(hendelse);
         var saved = dao.save(ny);
         LOG.info("Opprettet info om  melding til Ditt Nav i DB OK {}", saved);
     }
@@ -45,8 +42,8 @@ public class DittNavOppgave {
         return false;
     }
 
-    public boolean erOpprettet(String saksnr, HendelseType hendelse) {
-        return dao.findBySaksnrAndHendelse(saksnr, hendelse) != null;
+    public boolean erOpprettet(String referanseId) {
+        return dao.findByReferanseId(referanseId) != null;
     }
 
     @Override
