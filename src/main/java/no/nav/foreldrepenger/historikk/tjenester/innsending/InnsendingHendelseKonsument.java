@@ -40,15 +40,15 @@ public class InnsendingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
-        sjekkMangledeVedlegg(h);
+        // sjekkMangledeVedlegg(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
-            avsluttOppgave(h);
+            avsluttTilbakekrevingOppgave(h);
         }
         dittNav.opprettBeskjed(h, "Vi mottok en " + h.getHendelse().beskrivelse);
     }
 
-    private void avsluttOppgave(InnsendingHendelse h) {
+    private void avsluttTilbakekrevingOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
         dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }

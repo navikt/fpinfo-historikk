@@ -20,6 +20,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.brukernotifikasjon.schemas.Nokkel;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingFordeltOgJournalførtHendelse;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
@@ -84,13 +85,23 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     @Transactional(KAFKA_TM)
+    public void opprettOppgave(InnsendingFordeltOgJournalførtHendelse h, String tekst) {
+        opprett(h.getForsendelseId(), h.getFnr(), h.getSaksnr(), tekst);
+    }
+
+    @Override
+    @Transactional(KAFKA_TM)
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
-        var key = oppgaveNøkkel(h.getReferanseId());
+        opprett(h.getReferanseId(), h.getFnr(), h.getSaksnummer(), tekst);
+    }
+
+    private void opprett(String id, Fødselsnummer fnr, String saksnr, String tekst) {
+        var key = oppgaveNøkkel(id);
         if (!lager.erOpprettet(key.getEventId())) {
-            LOG.info("Oppretter oppgave for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
+            LOG.info("Oppretter oppgave for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), fnr, saksnr,
                     tekst);
-            send(oppgave(h.getFnr(), h.getSaksnummer(), tekst, config.uri()), key, config.getOppgave());
-            lager.opprett(h.getFnr(), key.getEventId());
+            send(oppgave(fnr, saksnr, tekst, config.uri()), key, config.getOppgave());
+            lager.opprett(fnr, key.getEventId());
         } else {
             LOG.info("Det er allerde opprettet en oppgave {} ", key.getEventId());
         }
