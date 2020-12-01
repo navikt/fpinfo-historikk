@@ -59,12 +59,12 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
         return logAndHandle(UNPROCESSABLE_ENTITY, e, req, headers);
     }
 
-    @ExceptionHandler({ UnexpectedInputException.class })
+    @ExceptionHandler(UnexpectedInputException.class)
     public ResponseEntity<Object> handleUnexpectedException(UnexpectedInputException e, WebRequest req) {
         return logAndHandle(UNPROCESSABLE_ENTITY, e, req);
     }
 
-    @ExceptionHandler({ JwtTokenUnauthorizedException.class })
+    @ExceptionHandler(JwtTokenUnauthorizedException.class)
     public ResponseEntity<Object> handleUnauthorizedException(JwtTokenUnauthorizedException e, WebRequest req) {
         return logAndHandle(UNAUTHORIZED, e, req);
     }
@@ -74,7 +74,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
         return logAndHandle(FORBIDDEN, e, req, e.getExpiryDate());
     }
 
-    @ExceptionHandler(value = { Exception.class })
+    @ExceptionHandler(Exception.class)
     protected ResponseEntity<Object> handleUncaught(Exception e, WebRequest req) {
         return logAndHandle(INTERNAL_SERVER_ERROR, e, req);
     }
