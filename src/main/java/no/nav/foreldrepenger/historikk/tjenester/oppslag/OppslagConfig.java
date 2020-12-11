@@ -15,7 +15,7 @@ public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR = "oppslag/aktoer";
     private static final String FNR = "oppslag/fnr";
 
-    private static final String NAVN = "oppslag/navn";
+    private static final String NAVN = "oppslag/navnfnr";
     private static final String ORGNAVN = "innsyn/orgnavn";
     private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api";
 
