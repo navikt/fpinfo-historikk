@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 
 @ConfigurationProperties(prefix = "historikk.dittnav")
 public class DittNavConfig implements EnvironmentAware {
-    private static final URI FP_DEV = URI.create("https://foreldrepenger-q.nav.no/");
+    private static final URI FP_DEV = URI.create("https://foreldrepenger.dev.nav.no/");
     private static final URI FP_PROD = URI.create("https://foreldrepenger.nav.no");
     private final DittNavTopics topics;
     private final boolean enabled;
