@@ -49,13 +49,20 @@ management:
          enabled: false
    endpoint:
       health:
+         group:
+           liveiness:
+             include: livenessState,db
          show-details : never
 server:
    servlet:
       context-path: /api
    forward-headers-strategy: framework
 spring:
-   cloud.discovery.client.health-indicator.enabled: false
+   cloud:
+     discovery:
+       client:
+         health-indicator:
+           enabled: false
    application:
       name: fpinfo-historikk
    cache:
@@ -63,6 +70,7 @@ spring:
       caffeine:
          spec: maximumSize=100,expireAfterAccess=3600s
    datasource:
+      validation-query: SELECT 1 
       url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
       hikari:
          connection-test-query: SELECT 1
