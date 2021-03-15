@@ -51,7 +51,7 @@ management:
       health:
          group:
            liveiness:
-             include: livenessState,db
+             include: db
          show-details : never
 server:
    servlet:
