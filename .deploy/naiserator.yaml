@@ -8,6 +8,10 @@ metadata:
 spec:
   tokenx:
     enabled: true
+    accessPolicy:
+    outbound:
+      rules:
+        - application: fpsoknad-mottak
   envFrom:
     - configmap: loginservice-idporten
   image: {{image}}
