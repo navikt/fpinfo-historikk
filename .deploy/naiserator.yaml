@@ -8,6 +8,10 @@ metadata:
 spec:
   tokenx:
     enabled: true
+    accessPolicy:
+     inbound:
+       rules:
+        - application: foreldrepengesoknad-api
   envFrom:
     - configmap: loginservice-idporten
   image: {{image}}
