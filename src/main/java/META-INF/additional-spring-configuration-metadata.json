@@ -49,5 +49,15 @@
     "name": "no.nav.security.jwt.client.registration.fpsoknad-mottak.authentication.client-id",
     "type": "java.lang.String",
     "description": "A description for 'no.nav.security.jwt.client.registration.fpsoknad-mottak.authentication.client-id'"
+  },
+  {
+    "name": "no.nav.security.jwt.client.registration.fpsoknad-mottak.grant-type",
+    "type": "java.lang.String",
+    "description": "A description for 'no.nav.security.jwt.client.registration.fpsoknad-mottak.grant-type'"
+  },
+  {
+    "name": "no.nav.security.jwt.client.registration.fpsoknad-mottak.authentication.client-auth-method",
+    "type": "java.lang.String",
+    "description": "A description for 'no.nav.security.jwt.client.registration.fpsoknad-mottak.authentication.client-auth-method'"
   }
 ]}
