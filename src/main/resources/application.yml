@@ -13,6 +13,9 @@ no.nav:
                       client-jwk: ${token.x.private.jwk}
                       client-auth-method: private_key_jwt
        issuer:
+          tokenx:
+             discoveryurl: ${token.x.well.known.url} 
+             accepted_audience: ${token.x.client.id}
           selvbetjening:
             discoveryurl: ${loginservice.idporten.discovery.url}
             accepted_audience: ${loginservice.idporten.audience}  

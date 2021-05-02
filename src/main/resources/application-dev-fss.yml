@@ -1,5 +1,11 @@
-debug: false
-
+no.nav:
+    security:
+        jwt:
+            client:
+                registration:
+                    fpsoknad-mottak:
+                        token-exchange:
+                            audience: dev-fss:teamforeldrepenger:fpsoknad-mottak
 management:
    endpoints:
       web:
