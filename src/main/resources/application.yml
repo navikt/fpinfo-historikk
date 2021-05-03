@@ -15,6 +15,7 @@ no.nav:
              discovery-url: ${token.x.well.known.url}
              accepted-audience: ${token.x.client.id}
           selvbetjening:
+             proxy-url: http://webproxy.nais:8088
              discovery-url: ${loginservice.idporten.discovery.url}
              accepted-audience: ${loginservice.idporten.audience}
 
