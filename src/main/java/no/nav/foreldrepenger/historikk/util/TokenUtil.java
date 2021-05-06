@@ -1,10 +1,13 @@
 package no.nav.foreldrepenger.historikk.util;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.ISSUER;
+import static no.nav.foreldrepenger.historikk.config.Constants.TOKENX;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -52,8 +55,16 @@ public class TokenUtil {
     }
 
     private JwtTokenClaims claimSet() {
+        return Stream.of(ISSUER, TOKENX)
+                .map(this::claimSet)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private JwtTokenClaims claimSet(String issuer) {
         return Optional.ofNullable(context())
-                .map(s -> s.getClaims(ISSUER))
+                .map(s -> s.getClaims(issuer))
                 .orElse(null);
     }
 
