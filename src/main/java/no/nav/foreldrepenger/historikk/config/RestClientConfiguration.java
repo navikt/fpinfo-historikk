@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.config;
 
 import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
+import static no.nav.foreldrepenger.historikk.config.Constants.TOKENX;
 import static org.springframework.retry.RetryContext.NAME;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +25,10 @@ import org.springframework.retry.RetryListener;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
 
+import no.nav.foreldrepenger.historikk.http.ClientPropertiesFinder;
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
+import no.nav.foreldrepenger.historikk.http.TokenExchangeClientRequestInterceptor;
 import no.nav.security.token.support.core.context.TokenValidationContext;
 import no.nav.security.token.support.core.context.TokenValidationContextHolder;
 import no.nav.security.token.support.spring.SpringTokenValidationContextHolder;
@@ -44,6 +48,17 @@ public class RestClientConfiguration {
                 mdcInterceptor);
         return builder
                 .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
+                .build();
+    }
+
+    @Bean
+    @Qualifier(TOKENX)
+    public RestOperations tokenXTemplate(RestTemplateBuilder builder,
+            TokenExchangeClientRequestInterceptor tokenX,
+            TimingAndLoggingClientHttpRequestInterceptor timing,
+            MDCValuesPropagatingClienHttpRequesInterceptor mdc) {
+        return builder
+                .interceptors(tokenX, timing, mdc)
                 .build();
     }
 
@@ -76,6 +91,14 @@ public class RestClientConfiguration {
                     throws IOException {
                 return execution.execute(request, body);
             }
+        };
+    }
+
+    @Bean
+    public ClientPropertiesFinder propertiesFinder() {
+        return (configs, req) -> {
+            LOG.info("Slår opp token X konfig for {}", req.getHost());
+            return configs.getRegistration().get(req.getHost());
         };
     }
 
