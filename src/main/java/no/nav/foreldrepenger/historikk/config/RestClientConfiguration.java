@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -40,6 +41,7 @@ public class RestClientConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(RestClientConfiguration.class);
 
     @Bean
+    @Primary
     public RestOperations restTemplate(RestTemplateBuilder builder,
             BearerTokenClientHttpRequestInterceptor tokenInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
