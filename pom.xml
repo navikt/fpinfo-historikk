@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.9.RELEASE</version>
+        <version>2.3.11.RELEASE</version>
         <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -137,7 +137,7 @@
         <dependency>
             <groupId>no.nav</groupId>
             <artifactId>brukernotifikasjon-schemas</artifactId>
-            <version>1.2020.03.25-11.14-c3621e6d211a</version>
+            <version>1.2021.01.18-11.12-b9c8c40b98d1</version>
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
