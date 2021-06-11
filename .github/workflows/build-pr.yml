@@ -11,7 +11,7 @@ jobs:
         steps:
             - name: Sjekk ut kode
               uses: actions/checkout@v2
-
+ 
 #             - name: Hent Maven cache
 #               uses: actions/cache@v2.1.6
 #               with:
