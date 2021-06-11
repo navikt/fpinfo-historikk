@@ -40,7 +40,7 @@ jobs:
                   mvn clean install --batch-mode --quiet --settings .github/.m2/settings.xml
               env:
                   GITHUB_USERNAME: x-access-token
-                  GITHUB_PASSWORD: ${{ secrets.NOTIFICATION }} # Må ha denne fordi vi henter artifakt fra andre repo hos Nav.
+                  GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
 
 
             - name: Login to GitHub Packages Docker Registry
