@@ -140,7 +140,7 @@
         <dependency>
             <groupId>com.github.navikt</groupId>
             <artifactId>brukernotifikasjon-schemas</artifactId>
-            <version>1.2021.01.18-11.12-b9c8c40b98d1</version>
+            <version>1.2021.06.21-08.21-7998a39f216a</version>
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
