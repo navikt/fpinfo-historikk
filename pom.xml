@@ -79,6 +79,7 @@
                     <compilerArgs>--enable-preview</compilerArgs>
                     <parameters>true</parameters>
                     <release>15</release>
+                    <target>15</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -203,6 +204,10 @@
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
