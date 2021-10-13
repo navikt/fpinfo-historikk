@@ -27,11 +27,11 @@ historikk:
       topics :
         beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
         oppgave: aapen-brukernotifikasjon-nyOppgave-v1
-        done: aapen-brukernotifikasjon-done-v1   
+        done: aapen-brukernotifikasjon-done-v1
    inntektsmelding:
       enabled: true
-      topic: privat-foreldrepenger-brukerdialog-inntektsmelding  
-       
+      topic: privat-foreldrepenger-brukerdialog-inntektsmelding
+
    innsending:
       søknad:
         enabled: true
@@ -42,7 +42,7 @@ historikk:
         group-id: fordeling
    tilbakekreving:
       enabled: true
-      topic: privat-tilbakekreving-brukerdialog-p     
+      topic: privat-tilbakekreving-brukerdialog-p
 management:
    metrics:
       web:
@@ -54,7 +54,7 @@ management:
       web:
          exposure:
             include: info, health, metrics, prometheus
-   health :
+   health:
       refresh:
          enabled: false
       diskspace:
@@ -82,7 +82,7 @@ spring:
       caffeine:
          spec: maximumSize=100,expireAfterAccess=3600s
    datasource:
-      validation-query: SELECT 1 
+      validation-query: SELECT 1
       url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
       hikari:
          connection-test-query: SELECT 1
@@ -124,7 +124,7 @@ spring:
       producer:
          bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
          key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer 
+         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
          transaction-id-prefix: tx.
    main:
       banner-mode: 'off'

@@ -1,3 +1,10 @@
 {
-  "ingresses":  ["https://fpinfo-historikk.adeo.no","https://fpinfo-historikk.intern.nav.no","https://fpinfo-historikk.nais.adeo.no"]
+  "ingresses":  [
+    "https://fpinfo-historikk.adeo.no",
+    "https://fpinfo-historikk.intern.nav.no",
+    "https://fpinfo-historikk.nais.adeo.no"
+  ],
+  "env": {
+    "APPDYNAMICS_AGENT_ACCOUNT_NAME": "PROD"
+  }
 }
