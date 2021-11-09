@@ -41,30 +41,31 @@ jobs:
                   docker build --pull --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest .
                   docker push ${IMAGE_BASE} --all-tags
 
-            - name: Lukk gamle bygg-issues
-              uses: actions/github-script@v4.1
+            - name: Lukk gamle issues
+              uses: actions/github-script@v5
               with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  script: |
-                      github.issues.listForRepo({
-                        owner: context.repo.owner,
-                        repo: context.repo.repo,
-                        state: 'open',
-                        labels: ['bygg']
-                      }).then(response => {
-                        response.data.forEach(issue => {
-                          github.issues.update({
-                            owner: context.repo.owner,
-                            repo: context.repo.repo,
-                            issue_number: issue.number,
-                            state: 'closed'
-                          });
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    github.rest.issues.listForRepo({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      state: 'open',
+                      labels: ['deployment']
+                    }).then(response => {
+                      response.data.forEach(issue => {
+                        github.rest.issues.update({
+                          owner: context.repo.owner,
+                          repo: context.repo.repo,
+                          issue_number: issue.number,
+                          state: 'closed'
                         });
                       });
+                    });
 
             - name: Opprett issue, trigg deploy til dev-fss
+              id: createdeployissue
               if: success()
-              uses: actions/github-script@v4.1
+              uses: actions/github-script@v5
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
                   script: |
@@ -74,7 +75,9 @@ jobs:
                         labels: ['bygg'],
                         title: 'Deploy av ${{ env.TAG }}',
                         body: '${{ github.sha }}'})
-      
+                      .then(response => {
+                            core.setOutput('number', response.data.number);
+                      });
       
             - uses: navikt/github-app-token-generator@v1
               id: get-token
