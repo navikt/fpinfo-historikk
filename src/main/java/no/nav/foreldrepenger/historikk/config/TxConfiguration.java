@@ -19,6 +19,8 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.Duration;
+
 @Configuration
 public class TxConfiguration implements KafkaListenerConfigurer {
 
@@ -54,6 +56,7 @@ public class TxConfiguration implements KafkaListenerConfigurer {
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setTransactionManager(tm);
+        factory.getContainerProperties().setAuthorizationExceptionRetryInterval(Duration.ofSeconds(5L));
         return factory;
     }
 
