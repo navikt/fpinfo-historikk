@@ -25,8 +25,9 @@ jobs:
             - name: Kompiler
               run: |
                   mvn versions:set -DnewVersion=${TAG}
-                  mvn clean install --batch-mode --quiet --settings .github/.m2/settings.xml
+                  mvn jacoco:prepare-agent install jacoco:report sonar:sonar -e --batch-mode --settings .github/.m2/settings.xml -Dchangelist= -Dsha1=-${BUILD_VERSION} -Dsonar.login=${SONAR_TOKEN}
               env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
 
             - name: Login to GitHub Packages Docker Registry
@@ -78,13 +79,13 @@ jobs:
                    .then(response => {
                            core.setOutput('number', response.data.number);
                     });
-      
+
             - uses: navikt/github-app-token-generator@v1
               id: get-token
               with:
                   private-key: ${{ secrets.FP_PRIVATE_KEY }}
                   app-id: ${{ secrets.FP_APP_ID }}
-      
+
             - name: Trigg deploy til dev-fss
               if: success()
               run: |

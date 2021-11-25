@@ -19,6 +19,7 @@ jobs:
 
             - name: Kompiler
               run: |
-                  mvn package  --settings .github/.m2/settings.xml
+                mvn jacoco:prepare-agent verify jacoco:report sonar:sonar -e --batch-mode --settings .github/.m2/settings.xml -Dsonar.login=${SONAR_TOKEN}
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
