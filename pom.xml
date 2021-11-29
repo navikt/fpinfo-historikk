@@ -19,7 +19,7 @@
     </licenses>
 
     <properties>
-        <java.version>15</java.version>
+        <java.version>17</java.version>
         <sonar.projectKey>navikt_fpinfo-historikk</sonar.projectKey>
         <sonar.organization>navit</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -85,7 +85,6 @@
                     <release>${java.version}</release>
                     <encoding>UTF-8</encoding>
                     <parameters>true</parameters>
-                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
