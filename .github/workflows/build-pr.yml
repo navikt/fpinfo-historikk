@@ -17,9 +17,17 @@ jobs:
                   distribution: 'adopt'
                   cache: 'maven'
 
-            - name: Kompiler
+            - name: Kompiler med sonar analyse
+              if: github.actor != 'dependabot[bot]'
               run: |
                 mvn jacoco:prepare-agent verify jacoco:report sonar:sonar -e --batch-mode --settings .github/.m2/settings.xml -Dsonar.login=${SONAR_TOKEN}
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
+
+            - name: Kompiler uten sonar analyse
+              if: github.actor == 'dependabot[bot]'
+              run: |
+                mvn verify -e --batch-mode --settings .github/.m2/settings.xml
+              env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
