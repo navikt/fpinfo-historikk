@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
@@ -19,10 +20,9 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InnsendingHendelse extends Hendelse {
 
-    @NotNull
-    private final InnsendingLeveranseStatus leveranseStatus;
     @Nullable
     private final List<String> ikkeOpplastedeVedlegg;
     private final List<String> opplastedeVedlegg;
@@ -39,14 +39,12 @@ public class InnsendingHendelse extends Hendelse {
             @JsonProperty("referanseId") @JsonAlias("forsendelseId") String referanseId,
             @JsonProperty("dialogId") String dialogId,
             @JsonProperty("saksnummer") @JsonAlias("saksnr") String saksnummer,
-            @JsonProperty("leveranseStatus") InnsendingLeveranseStatus leveranseStatus,
             @JsonProperty("hendelse") @JsonAlias("hendelse") HendelseType hendelse,
             @JsonProperty("opplastedeVedlegg") List<String> opplastedeVedlegg,
             @JsonProperty("ikkeOpplastedeVedlegg") List<String> ikkeOpplastedeVedlegg,
             @JsonProperty("førsteBehandlingsdato") LocalDate førsteBehandlingsdato,
             @JsonProperty("innsendt") LocalDateTime innsendt) {
         super(aktørId, fnr, journalId, null, saksnummer, hendelse, innsendt);
-        this.leveranseStatus = leveranseStatus;
         this.dialogId = dialogId;
         this.referanseId = referanseId;
         this.opplastedeVedlegg = Optional.ofNullable(opplastedeVedlegg).orElse(Collections.emptyList());
@@ -56,10 +54,6 @@ public class InnsendingHendelse extends Hendelse {
 
     public String getDialogId() {
         return dialogId;
-    }
-
-    public InnsendingLeveranseStatus getLeveranseStatus() {
-        return leveranseStatus;
     }
 
     public String getReferanseId() {
@@ -80,7 +74,7 @@ public class InnsendingHendelse extends Hendelse {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[leveranseStatus=" + leveranseStatus + ", ikkeOpplastedeVedlegg="
+        return getClass().getSimpleName() + "[ikkeOpplastedeVedlegg="
                 + ikkeOpplastedeVedlegg + ", opplastedeVedlegg=" + opplastedeVedlegg + ", førsteBehandlingsdato="
                 + førsteBehandlingsdato + ", referanseId=" + referanseId + ", dialogId=" + dialogId
                 + ", dokumentId=" + getDokumentId() + ", opprettet=" + getOpprettet() + ", hendelse="
