@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
