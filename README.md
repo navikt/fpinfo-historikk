@@ -4,14 +4,14 @@
 * Kjør   ```FpinfoHistorikkApplicationLocal``` fra din favoritteditor
 
 ## Bygg
-* Krever  Java 11+  
+* Java 17+
     
 ---
 # Henvendelser
 
 Spørsmål knyttet  til koden eller prosjektet kan rettes til:
 
-* teamforeldrepenger@nav.no
+* nav.team.foreldrepenger@nav.no
 
 ## For NAV-ansatte
 
