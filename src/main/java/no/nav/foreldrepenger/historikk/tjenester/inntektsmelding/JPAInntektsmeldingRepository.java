@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(JPA_TM)
 public interface JPAInntektsmeldingRepository
         extends JpaRepository<JPAInntektsmeldingInnslag, Long>, JpaSpecificationExecutor<JPAInntektsmeldingInnslag> {
-    JPAInntektsmeldingInnslag findByReferanseId(String referanseId);
+
+    boolean existsJPAInntektsmeldingInnslagByReferanseId(String referanseId);
 
 }

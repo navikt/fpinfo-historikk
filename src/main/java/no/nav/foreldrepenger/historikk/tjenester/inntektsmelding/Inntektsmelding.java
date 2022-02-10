@@ -65,7 +65,7 @@ public class Inntektsmelding {
         if (INGEN_REFERANSE.equals(referanseId)) {
             return false;
         }
-        return referanseId != null && dao.findByReferanseId(referanseId) != null;
+        return referanseId != null && dao.existsJPAInntektsmeldingInnslagByReferanseId(referanseId);
     }
 
     @Override
