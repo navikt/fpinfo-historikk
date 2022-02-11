@@ -12,7 +12,7 @@ spec:
      inbound:
        rules:
         - application: foreldrepengesoknad-api
-          namespace: team-foreldrepenger
+          namespace: teamforeldrepenger
           cluster: dev-gcp
   envFrom:
     - configmap: loginservice-idporten
