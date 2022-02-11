@@ -18,8 +18,8 @@ jobs:
 
             - uses: actions/setup-java@v2
               with:
-                  distribution: 'adopt'
-                  java-version: 15
+                  distribution: 'temurin'
+                  java-version: 17
                   cache: 'maven'
 
             - name: Kompiler
