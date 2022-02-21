@@ -1,8 +1,10 @@
 {
+  "cluster_foreldrepengesoknad-api": "prod-gcp",
   "ingresses":  [
     "https://fpinfo-historikk.adeo.no",
     "https://fpinfo-historikk.intern.nav.no",
-    "https://fpinfo-historikk.nais.adeo.no"
+    "https://fpinfo-historikk.nais.adeo.no",
+    "https://fpinfo-historikk.prod-fss-pub.nais.io"
   ],
   "env": {
     "APPDYNAMICS_AGENT_ACCOUNT_NAME": "PROD"
