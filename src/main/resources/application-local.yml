@@ -13,7 +13,7 @@ historikk:
    inntektsmelding:
       enabled: false
    oppslag:
-      enabled: false     
+      enabled: false
    søknad:
       innsending:
         enabled: false
@@ -22,7 +22,7 @@ historikk:
    tilbakekreving:
       enabled: false
 server:
-   port: 9001    
+   port: 9001
 spring:
    output:
     ansi:
@@ -33,7 +33,7 @@ spring:
    datasource:
       hikari:
         connection-test-query: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
-      url: jdbc:hsqldb:mem:testdb      
+      url: jdbc:hsqldb:mem:testdb
    jpa:
       show-sql: false
       properties:
@@ -47,11 +47,10 @@ spring:
    kafka:
       properties:
          security:
-            protocol: PLAINTEXT 
+            protocol: PLAINTEXT
       consumer:
          bootstrap-servers: localhost:9092
       producer:
          bootstrap-servers: localhost:9092
          key-serializer: org.apache.kafka.common.serialization.StringSerializer
          value-serializer: org.apache.kafka.common.serialization.StringSerializer
-  
