@@ -8,10 +8,10 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +27,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import no.nav.foreldrepenger.historikk.util.StringUtil;
 import no.nav.foreldrepenger.historikk.util.TokenUtil;
 import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
@@ -96,8 +95,8 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String subject() {
-        return Optional.ofNullable(tokenUtil.getSubject())
-                .map(StringUtil::mask)
+        return tokenUtil.authenticatedFødselsnummer()
+                .map(Fødselsnummer::getMaskertFnr)
                 .orElse("Uautentisert");
     }
 

@@ -52,7 +52,7 @@ public class ManglendeVedleggTest {
 
     @BeforeEach
     public void init() {
-        when(tokenUtil.autentisertFNR()).thenReturn(FNR);
+        when(tokenUtil.fødselsnummerFraToken()).thenReturn(FNR);
     }
 
     @Test

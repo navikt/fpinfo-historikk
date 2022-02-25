@@ -93,7 +93,7 @@ public class Innsending {
     }
 
     public VedleggsInfo vedleggsInfo(String saksnummer) {
-        return vedleggsInfo(tokenUtil.autentisertFNR(), saksnummer);
+        return vedleggsInfo(tokenUtil.fødselsnummerFraToken(), saksnummer);
     }
 
     public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {
