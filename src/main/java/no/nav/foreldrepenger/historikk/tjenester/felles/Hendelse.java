@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
@@ -15,18 +15,18 @@ public abstract class Hendelse {
     private final AktørId aktørId;
     private final Fødselsnummer fnr;
 
-    @ApiModelProperty(example = "1234567890")
+    @Schema(example = "1234567890")
     private final String journalpostId;
-    @ApiModelProperty(example = "123")
+    @Schema(example = "123")
     private final String dokumentId;
-    @ApiModelProperty(example = "42")
+    @Schema(example = "42")
     private final String saksnummer;
     @NotNull
     private final HendelseType hendelse;
-    @ApiModelProperty(example = "2019-10-22T18:50:10.9851661")
+    @Schema(example = "2019-10-22T18:50:10.9851661")
     private final LocalDateTime opprettet;
 
-    public Hendelse(AktørId aktørId, Fødselsnummer fnr, String jounalpostId, String dokumentId,
+    protected Hendelse(AktørId aktørId, Fødselsnummer fnr, String jounalpostId, String dokumentId,
             String saksnummer, HendelseType hendelse, LocalDateTime opprettet) {
         this.aktørId = aktørId;
         this.fnr = fnr;

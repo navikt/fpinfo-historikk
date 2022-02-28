@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.error.ApiError;
 import no.nav.foreldrepenger.historikk.http.UnprotectedRestController;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
-import no.nav.security.token.support.core.api.Unprotected;
 
-@Api(description = "Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
+@Tag(name = "Inntektsmelding kontroller dev", description = "Send og hent inntektsmeldingshendelser, kun for testing lokalt og i dev")
 @UnprotectedRestController(InntektsmeldingDevController.DEVPATH)
-@Unprotected
 public class InntektsmeldingDevController {
 
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";

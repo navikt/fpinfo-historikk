@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
@@ -18,9 +18,9 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
 
-    @ApiModelProperty(example = "888888888")
+    @Schema(example = "888888888")
     private final String arbeidsgiverId;
-    @ApiModelProperty(example = "AR123456789")
+    @Schema(example = "AR123456789")
     private final String referanseId;
     @JsonAlias("version")
     private final Versjon versjon;

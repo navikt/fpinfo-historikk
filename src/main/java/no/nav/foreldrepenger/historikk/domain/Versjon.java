@@ -6,11 +6,11 @@ import javax.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @Embeddable
 public class Versjon {
-    @ApiModelProperty(example = "1.0")
+    @Schema(example = "1.0")
     private String versjon;
 
     public static Versjon valueOf(String versjon) {

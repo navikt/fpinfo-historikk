@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
 import static org.springframework.retry.RetryContext.NAME;
 
@@ -39,8 +38,8 @@ public class RestClientConfiguration {
             TokenExchangeClientRequestInterceptor tokenxInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenxInterceptor, timingInterceptor,
-            mdcInterceptor);
+        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenxInterceptor.getClass().getSimpleName(),
+            timingInterceptor.getClass().getSimpleName(), mdcInterceptor.getClass().getSimpleName());
         return builder
                 .interceptors(tokenxInterceptor, timingInterceptor, mdcInterceptor)
                 .build();
@@ -73,24 +72,24 @@ public class RestClientConfiguration {
 
     @Bean
     public List<RetryListener> retryListeners() {
-        List<RetryListener> listener = singletonList(new RetryListener() {
+        return List.of(new RetryListener() {
 
             @Override
             public <T, E extends Throwable> void onError(RetryContext ctx, RetryCallback<T, E> cb,
                     Throwable throwable) {
                 LOG.warn("Metode {} kastet exception {} for {}. gang",
-                        ctx.getAttribute(NAME), throwable.toString(), ctx.getRetryCount());
+                    ctx.getAttribute(NAME), throwable, ctx.getRetryCount());
             }
 
             @Override
             public <T, E extends Throwable> void close(RetryContext ctx, RetryCallback<T, E> cb, Throwable t) {
                 if (t != null) {
                     LOG.warn("Metode {} avslutter ikke-vellykket retry etter {}. forsøk grunnet {}",
-                            ctx.getAttribute(NAME), ctx.getRetryCount(), t.toString(), t);
+                            ctx.getAttribute(NAME), ctx.getRetryCount(), t.getMessage(), t);
                 } else {
                     if (ctx.getRetryCount() > 0) {
                         LOG.info("Metode {} avslutter vellykket retry etter {}. forsøk",
-                                ctx.getAttribute(NAME), ctx.getRetryCount());
+                            ctx.getAttribute(NAME), ctx.getRetryCount());
                     }
                 }
             }
@@ -106,8 +105,6 @@ public class RestClientConfiguration {
                 return true;
             }
         });
-        return listener;
-
     }
 
 }
