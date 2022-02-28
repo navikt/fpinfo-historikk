@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.UnprotectedRestController;
 
 @UnprotectedRestController(TilbakekrevingDevController.DEVPATH)
-@Api(description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")
+@Tag(name = "Tilabekkrevings kontroller i dev", description = "Send og hent minidialoghendelser, kun for testing lokalt og i dev")
 public class TilbakekrevingDevController {
     static final String DEVPATH = MINIDIALOG + "/dev";
     private final Tilbakekreving tilbakekreving;
@@ -30,20 +30,20 @@ public class TilbakekrevingDevController {
     }
 
     @GetMapping("/tilbakekrevinger")
-    @ApiOperation("Hent alle tilbakekrevinger (spørsmål og svar) for en gitt aktør og status")
+    @Operation(summary = "Hent alle tilbakekrevinger (spørsmål og svar) for en gitt aktør og status")
     public List<TilbakekrevingInnslag> dialoger(@RequestParam("aktørId") AktørId aktørId,
             @RequestParam(name = "activeOnly", defaultValue = "true") boolean activeOnly) {
         return tilbakekreving.tilbakekrevinger(aktørId, activeOnly);
     }
 
     @GetMapping("/spm")
-    @ApiOperation("Hent alle aktive tilbakekrevingsspørsmål for en gitt aktør")
+    @Operation(summary = "Hent alle aktive tilbakekrevingsspørsmål for en gitt aktør")
     public List<TilbakekrevingInnslag> aktive(@RequestParam("aktørId") AktørId id) {
         return tilbakekreving.aktive(id);
     }
 
     @PostMapping("/lagre")
-    @ApiOperation("Lagre en tilbakekreving rett i databasen, utenom Kafka")
+    @Operation(summary = "Lagre en tilbakekreving rett i databasen, utenom Kafka")
     public ResponseEntity<?> lagre(@RequestBody @Valid TilbakekrevingHendelse hendelse) {
         tilbakekreving.opprettOppgave(hendelse);
         return status(CREATED).build();

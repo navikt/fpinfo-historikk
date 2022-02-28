@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
@@ -19,7 +19,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.YtelseType;
 
 public class TilbakekrevingHendelse extends Hendelse {
 
-    @ApiModelProperty(example = "2999-12-12")
+    @Schema(example = "2999-12-12")
     @DateTimeFormat(iso = DATE)
     private final LocalDate gyldigTil;
     private final String dialogId;

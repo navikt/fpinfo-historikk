@@ -14,7 +14,7 @@ import no.nav.security.token.support.client.spring.oauth2.EnableOAuth2Client;
 import no.nav.security.token.support.spring.api.EnableJwtTokenValidation;
 
 @ConfigurationPropertiesScan("no.nav.foreldrepenger.historikk")
-@EnableJwtTokenValidation(ignore = { "org.springframework", "springfox.documentation" })
+@EnableJwtTokenValidation(ignore = { "org.springframework", "org.springdoc" })
 @SpringBootApplication
 @EnableKafka
 @EnableCaching
