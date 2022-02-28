@@ -11,6 +11,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -110,7 +111,7 @@ public class Innsending {
             var innsendte = new ArrayList<String>();
             for (var hendelse : innslag) {
                 LOG.trace("Tidligere innsending er {} ", hendelse);
-                if (hendelse.getReferanseId() != currentRef && !hendelse.getVedlegg().isEmpty()) {
+                if (!Objects.equals(hendelse.getReferanseId(), currentRef) && !hendelse.getVedlegg().isEmpty()) {
                     innsendte.add(hendelse.getReferanseId());
                 }
                 if (hendelse.getHendelse().erInitiell()) {
@@ -122,7 +123,7 @@ public class Innsending {
                     manglende.addAll(hendelse.getIkkeOpplastedeVedlegg());
                 }
                 LOG.trace("Fjerner {} fra {}", hendelse.getOpplastedeVedlegg(), manglende);
-                hendelse.getOpplastedeVedlegg().stream().forEach(manglende::remove);
+                hendelse.getOpplastedeVedlegg().forEach(manglende::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
             }
             LOG.info("Ikke-opplastede vedlegg  er {}", manglende);

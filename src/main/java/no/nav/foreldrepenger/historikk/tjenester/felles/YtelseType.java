@@ -9,7 +9,7 @@ public enum YtelseType {
     @JsonEnumDefaultValue
     UDEF;
 
-    public String beskrivelse;
+    private final String beskrivelse;
 
     YtelseType() {
         this("udefinert");
