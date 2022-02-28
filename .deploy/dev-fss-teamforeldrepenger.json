@@ -1,4 +1,5 @@
 {
+  "cluster_foreldrepengesoknad-api": "dev-gcp",
   "ingresses": [
       "https://fpinfo-historikk.dev.adeo.no",
       "https://fpinfo-historikk.dev.intern.nav.no",

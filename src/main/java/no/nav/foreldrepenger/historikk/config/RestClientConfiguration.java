@@ -2,42 +2,31 @@ package no.nav.foreldrepenger.historikk.config;
 
 import static java.util.Collections.singletonList;
 import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.LOCAL;
-import static no.nav.foreldrepenger.historikk.config.Constants.TOKENX;
 import static org.springframework.retry.RetryContext.NAME;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import no.nav.foreldrepenger.historikk.http.ClientPropertiesFinder;
 import no.nav.foreldrepenger.historikk.http.MDCValuesPropagatingClienHttpRequesInterceptor;
 import no.nav.foreldrepenger.historikk.http.TimingAndLoggingClientHttpRequestInterceptor;
 import no.nav.foreldrepenger.historikk.http.TokenExchangeClientRequestInterceptor;
-import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenResponse;
 import no.nav.security.token.support.core.context.TokenValidationContext;
 import no.nav.security.token.support.core.context.TokenValidationContextHolder;
 import no.nav.security.token.support.spring.SpringTokenValidationContextHolder;
-import no.nav.security.token.support.spring.validation.interceptor.BearerTokenClientHttpRequestInterceptor;
 
 @Configuration
 public class RestClientConfiguration {
@@ -47,24 +36,13 @@ public class RestClientConfiguration {
     @Bean
     @Primary
     public RestOperations restTemplate(RestTemplateBuilder builder,
-            BearerTokenClientHttpRequestInterceptor tokenInterceptor,
+            TokenExchangeClientRequestInterceptor tokenxInterceptor,
             TimingAndLoggingClientHttpRequestInterceptor timingInterceptor,
             MDCValuesPropagatingClienHttpRequesInterceptor mdcInterceptor) {
-        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenInterceptor, timingInterceptor,
-                mdcInterceptor);
+        LOG.info("Registrerer interceptorer {},{},{} for ikke-STS", tokenxInterceptor, timingInterceptor,
+            mdcInterceptor);
         return builder
-                .interceptors(tokenInterceptor, timingInterceptor, mdcInterceptor)
-                .build();
-    }
-
-    @Bean
-    @Qualifier(TOKENX)
-    public RestOperations tokenXTemplate(RestTemplateBuilder builder,
-            TokenExchangeClientRequestInterceptor tokenX,
-            TimingAndLoggingClientHttpRequestInterceptor timing,
-            MDCValuesPropagatingClienHttpRequesInterceptor mdc) {
-        return builder
-                .interceptors(tokenX, timing, mdc)
+                .interceptors(tokenxInterceptor, timingInterceptor, mdcInterceptor)
                 .build();
     }
 
@@ -86,36 +64,11 @@ public class RestClientConfiguration {
     }
 
     @Bean
-    @Profile(LOCAL)
-    @ConditionalOnMissingBean(BearerTokenClientHttpRequestInterceptor.class)
-    BearerTokenClientHttpRequestInterceptor dummyBearerTokenClientHttpRequestInterceptor(
-            TokenValidationContextHolder ctx) {
-        return new BearerTokenClientHttpRequestInterceptor(ctx) {
-
-            @Override
-            public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
-                    throws IOException {
-                return execution.execute(request, body);
-            }
-        };
-    }
-
-    @Bean
     public ClientPropertiesFinder propertiesFinder() {
         return (configs, req) -> {
             LOG.info("Slår opp token X konfig for {}", req.getHost());
             return configs.getRegistration().get(req.getHost());
         };
-    }
-
-    @Bean
-    public Jackson2ObjectMapperBuilderCustomizer customizer() {
-        return b -> b.mixIn(OAuth2AccessTokenResponse.class, IgnoreUnknownMixin.class);
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private interface IgnoreUnknownMixin {
-
     }
 
     @Bean

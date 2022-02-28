@@ -1,13 +1,10 @@
 package no.nav.foreldrepenger.historikk.util;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.ISSUER;
 import static no.nav.foreldrepenger.historikk.config.Constants.TOKENX;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -25,52 +22,38 @@ public class TokenUtil {
         this.ctxHolder = ctxHolder;
     }
 
-    public boolean erAutentisert() {
-        return getSubject() != null;
-    }
-
     public Date getExpiryDate() {
-        return Optional.ofNullable(claimSet())
+        return claimSet()
                 .map(JwtTokenClaims::getExpirationTime)
                 .orElse(null);
     }
 
-    public String getSubject() {
-        return Optional.ofNullable(claimSet())
-                .map(JwtTokenClaims::getSubject)
-                .orElse(null);
+    public Fødselsnummer fødselsnummerFraToken() {
+        return authenticatedFødselsnummer().orElseThrow(unauthenticated("Fant ikke subject"));
     }
 
-    public String autentisertBruker() {
-        return Optional.ofNullable(getSubject())
-                .orElseThrow(unauthenticated("Fant ikke subject"));
+    public Optional<Fødselsnummer> authenticatedFødselsnummer() {
+        return claimSet()
+            .map(TokenUtil::getIdentFromPidOrSub)
+            .map(Fødselsnummer::valueOf);
     }
 
-    public Fødselsnummer autentisertFNR() {
-        return Fødselsnummer.valueOf(autentisertBruker());
+    private static String getIdentFromPidOrSub(JwtTokenClaims claims) {
+        return Optional.ofNullable(claims.getStringClaim("pid"))
+            .orElseGet(claims::getSubject);
+    }
+
+    private Optional<JwtTokenClaims> claimSet() {
+        return Optional.ofNullable(context())
+            .map(s -> s.getClaims(TOKENX));
+    }
+
+    private TokenValidationContext context() {
+        return ctxHolder.getTokenValidationContext();
     }
 
     private static Supplier<? extends JwtTokenValidatorException> unauthenticated(String msg) {
         return () -> new JwtTokenValidatorException(msg);
-    }
-
-    private JwtTokenClaims claimSet() {
-        return Stream.of(ISSUER, TOKENX)
-                .map(this::claimSet)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
-    }
-
-    private JwtTokenClaims claimSet(String issuer) {
-        return Optional.ofNullable(context())
-                .map(s -> s.getClaims(issuer))
-                .orElse(null);
-    }
-
-    private TokenValidationContext context() {
-        return Optional.ofNullable(ctxHolder.getTokenValidationContext())
-                .orElse(null);
     }
 
     @Override
