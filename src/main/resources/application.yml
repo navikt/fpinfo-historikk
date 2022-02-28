@@ -66,11 +66,6 @@ server:
       context-path: /api
    forward-headers-strategy: framework
 spring:
-   cloud:
-     discovery:
-       client:
-         health-indicator:
-           enabled: false
    application:
       name: fpinfo-historikk
    cache:
