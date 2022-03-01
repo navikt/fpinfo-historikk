@@ -5,7 +5,6 @@ spring:
             enabled: true
             role: fpinfo-historikk-prod-admin
             backend: postgresql/prod-fss
-         authentication: KUBERNETES
          kubernetes:
             role: fpinfo-historikk
             kubernetes-path: kubernetes/prod/fss

@@ -3,3 +3,4 @@ spring:
       vault:
          enabled: true
          uri: https://vault.adeo.no
+         authentication: KUBERNETES
