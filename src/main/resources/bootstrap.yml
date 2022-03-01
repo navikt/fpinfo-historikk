@@ -1,6 +1,4 @@
 spring:
-    profiles:
-        active: ${nais.cluster.name}
     cloud:
         vault:
             enabled: true
