@@ -2,15 +2,9 @@ spring:
    cloud:
       vault:
          database:
-            enabled: true
             role: fpinfo-historikk-preprod-admin
             backend: postgresql/preprod-fss
-         authentication: KUBERNETES
          kubernetes:
-            role: fpinfo-historikk
             kubernetes-path: kubernetes/preprod/fss
          kv:
-            enabled: true
             backend: kv/preprod/fss
-            application-name: fpinfo-historikk/teamforeldrepenger
-            default-context: fpinfo-historikk/teamforeldrepenger

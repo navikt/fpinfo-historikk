@@ -1,18 +1,14 @@
 spring:
-   cloud:
-      vault:
-         enabled: true
-         uri: https://vault.adeo.no
-         database:
+    cloud:
+        vault:
             enabled: true
-            role: fpinfo-historikk-prod-admin
-            backend: postgresql/prod-fss
-         authentication: KUBERNETES
-         kubernetes:
-            role: fpinfo-historikk
-            kubernetes-path: kubernetes/prod/fss
-         kv:
-            enabled: true
-            backend: kv/prod/fss
-            application-name: fpinfo-historikk/teamforeldrepenger
-            default-context: fpinfo-historikk/teamforeldrepenger
+            uri: https://vault.adeo.no
+            authentication: KUBERNETES
+            kubernetes:
+                role: fpinfo-historikk
+            database:
+                enabled: true
+            kv:
+                enabled: true
+                application-name: fpinfo-historikk/teamforeldrepenger
+                default-context: fpinfo-historikk/teamforeldrepenger
