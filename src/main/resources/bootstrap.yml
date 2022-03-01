@@ -4,3 +4,5 @@ spring:
          enabled: true
          uri: https://vault.adeo.no
          authentication: KUBERNETES
+         kubernetes:
+             role: fpinfo-historikk
