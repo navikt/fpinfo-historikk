@@ -72,6 +72,11 @@ spring:
       cache-names: aktør,sts,organisasjon, fnr
       caffeine:
          spec: maximumSize=100,expireAfterAccess=3600s
+   cloud:
+      discovery:
+         client:
+            health-indicator:
+               enabled: false
    datasource:
       validation-query: SELECT 1
       url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
