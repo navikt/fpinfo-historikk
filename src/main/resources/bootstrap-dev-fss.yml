@@ -1,20 +1,17 @@
 spring:
-   config.import: vault://
    cloud:
       vault:
-         enabled: true
-         uri: https://vault.adeo.no
          database:
             enabled: true
-            role: fpinfo-historikk-prod-admin
-            backend: postgresql/prod-fss
+            role: fpinfo-historikk-preprod-admin
+            backend: postgresql/preprod-fss
          authentication: KUBERNETES
          kubernetes:
             role: fpinfo-historikk
-            kubernetes-path: kubernetes/prod/fss
+            kubernetes-path: kubernetes/preprod/fss
             service-account-token-file: /var/run/secrets/kubernetes.io/serviceaccount/token
          kv:
             enabled: true
-            backend: kv/prod/fss
+            backend: kv/preprod/fss
             application-name: fpinfo-historikk/teamforeldrepenger
             default-context: fpinfo-historikk/teamforeldrepenger

@@ -24,9 +24,6 @@ historikk:
 server:
    port: 9001
 spring:
-   cloud:
-      vault:
-         enabled: false
    output:
     ansi:
       enabled: always
