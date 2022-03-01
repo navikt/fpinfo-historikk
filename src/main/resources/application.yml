@@ -73,8 +73,6 @@ spring:
       caffeine:
          spec: maximumSize=100,expireAfterAccess=3600s
    cloud:
-      bootstrap:
-         enable: true
       discovery:
          client:
             health-indicator:
