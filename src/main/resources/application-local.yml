@@ -1,56 +1,56 @@
 management:
-   endpoints:
-      web:
-         exposure:
-            include: '*'
-   endpoint:
-      health:
-         show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
 
 historikk:
-   dittnav:
+  dittnav:
+    enabled: false
+  inntektsmelding:
+    enabled: false
+  oppslag:
+    enabled: false
+  søknad:
+    innsending:
       enabled: false
-   inntektsmelding:
+    fordeling:
       enabled: false
-   oppslag:
-      enabled: false
-   søknad:
-      innsending:
-        enabled: false
-      fordeling:
-        enabled: false
-   tilbakekreving:
-      enabled: false
+  tilbakekreving:
+    enabled: false
 server:
-   port: 9001
+  port: 9001
 spring:
-   output:
+  output:
     ansi:
       enabled: always
-   application:
-      admin:
-         enabled: true
-   datasource:
-      hikari:
-        connection-test-query: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
-      url: jdbc:hsqldb:mem:testdb
-   jpa:
-      show-sql: false
-      properties:
-         hibernate: format_sql=true
-      hibernate:
-         ddl-auto: update
-   flyway:
-      enabled: false
-   mvc:
-      log-request-details: false
-   kafka:
-      properties:
-         security:
-            protocol: PLAINTEXT
-      consumer:
-         bootstrap-servers: localhost:9092
-      producer:
-         bootstrap-servers: localhost:9092
-         key-serializer: org.apache.kafka.common.serialization.StringSerializer
-         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  application:
+    admin:
+      enabled: true
+  datasource:
+    hikari:
+      connection-test-query: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
+    url: jdbc:hsqldb:mem:testdb
+  jpa:
+    show-sql: false
+    properties:
+      hibernate: format_sql=true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
+  mvc:
+    log-request-details: false
+  kafka:
+    properties:
+      security:
+        protocol: PLAINTEXT
+    consumer:
+      bootstrap-servers: localhost:9092
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer

@@ -1,120 +1,120 @@
 no.nav:
-   security:
-     jwt:
-       client:
-          registration:
-              fpsoknad-mottak:
-                 well-known-url: ${token.x.well.known.url}
-                 grant-type: urn:ietf:params:oauth:grant-type:token-exchange
-                 token-exchange:
-                      audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
-                 authentication:
-                      client-id: ${token.x.client.id}
-                      client-jwk: ${token.x.private.jwk}
-                      client-auth-method: private_key_jwt
-       issuer:
-          tokenx:
-             discovery-url: ${token.x.well.known.url}
-             accepted-audience: ${token.x.client.id}
+  security:
+    jwt:
+      client:
+        registration:
+          fpsoknad-mottak:
+            well-known-url: ${token.x.well.known.url}
+            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+            token-exchange:
+              audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
+            authentication:
+              client-id: ${token.x.client.id}
+              client-jwk: ${token.x.private.jwk}
+              client-auth-method: private_key_jwt
+      issuer:
+        tokenx:
+          discovery-url: ${token.x.well.known.url}
+          accepted-audience: ${token.x.client.id}
 
 historikk:
-   dittnav:
-      enabled: true
-      topics :
-        beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
-        oppgave: aapen-brukernotifikasjon-nyOppgave-v1
-        done: aapen-brukernotifikasjon-done-v1
-   inntektsmelding:
-      enabled: true
-      topic: privat-foreldrepenger-brukerdialog-inntektsmelding
+  dittnav:
+    enabled: true
+    topics:
+      beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
+      oppgave: aapen-brukernotifikasjon-nyOppgave-v1
+      done: aapen-brukernotifikasjon-done-v1
+  inntektsmelding:
+    enabled: true
+    topic: privat-foreldrepenger-brukerdialog-inntektsmelding
 
-   innsending:
-      søknad:
-        enabled: true
-        topic: fpsoknad-mottak
-      fordeling:
-        enabled: true
-        topic: privat-foreldrepenger-historikk-fordeling
-        group-id: fordeling
-   tilbakekreving:
+  innsending:
+    søknad:
       enabled: true
-      topic: privat-tilbakekreving-brukerdialog-p
+      topic: fpsoknad-mottak
+    fordeling:
+      enabled: true
+      topic: privat-foreldrepenger-historikk-fordeling
+      group-id: fordeling
+  tilbakekreving:
+    enabled: true
+    topic: privat-tilbakekreving-brukerdialog-p
 management:
-   metrics:
-      web:
-         server:
-            request:
-              autotime:
-                 enabled: true
-   endpoints:
-      web:
-         exposure:
-            include: info, health, metrics, prometheus
-   health:
-      refresh:
-         enabled: false
-      diskspace:
-         enabled: false
-   endpoint:
-      health:
-         group:
-           liveiness:
-             include: db
-         show-details : never
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info, health, metrics, prometheus
+  health:
+    refresh:
+      enabled: false
+    diskspace:
+      enabled: false
+  endpoint:
+    health:
+      group:
+        liveiness:
+          include: db
+      show-details: never
 server:
-   servlet:
-      context-path: /api
-   forward-headers-strategy: framework
+  servlet:
+    context-path: /api
+  forward-headers-strategy: framework
 spring:
-   application:
-      name: fpinfo-historikk
-   cache:
-      cache-names: aktør,sts,organisasjon, fnr
-      caffeine:
-         spec: maximumSize=100,expireAfterAccess=3600s
-   cloud:
-      discovery:
-         client:
-            health-indicator:
-               enabled: false
-   datasource:
-      validation-query: SELECT 1
-      url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
-      hikari:
-         connection-test-query: SELECT 1
-         maximum-pool-size: 2
-   flyway:
-      baselineOnMigrate: false
-      enabled: true
-   jpa:
-      hibernate:
-         ddl-auto: none
-   kafka:
-      properties:
-         schema:
-           registry:
-             url:   https://kafka-schema-registry.nais.adeo.no
-         security:
-            protocol: SASL_SSL
-         sasl:
-            mechanism: PLAIN
-            jaas:
-               config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
-      consumer:
-         enable-auto-commit: false
-         bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-         group-id: group_id
-         auto-offset-reset: earliest
-         key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-         value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      producer:
-         bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-         key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-         value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-         transaction-id-prefix: tx.
-   main:
-      banner-mode: 'off'
+  application:
+    name: fpinfo-historikk
+  cache:
+    cache-names: aktør,sts,organisasjon, fnr
+    caffeine:
+      spec: maximumSize=100,expireAfterAccess=3600s
+  cloud:
+    discovery:
+      client:
+        health-indicator:
+          enabled: false
+  datasource:
+    validation-query: SELECT 1
+    url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
+    hikari:
+      connection-test-query: SELECT 1
+      maximum-pool-size: 2
+  flyway:
+    baselineOnMigrate: false
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: https://kafka-schema-registry.nais.adeo.no
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
+    consumer:
+      enable-auto-commit: false
+      bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      transaction-id-prefix: tx.
+  main:
+    banner-mode: 'off'
 springdoc:
-    packages-to-scan: no.nav.foreldrepenger.historikk
-    swagger-ui:
-        disable-swagger-default-url: true
+  packages-to-scan: no.nav.foreldrepenger.historikk
+  swagger-ui:
+    disable-swagger-default-url: true
