@@ -1,108 +1,108 @@
 name: Bygg og deploy
 
 on:
-    push:
-        branches:
-            - master    # Push events on master branch
+  push:
+    branches:
+      - master    # Push events on master branch
 env:
-    IMAGE_BASE: ghcr.io/${{ github.repository }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Hent tag
-              run: |
-                  echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Hent tag
+        run: |
+          echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
 
-            - uses: actions/setup-java@v2
-              with:
-                  distribution: 'temurin'
-                  java-version: 17
-                  cache: 'maven'
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: 'maven'
 
-            - name: Kompiler
-              run: |
-                  mvn versions:set -DnewVersion=${TAG}
-                  mvn jacoco:prepare-agent install jacoco:report sonar:sonar -e --batch-mode --settings .github/.m2/settings.xml -Dchangelist= -Dsha1=-${BUILD_VERSION} -Dsonar.login=${SONAR_TOKEN}
-              env:
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
+      - name: Kompiler
+        run: |
+          mvn versions:set -DnewVersion=${TAG}
+          mvn jacoco:prepare-agent install jacoco:report sonar:sonar -e --batch-mode --settings .github/.m2/settings.xml -Dchangelist= -Dsha1=-${BUILD_VERSION} -Dsonar.login=${SONAR_TOKEN}
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
 
-            - name: Login to GitHub Packages Docker Registry
-              uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583 # Use commit-sha1 instead of tag for security concerns
-              with:
-                  registry: ghcr.io
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583 # Use commit-sha1 instead of tag for security concerns
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Bygg, tag og push Docker image
-              run: |
-                  docker build --pull --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest .
-                  docker push ${IMAGE_BASE} --all-tags
+      - name: Bygg, tag og push Docker image
+        run: |
+          docker build --pull --tag ${IMAGE_BASE}:${TAG} --tag ${IMAGE_BASE}:latest .
+          docker push ${IMAGE_BASE} --all-tags
 
-            - name: Lukk gamle issues
-              uses: actions/github-script@v6
-              with:
-                github-token: ${{ secrets.GITHUB_TOKEN }}
-                script: |
-                    github.rest.issues.listForRepo({
-                      owner: context.repo.owner,
-                      repo: context.repo.repo,
-                      state: 'open',
-                      labels: ['deployment']
-                    }).then(response => {
-                      response.data.forEach(issue => {
-                        github.rest.issues.update({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          issue_number: issue.number,
-                          state: 'closed'
-                        });
-                      });
-                    });
+      - name: Lukk gamle issues
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: ['deployment']
+            }).then(response => {
+              response.data.forEach(issue => {
+                github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+              });
+            });
 
-            -  name: Opprett deployment issue
-               id: createdeployissue
-               if: success()
-               uses: actions/github-script@v6
-               with:
-                 github-token: ${{secrets.GITHUB_TOKEN}}
-                 script: |
-                   github.rest.issues.create( {
-                     owner: context.issue.owner,
-                     repo: context.issue.repo,
-                     labels: ['deployment'],
-                     title: 'Deploy av ${{ env.TAG }}',
-                     body: '${{ github.sha }}'})
-                   .then(response => {
-                           core.setOutput('number', response.data.number);
-                    });
+      -  name: Opprett deployment issue
+         id: createdeployissue
+         if: success()
+         uses: actions/github-script@v6
+         with:
+           github-token: ${{secrets.GITHUB_TOKEN}}
+           script: |
+             github.rest.issues.create( {
+               owner: context.issue.owner,
+               repo: context.issue.repo,
+               labels: ['deployment'],
+               title: 'Deploy av ${{ env.TAG }}',
+               body: '${{ github.sha }}'})
+             .then(response => {
+                     core.setOutput('number', response.data.number);
+              });
 
-            - uses: navikt/github-app-token-generator@v1
-              id: get-token
-              with:
-                  private-key: ${{ secrets.FP_PRIVATE_KEY }}
-                  app-id: ${{ secrets.FP_APP_ID }}
+      - uses: navikt/github-app-token-generator@v1
+        id: get-token
+        with:
+          private-key: ${{ secrets.FP_PRIVATE_KEY }}
+          app-id: ${{ secrets.FP_APP_ID }}
 
-            - name: Trigg deploy til dev-fss
-              if: success()
-              run: |
-                   curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
-                   -H "Accept: application/vnd.github.v3+json" \
-                   https://api.github.com/repos/${{ github.repository }}/dispatches \
-                   -d '{
-                         "event_type": "promote-command",
-                         "client_payload": {
-                           "github": {
-                               "payload": {
-                                   "issue": {
-                                       "number": "${{ steps.createdeployissue.outputs.number }}"
-                           }}},
-                           "slash_command": {
-                               "args": {
-                                   "unnamed": {
-                                       "arg1": "dev-fss"
-                           }}}
-                         }'
+      - name: Trigg deploy til dev-fss
+        if: success()
+        run: |
+          curl -XPOST -u "x-access-token:${{ steps.get-token.outputs.token }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{
+                "event_type": "promote-command",
+                "client_payload": {
+                  "github": {
+                      "payload": {
+                          "issue": {
+                              "number": "${{ steps.createdeployissue.outputs.number }}"
+                  }}},
+                  "slash_command": {
+                      "args": {
+                          "unnamed": {
+                              "arg1": "dev-fss"
+                  }}}
+                }'

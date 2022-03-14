@@ -1,9 +1,8 @@
-package no.nav.foreldrepenger.historikk.http;
+package no.nav.foreldrepenger.historikk.http.interceptors;
 
 import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CONSUMER_ID;
-import static org.springframework.core.Ordered.LOWEST_PRECEDENCE;
 
 import java.io.IOException;
 
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Component;
 
 import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
+@Order
 @Component
-@Order(LOWEST_PRECEDENCE)
 public class MDCValuesPropagatingClienHttpRequesInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
