@@ -1,4 +1,4 @@
-package no.nav.foreldrepenger.historikk.http;
+package no.nav.foreldrepenger.historikk.http.interceptors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;

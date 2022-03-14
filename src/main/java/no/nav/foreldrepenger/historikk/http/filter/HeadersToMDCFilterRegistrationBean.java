@@ -1,6 +1,6 @@
-package no.nav.foreldrepenger.historikk.http;
+package no.nav.foreldrepenger.historikk.http.filter;
 
-import static no.nav.foreldrepenger.historikk.http.FilterRegistrationUtil.always;
+import static no.nav.foreldrepenger.historikk.http.filter.FilterRegistrationUtil.always;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ public class HeadersToMDCFilterRegistrationBean extends FilterRegistrationBean<H
 
     public HeadersToMDCFilterRegistrationBean(HeadersToMDCFilterBean headersFilter) {
         setFilter(headersFilter);
+        setOrder(1);
         setUrlPatterns(always());
         LOG.info("Registrert filter {}", this.getClass().getSimpleName());
     }
