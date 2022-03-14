@@ -25,19 +25,18 @@ import no.nav.foreldrepenger.historikk.http.CallIdGenerator;
 public class HeadersToMDCFilterBean extends GenericFilterBean {
     private static final Logger LOG = LoggerFactory.getLogger(HeadersToMDCFilterBean.class);
 
-    private final CallIdGenerator generator;
     private final String applicationName;
+    private final CallIdGenerator generator;
 
     @Inject
-    public HeadersToMDCFilterBean(CallIdGenerator generator,
-            @Value("${spring.application.name:fpinfo-historikk}") String applicationName) {
-        this.generator = generator;
+    public HeadersToMDCFilterBean(@Value("${spring.application.name:fpinfo-historikk}") String applicationName,
+                                  CallIdGenerator generator) {
         this.applicationName = applicationName;
+        this.generator = generator;
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         putValues(HttpServletRequest.class.cast(request));
         chain.doFilter(request, response);
     }
@@ -47,13 +46,13 @@ public class HeadersToMDCFilterBean extends GenericFilterBean {
             toMDC(NAV_CONSUMER_ID, req.getHeader(NAV_CONSUMER_ID), applicationName);
             toMDC(NAV_CALL_ID, req.getHeader(NAV_CALL_ID), generator.create());
         } catch (Exception e) {
-            LOG.warn("Feil ved setting av MDC-verdier for {}, MDC-verdier er inkomplette", req.getRequestURI(), e);
+            LOG.warn("Noe gikk galt ved setting av MDC-verdier for request. MDC-verdier er inkomplette!", e);
         }
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [generator=" + generator + ", applicationName=" + applicationName + "]";
+        return getClass().getSimpleName() + " [applicationName=" + applicationName + "]";
     }
 
 }

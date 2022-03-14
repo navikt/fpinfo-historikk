@@ -2,6 +2,9 @@ package no.nav.foreldrepenger.historikk.http;
 
 import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 import static org.springframework.retry.RetryContext.NAME;
+import static org.springframework.util.ReflectionUtils.findField;
+import static org.springframework.util.ReflectionUtils.getField;
+import static org.springframework.util.ReflectionUtils.makeAccessible;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,7 +21,6 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.client.RestOperations;
 
 import com.google.common.base.Splitter;
@@ -71,17 +73,15 @@ public class RestClientConfiguration {
         return List.of(new RetryListener() {
 
             @Override
-            public <T, E extends Throwable> void onError(RetryContext ctx, RetryCallback<T, E> cb,
-                    Throwable throwable) {
-                LOG.warn("Metode {} kastet exception {} for {}. gang",
-                    ctx.getAttribute(NAME), throwable, ctx.getRetryCount());
+            public <T, E extends Throwable> void onError(RetryContext ctx, RetryCallback<T, E> callback, Throwable t) {
+                LOG.info("Metode {} kastet exception {} for {}. gang", ctx.getAttribute(NAME), t, ctx.getRetryCount());
             }
 
             @Override
-            public <T, E extends Throwable> void close(RetryContext ctx, RetryCallback<T, E> cb, Throwable t) {
+            public <T, E extends Throwable> void close(RetryContext ctx, RetryCallback<T, E> callback, Throwable t) {
                 if (t != null) {
-                    LOG.warn("Metode {} avslutter ikke-vellykket retry etter {}. forsøk grunnet {}",
-                            ctx.getAttribute(NAME), ctx.getRetryCount(), t.getMessage(), t);
+                    LOG.warn("Metode {} avslutter ikke-vellykket retry etter {}. forsøk ({})",
+                        ctx.getAttribute(NAME), ctx.getRetryCount(), t.getMessage(), t);
                 } else {
                     if (ctx.getRetryCount() > 0) {
                         LOG.info("Metode {} avslutter vellykket retry etter {}. forsøk",
@@ -91,12 +91,12 @@ public class RestClientConfiguration {
             }
 
             @Override
-            public <T, E extends Throwable> boolean open(RetryContext ctx, RetryCallback<T, E> cb) {
-                var labelField = ReflectionUtils.findField(cb.getClass(), "val$label");
-                ReflectionUtils.makeAccessible(labelField);
-                String metode = (String) ReflectionUtils.getField(labelField, cb);
+            public <T, E extends Throwable> boolean open(RetryContext ctx, RetryCallback<T, E> callback) {
+                var labelField = findField(callback.getClass(), "val$label");
+                makeAccessible(labelField);
+                var m = String.class.cast(getField(labelField, callback));
                 if (ctx.getRetryCount() > 0) {
-                    LOG.info("Metode {} gjør retry for {}. gang", metode, ctx.getRetryCount());
+                    LOG.info("Metode {} gjør retry for {}. gang", m, ctx.getRetryCount());
                 }
                 return true;
             }
