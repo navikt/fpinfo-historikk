@@ -68,7 +68,7 @@ jobs:
         run: |
           mvn clean install --batch-mode --quiet  --settings .github/.m2/settings.xml
         env:
-          GITHUB_TOKEN: ${{ secrets.NOTIFICATION }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v1
