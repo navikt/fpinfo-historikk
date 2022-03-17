@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
-import no.nav.brukernotifikasjon.schemas.Nokkel;
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
@@ -26,12 +26,12 @@ public class KafkaBønnefabrikk {
     }
 
     @Bean
-    public ProducerFactory<Nokkel, Object> aivenProducerTemplate(DittNavProducerConfig config) {
+    public ProducerFactory<NokkelInput, Object> aivenProducerTemplate(DittNavProducerConfig config) {
         return new DefaultKafkaProducerFactory<>(producerConfig(config));
     }
 
     @Bean
-    public KafkaOperations<Nokkel, Object> kafkaTemplate(ProducerFactory<Nokkel, Object> factory) {
+    public KafkaOperations<NokkelInput, Object> kafkaTemplate(ProducerFactory<NokkelInput, Object> factory) {
         return new KafkaTemplate<>(factory);
     }
 
