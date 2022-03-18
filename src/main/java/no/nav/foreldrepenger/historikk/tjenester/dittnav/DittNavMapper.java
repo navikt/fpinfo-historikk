@@ -38,7 +38,7 @@ final class DittNavMapper {
             .build();
     }
 
-    static OppgaveInput oppgave(String tekst, URI landingsside) {
+    static OppgaveInput oppgaveInput(String tekst, URI landingsside) {
         return OppgaveInput.newBuilder()
                 .setLink(landingsside.toString())
                 .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
@@ -46,7 +46,7 @@ final class DittNavMapper {
                 .setTidspunkt(Instant.now().toEpochMilli()).build();
     }
 
-    static BeskjedInput beskjed(String tekst, URI landingsside, Duration duration) {
+    static BeskjedInput beskjedInput(String tekst, URI landingsside, Duration duration) {
         return BeskjedInput.newBuilder()
             .setSynligFremTil(Instant.now().plus(duration).toEpochMilli())
             .setLink(landingsside.toString())

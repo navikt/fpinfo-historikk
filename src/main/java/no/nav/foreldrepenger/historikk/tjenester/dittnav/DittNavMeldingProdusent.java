@@ -70,11 +70,11 @@ public class DittNavMeldingProdusent implements DittNav {
                 var key = nøkkel(h.getFnr(), eventId, h.getSaksnummer());
                 LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                         tekst);
-                send(beskjed(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+                send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
             } else {
                 LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
                 var key = nøkkel(h.getFnr(), eventId, UUID.randomUUID().toString());
-                send(beskjed(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+                send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
             }
             lager.opprett(h.getFnr(), lokalReferanse);
         } else {
@@ -91,7 +91,7 @@ public class DittNavMeldingProdusent implements DittNav {
             var key = nøkkel(h.getFnr(), eventId, h.getSaksnummer());
             LOG.info("Oppretter oppgave med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                     tekst);
-            send(oppgave(tekst, config.uri()), key, config.getOppgave());
+            send(oppgaveInput(tekst, config.uri()), key, config.getOppgave());
             lager.opprett(h.getFnr(), lokalReferanse);
         } else {
             LOG.info("Det er allerede opprettet en oppgave {} ", lokalReferanse);
