@@ -47,16 +47,17 @@ public class KafkaTemplatesConfiguration {
 
     @Bean
     public KafkaOperations<String, String> onPremProducerTemplate(ProducerFactory<String, String> pf) {
+        // Todo: config. Brukes for å lage testcaser i dev.
         return new KafkaTemplate<>(pf);
     }
 
     @Bean
-    public ProducerFactory<NokkelInput, Object> aivenProducerTemplate(DittNavProducerConfig config) {
+    public ProducerFactory<NokkelInput, Object> aivenProducerFactory(DittNavProducerConfig config) {
         return new DefaultKafkaProducerFactory<>(producerConfig(config));
     }
 
     @Bean
-    public KafkaOperations<NokkelInput, Object> aivenKafkaTemplate(ProducerFactory<NokkelInput, Object> factory) {
+    public KafkaOperations<NokkelInput, Object> aivenProducerKafkaTemplate(ProducerFactory<NokkelInput, Object> factory) {
         return new KafkaTemplate<>(factory);
     }
 
