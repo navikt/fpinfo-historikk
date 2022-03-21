@@ -9,6 +9,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,7 @@ public class KafkaTemplatesConfiguration {
 
 
     @Bean
-    public ConsumerFactory<Object, Object> onPremConsumerFactory(OnPremConsumerConfig config) {
+    public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
@@ -47,18 +48,28 @@ public class KafkaTemplatesConfiguration {
 
     @Bean
     public KafkaOperations<String, String> onPremProducerTemplate(ProducerFactory<String, String> pf) {
-        // Todo: config. Brukes for å lage testcaser i dev.
         return new KafkaTemplate<>(pf);
     }
 
     @Bean
-    public ProducerFactory<NokkelInput, Object> aivenProducerFactory(DittNavProducerConfig config) {
-        return new DefaultKafkaProducerFactory<>(producerConfig(config));
+    public ProducerFactory<Object, Object> onPremProducerFactory(OnpremKafkaConfig config) {
+        var props = new HashMap<String, Object>();
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.bootstrapServers());
+        props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
+        props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
+        props.put(SaslConfigs.SASL_JAAS_CONFIG, config.jaasConfig());
+
+        LOG.info("Kafka producer TRANSACTIONAL_ID_CONFIG: {}", TX_ID);
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, TX_ID);
+        return new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
-    public KafkaOperations<NokkelInput, Object> aivenProducerKafkaTemplate(ProducerFactory<NokkelInput, Object> factory) {
-        return new KafkaTemplate<>(factory);
+    public KafkaOperations<NokkelInput, Object> aivenProducerKafkaTemplate(DittNavProducerConfig config) {
+        ProducerFactory<NokkelInput, Object> producerFactory = new DefaultKafkaProducerFactory<>(producerConfig(config));
+        return new KafkaTemplate<>(producerFactory);
     }
 
     private static Map<String, Object> producerConfig(DittNavProducerConfig config) {
@@ -68,8 +79,6 @@ public class KafkaTemplatesConfiguration {
         props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, config.schemaRegistryUri());
         props.put(KafkaAvroSerializerConfig.BASIC_AUTH_CREDENTIALS_SOURCE, CREDENTIALS_SOURCE);
         props.put(KafkaAvroSerializerConfig.USER_INFO_CONFIG, config.schemaRegistryUserInfo());
-        LOG.info("Kafka producer TRANSACTIONAL_ID_CONFIG: {}", TX_ID);
-        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, TX_ID);
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
         props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
         props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, config.trustStoreType());

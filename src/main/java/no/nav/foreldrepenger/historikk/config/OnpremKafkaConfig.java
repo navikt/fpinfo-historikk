@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties("kafka.onprem")
 @ConstructorBinding
-public record OnPremConsumerConfig(
+public record OnpremKafkaConfig(
     String bootstrapServers,
     String consumerGroupId,
     boolean consumerEnableAutoCommit,
