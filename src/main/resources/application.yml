@@ -109,7 +109,6 @@ kafka:
     security-protocol: SSL
     sasl-mechanism: PLAIN
     key-store-type: PKCS12
-    security-enabled: true
     truststore-type: jks
   onprem:
     security-protocol: SASL_SSL

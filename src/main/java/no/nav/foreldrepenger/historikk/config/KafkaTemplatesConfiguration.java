@@ -69,17 +69,15 @@ public class KafkaTemplatesConfiguration {
         props.put(KafkaAvroSerializerConfig.USER_INFO_CONFIG, config.schemaRegistryUserInfo());
         LOG.info("Kafka producer TRANSACTIONAL_ID_CONFIG: {}", TX_ID);
         props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, TX_ID);
-        if (config.securityEnabled()) {
-            props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
-            props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, config.trustStoreType());
-            props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, config.truststorePath());
-            props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, config.credstorePassword());
-            props.put(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, config.keyStoreType());
-            props.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, config.keystorePath());
-            props.put(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, config.credstorePassword());
-            props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
-        }
+        props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
+        props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
+        props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, config.trustStoreType());
+        props.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, config.truststorePath());
+        props.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, config.credstorePassword());
+        props.put(SslConfigs.SSL_KEYSTORE_TYPE_CONFIG, config.keyStoreType());
+        props.put(SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG, config.keystorePath());
+        props.put(SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG, config.credstorePassword());
+        props.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
         return props;
     }
 
