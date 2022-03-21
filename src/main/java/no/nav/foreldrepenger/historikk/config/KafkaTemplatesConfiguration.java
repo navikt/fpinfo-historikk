@@ -52,7 +52,7 @@ public class KafkaTemplatesConfiguration {
     }
 
     @Bean
-    public ProducerFactory<Object, Object> onPremProducerFactory(OnpremKafkaConfig config) {
+    public ProducerFactory<String, String> onPremProducerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());

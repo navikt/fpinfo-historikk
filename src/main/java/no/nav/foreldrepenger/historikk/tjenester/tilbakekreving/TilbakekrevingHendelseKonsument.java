@@ -28,7 +28,7 @@ public class TilbakekrevingHendelseKonsument {
         this.dittNav = dittNav;
     }
 
-    @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}", groupId = "#{'${kafka.onprem.consumer-group-id}'}")
     @Transactional
     public void listen(@Payload @Valid TilbakekrevingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
