@@ -70,7 +70,7 @@ spring:
   application:
     name: fpinfo-historikk
   cache:
-    cache-names: aktør,sts,organisasjon, fnr
+    cache-names: aktør,sts,organisasjon,fnr
     caffeine:
       spec: maximumSize=100,expireAfterAccess=3600s
   cloud:
@@ -90,31 +90,37 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-  kafka:
-    properties:
-      schema:
-        registry:
-          url: https://kafka-schema-registry.nais.adeo.no
-      security:
-        protocol: SASL_SSL
-      sasl:
-        mechanism: PLAIN
-        jaas:
-          config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
-    consumer:
-      enable-auto-commit: false
-      bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-      group-id: group_id
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      transaction-id-prefix: tx.
   main:
     banner-mode: 'off'
+kafka:
+  aiven:
+    bootstrap-servers: ${kafka.brokers}
+    ca: ${kafka.ca}
+    ca-path: ${kafka.ca.path}
+    certificate: ${kafka.certificate}
+    certificate-path: ${kafka.certificate.path}
+    credstore-password: ${kafka.credstore.password}
+    keystore-path: ${kafka.keystore.path}
+    private-key: ${kafka.private.key}
+    private-key-path: ${kafka.private.key.path}
+    schema-registry-uri: ${kafka.schema.registry}
+    schema-registry-user-info: ${kafka.schema.registry.user}:${kafka.schema.registry.password}
+    truststore-path: ${kafka.truststore.path}
+    security-protocol: SSL
+    sasl-mechanism: PLAIN
+    key-store-type: PKCS12
+    security-enabled: true
+    truststore-type: jks
+  onprem:
+    security-protocol: SASL_SSL
+    sasl-mechanism: PLAIN
+    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
+    consumer-enable-auto-commit: false
+    bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
+    consumer-group-id: group_id
+    auto-offset-reset: none
+    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 springdoc:
   packages-to-scan: no.nav.foreldrepenger.historikk
   swagger-ui:

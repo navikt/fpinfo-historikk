@@ -12,16 +12,15 @@ public record DittNavProducerConfig(
     String certificate,
     String certificatePath,
     String credstorePassword,
-    String clientId,
     String keystorePath,
     String privateKey,
     String privateKeyPath,
-    String schemaRegistry,
-    String schemaRegistryPassword,
-    String schemaRegistryUser,
+    String schemaRegistryUri,
+    String schemaRegistryUserInfo,
     String truststorePath,
     String securityProtocol,
     String saslMechanism,
     String keyStoreType,
-    String trustStoreType
+    String trustStoreType,
+    boolean securityEnabled
 ) { }
