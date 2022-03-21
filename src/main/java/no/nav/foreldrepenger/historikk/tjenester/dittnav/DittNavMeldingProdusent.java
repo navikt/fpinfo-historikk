@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.KAFKA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.*;
 
 import java.util.UUID;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
@@ -34,7 +32,6 @@ public class DittNavMeldingProdusent implements DittNav {
         this.lager = lager;
     }
 
-    @Transactional(KAFKA_TM)
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = nøkkel(fnr, eventId, grupperingsId);
@@ -47,7 +44,6 @@ public class DittNavMeldingProdusent implements DittNav {
         }
     }
 
-    @Transactional(KAFKA_TM)
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = nøkkel(fnr, eventId, grupperingsId);
@@ -61,7 +57,6 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     @Override
-    @Transactional(KAFKA_TM)
     public void opprettBeskjed(InnsendingHendelse h, String tekst) {
         var eventId = h.getReferanseId();
         var lokalReferanse = BESKJED + eventId;
@@ -83,7 +78,6 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     @Override
-    @Transactional(KAFKA_TM)
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
         var eventId = h.getReferanseId();
         var lokalReferanse = OPPGAVE + eventId;
