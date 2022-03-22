@@ -24,6 +24,12 @@ public class KafkaTemplatesConfiguration {
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
 
     @Bean
+    public KafkaOperations<NokkelInput, Object> aivenProducerKafkaTemplate(DittNavProducerConfig config) {
+        ProducerFactory<NokkelInput, Object> producerFactory = new DefaultKafkaProducerFactory<>(producerConfig(config));
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
     public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
@@ -54,12 +60,6 @@ public class KafkaTemplatesConfiguration {
         props.put(SaslConfigs.SASL_JAAS_CONFIG, config.jaasConfig());
         props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, config.transactionalIdPrefix());
         return new DefaultKafkaProducerFactory<>(props);
-    }
-
-    @Bean
-    public KafkaOperations<NokkelInput, Object> aivenProducerKafkaTemplate(DittNavProducerConfig config) {
-        ProducerFactory<NokkelInput, Object> producerFactory = new DefaultKafkaProducerFactory<>(producerConfig(config));
-        return new KafkaTemplate<>(producerFactory);
     }
 
     private static Map<String, Object> producerConfig(DittNavProducerConfig config) {
