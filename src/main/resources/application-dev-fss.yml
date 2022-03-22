@@ -25,12 +25,6 @@ spring:
     url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
   mvc:
     log-request-details: true
-  kafka:
-    properties:
-      schema:
-        registry:
-          url: https://kafka-schema-registry.nais-q.adeo.no
-    consumer:
-      bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
-    producer:
-      bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
+kafka:
+  onprem:
+    bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
