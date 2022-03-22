@@ -9,25 +9,27 @@ spec:
   tokenx:
     enabled: true
   accessPolicy:
-     inbound:
-       rules:
+    inbound:
+      rules:
         - application: foreldrepengesoknad-api
           namespace: teamforeldrepenger
           cluster: {{cluster_foreldrepengesoknad-api}}
+  kafka:
+    pool: {{kafkaPool}}
   image: {{image}}
   port: 8080
   replicas:
-      min: 2
-      max: 2
+    min: 2
+    max: 2
   liveness:
-      path: api/actuator/health/liveness
-      initialDelay: 60
+    path: api/actuator/health/liveness
+    initialDelay: 60
   readiness:
-      path: api/actuator/health/readiness
-      initialDelay: 60
+    path: api/actuator/health/readiness
+    initialDelay: 60
   prometheus:
-      enabled: true
-      path: api/actuator/prometheus
+    enabled: true
+    path: api/actuator/prometheus
   ingresses:
     {{#each ingresses as |url|}}
     - {{url}}
