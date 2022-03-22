@@ -22,9 +22,9 @@ historikk:
   dittnav:
     enabled: true
     topics:
-      beskjed: aapen-brukernotifikasjon-nyBeskjed-v1
-      oppgave: aapen-brukernotifikasjon-nyOppgave-v1
-      done: aapen-brukernotifikasjon-done-v1
+      beskjed: min-side.aapen-brukernotifikasjon-beskjed-v1
+      oppgave: min-side.aapen-brukernotifikasjon-oppgave-v1
+      done: min-side.aapen-brukernotifikasjon-done-v1
   inntektsmelding:
     enabled: true
     topic: privat-foreldrepenger-brukerdialog-inntektsmelding
