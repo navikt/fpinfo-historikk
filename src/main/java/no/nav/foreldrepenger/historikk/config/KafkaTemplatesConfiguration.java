@@ -24,7 +24,7 @@ public class KafkaTemplatesConfiguration {
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
 
     @Bean
-    public ConsumerFactory<String, String> onPremConsumerFactory(OnpremKafkaConfig config) {
+    public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
@@ -39,12 +39,12 @@ public class KafkaTemplatesConfiguration {
     }
 
     @Bean
-    public KafkaOperations<String, String> onPremProducerTemplate(ProducerFactory<String, String> pf) {
+    public KafkaOperations<Object, Object> onPremProducerTemplate(ProducerFactory<Object, Object> pf) {
         return new KafkaTemplate<>(pf);
     }
 
     @Bean
-    public ProducerFactory<String, String> onPremProducerFactory(OnpremKafkaConfig config) {
+    public ProducerFactory<Object, Object> onPremProducerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
