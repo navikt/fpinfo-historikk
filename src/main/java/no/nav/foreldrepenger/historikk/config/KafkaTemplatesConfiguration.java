@@ -18,15 +18,9 @@ import org.springframework.kafka.core.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
-
 
 @Configuration
 public class KafkaTemplatesConfiguration {
-
-    private static final Logger LOG = LoggerFactory.getLogger(KafkaTemplatesConfiguration.class);
 
     private static final String CLIENT_ID = "fpinfo-historikk";
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
