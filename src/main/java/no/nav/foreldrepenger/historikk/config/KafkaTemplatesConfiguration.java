@@ -19,6 +19,8 @@ import org.springframework.kafka.core.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 
 @Configuration
@@ -28,8 +30,6 @@ public class KafkaTemplatesConfiguration {
 
     private static final String CLIENT_ID = "fpinfo-historikk";
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
-    private static final String TX_ID = String.format("tx-%s-", UUID.randomUUID().toString());
-
 
     @Bean
     public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
@@ -60,9 +60,7 @@ public class KafkaTemplatesConfiguration {
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
         props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
         props.put(SaslConfigs.SASL_JAAS_CONFIG, config.jaasConfig());
-
-        LOG.info("Kafka producer TRANSACTIONAL_ID_CONFIG: {}", TX_ID);
-        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, TX_ID);
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, config.transactionalIdPrefix());
         return new DefaultKafkaProducerFactory<>(props);
     }
 

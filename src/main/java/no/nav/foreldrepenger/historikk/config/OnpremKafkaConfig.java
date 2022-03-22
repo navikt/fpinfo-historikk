@@ -12,6 +12,7 @@ public record OnpremKafkaConfig(
     String autoOffsetReset,
     String securityProtocol,
     String saslMechanism,
-    String jaasConfig
+    String jaasConfig,
+    String transactionalIdPrefix
 ) {
 }
