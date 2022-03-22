@@ -24,7 +24,7 @@ public class KafkaTemplatesConfiguration {
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
 
     @Bean
-    public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
+    public ConsumerFactory<String, String> onPremConsumerFactory(OnpremKafkaConfig config) {
         var props = new HashMap<String, Object>();
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
