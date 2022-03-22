@@ -6,7 +6,6 @@ import static no.nav.foreldrepenger.historikk.util.MDCUtil.toMDC;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -15,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -28,7 +28,7 @@ public class HeadersToMDCFilterBean extends GenericFilterBean {
     private final String applicationName;
     private final CallIdGenerator generator;
 
-    @Inject
+    @Autowired
     public HeadersToMDCFilterBean(@Value("${spring.application.name:fpinfo-historikk}") String applicationName,
                                   CallIdGenerator generator) {
         this.applicationName = applicationName;

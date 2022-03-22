@@ -9,11 +9,11 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import java.util.List;
 
-import javax.inject.Inject;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnaut
 
 @ControllerAdvice
 public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
-    @Inject
+    @Autowired
     private TokenUtil tokenUtil;
     private static final Logger LOG = LoggerFactory.getLogger(HistorikkExceptionHandler.class);
 
