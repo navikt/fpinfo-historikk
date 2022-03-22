@@ -10,7 +10,7 @@ public record OnpremKafkaConfig(
     String consumerGroupId,
     boolean consumerEnableAutoCommit,
     String autoOffsetReset,
-    String securityProtocol,
+    String securityProtocolConfig,
     String saslMechanism,
     String jaasConfig,
     String transactionalIdPrefix

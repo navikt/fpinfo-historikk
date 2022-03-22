@@ -111,8 +111,8 @@ kafka:
     key-store-type: PKCS12
     truststore-type: jks
   onprem:
-    security-protocol: SASL_SSL
     sasl-mechanism: PLAIN
+    security-protocol-config: SASL_PLAINTEXT
     jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
     consumer-enable-auto-commit: false
     bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
