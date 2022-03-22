@@ -43,7 +43,7 @@ public class DittNavMeldingsHistorikk {
     }
 
     public boolean erOpprettet(String referanseId) {
-        return dao.findByReferanseId(referanseId) != null;
+        return dao.existsByReferanseId(referanseId);
     }
 
     @Override
