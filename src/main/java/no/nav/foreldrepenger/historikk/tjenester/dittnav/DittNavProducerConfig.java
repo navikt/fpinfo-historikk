@@ -21,5 +21,7 @@ public record DittNavProducerConfig(
     String securityProtocol,
     String saslMechanism,
     String keyStoreType,
-    String trustStoreType
+    String trustStoreType,
+    String keySerializer,
+    String valueSerializer
 ) { }

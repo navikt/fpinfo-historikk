@@ -110,6 +110,8 @@ kafka:
     sasl-mechanism: PLAIN
     key-store-type: PKCS12
     truststore-type: jks
+    key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
   onprem:
     sasl-mechanism: PLAIN
     security-protocol-config: SASL_SSL
