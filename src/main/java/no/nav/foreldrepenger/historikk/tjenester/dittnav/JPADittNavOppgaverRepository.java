@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface JPADittNavOppgaverRepository
         extends JpaRepository<JPADittNavOppgave, Long>, JpaSpecificationExecutor<JPADittNavOppgave> {
 
-    JPADittNavOppgave findByReferanseId(String referanseId);
+    JPADittNavOppgave findByReferanseIdIgnoreCase(String referanseId);
 
-    boolean existsByReferanseId(String referanseId);
+    boolean existsByReferanseIdIgnoreCase(String referanseId);
 
 }

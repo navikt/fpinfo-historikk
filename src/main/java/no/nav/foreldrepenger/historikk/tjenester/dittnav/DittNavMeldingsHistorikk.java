@@ -31,7 +31,7 @@ public class DittNavMeldingsHistorikk {
     }
 
     public boolean slett(String referanseId) {
-        var oppgave = dao.findByReferanseId(referanseId);
+        var oppgave = dao.findByReferanseIdIgnoreCase(referanseId);
         if (oppgave != null) {
             LOG.info("Sletter melding/oppgave fra DB {}", referanseId);
             dao.delete(oppgave);
@@ -43,7 +43,7 @@ public class DittNavMeldingsHistorikk {
     }
 
     public boolean erOpprettet(String referanseId) {
-        return dao.existsByReferanseId(referanseId);
+        return dao.existsByReferanseIdIgnoreCase(referanseId);
     }
 
     @Override
