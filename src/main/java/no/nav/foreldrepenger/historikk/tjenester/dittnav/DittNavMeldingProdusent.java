@@ -34,9 +34,8 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        var key = nøkkel(fnr, eventId, grupperingsId);
-        var lokalReferanse = OPPGAVE + key.getEventId();
-        if (lager.slett(lokalReferanse)) {
+        var key = beskjedNøkkel(fnr, eventId, grupperingsId);
+        if (lager.slett(key.getEventId())) {
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(), key, config.getDone());
         } else {
@@ -46,9 +45,8 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        var key = nøkkel(fnr, eventId, grupperingsId);
-        var lokalReferanse = BESKJED + key.getEventId();
-        if (lager.slett(lokalReferanse)) {
+        var key = beskjedNøkkel(fnr, eventId, grupperingsId);
+        if (lager.slett(key.getEventId())) {
             LOG.info("Avslutter beskjed med eventId {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(), key, config.getDone());
         } else {
@@ -58,37 +56,33 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void opprettBeskjed(InnsendingHendelse h, String tekst) {
-        var eventId = h.getReferanseId();
-        var lokalReferanse = BESKJED + eventId;
-        if (!lager.erOpprettet(lokalReferanse)) {
+        var key = beskjedNøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
+        if (!lager.erOpprettet(key.getEventId())) {
             if (h.getSaksnummer() != null) {
-                var key = nøkkel(h.getFnr(), eventId, h.getSaksnummer());
                 LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                         tekst);
                 send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
             } else {
                 LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-                var key = nøkkel(h.getFnr(), eventId, UUID.randomUUID().toString());
+                key = beskjedNøkkel(h.getFnr(), h.getReferanseId(), UUID.randomUUID().toString());
                 send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
             }
-            lager.opprett(h.getFnr(), lokalReferanse);
+            lager.opprett(h.getFnr(), key.getEventId());
         } else {
-            LOG.info("Det er allerde opprettet en beskjed {} ", lokalReferanse);
+            LOG.info("Det er allerde opprettet en beskjed {} ", key.getEventId());
         }
     }
 
     @Override
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
-        var eventId = h.getReferanseId();
-        var lokalReferanse = OPPGAVE + eventId;
-        if (!lager.erOpprettet(lokalReferanse)) {
-            var key = nøkkel(h.getFnr(), eventId, h.getSaksnummer());
+        var key = oppgaveNøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
+        if (!lager.erOpprettet(key.getEventId())) {
             LOG.info("Oppretter oppgave med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                     tekst);
             send(oppgaveInput(tekst, config.uri()), key, config.getOppgave());
-            lager.opprett(h.getFnr(), lokalReferanse);
+            lager.opprett(h.getFnr(), key.getEventId());
         } else {
-            LOG.info("Det er allerede opprettet en oppgave {} ", lokalReferanse);
+            LOG.info("Det er allerede opprettet en oppgave {} ", key.getEventId());
         }
     }
 

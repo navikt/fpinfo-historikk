@@ -12,24 +12,35 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 final class DittNavMapper {
 
-    static final String OPPGAVE = "O";
-
-    static final String BESKJED = "B";
-
+    private static final String APPNAVN = "fpinfo-historikk";
+    private static final String NAMESPACE = "teamforeldrepenger";
+    private static final String OPPGAVE = "O";
+    private static final String BESKJED = "B";
     private static final int SIKKERHETSNIVÅ = 3;
+
 
     private DittNavMapper() {
 
     }
 
-    static NokkelInput nøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
+    static NokkelInput beskjedNøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
+        return nøkkelBuilder(fnr, grupperingsId)
+            .setEventId(BESKJED + eventId)
+            .build();
+    }
+
+    static NokkelInput oppgaveNøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
+        return nøkkelBuilder(fnr, grupperingsId)
+            .setEventId(OPPGAVE + eventId)
+            .build();
+    }
+
+    private static NokkelInput.Builder nøkkelBuilder(Fødselsnummer fnr, String grupperingsId) {
         return NokkelInput.newBuilder()
-            .setEventId(eventId)
             .setGrupperingsId(grupperingsId)
             .setFodselsnummer(fnr.getFnr())
-            .setAppnavn("fpinfo-historikk")
-            .setNamespace("teamforeldrepenger")
-            .build();
+            .setAppnavn(APPNAVN)
+            .setNamespace(NAMESPACE);
     }
 
     static DoneInput avslutt() {
