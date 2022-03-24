@@ -21,6 +21,10 @@ public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
+    private static final String LEGACY_OPPGAVE = "O";
+    private static final String OPPGAVE = "DO";
+    private static final String BESKJED = "B";
+
     private final KafkaOperations<NokkelInput, Object> kafka;
     private final DittNavConfig config;
     private final DittNavMeldingsHistorikk lager;
@@ -33,20 +37,18 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     @Override
-    public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        var key = beskjedNøkkel(fnr, eventId, grupperingsId);
-        if (lager.slett(key.getEventId())) {
-            LOG.info("Avslutter beskjed med eventId {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-            send(avslutt(), key, config.getDone());
-        } else {
-            LOG.info("Ingen beskjed å avslutte i Ditt Nav");
-        }
-    }
-
-    @Override
     public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        var key = oppgaveNøkkel(fnr, eventId, grupperingsId);
-        if (lager.slett(key.getEventId())) {
+        // Litt slalåm i denne omgang..
+        // Hittil har vi lagret og sendt eventer som UUID med prefix B eller O. Etter overgang Aiven krever
+        // Brukernotifikasjon ren UUID uten prefix. Unntaket er ved Done-event til eksisterende beholdning.
+        var jpaOppgave = lager.hentOppgave(LEGACY_OPPGAVE + eventId, OPPGAVE + eventId);
+        if (jpaOppgave != null) {
+            var lokalReferanse = jpaOppgave.getReferanseId();
+            lager.slett(lokalReferanse);
+            var keyEventId = LEGACY_OPPGAVE.equals(lokalReferanse.substring(0,1))
+                ? lokalReferanse
+                : eventId;
+            var key = avsluttNøkkel(fnr, keyEventId, grupperingsId);
             LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
             send(avslutt(), key, config.getDone());
         } else {
@@ -56,33 +58,36 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void opprettBeskjed(InnsendingHendelse h, String tekst) {
-        var key = beskjedNøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
-        if (!lager.erOpprettet(key.getEventId())) {
+        var internReferanse = BESKJED + h.getReferanseId();
+        if (!lager.erOpprettet(internReferanse)) {
+            NokkelInput key;
             if (h.getSaksnummer() != null) {
-                LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
-                        tekst);
-                send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+                LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", h.getReferanseId(), h.getFnr(),
+                    h.getSaksnummer(), tekst);
+                key = nøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
             } else {
                 LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-                key = beskjedNøkkel(h.getFnr(), h.getReferanseId(), UUID.randomUUID().toString());
-                send(beskjedInput(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+                key = nøkkel(h.getFnr(), h.getReferanseId(), UUID.randomUUID().toString());
             }
-            lager.opprett(h.getFnr(), key.getEventId());
+            send(beskjed(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+            lager.opprett(h.getFnr(), internReferanse);
         } else {
-            LOG.info("Det er allerde opprettet en beskjed {} ", key.getEventId());
+            LOG.info("Det er allerde opprettet en beskjed {} ", internReferanse);
         }
     }
 
     @Override
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
-        var key = oppgaveNøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
-        if (!lager.erOpprettet(key.getEventId())) {
+        if (!lager.erOpprettet(LEGACY_OPPGAVE + h.getReferanseId())
+            && !lager.erOpprettet(OPPGAVE + h.getReferanseId())) {
+            var key = nøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
             LOG.info("Oppretter oppgave med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                     tekst);
-            send(oppgaveInput(tekst, config.uri()), key, config.getOppgave());
-            lager.opprett(h.getFnr(), key.getEventId());
+            send(oppgave(tekst, config.uri()), key, config.getOppgave());
+            var internReferanse = OPPGAVE + key.getEventId();
+            lager.opprett(h.getFnr(), internReferanse);
         } else {
-            LOG.info("Det er allerede opprettet en oppgave {} ", key.getEventId());
+            LOG.info("Det er allerede opprettet en oppgave for referanseId {} ", h.getReferanseId());
         }
     }
 

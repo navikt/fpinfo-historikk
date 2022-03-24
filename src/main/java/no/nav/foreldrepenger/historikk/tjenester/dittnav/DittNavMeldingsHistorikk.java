@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
+import java.util.Optional;
+
 @Service
 @Transactional(JPA_TM)
 public class DittNavMeldingsHistorikk {
@@ -44,6 +46,11 @@ public class DittNavMeldingsHistorikk {
 
     public boolean erOpprettet(String referanseId) {
         return dao.existsByReferanseIdIgnoreCase(referanseId);
+    }
+
+    public JPADittNavOppgave hentOppgave(String referanseIdA, String referanseIdB) {
+        return Optional.ofNullable(dao.findByReferanseIdIgnoreCase(referanseIdA))
+            .orElseGet(() -> dao.findByReferanseIdIgnoreCase(referanseIdB));
     }
 
     @Override

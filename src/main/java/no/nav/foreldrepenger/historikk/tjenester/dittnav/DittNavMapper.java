@@ -1,9 +1,15 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
+import no.nav.brukernotifikasjon.schemas.builders.BeskjedInputBuilder;
+import no.nav.brukernotifikasjon.schemas.builders.DoneInputBuilder;
+import no.nav.brukernotifikasjon.schemas.builders.NokkelInputBuilder;
+import no.nav.brukernotifikasjon.schemas.builders.OppgaveInputBuilder;
 import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
 import no.nav.brukernotifikasjon.schemas.input.DoneInput;
 import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
@@ -14,8 +20,6 @@ final class DittNavMapper {
 
     private static final String APPNAVN = "fpinfo-historikk";
     private static final String NAMESPACE = "teamforeldrepenger";
-    private static final String OPPGAVE = "O";
-    private static final String BESKJED = "B";
     private static final int SIKKERHETSNIVÅ = 3;
 
 
@@ -23,47 +27,53 @@ final class DittNavMapper {
 
     }
 
-    static NokkelInput beskjedNøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
-        return nøkkelBuilder(fnr, grupperingsId)
-            .setEventId(BESKJED + eventId)
+
+    static NokkelInput nøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
+        return new NokkelInputBuilder()
+            .withFodselsnummer(fnr.getFnr())
+            .withEventId(eventId)
+            .withGrupperingsId(grupperingsId)
+            .withAppnavn(APPNAVN)
+            .withNamespace(NAMESPACE)
             .build();
     }
 
-    static NokkelInput oppgaveNøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
-        return nøkkelBuilder(fnr, grupperingsId)
-            .setEventId(OPPGAVE + eventId)
+    static NokkelInput avsluttNøkkel(Fødselsnummer fnr, String eventId, String grupperingsId) {
+        // Bruker Avroskjemaobjekt direkte for å støtte legacy eventId
+        return new NokkelInput(eventId, grupperingsId, fnr.getFnr(), NAMESPACE, APPNAVN);
+    }
+
+    static BeskjedInput beskjed(String tekst, URI landingsside, Duration duration) {
+        return new BeskjedInputBuilder()
+            .withSikkerhetsnivaa(SIKKERHETSNIVÅ)
+            .withTidspunkt(LocalDateTime.now())
+            .withLink(toUrl(landingsside))
+            .withSynligFremTil(LocalDateTime.now().plus(duration))
+            .withTekst(tekst)
             .build();
     }
 
-    private static NokkelInput.Builder nøkkelBuilder(Fødselsnummer fnr, String grupperingsId) {
-        return NokkelInput.newBuilder()
-            .setGrupperingsId(grupperingsId)
-            .setFodselsnummer(fnr.getFnr())
-            .setAppnavn(APPNAVN)
-            .setNamespace(NAMESPACE);
+    static OppgaveInput oppgave(String tekst, URI landingsside) {
+        return new OppgaveInputBuilder()
+            .withTidspunkt(LocalDateTime.now())
+            .withLink(toUrl(landingsside))
+            .withSikkerhetsnivaa(SIKKERHETSNIVÅ)
+            .withTekst(tekst)
+            .build();
     }
 
     static DoneInput avslutt() {
-        return DoneInput.newBuilder()
-            .setTidspunkt(Instant.now().toEpochMilli())
+        return new DoneInputBuilder()
+            .withTidspunkt(LocalDateTime.now())
             .build();
     }
 
-    static OppgaveInput oppgaveInput(String tekst, URI landingsside) {
-        return OppgaveInput.newBuilder()
-                .setLink(landingsside.toString())
-                .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
-                .setTekst(tekst)
-                .setTidspunkt(Instant.now().toEpochMilli()).build();
-    }
-
-    static BeskjedInput beskjedInput(String tekst, URI landingsside, Duration duration) {
-        return BeskjedInput.newBuilder()
-            .setSynligFremTil(Instant.now().plus(duration).toEpochMilli())
-            .setLink(landingsside.toString())
-            .setSikkerhetsnivaa(SIKKERHETSNIVÅ)
-            .setTekst(tekst)
-            .setTidspunkt(Instant.now().toEpochMilli()).build();
+    static URL toUrl(URI uri) {
+        try {
+            return uri.toURL();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Kunne ikke lage URL", e);
+        }
     }
 
 }
