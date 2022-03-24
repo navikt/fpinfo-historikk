@@ -33,17 +33,6 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     @Override
-    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
-        var key = beskjedNøkkel(fnr, eventId, grupperingsId);
-        if (lager.slett(key.getEventId())) {
-            LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
-            send(avslutt(), key, config.getDone());
-        } else {
-            LOG.info("Ingen oppgave å avslutte i Ditt Nav");
-        }
-    }
-
-    @Override
     public void avsluttBeskjed(Fødselsnummer fnr, String grupperingsId, String eventId) {
         var key = beskjedNøkkel(fnr, eventId, grupperingsId);
         if (lager.slett(key.getEventId())) {
@@ -51,6 +40,17 @@ public class DittNavMeldingProdusent implements DittNav {
             send(avslutt(), key, config.getDone());
         } else {
             LOG.info("Ingen beskjed å avslutte i Ditt Nav");
+        }
+    }
+
+    @Override
+    public void avsluttOppgave(Fødselsnummer fnr, String grupperingsId, String eventId) {
+        var key = oppgaveNøkkel(fnr, eventId, grupperingsId);
+        if (lager.slett(key.getEventId())) {
+            LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+            send(avslutt(), key, config.getDone());
+        } else {
+            LOG.info("Ingen oppgave å avslutte i Ditt Nav");
         }
     }
 
