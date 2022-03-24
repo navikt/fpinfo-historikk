@@ -49,7 +49,7 @@ public class DittNavMeldingProdusent implements DittNav {
                 ? lokalReferanse
                 : eventId;
             var key = avsluttNøkkel(fnr, keyEventId, grupperingsId);
-            LOG.info("Avslutter oppgave med eventId  {} for {} {} i Ditt Nav", key.getEventId(), fnr, grupperingsId);
+            LOG.info("Avslutter oppgave med eventId: {}, grupperingsId: {}", key.getEventId(), grupperingsId);
             send(avslutt(), key, config.getDone());
         } else {
             LOG.info("Ingen oppgave å avslutte i Ditt Nav");
@@ -62,17 +62,18 @@ public class DittNavMeldingProdusent implements DittNav {
         if (!lager.erOpprettet(internReferanse)) {
             NokkelInput key;
             if (h.getSaksnummer() != null) {
-                LOG.info("Oppretter beskjed for med eventId {} {} {} {} i Ditt Nav", h.getReferanseId(), h.getFnr(),
-                    h.getSaksnummer(), tekst);
-                key = nøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
+                key = nøkkel(h.getFnr(), UUID.randomUUID().toString(), h.getSaksnummer());
+                LOG.info("Oppretter beskjed med rnd eventId: {}, internReferanse: {}, saksnummer: {}, tekst: {}",
+                    key.getEventId(), internReferanse, h.getSaksnummer(), tekst);
             } else {
-                LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
-                key = nøkkel(h.getFnr(), h.getReferanseId(), UUID.randomUUID().toString());
+                key = nøkkel(h.getFnr(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+                LOG.info("Oppretter beskjed med random eventId: {}, random grupperingsId {} (mangler saksnummer), internReferanse: {}, tekst: {}",
+                    key.getEventId(), key.getGrupperingsId(), internReferanse, tekst);
             }
             send(beskjed(tekst, config.uri(), config.getBeskjedVarighet()), key, config.getBeskjed());
             lager.opprett(h.getFnr(), internReferanse);
         } else {
-            LOG.info("Det er allerde opprettet en beskjed {} ", internReferanse);
+            LOG.info("Det er allerede opprettet en beskjed {} ", internReferanse);
         }
     }
 
@@ -81,8 +82,8 @@ public class DittNavMeldingProdusent implements DittNav {
         if (!lager.erOpprettet(LEGACY_OPPGAVE + h.getReferanseId())
             && !lager.erOpprettet(OPPGAVE + h.getReferanseId())) {
             var key = nøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
-            LOG.info("Oppretter oppgave med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
-                    tekst);
+            LOG.info("Oppretter oppgave med eventId: {}, saksnummer: {}, tekst: {} i Ditt Nav",
+                key.getEventId(), h.getSaksnummer(), tekst);
             send(oppgave(tekst, config.uri(), config.getOppgaveVarighet()), key, config.getOppgave());
             var internReferanse = OPPGAVE + key.getEventId();
             lager.opprett(h.getFnr(), internReferanse);
