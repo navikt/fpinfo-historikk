@@ -17,18 +17,26 @@ public class DittNavConfig implements EnvironmentAware {
     private static final URI FP_PROD = URI.create("https://foreldrepenger.nav.no");
     private final DittNavTopics topics;
     private final boolean enabled;
-    private final Duration varighet;
+    private final Duration beskjedVarighet;
+    private final Duration oppgaveVarighet;
     private Environment env;
 
     @ConstructorBinding
-    public DittNavConfig(DittNavTopics topics, boolean enabled, @DefaultValue("90d") Duration varighet) {
+    public DittNavConfig(DittNavTopics topics, boolean enabled,
+                         @DefaultValue("90d") Duration beskjedVarighet,
+                         @DefaultValue("28d") Duration oppgaveVarighet) {
         this.topics = topics;
         this.enabled = enabled;
-        this.varighet = varighet;
+        this.beskjedVarighet = beskjedVarighet;
+        this.oppgaveVarighet = oppgaveVarighet;
     }
 
-    Duration getVarighet() {
-        return varighet;
+    Duration getBeskjedVarighet() {
+        return beskjedVarighet;
+    }
+
+    Duration getOppgaveVarighet() {
+        return oppgaveVarighet;
     }
 
     DittNavTopics getTopics() {
@@ -62,7 +70,7 @@ public class DittNavConfig implements EnvironmentAware {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [topics=" + topics + ", enabled=" + enabled + ", varighet=" + varighet + ", env=" + env + ", uri="
+        return getClass().getSimpleName() + " [topics=" + topics + ", enabled=" + enabled + ", varighet=" + beskjedVarighet + ", env=" + env + ", uri="
                 + uri() + "]";
     }
 

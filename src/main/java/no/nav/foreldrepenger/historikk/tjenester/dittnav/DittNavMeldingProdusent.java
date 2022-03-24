@@ -69,7 +69,7 @@ public class DittNavMeldingProdusent implements DittNav {
                 LOG.info("Kan ikke gruppere beskjed i Ditt Nav uten grupperingsId(saksnr), bruker random verdi");
                 key = nøkkel(h.getFnr(), h.getReferanseId(), UUID.randomUUID().toString());
             }
-            send(beskjed(tekst, config.uri(), config.getVarighet()), key, config.getBeskjed());
+            send(beskjed(tekst, config.uri(), config.getBeskjedVarighet()), key, config.getBeskjed());
             lager.opprett(h.getFnr(), internReferanse);
         } else {
             LOG.info("Det er allerde opprettet en beskjed {} ", internReferanse);
@@ -83,7 +83,7 @@ public class DittNavMeldingProdusent implements DittNav {
             var key = nøkkel(h.getFnr(), h.getReferanseId(), h.getSaksnummer());
             LOG.info("Oppretter oppgave med eventId {} {} {} {} i Ditt Nav", key.getEventId(), h.getFnr(), h.getSaksnummer(),
                     tekst);
-            send(oppgave(tekst, config.uri()), key, config.getOppgave());
+            send(oppgave(tekst, config.uri(), config.getOppgaveVarighet()), key, config.getOppgave());
             var internReferanse = OPPGAVE + key.getEventId();
             lager.opprett(h.getFnr(), internReferanse);
         } else {

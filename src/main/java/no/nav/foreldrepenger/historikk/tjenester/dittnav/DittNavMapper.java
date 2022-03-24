@@ -16,6 +16,8 @@ import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
+import static java.time.ZoneOffset.UTC;
+
 final class DittNavMapper {
 
     private static final String APPNAVN = "fpinfo-historikk";
@@ -46,16 +48,17 @@ final class DittNavMapper {
     static BeskjedInput beskjed(String tekst, URI landingsside, Duration duration) {
         return new BeskjedInputBuilder()
             .withSikkerhetsnivaa(SIKKERHETSNIVÅ)
-            .withTidspunkt(LocalDateTime.now())
+            .withTidspunkt(utcNow())
             .withLink(toUrl(landingsside))
-            .withSynligFremTil(LocalDateTime.now().plus(duration))
+            .withSynligFremTil(utcNow().plus(duration))
             .withTekst(tekst)
             .build();
     }
 
-    static OppgaveInput oppgave(String tekst, URI landingsside) {
+    static OppgaveInput oppgave(String tekst, URI landingsside, Duration duration) {
         return new OppgaveInputBuilder()
-            .withTidspunkt(LocalDateTime.now())
+            .withTidspunkt(utcNow())
+            .withSynligFremTil(utcNow().plus(duration))
             .withLink(toUrl(landingsside))
             .withSikkerhetsnivaa(SIKKERHETSNIVÅ)
             .withTekst(tekst)
@@ -64,11 +67,15 @@ final class DittNavMapper {
 
     static DoneInput avslutt() {
         return new DoneInputBuilder()
-            .withTidspunkt(LocalDateTime.now())
+            .withTidspunkt(utcNow())
             .build();
     }
 
-    static URL toUrl(URI uri) {
+    private static LocalDateTime utcNow() {
+        return LocalDateTime.now(UTC);
+    }
+
+    private static URL toUrl(URI uri) {
         try {
             return uri.toURL();
         } catch (MalformedURLException e) {
