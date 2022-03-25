@@ -22,7 +22,7 @@ public class DittNavMeldingProdusent implements DittNav {
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
 
     private static final String LEGACY_OPPGAVE = "O";
-    private static final String OPPGAVE = "DO";
+    private static final String OPPGAVE = "C";
     private static final String BESKJED = "B";
 
     private final KafkaOperations<NokkelInput, Object> kafka;
