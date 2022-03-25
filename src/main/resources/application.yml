@@ -28,12 +28,12 @@ historikk:
   inntektsmelding:
     enabled: true
     topic: privat-foreldrepenger-brukerdialog-inntektsmelding
-    group-id: group-id
+    group-id: group_id
   innsending:
     søknad:
       enabled: true
       topic: fpsoknad-mottak
-      group-id: group-id
+      group-id: group_id
     fordeling:
       enabled: true
       topic: privat-foreldrepenger-historikk-fordeling
@@ -41,7 +41,7 @@ historikk:
   tilbakekreving:
     enabled: true
     topic: privat-tilbakekreving-brukerdialog-p
-    group-id: group-id
+    group-id: group_id
 management:
   metrics:
     web:

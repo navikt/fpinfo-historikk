@@ -22,7 +22,7 @@ public class KafkaTemplatesConfiguration {
 
     private static final String CLIENT_ID = "fpinfo-historikk";
     private static final String CREDENTIALS_SOURCE = "USER_INFO";
-    private static final String DEFAULT_GROUP_ID = "group-id";
+    private static final String DEFAULT_GROUP_ID = "group_id";
 
     @Bean
     public ConsumerFactory<Object, Object> onPremConsumerFactory(OnpremKafkaConfig config) {
