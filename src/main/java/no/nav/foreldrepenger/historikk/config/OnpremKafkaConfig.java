@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 public record OnpremKafkaConfig(
     String bootstrapServers,
-    String consumerGroupId,
     boolean consumerEnableAutoCommit,
     String autoOffsetReset,
     String securityProtocolConfig,

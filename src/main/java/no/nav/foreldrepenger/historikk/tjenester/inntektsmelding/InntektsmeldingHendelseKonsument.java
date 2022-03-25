@@ -27,7 +27,7 @@ public class InntektsmeldingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}", groupId = "#{'${kafka.onprem.consumer-group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}", groupId = "#{'${historikk.inntektsmelding.group-id}'}")
     public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
             @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);

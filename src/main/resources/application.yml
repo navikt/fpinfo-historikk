@@ -28,11 +28,12 @@ historikk:
   inntektsmelding:
     enabled: true
     topic: privat-foreldrepenger-brukerdialog-inntektsmelding
-
+    group-id: group-id
   innsending:
     søknad:
       enabled: true
       topic: fpsoknad-mottak
+      group-id: group-id
     fordeling:
       enabled: true
       topic: privat-foreldrepenger-historikk-fordeling
@@ -40,6 +41,7 @@ historikk:
   tilbakekreving:
     enabled: true
     topic: privat-tilbakekreving-brukerdialog-p
+    group-id: group-id
 management:
   metrics:
     web:
@@ -118,7 +120,6 @@ kafka:
     jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
     consumer-enable-auto-commit: false
     bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-    consumer-group-id: group_id
     auto-offset-reset: none
     transactional-id-prefix: ${hostname}
 springdoc:

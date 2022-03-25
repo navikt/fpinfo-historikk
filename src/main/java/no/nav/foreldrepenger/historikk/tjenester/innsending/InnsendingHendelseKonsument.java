@@ -35,7 +35,7 @@ public class InnsendingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${kafka.onprem.consumer-group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${historikk.innsending.søknad.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
