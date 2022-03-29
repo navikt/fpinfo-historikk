@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 
 import java.util.List;
 

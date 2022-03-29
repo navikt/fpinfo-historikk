@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

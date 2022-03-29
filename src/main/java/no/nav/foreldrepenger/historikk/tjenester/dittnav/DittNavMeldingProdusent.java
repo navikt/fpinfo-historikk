@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Service
 public class DittNavMeldingProdusent implements DittNav {
@@ -25,15 +25,16 @@ public class DittNavMeldingProdusent implements DittNav {
     private static final String OPPGAVE = "C";
     private static final String BESKJED = "B";
 
-    private final KafkaOperations<NokkelInput, Object> kafka;
     private final DittNavConfig config;
     private final DittNavMeldingsHistorikk lager;
+    private final KafkaOperations<NokkelInput, Object> kafkaOperations;
 
-    public DittNavMeldingProdusent(KafkaOperations<NokkelInput, Object> kafka,
-            DittNavConfig config, DittNavMeldingsHistorikk lager) {
-        this.kafka = kafka;
+    public DittNavMeldingProdusent(DittNavConfig config,
+                                   DittNavMeldingsHistorikk lager,
+                                   KafkaOperations<NokkelInput, Object> kafkaOperations) {
         this.config = config;
         this.lager = lager;
+        this.kafkaOperations = kafkaOperations;
     }
 
     @Override
@@ -93,9 +94,9 @@ public class DittNavMeldingProdusent implements DittNav {
     }
 
     private void send(Object msg, NokkelInput key, String topic) {
-        var melding = new ProducerRecord<>(topic, key, msg);
+        var melding = new ProducerRecord<NokkelInput, Object>(topic, key, msg);
         LOG.info("Sender melding med id {} på {}", key.getEventId(), topic);
-        kafka.send(melding).addCallback(new ListenableFutureCallback<>() {
+        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<SendResult<NokkelInput, Object>>() {
 
             @Override
             public void onSuccess(SendResult<NokkelInput, Object> result) {
@@ -112,7 +113,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [kafka=" + kafka + ", config=" + config + ", lager=" + lager + "]";
+        return String.format("{} [kafka={}, config={}, lager={}", getClass().getSimpleName(), kafkaOperations, config, lager);
     }
 
 }

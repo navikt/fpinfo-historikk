@@ -16,17 +16,15 @@ public class DittNavConfig implements EnvironmentAware {
     private static final URI FP_DEV = URI.create("https://foreldrepenger.dev.nav.no/");
     private static final URI FP_PROD = URI.create("https://foreldrepenger.nav.no");
     private final DittNavTopics topics;
-    private final boolean enabled;
     private final Duration beskjedVarighet;
     private final Duration oppgaveVarighet;
     private Environment env;
 
     @ConstructorBinding
-    public DittNavConfig(DittNavTopics topics, boolean enabled,
+    public DittNavConfig(DittNavTopics topics,
                          @DefaultValue("90d") Duration beskjedVarighet,
                          @DefaultValue("28d") Duration oppgaveVarighet) {
         this.topics = topics;
-        this.enabled = enabled;
         this.beskjedVarighet = beskjedVarighet;
         this.oppgaveVarighet = oppgaveVarighet;
     }
@@ -39,24 +37,16 @@ public class DittNavConfig implements EnvironmentAware {
         return oppgaveVarighet;
     }
 
-    DittNavTopics getTopics() {
-        return topics;
-    }
-
-    boolean isEnabled() {
-        return enabled;
-    }
-
     String getBeskjed() {
-        return topics.getBeskjed();
+        return topics.beskjed();
     }
 
     String getDone() {
-        return topics.getDone();
+        return topics.done();
     }
 
     String getOppgave() {
-        return topics.getOppgave();
+        return topics.oppgave();
     }
 
     @Override
@@ -70,8 +60,10 @@ public class DittNavConfig implements EnvironmentAware {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [topics=" + topics + ", enabled=" + enabled + ", varighet=" + beskjedVarighet + ", env=" + env + ", uri="
-                + uri() + "]";
+        return String.format("{} [topics={}, beskjedVarighet={}, oppgaveVarighet={}, env={}, uri={}]",
+            getClass().getSimpleName(), topics, beskjedVarighet, oppgaveVarighet, env, uri());
     }
+
+    public static record DittNavTopics (String beskjed, String oppgave, String done) {}
 
 }
