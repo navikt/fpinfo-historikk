@@ -25,7 +25,6 @@ import java.time.Duration;
 public class TxConfiguration implements KafkaListenerConfigurer {
 
     public static final String KAFKA_TM = "kafkaTM";
-    public static final String JPA_TM = "jpaTM";
 
     @Autowired
     private LocalValidatorFactoryBean validator;
@@ -42,11 +41,6 @@ public class TxConfiguration implements KafkaListenerConfigurer {
         var tm = new KafkaTransactionManager<>(pf);
         tm.setNestedTransactionAllowed(true);
         return tm;
-    }
-
-    @Bean(name = JPA_TM)
-    public JpaTransactionManager jpaTM() {
-        return new JpaTransactionManager();
     }
 
     @Bean

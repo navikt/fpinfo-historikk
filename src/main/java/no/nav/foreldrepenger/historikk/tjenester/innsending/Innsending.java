@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static java.util.Collections.emptyList;
-import static no.nav.foreldrepenger.historikk.config.TxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.nyFra;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.oppdaterFra;
