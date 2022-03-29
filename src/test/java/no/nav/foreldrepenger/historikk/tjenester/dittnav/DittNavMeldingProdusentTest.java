@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
+import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
 import no.nav.brukernotifikasjon.schemas.input.DoneInput;
 import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
@@ -106,6 +107,47 @@ class DittNavMeldingProdusentTest {
                 assertEquals("fpinfo-historikk", key.getAppnavn());
                 assertEquals(fnr.getFnr(), key.getFodselsnummer());
                 assertEquals(hendelse.getSaksnummer(), key.getGrupperingsId());
+            });
+    }
+
+    @Test
+    public void beskjedOgOppgaveMedSammeReferanseIdGirUlikEventId() {
+        var hendelse = new InnsendingHendelse(AktørId.valueOf("001"), fnr, "002", referanseId, "003", "004", HendelseType.INITIELL_FORELDREPENGER,
+            List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
+        var oppgave = "Dummy oppgavetekst";
+        var beskjed = "Dummy beskjed";
+
+        dittNav.opprettOppgave(hendelse, oppgave);
+        dittNav.opprettBeskjed(hendelse, beskjed);
+
+
+        var captor = ArgumentCaptor.forClass(ProducerRecord.class);
+        verify(kafkaOperations, times(2)).send((ProducerRecord<NokkelInput, Object>) captor.capture());
+
+        var førsteMelding = captor.getAllValues().get(0);
+        assertAll("Oppgave opprettes ok",
+            () -> assertEquals(førsteMelding.topic(), dittNavConfig.getOppgave()),
+            () -> assertThat(førsteMelding.key()).isInstanceOf(NokkelInput.class),
+            () -> assertThat(førsteMelding.value()).isInstanceOf(OppgaveInput.class)
+        );
+        var oppgaveEventId = ((NokkelInput) førsteMelding.key()).getEventId();
+        assertThat(oppgaveEventId).isEqualTo(hendelse.getReferanseId());
+
+        var andreMelding = captor.getAllValues().get(1);
+        assertAll("Beskjed",
+            () -> assertEquals(andreMelding.topic(), dittNavConfig.getBeskjed()),
+            () -> assertThat(andreMelding.key()).isInstanceOf(NokkelInput.class),
+            () -> assertThat(andreMelding.value()).isInstanceOf(BeskjedInput.class),
+            () -> {
+                var key = (NokkelInput) andreMelding.key();
+                assertThat(key.getEventId()).isNotEqualTo(oppgaveEventId);
+                assertEquals("fpinfo-historikk", key.getAppnavn());
+                assertEquals(fnr.getFnr(), key.getFodselsnummer());
+                assertEquals(hendelse.getSaksnummer(), key.getGrupperingsId());
+            },
+            () -> {
+                var value = (BeskjedInput) andreMelding.value();
+                assertThat(value.getTekst()).isEqualTo(beskjed);
             });
     }
 
