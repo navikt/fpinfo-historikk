@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,7 +35,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {
@@ -47,7 +45,7 @@ import static org.springframework.context.annotation.FilterType.ASSIGNABLE_TYPE;
     FPInfoHistorikkApplicationLocal.class})
 @TestPropertySource(locations = "dittnav.properties")
 @EnableConfigurationProperties({DittNavConfig.class})
-@DataJpaTest //(includeFilters = {@ComponentScan.Filter(type = ASSIGNABLE_TYPE, classes = {JPADittNavOppgaverRepository.class})})
+@DataJpaTest
 class DittNavMeldingProdusentTest {
 
     private final Fødselsnummer fnr = Fødselsnummer.valueOf("12345678901");

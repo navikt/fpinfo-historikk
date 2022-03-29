@@ -60,8 +60,12 @@ public class DittNavConfig implements EnvironmentAware {
 
     @Override
     public String toString() {
-        return String.format("{} [topics={}, beskjedVarighet={}, oppgaveVarighet={}, env={}, uri={}]",
-            getClass().getSimpleName(), topics, beskjedVarighet, oppgaveVarighet, env, uri());
+        return "DittNavConfig{" +
+            "topics=" + topics +
+            ", beskjedVarighet=" + beskjedVarighet +
+            ", oppgaveVarighet=" + oppgaveVarighet +
+            ", env=" + env +
+            '}';
     }
 
     public static record DittNavTopics (String beskjed, String oppgave, String done) {}

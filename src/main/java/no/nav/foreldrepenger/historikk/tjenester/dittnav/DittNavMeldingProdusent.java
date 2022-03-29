@@ -113,7 +113,10 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public String toString() {
-        return String.format("{} [kafka={}, config={}, lager={}", getClass().getSimpleName(), kafkaOperations, config, lager);
+        return "DittNavMeldingProdusent{" +
+            "config=" + config +
+            ", lager=" + lager +
+            ", kafkaOperations=" + kafkaOperations +
+            '}';
     }
-
 }
