@@ -1,7 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.BESKJED;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.OPPGAVE;
 
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,13 +26,12 @@ public class DittNavMeldingsHistorikk {
         this.dao = dao;
     }
 
-    public void opprett(Fødselsnummer fnr, String referanseId) {
-        LOG.info("Oppretter info om  melding/oppgave til Ditt Nav i DB {} {}", fnr, referanseId);
-        var ny = new JPADittNavOppgave();
-        ny.setFnr(fnr);
-        ny.setReferanseId(referanseId);
-        var saved = dao.save(ny);
-        LOG.info("Opprettet info om  melding/oppgave til Ditt Nav i DB OK {}", saved);
+    public void opprettOppgave(Fødselsnummer fnr, String internReferanse, String eksternReferanse) {
+        opprett(fnr, internReferanse, eksternReferanse, OPPGAVE);
+    }
+
+    public void opprettBeskjed(Fødselsnummer fnr, String internReferanse, String eksternReferanse) {
+        opprett(fnr, internReferanse, eksternReferanse, BESKJED);
     }
 
     public boolean slett(String referanseId) {
@@ -51,6 +53,18 @@ public class DittNavMeldingsHistorikk {
     public JPADittNavOppgave hentOppgave(String referanseIdA, String referanseIdB) {
         return Optional.ofNullable(dao.findByReferanseIdIgnoreCase(referanseIdA))
             .orElseGet(() -> dao.findByReferanseIdIgnoreCase(referanseIdB));
+    }
+
+    private void opprett(Fødselsnummer fnr, String internReferanse, String eksternReferanse, NotifikasjonType type) {
+        var ny = new JPADittNavOppgave();
+        ny.setFnr(fnr);
+        ny.setType(type);
+        ny.setInternReferanseId(internReferanse);
+        ny.setEksternReferanseId(eksternReferanse);
+        var prefix = type.equals(BESKJED) ? "B" : "C";
+        ny.setReferanseId(prefix + eksternReferanse); // expand-contract
+        var saved = dao.save(ny);
+        LOG.info("Lagret DittNav {} i lokal db ok {}", type, saved);
     }
 
     @Override

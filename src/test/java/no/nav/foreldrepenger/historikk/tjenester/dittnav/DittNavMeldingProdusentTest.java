@@ -130,8 +130,8 @@ class DittNavMeldingProdusentTest {
             () -> assertThat(førsteMelding.key()).isInstanceOf(NokkelInput.class),
             () -> assertThat(førsteMelding.value()).isInstanceOf(OppgaveInput.class)
         );
-        var oppgaveEventId = ((NokkelInput) førsteMelding.key()).getEventId();
-        assertThat(oppgaveEventId).isEqualTo(hendelse.getReferanseId());
+        var oppgaveEksternId = ((NokkelInput) førsteMelding.key()).getEventId();
+        assertThat(oppgaveEksternId).isEqualTo(hendelse.getReferanseId());
 
         var andreMelding = captor.getAllValues().get(1);
         assertAll("Beskjed",
@@ -140,7 +140,7 @@ class DittNavMeldingProdusentTest {
             () -> assertThat(andreMelding.value()).isInstanceOf(BeskjedInput.class),
             () -> {
                 var key = (NokkelInput) andreMelding.key();
-                assertThat(key.getEventId()).isNotEqualTo(oppgaveEventId);
+                assertThat(key.getEventId()).isNotEqualTo(oppgaveEksternId);
                 assertEquals("fpinfo-historikk", key.getAppnavn());
                 assertEquals(fnr.getFnr(), key.getFodselsnummer());
                 assertEquals(hendelse.getSaksnummer(), key.getGrupperingsId());
