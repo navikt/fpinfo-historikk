@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import javax.persistence.*;
 
