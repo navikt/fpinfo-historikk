@@ -73,7 +73,7 @@ public class DittNavMeldingProdusent implements DittNav {
                     key.getEventId(), key.getGrupperingsId(), internReferanse, tekst);
             }
             send(beskjed(tekst, config.uri(), config.getBeskjedVarighet()), key, config.getBeskjed());
-            lager.opprettBeskjed(h.getFnr(), h.getReferanseId(), eventId);
+            lager.opprettBeskjed(h.getFnr(), key.getGrupperingsId(), h.getReferanseId(), eventId);
         } else {
             LOG.info("Det er allerede opprettet en beskjed {} ", internReferanse);
         }
@@ -87,7 +87,7 @@ public class DittNavMeldingProdusent implements DittNav {
             LOG.info("Oppretter oppgave med eventId: {}, saksnummer: {}, tekst: {} i Ditt Nav",
                 key.getEventId(), h.getSaksnummer(), tekst);
             send(oppgave(tekst, config.uri(), config.getOppgaveVarighet()), key, config.getOppgave());
-            lager.opprettOppgave(h.getFnr(), h.getReferanseId(), h.getReferanseId());
+            lager.opprettOppgave(h.getFnr(), key.getGrupperingsId(), h.getReferanseId(), h.getReferanseId());
         } else {
             LOG.info("Det er allerede opprettet en oppgave for referanseId {} ", h.getReferanseId());
         }

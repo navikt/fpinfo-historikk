@@ -26,12 +26,12 @@ public class DittNavMeldingsHistorikk {
         this.dao = dao;
     }
 
-    public void opprettOppgave(Fødselsnummer fnr, String internReferanse, String eksternReferanse) {
-        opprett(fnr, internReferanse, eksternReferanse, OPPGAVE);
+    public void opprettOppgave(Fødselsnummer fnr, String grupperingsId, String internReferanse, String eksternReferanse) {
+        opprett(fnr, grupperingsId, internReferanse, eksternReferanse, OPPGAVE);
     }
 
-    public void opprettBeskjed(Fødselsnummer fnr, String internReferanse, String eksternReferanse) {
-        opprett(fnr, internReferanse, eksternReferanse, BESKJED);
+    public void opprettBeskjed(Fødselsnummer fnr, String grupperingsId, String internReferanse, String eksternReferanse) {
+        opprett(fnr, grupperingsId, internReferanse, eksternReferanse, BESKJED);
     }
 
     public boolean slett(String referanseId) {
@@ -55,16 +55,17 @@ public class DittNavMeldingsHistorikk {
             .orElseGet(() -> dao.findByReferanseIdIgnoreCase(referanseIdB));
     }
 
-    private void opprett(Fødselsnummer fnr, String internReferanse, String eksternReferanse, NotifikasjonType type) {
+    private void opprett(Fødselsnummer fnr, String grupperingsId, String internReferanse, String eksternReferanse, NotifikasjonType type) {
         var ny = new JPADittNavOppgave();
         ny.setFnr(fnr);
         ny.setType(type);
+        ny.setGrupperingsId(grupperingsId);
         ny.setInternReferanseId(internReferanse);
         ny.setEksternReferanseId(eksternReferanse);
         var prefix = type.equals(BESKJED) ? "B" : "C";
         ny.setReferanseId(prefix + eksternReferanse); // expand-contract
         var saved = dao.save(ny);
-        LOG.info("Lagret DittNav {} i lokal db ok {}", type, saved);
+        LOG.info("Lagret DittNav {} i db {}", type, saved);
     }
 
     @Override

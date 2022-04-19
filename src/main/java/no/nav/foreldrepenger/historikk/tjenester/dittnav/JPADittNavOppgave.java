@@ -28,6 +28,8 @@ public class JPADittNavOppgave {
     private String referanseId;
     private String internReferanseId;
     private String eksternReferanseId;
+    private String grupperingsId;
+    private Boolean sendtDone;
 
     JPADittNavOppgave() {
     }
@@ -56,48 +58,66 @@ public class JPADittNavOppgave {
         this.referanseId = referanseId;
     }
 
+    public String getEksternReferanseId() {
+        return eksternReferanseId;
+    }
+
     public void setEksternReferanseId(String eksternReferanseId) {
         this.eksternReferanseId = eksternReferanseId;
-    }
-
-    public void setInternReferanseId(String referanseId) {
-        this.internReferanseId = referanseId;
-    }
-
-    public void setFnr(Fødselsnummer fnr) {
-        this.fnr = fnr;
-    }
-
-    public void setType(NotifikasjonType type) {
-        this.type = type;
-    }
-
-    public Fødselsnummer getFnr() {
-        return fnr;
-    }
-
-    public NotifikasjonType getType() {
-        return type;
     }
 
     public String getInternReferanseId() {
         return internReferanseId;
     }
 
-    public String getEksternReferanseId() {
-        return eksternReferanseId;
+    public void setInternReferanseId(String referanseId) {
+        this.internReferanseId = referanseId;
+    }
+
+    public String getGrupperingsId() {
+        return grupperingsId;
+    }
+
+    public void setGrupperingsId(String grupperingsId) {
+        this.grupperingsId = grupperingsId;
+    }
+
+    public Fødselsnummer getFnr() {
+        return fnr;
+    }
+
+    public void setFnr(Fødselsnummer fnr) {
+        this.fnr = fnr;
+    }
+
+    public NotifikasjonType getType() {
+        return type;
+    }
+
+    public void setType(NotifikasjonType type) {
+        this.type = type;
+    }
+
+
+    public boolean getSendtDone() {
+        return sendtDone != null && sendtDone;
+    }
+
+    public void setSendt() {
+        this.sendtDone = true;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() +
-            " [id=" + id +
+        return "JPADittNavOppgave{" +
+            "id=" + id +
             ", fnr=" + fnr +
             ", opprettet=" + opprettet +
             ", type=" + type +
             ", referanseId='" + referanseId + '\'' +
             ", internReferanseId='" + internReferanseId + '\'' +
             ", eksternReferanseId='" + eksternReferanseId + '\'' +
+            ", grupperingId='" + grupperingsId + '\'' +
             '}';
     }
 
