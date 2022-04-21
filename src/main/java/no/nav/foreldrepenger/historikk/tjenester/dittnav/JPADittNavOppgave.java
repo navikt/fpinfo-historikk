@@ -4,12 +4,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,7 +23,13 @@ public class JPADittNavOppgave {
     private Fødselsnummer fnr;
     @CreatedDate
     private LocalDateTime opprettet;
+    @Enumerated(EnumType.STRING)
+    private NotifikasjonType type;
     private String referanseId;
+    private String internReferanseId;
+    private String eksternReferanseId;
+    private String grupperingsId;
+    private Boolean sendtDone;
 
     JPADittNavOppgave() {
     }
@@ -57,6 +58,30 @@ public class JPADittNavOppgave {
         this.referanseId = referanseId;
     }
 
+    public String getEksternReferanseId() {
+        return eksternReferanseId;
+    }
+
+    public void setEksternReferanseId(String eksternReferanseId) {
+        this.eksternReferanseId = eksternReferanseId;
+    }
+
+    public String getInternReferanseId() {
+        return internReferanseId;
+    }
+
+    public void setInternReferanseId(String referanseId) {
+        this.internReferanseId = referanseId;
+    }
+
+    public String getGrupperingsId() {
+        return grupperingsId;
+    }
+
+    public void setGrupperingsId(String grupperingsId) {
+        this.grupperingsId = grupperingsId;
+    }
+
     public Fødselsnummer getFnr() {
         return fnr;
     }
@@ -65,10 +90,40 @@ public class JPADittNavOppgave {
         this.fnr = fnr;
     }
 
+    public NotifikasjonType getType() {
+        return type;
+    }
+
+    public void setType(NotifikasjonType type) {
+        this.type = type;
+    }
+
+
+    public boolean getSendtDone() {
+        return sendtDone != null && sendtDone;
+    }
+
+    public void setSendt() {
+        this.sendtDone = true;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [id=" + id + ", fnr=" + fnr + ", opprettet=" + opprettet + ", referanseId="
-                + referanseId + "]";
+        return "JPADittNavOppgave{" +
+            "id=" + id +
+            ", fnr=" + fnr +
+            ", opprettet=" + opprettet +
+            ", type=" + type +
+            ", referanseId='" + referanseId + '\'' +
+            ", internReferanseId='" + internReferanseId + '\'' +
+            ", eksternReferanseId='" + eksternReferanseId + '\'' +
+            ", grupperingsId='" + grupperingsId + '\'' +
+            ", sendtDone=" + sendtDone +
+            '}';
+    }
+
+    enum NotifikasjonType {
+        OPPGAVE, BESKJED;
     }
 
 }
