@@ -117,7 +117,8 @@ public class JPADittNavOppgave {
             ", referanseId='" + referanseId + '\'' +
             ", internReferanseId='" + internReferanseId + '\'' +
             ", eksternReferanseId='" + eksternReferanseId + '\'' +
-            ", grupperingId='" + grupperingsId + '\'' +
+            ", grupperingsId='" + grupperingsId + '\'' +
+            ", sendtDone=" + sendtDone +
             '}';
     }
 
