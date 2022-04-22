@@ -99,12 +99,19 @@ public class JPADittNavOppgave {
     }
 
 
-    public boolean getSendtDone() {
+    public boolean getSendtDoneMelding() {
         return sendtDone != null && sendtDone;
     }
 
-    public void setSendt() {
-        this.sendtDone = true;
+    public void setSendtDoneMelding(boolean sendtDone) {
+        this.sendtDone = sendtDone;
+    }
+
+    @PrePersist
+    void defaultDone() {
+        if (this.sendtDone == null) {
+            this.sendtDone = false;
+        }
     }
 
     @Override
