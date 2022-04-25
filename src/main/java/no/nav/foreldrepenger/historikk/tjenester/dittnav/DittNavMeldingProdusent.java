@@ -19,6 +19,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);
+    private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
 
     private final DittNavConfig config;
     private final DittNavMeldingsHistorikk lager;
@@ -82,7 +83,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
             @Override
             public void onFailure(Throwable e) {
-                LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, e);
+                SECURE_LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, e);
             }
         });
     }
