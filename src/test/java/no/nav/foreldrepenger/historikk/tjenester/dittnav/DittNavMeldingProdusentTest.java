@@ -51,6 +51,9 @@ class DittNavMeldingProdusentTest {
 
     private final Fødselsnummer fnr = Fødselsnummer.valueOf("12345678901");
     private final String referanseId = UUID.randomUUID().toString();
+    private final InnsendingHendelse innsendingHendelse = new InnsendingHendelse(AktørId.valueOf("001"), fnr, "002", referanseId, "003", "004", HendelseType.INITIELL_FORELDREPENGER,
+        List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
+    private final String DUMMY_TEKST = "Dummy beskjed";
 
     @MockBean
     private KafkaOperations<NokkelInput, Object> kafkaOperations;
@@ -69,12 +72,10 @@ class DittNavMeldingProdusentTest {
 
     @Test
     public void oppgaveLifecycle() {
-        var hendelse = new InnsendingHendelse(AktørId.valueOf("001"), fnr, "002", referanseId, "003", "004", HendelseType.INITIELL_FORELDREPENGER,
-            List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
         var oppgaveTekst = "Dummy oppgavetekst";
 
-        dittNav.opprettOppgave(hendelse, oppgaveTekst);
-        dittNav.avsluttOppgave(fnr, hendelse.getSaksnummer(), hendelse.getReferanseId());
+        dittNav.opprettOppgave(innsendingHendelse, oppgaveTekst);
+        dittNav.avsluttOppgave(innsendingHendelse.getReferanseId());
 
         var captor = ArgumentCaptor.forClass(ProducerRecord.class);
         verify(kafkaOperations, times(2)).send((ProducerRecord<NokkelInput, Object>) captor.capture());
@@ -86,10 +87,9 @@ class DittNavMeldingProdusentTest {
             () -> assertThat(førsteMelding.value()).isInstanceOf(OppgaveInput.class),
             () -> {
                 var key = (NokkelInput) førsteMelding.key();
-                assertEquals(hendelse.getReferanseId(), key.getEventId());
                 assertEquals("fpinfo-historikk", key.getAppnavn());
                 assertEquals(fnr.getFnr(), key.getFodselsnummer());
-                assertEquals(hendelse.getSaksnummer(), key.getGrupperingsId());
+                assertEquals(innsendingHendelse.getSaksnummer(), key.getGrupperingsId());
             },
             () -> {
                 var value = (OppgaveInput) førsteMelding.value();
@@ -103,22 +103,36 @@ class DittNavMeldingProdusentTest {
             () -> assertThat(andreMelding.value()).isInstanceOf(DoneInput.class),
             () -> {
                 var key = (NokkelInput) andreMelding.key();
-                assertEquals(hendelse.getReferanseId(), key.getEventId());
+                assertEquals(((NokkelInput) førsteMelding.key()).getEventId(), key.getEventId());
                 assertEquals("fpinfo-historikk", key.getAppnavn());
                 assertEquals(fnr.getFnr(), key.getFodselsnummer());
-                assertEquals(hendelse.getSaksnummer(), key.getGrupperingsId());
+                assertEquals(innsendingHendelse.getSaksnummer(), key.getGrupperingsId());
             });
+    }
+
+    @Test
+    public void idempotensSjekk_duplikateHendelserGirÈnOppgaveMeldingPåKø() {
+        dittNav.opprettOppgave(innsendingHendelse, DUMMY_TEKST);
+        dittNav.opprettOppgave(innsendingHendelse, DUMMY_TEKST);
+        var captor = ArgumentCaptor.forClass(ProducerRecord.class);
+        verify(kafkaOperations, times(1)).send((ProducerRecord<NokkelInput, Object>) captor.capture());
+    }
+
+    @Test
+    public void idempotensSjekk_duplikateHendelserGirÈnBeskjedMeldingPåKø() {
+        dittNav.opprettBeskjed(innsendingHendelse, DUMMY_TEKST);
+        dittNav.opprettBeskjed(innsendingHendelse, DUMMY_TEKST);
+        var captor = ArgumentCaptor.forClass(ProducerRecord.class);
+        verify(kafkaOperations, times(1)).send((ProducerRecord<NokkelInput, Object>) captor.capture());
     }
 
     @Test
     public void beskjedOgOppgaveMedSammeReferanseIdGirUlikEventId() {
         var hendelse = new InnsendingHendelse(AktørId.valueOf("001"), fnr, "002", referanseId, "003", "004", HendelseType.INITIELL_FORELDREPENGER,
             List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
-        var oppgave = "Dummy oppgavetekst";
-        var beskjed = "Dummy beskjed";
 
-        dittNav.opprettOppgave(hendelse, oppgave);
-        dittNav.opprettBeskjed(hendelse, beskjed);
+        dittNav.opprettOppgave(hendelse, DUMMY_TEKST);
+        dittNav.opprettBeskjed(hendelse, DUMMY_TEKST);
 
 
         var captor = ArgumentCaptor.forClass(ProducerRecord.class);
@@ -131,7 +145,7 @@ class DittNavMeldingProdusentTest {
             () -> assertThat(førsteMelding.value()).isInstanceOf(OppgaveInput.class)
         );
         var oppgaveEksternId = ((NokkelInput) førsteMelding.key()).getEventId();
-        assertThat(oppgaveEksternId).isEqualTo(hendelse.getReferanseId());
+        assertThat(oppgaveEksternId).isNotEqualTo(hendelse.getReferanseId());
 
         var andreMelding = captor.getAllValues().get(1);
         assertAll("Beskjed",
@@ -147,7 +161,7 @@ class DittNavMeldingProdusentTest {
             },
             () -> {
                 var value = (BeskjedInput) andreMelding.value();
-                assertThat(value.getTekst()).isEqualTo(beskjed);
+                assertThat(value.getTekst()).isEqualTo(DUMMY_TEKST);
             });
     }
 

@@ -3,6 +3,9 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.BESKJED;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.OPPGAVE;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.erAktiv;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.harReferanseId;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType;
 import org.slf4j.Logger;
@@ -34,25 +37,21 @@ public class DittNavMeldingsHistorikk {
         opprett(fnr, grupperingsId, internReferanse, eksternReferanse, BESKJED);
     }
 
-    public boolean slett(String referanseId) {
-        var oppgave = dao.findByReferanseIdIgnoreCase(referanseId);
-        if (oppgave != null) {
-            LOG.info("Sletter melding/oppgave fra DB {}", referanseId);
-            dao.delete(oppgave);
-            LOG.info("Slettet melding/oppgave {} fra DB OK", referanseId);
-            return true;
-        }
-        LOG.info("Ingen oppgave/melding å slette for {}", referanseId);
-        return false;
+    public Optional<JPADittNavOppgave> hentAktivOppgave(String internReferanseId) {
+        return dao.findOne(where(harReferanseId(internReferanseId).and(erAktiv())));
     }
 
-    public boolean erOpprettet(String referanseId) {
-        return dao.existsByReferanseIdIgnoreCase(referanseId);
+    public boolean erOpprettetOppgave(String referanseId) {
+        return dao.existsByInternReferanseIdIgnoreCaseAndType(referanseId, OPPGAVE);
     }
 
-    public JPADittNavOppgave hentOppgave(String referanseIdA, String referanseIdB) {
-        return Optional.ofNullable(dao.findByReferanseIdIgnoreCase(referanseIdA))
-            .orElseGet(() -> dao.findByReferanseIdIgnoreCase(referanseIdB));
+    public boolean erOpprettetBeskjed(String referanseId) {
+        return dao.existsByInternReferanseIdIgnoreCaseAndType(referanseId, BESKJED);
+    }
+
+    public JPADittNavOppgave avslutt(JPADittNavOppgave oppgave) {
+        oppgave.setSendtDoneMelding(true);
+        return dao.save(oppgave);
     }
 
     private void opprett(Fødselsnummer fnr, String grupperingsId, String internReferanse, String eksternReferanse, NotifikasjonType type) {
@@ -62,8 +61,6 @@ public class DittNavMeldingsHistorikk {
         ny.setGrupperingsId(grupperingsId);
         ny.setInternReferanseId(internReferanse);
         ny.setEksternReferanseId(eksternReferanse);
-        var prefix = type.equals(BESKJED) ? "B" : "C";
-        ny.setReferanseId(prefix + eksternReferanse); // expand-contract
         var saved = dao.save(ny);
         LOG.info("Lagret DittNav {} i db {}", type, saved);
     }

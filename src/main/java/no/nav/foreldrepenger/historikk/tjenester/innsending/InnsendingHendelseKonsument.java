@@ -50,7 +50,7 @@ public class InnsendingHendelseKonsument {
 
     private void avsluttOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
-        dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
+        dittNav.avsluttOppgave(h.getDialogId());
     }
 
     private void sjekkMangledeVedlegg(InnsendingHendelse h) {
@@ -61,9 +61,7 @@ public class InnsendingHendelseKonsument {
         try {
             var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             LOG.info("Vedleggsinfo {}", info);
-            info.getInnsendte()
-                    .stream()
-                    .forEach(ref -> dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), ref));
+            info.getInnsendte().stream().forEach(dittNav::avsluttOppgave);
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
                 dittNav.opprettOppgave(h,
