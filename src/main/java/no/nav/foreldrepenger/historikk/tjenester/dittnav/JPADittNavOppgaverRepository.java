@@ -21,8 +21,9 @@ public interface JPADittNavOppgaverRepository
     boolean existsByInternReferanseIdIgnoreCaseAndType(String referanseId, NotifikasjonType type);
 
     @Query(value = """
-            select o.ekstern_referanse_id from dittnavoppgaver o
+            select o.intern_referanse_id from dittnavoppgaver o
             where o.ekstern_referanse_id is not null
+            and o.intern_referanse_id is not null
             and o.sendt_done = false
             and o.opprettet < :terskel
             and o.type = "OPPGAVE"
