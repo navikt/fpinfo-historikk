@@ -3,8 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.BESKJED;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.OPPGAVE;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.erAktiv;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.harReferanseId;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.*;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType;
@@ -38,7 +37,7 @@ public class DittNavMeldingsHistorikk {
     }
 
     public Optional<JPADittNavOppgave> hentAktivOppgave(String internReferanseId) {
-        return dao.findOne(where(harReferanseId(internReferanseId).and(erAktiv())));
+        return dao.findOne(where(harReferanseId(internReferanseId).and(erAktiv()).and(erOppgave())));
     }
 
     public boolean erOpprettetOppgave(String referanseId) {
