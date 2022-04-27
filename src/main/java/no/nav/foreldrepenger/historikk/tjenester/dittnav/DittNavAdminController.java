@@ -5,9 +5,7 @@ import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import no.nav.security.token.support.core.api.Unprotected;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -32,12 +30,15 @@ public class DittNavAdminController {
         this.dao = dao;
     }
 
-    @GetMapping
-    public String verifiser() {
+    @PostMapping
+    public String verifiser(@RequestBody AvsluttOppgaverReq req) {
+        //SECURE_LOG.info("Test til securelog");
         var deployDato = LocalDateTime.of(2022, 3, 25, 11, 27);
-        var referanseIder = dao.ikkeAvsluttedeOppgaver(deployDato, 5);
-        SECURE_LOG.info("Test til secure log"); // referanseIder.forEach(dittNavMeldingProdusent::avsluttOppgave);
+        var referanseIder = dao.ikkeAvsluttedeOppgaver(deployDato, req.antall());
+        referanseIder.forEach(dittNavMeldingProdusent::avsluttOppgave);
         return String.join("\n", referanseIder);
     }
+
+    record AvsluttOppgaverReq (int antall) {}
 
 }
