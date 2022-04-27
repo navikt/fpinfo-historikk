@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
+import no.nav.security.token.support.core.api.Unprotected;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavAdminCont
 @RestController
 @RequestMapping(ADMIN)
 @Tag(name = "DittNav admincontroller", description = "Administrer DittNav-oppgaver")
+@Unprotected
 @ConditionalOnNotProd
 public class DittNavAdminController {
 
