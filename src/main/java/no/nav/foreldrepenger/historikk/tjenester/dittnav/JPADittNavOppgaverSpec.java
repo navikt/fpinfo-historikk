@@ -17,12 +17,12 @@ public final class JPADittNavOppgaverSpec {
         return (innslag, cq, cb) -> cb.isFalse(innslag.get(sendtDone));
     }
 
-    public static Specification<JPADittNavOppgave> erOppgave() {
-        return (innslag, cq, cb) -> cb.equal(innslag.get(type), OPPGAVE);
-    }
-
     public static Specification<JPADittNavOppgave> harReferanseId(String referanseId) {
         return (innslag, cq, cb) -> cb.equal(innslag.get(internReferanseId), referanseId);
+    }
+
+    public static Specification<JPADittNavOppgave> erOppgave() {
+        return (innslag, cq, cb) -> cb.equal(innslag.get(type), OPPGAVE);
     }
 
 }
