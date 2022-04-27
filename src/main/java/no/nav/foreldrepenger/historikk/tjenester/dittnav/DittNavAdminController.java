@@ -20,7 +20,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavAdminCont
 public class DittNavAdminController {
 
     public static final String ADMIN = "/internal/admin";
-    private static final Logger LOG = LoggerFactory.getLogger(DittNavAdminController.class);
     private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
     final DittNavMeldingProdusent dittNavMeldingProdusent;
 
@@ -35,9 +34,7 @@ public class DittNavAdminController {
     public String verifiser() {
         var deployDato = LocalDateTime.of(2022, 3, 25, 11, 27);
         var referanseIder = dao.ikkeAvsluttedeOppgaver(deployDato, 5);
-        //referanseIder.forEach(dittNavMeldingProdusent::avsluttOppgave);
-        SECURE_LOG.info("Test til secure log");
-
+        SECURE_LOG.info("Test til secure log"); // referanseIder.forEach(dittNavMeldingProdusent::avsluttOppgave);
         return String.join("\n", referanseIder);
     }
 
