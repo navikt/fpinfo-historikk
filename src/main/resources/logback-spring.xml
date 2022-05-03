@@ -5,6 +5,19 @@
 		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
 
+    <appender name="secureLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/secure-logs/secure.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>/secure-logs/secure.log.%i</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>1</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>50MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+    </appender>
+
 	<springProfile name="local">
 		<appender name="stdout"
 			class="ch.qos.logback.core.ConsoleAppender">
@@ -16,40 +29,25 @@
 		</appender>
 	</springProfile>
 
-	<root level="info">
-		<appender-ref ref="stdout" />
-	</root>
-
-    <springProfile name="default">
-        <appender name="secureLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>/secure-logs/secure.log</file>
-            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-                <fileNamePattern>/secure-logs/secure.log.%i</fileNamePattern>
-                <minIndex>1</minIndex>
-                <maxIndex>1</maxIndex>
-            </rollingPolicy>
-            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-                <maxFileSize>50MB</maxFileSize>
-            </triggeringPolicy>
-            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
-        </appender>
+    <springProfile name="prod">
 		<turboFilter
 			class="ch.qos.logback.classic.turbo.MarkerFilter">
 			<Name>CONFIDENTIAL_FILTER</Name>
 			<Marker>CONFIDENTIAL</Marker>
 			<OnMatch>DENY</OnMatch>
 		</turboFilter>
-        <logger name="secureLogger" level="INFO" additivity="false">
-            <appender-ref ref="secureLogger" />
-        </logger>
 	</springProfile>
 
 	<springProfile name="dev-fss,local">
 		<logger name="no.nav.foreldrepenger" level="trace" />
-        <logger name="secureLogger" level="INFO" additivity="false">
-            <appender-ref ref="stdout" />
-        </logger>
 	</springProfile>
 
+    <logger name="secureLogger" level="INFO" additivity="false">
+        <appender-ref ref="secureLogger" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="stdout" />
+    </root>
 </configuration>
 
