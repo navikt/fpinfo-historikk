@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import no.nav.foreldrepenger.boot.conditionals.ConditionalOnNotProd;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,7 +13,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavAdminCont
 
 @Configuration
 @EnableWebSecurity
-@ConditionalOnNotProd
 public class AdminWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
     private static final String OPPGAVEADMIN = "OPPGAVEADMIN";
