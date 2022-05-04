@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import no.nav.security.token.support.core.api.Unprotected;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavAdminCont
 @RequestMapping(ADMIN)
 @Tag(name = "DittNav admincontroller", description = "Administrer DittNav-oppgaver")
 @Unprotected
+@DependsOn("adminWebSecurityConfigurerAdapter")
 public class DittNavAdminController {
 
     public static final String ADMIN = "/internal/admin";
