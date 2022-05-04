@@ -28,6 +28,7 @@ public interface JPADittNavOppgaverRepository
             and o.sendt_done = false
             and o.opprettet < :terskel
             and o.type = 'OPPGAVE'
+            group by 1
             limit :noOfRows
             """, nativeQuery = true)
     List<String> ikkeAvsluttedeOppgaver(@Param("terskel") LocalDateTime terskel, @Param("noOfRows") int noOfRows);

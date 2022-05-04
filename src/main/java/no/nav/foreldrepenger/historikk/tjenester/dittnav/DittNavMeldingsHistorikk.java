@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional(JPA_TM)
@@ -36,8 +36,8 @@ public class DittNavMeldingsHistorikk {
         opprett(fnr, grupperingsId, internReferanse, eksternReferanse, BESKJED);
     }
 
-    public Optional<JPADittNavOppgave> hentAktivOppgave(String internReferanseId) {
-        return dao.findOne(where(harReferanseId(internReferanseId).and(erAktiv()).and(erOppgave())));
+    public List<JPADittNavOppgave> hentAktivOppgave(String internReferanseId) {
+        return dao.findAll(where(harReferanseId(internReferanseId).and(erAktiv()).and(erOppgave())));
     }
 
     public boolean erOpprettetOppgave(String referanseId) {
