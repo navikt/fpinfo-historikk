@@ -87,6 +87,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
             @Override
             public void onFailure(Throwable e) {
+                LOG.warn("Kunne ikke sende kafkamelding. Må følges opp, se secure logg for detaljer.");
                 SECURE_LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, e);
             }
         });
