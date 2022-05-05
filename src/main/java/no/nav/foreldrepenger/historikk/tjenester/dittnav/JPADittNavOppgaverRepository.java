@@ -25,6 +25,7 @@ public interface JPADittNavOppgaverRepository
             from dittnavoppgaver o
             where o.ekstern_referanse_id is not null
             and o.intern_referanse_id is not null
+            and o.grupperings_id is not null
             and o.sendt_done = false
             and o.opprettet < :terskel
             and o.type = 'OPPGAVE'
