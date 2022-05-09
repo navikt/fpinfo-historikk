@@ -35,17 +35,13 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void avsluttOppgave(String eventId) {
-        var oppgaver = lager.hentAktivOppgave(eventId);
-        if (oppgaver.isEmpty()) {
-            LOG.info("Ingen oppgave å avslutte i Ditt Nav");
-        } else {
-            oppgaver.forEach(oppgave -> {
+        lager.hentAktivOppgave(eventId)
+            .ifPresentOrElse(oppgave -> {
                 lager.avslutt(oppgave);
                 var key = avsluttNøkkel(oppgave.getFnr(), oppgave.getEksternReferanseId(), oppgave.getGrupperingsId());
                 LOG.info("Avslutter oppgave med eventId: {}, grupperingsId: {}", key.getEventId(), key.getGrupperingsId());
                 send(avslutt(), key, config.getDone());
-            });
-        }
+            }, () -> LOG.info("Ingen oppgave å avslutte i Ditt Nav"));
     }
 
     @Override
