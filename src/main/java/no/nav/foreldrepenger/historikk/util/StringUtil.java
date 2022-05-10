@@ -31,6 +31,13 @@ public final class StringUtil {
                 .orElse(tekst);
     }
 
+    public static String limitLast(String tekst, int max) {
+        return Optional.ofNullable(tekst)
+            .filter(t -> t.length() >= max)
+            .map(s -> "*".repeat(s.length() - max) + s.substring(s.length() - max))
+            .orElse(tekst);
+    }
+
     public static String limit(byte[] bytes, int max) {
         return limit(Arrays.toString(bytes), max);
     }

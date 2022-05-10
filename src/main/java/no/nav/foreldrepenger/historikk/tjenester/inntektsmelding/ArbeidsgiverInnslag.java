@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
+
 @Valid
 @Embeddable
 public class ArbeidsgiverInnslag {
@@ -29,7 +31,10 @@ public class ArbeidsgiverInnslag {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "[id=" + id + ", navn=" + navn + "]";
+        return getClass().getSimpleName()
+            + "[id=" + limitLast(id, 3)
+            + ", navn=" + limitLast(navn, 0)
+            + "]";
     }
 
 }

@@ -15,6 +15,8 @@ import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 
+import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
+
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {
 
@@ -64,7 +66,7 @@ public class InntektsmeldingHendelse extends Hendelse {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[versjon=" + versjon
-                + ", arbeidsgiver=" + arbeidsgiverId
+                + ", arbeidsgiver=" + limitLast(arbeidsgiverId, 3)
                 + ", aktørId=" + getAktørId() + ", journalpostId=" + getJournalpostId()
                 + ", referanseId=" + getReferanseId() + ", saksnr=" + getSaksnummer() + "]";
     }

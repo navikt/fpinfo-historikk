@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
+import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -141,7 +142,7 @@ public class JPAInntektsmeldingInnslag {
     public String toString() {
         return getClass().getSimpleName() + "[id=" + id + ", aktørId=" + aktørId + ", journalpostId=" + journalpostId
                 + ", saksnr=" + saksnr + ", opprettet=" + opprettet + ", innsendt=" + innsendt
-                + ", startDato=" + startDato + ", arbeidsgiver=" + arbeidsgiver + ", referanseId=" + referanseId
+                + ", startDato=" + startDato + ", arbeidsgiver=" + limitLast(arbeidsgiver, 3) + ", referanseId=" + referanseId
                 + ", versjon=" + versjon + ", type=" + type + "]";
     }
 
