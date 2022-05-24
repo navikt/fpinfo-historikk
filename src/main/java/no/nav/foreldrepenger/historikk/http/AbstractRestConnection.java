@@ -1,5 +1,6 @@
 package no.nav.foreldrepenger.historikk.http;
 
+import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.CONFIDENTIAL;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -8,8 +9,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,9 +20,8 @@ public abstract class AbstractRestConnection implements RetryAware, PingEndpoint
     private final RestOperations restOperations;
     private final AbstractConfig config;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractRestConnection.class);
-    public static final Marker CONFIDENTIAL = MarkerFactory.getMarker("CONFIDENTIAL");
 
-    public AbstractRestConnection(RestOperations restOperations, AbstractConfig config) {
+    protected AbstractRestConnection(RestOperations restOperations, AbstractConfig config) {
         this.restOperations = restOperations;
         this.config = config;
     }

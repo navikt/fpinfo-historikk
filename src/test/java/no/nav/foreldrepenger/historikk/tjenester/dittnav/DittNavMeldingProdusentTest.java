@@ -1,59 +1,70 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
-import no.nav.brukernotifikasjon.schemas.input.DoneInput;
-import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
-import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
-import no.nav.foreldrepenger.historikk.FPInfoHistorikkApplicationLocal;
-import no.nav.foreldrepenger.historikk.config.JpaTxConfiguration;
-import no.nav.foreldrepenger.historikk.config.TestJpaTransactionManager;
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.kafka.core.KafkaOperations;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.util.concurrent.SettableListenableFuture;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.util.concurrent.SettableListenableFuture;
 
-@ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = {
+import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
+import no.nav.brukernotifikasjon.schemas.input.DoneInput;
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
+import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
+import no.nav.foreldrepenger.historikk.config.JpaTxConfiguration;
+import no.nav.foreldrepenger.historikk.config.TestJpaTransactionManager;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+
+
+
+@DataJpaTest
+@EnableConfigurationProperties({DittNavConfig.class})
+@Import(value = {
     DittNavMeldingProdusent.class,
     DittNavMeldingsHistorikk.class,
     JpaTxConfiguration.class,
-    TestJpaTransactionManager.class,
-    FPInfoHistorikkApplicationLocal.class})
-@TestPropertySource(locations = "dittnav.properties")
-@EnableConfigurationProperties({DittNavConfig.class})
-@DataJpaTest
+    TestJpaTransactionManager.class
+})
 class DittNavMeldingProdusentTest {
 
     private final Fødselsnummer fnr = Fødselsnummer.valueOf("12345678901");
     private final String referanseId = UUID.randomUUID().toString();
-    private final InnsendingHendelse innsendingHendelse = new InnsendingHendelse(AktørId.valueOf("001"), fnr, "002", referanseId, "003", "004", HendelseType.INITIELL_FORELDREPENGER,
+    private final InnsendingHendelse innsendingHendelse = new InnsendingHendelse(
+        AktørId.valueOf("001"), fnr, "002", referanseId,
+        "003", "004", HendelseType.INITIELL_FORELDREPENGER,
         List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
     private final String DUMMY_TEKST = "Dummy beskjed";
+
+//    @MockBean
+//    private OAuth2ClientConfiguration sd;
+//    @MockBean
+//    private OAuth2HttpClient asdassd;
+//    @MockBean
+//    private JwtBearerTokenResolver ssaasd;
+//    @MockBean
+//    private RestTemplateBuilder sasdasdd;
 
     @MockBean
     private KafkaOperations<NokkelInput, Object> kafkaOperations;

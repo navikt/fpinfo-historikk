@@ -1,19 +1,23 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.*;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avsluttNøkkel;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.nøkkel;
+import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import java.util.UUID;
 
-import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
 public class DittNavMeldingProdusent implements DittNav {
@@ -50,7 +54,7 @@ public class DittNavMeldingProdusent implements DittNav {
             var key = nøkkel(h.getFnr(), UUID.randomUUID().toString(), grupperingsId(h));
             LOG.info("Oppretter beskjed med eventId {}, internReferanseId {}, grupperingId {}, tekst {}",
                 key.getEventId(), h.getReferanseId(), key.getGrupperingsId(), tekst);
-            send(beskjed(tekst, config.uri(), config.getBeskjedVarighet()), key, config.getBeskjed());
+            send(beskjed(tekst, config.getBaseUri(), config.getBeskjedVarighet()), key, config.getBeskjed());
             lager.opprettBeskjed(h.getFnr(), key.getGrupperingsId(), h.getReferanseId(), key.getEventId());
         } else {
             LOG.info("Det er allerede opprettet en beskjed {} ", h.getReferanseId());
@@ -63,7 +67,7 @@ public class DittNavMeldingProdusent implements DittNav {
             var key = nøkkel(h.getFnr(), UUID.randomUUID().toString(), h.getSaksnummer());
             LOG.info("Oppretter oppgave med eventId: {}, saksnummer: {}, tekst: {} i Ditt Nav",
                 key.getEventId(), h.getSaksnummer(), tekst);
-            send(oppgave(tekst, config.uri(), config.getOppgaveVarighet()), key, config.getOppgave());
+            send(oppgave(tekst, config.getBaseUri(), config.getOppgaveVarighet()), key, config.getOppgave());
             lager.opprettOppgave(h.getFnr(), key.getGrupperingsId(), h.getReferanseId(), key.getEventId());
         } else {
             LOG.info("Det er allerede opprettet en oppgave for referanseId {} ", h.getReferanseId());
