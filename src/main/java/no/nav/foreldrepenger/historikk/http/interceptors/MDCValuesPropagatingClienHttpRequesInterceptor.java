@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.http.interceptors;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CONSUMER_ID;
+import static no.nav.foreldrepenger.common.util.Constants.CALL_ID;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CONSUMER_ID;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
+import no.nav.foreldrepenger.common.util.MDCUtil;
 
 @Order
 @Component

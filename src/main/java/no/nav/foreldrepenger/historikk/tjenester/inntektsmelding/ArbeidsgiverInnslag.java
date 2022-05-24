@@ -1,12 +1,12 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import static no.nav.foreldrepenger.common.util.StringUtil.limitLast;
+
 import javax.persistence.Embeddable;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
 
 @Valid
 @Embeddable

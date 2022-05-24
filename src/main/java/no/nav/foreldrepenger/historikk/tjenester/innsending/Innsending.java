@@ -19,10 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.common.util.TokenUtil;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @Service
 @Transactional(JPA_TM)
@@ -94,7 +94,8 @@ public class Innsending {
     }
 
     public VedleggsInfo vedleggsInfo(String saksnummer) {
-        return vedleggsInfo(tokenUtil.fødselsnummerFraToken(), saksnummer);
+        var fnr = tokenUtil.autentisertBrukerOrElseThrowException();
+        return vedleggsInfo(Fødselsnummer.valueOf(fnr.value()), saksnummer);
     }
 
     public VedleggsInfo vedleggsInfo(Fødselsnummer fnr, String saksnummer) {

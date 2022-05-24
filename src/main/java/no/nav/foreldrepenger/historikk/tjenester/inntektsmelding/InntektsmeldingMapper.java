@@ -1,11 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_ENDRING;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_NY;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.ENDRING;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.NY;
-import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +45,7 @@ final class InntektsmeldingMapper {
     List<InntektsmeldingInnslag> tilInnslag(List<JPAInntektsmeldingInnslag> innslag) {
         return safeStream(innslag)
                 .map(this::tilInnslag)
-                .collect(toList());
+                .toList();
     }
 
     private InntektsmeldingInnslag tilInnslag(JPAInntektsmeldingInnslag i) {

@@ -1,16 +1,14 @@
 package no.nav.foreldrepenger.historikk.error;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 import java.util.List;
+import java.util.Optional;
 
-
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,8 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
+import no.nav.foreldrepenger.common.util.StringUtil;
+import no.nav.foreldrepenger.common.util.TokenUtil;
 import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
 import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
 
@@ -41,7 +40,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(HttpStatusCodeException.class)
     public ResponseEntity<Object> handleHttpStatusCodeException(HttpStatusCodeException e, WebRequest request) {
         if (e.getStatusCode().equals(UNAUTHORIZED) || e.getStatusCode().equals(FORBIDDEN)) {
-            return logAndHandle(e.getStatusCode(), e, request, tokenUtil.getExpiryDate());
+            return logAndHandle(e.getStatusCode(), e, request, tokenUtil.getExpiration());
         }
         return logAndHandle(e.getStatusCode(), e, request);
     }
@@ -95,9 +94,9 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String maskertSubject() {
-        return tokenUtil.authenticatedFødselsnummer()
-                .map(Fødselsnummer::getMaskertFnr)
-                .orElse("Uautentisert");
+        return Optional.ofNullable(tokenUtil.getSubject())
+            .map(StringUtil::mask)
+            .orElse("Uautentisert");
     }
 
     private static ApiError apiErrorFra(HttpStatus status, Exception e, List<Object> messages) {
@@ -108,7 +107,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
         return e.getBindingResult().getFieldErrors()
                 .stream()
                 .map(HistorikkExceptionHandler::errorMessage)
-                .collect(toList());
+                .toList();
     }
 
     private static String errorMessage(FieldError error) {

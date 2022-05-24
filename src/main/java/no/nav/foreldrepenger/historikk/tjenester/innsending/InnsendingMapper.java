@@ -1,9 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.LASTET_OPP;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.SEND_SENERE;
-import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
 
 import java.util.List;
 
@@ -74,7 +73,7 @@ public final class InnsendingMapper {
     private static List<Pair<String, InnsendingType>> tilVedlegg(JPAInnsendingInnslag innslag) {
         return safeStream(innslag.getVedlegg())
                 .map(InnsendingMapper::tilVedlegg)
-                .collect(toList());
+                .toList();
     }
 
     private static Pair<String, InnsendingType> tilVedlegg(JPAInnsendingVedlegg vedlegg) {
@@ -92,7 +91,7 @@ public final class InnsendingMapper {
     static List<InnsendingInnslag> tilInnslag(List<JPAInnsendingInnslag> innslag) {
         return safeStream(innslag)
                 .map(InnsendingMapper::tilInnslag)
-                .collect(toList());
+                .toList();
     }
 
 }

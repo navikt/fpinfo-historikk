@@ -27,10 +27,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import no.nav.foreldrepenger.common.util.TokenUtil;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
-import no.nav.foreldrepenger.historikk.util.TokenUtil;
 
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +52,7 @@ public class ManglendeVedleggTest {
 
     @BeforeEach
     public void init() {
-        when(tokenUtil.fødselsnummerFraToken()).thenReturn(FNR);
+        when(tokenUtil.autentisertBrukerOrElseThrowException()).thenReturn(new no.nav.foreldrepenger.common.domain.Fødselsnummer(FNR.getFnr()));
     }
 
     @Test

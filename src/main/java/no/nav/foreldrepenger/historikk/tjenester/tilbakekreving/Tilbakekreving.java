@@ -1,13 +1,12 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
-import static java.util.stream.Collectors.toList;
+import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
+import static no.nav.foreldrepenger.common.util.StringUtil.flertall;
 import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.spec;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingMapper.fraHendelse;
-import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
-import static no.nav.foreldrepenger.historikk.util.StringUtil.flertall;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import java.util.List;
@@ -90,7 +89,7 @@ public class Tilbakekreving {
     private static List<TilbakekrevingInnslag> tilInnslag(List<JPATilbakekrevingInnslag> innslag) {
         var spm = safeStream(innslag)
                 .map(TilbakekrevingMapper::tilInnslag)
-                .collect(toList());
+                .toList();
         LOG.info("Hentet {} tilbakekrevingsdialog{}", spm.size(), flertall(spm));
         return spm;
     }
