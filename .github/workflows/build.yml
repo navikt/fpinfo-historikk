@@ -4,34 +4,42 @@ on:
   push:
     branches:
       - master    # Push events on master branch
+    paths-ignore:
+      - '**.md'
+      - '**.MD'
+      - '.gitignore'
+      - '.github/workflows/build-pr.yml'
+      - '.github/workflows/dispatch.yml'
+      - '.github/workflows/codeql-analysis.yml'
+      - '.github/dependabot.yml'
 env:
   IMAGE_BASE: ghcr.io/${{ github.repository }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Hent tag
-        run: |
-          echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
-
-      - uses: actions/setup-java@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
           cache: 'maven'
 
+      - name: Hent tag
+        run: |
+          echo "TAG=$(date +%Y.%m.%d.%H%M%S)-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
       - name: Kompiler
         run: |
           mvn versions:set -DnewVersion=${TAG}
-          mvn jacoco:prepare-agent install jacoco:report -e --batch-mode --settings .github/.m2/settings.xml -Dchangelist= -Dsha1=-${BUILD_VERSION}
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Hvis repo blir avhengig av private biblioteker trengs en PAT.
+          mvn install -e --batch-mode --settings .github/.m2/settings.xml
 
       - name: Login to GitHub Packages Docker Registry
-        uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7 # Use commit-sha1 instead of tag for security concerns
+        uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b # Use commit-sha1 instead of tag for security concerns
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -106,3 +114,9 @@ jobs:
                               "arg1": "dev-fss"
                   }}}
                 }'
+
+      - name: Sonar analyse
+        run: |
+          mvn jacoco:report org.sonarsource.scanner.maven:sonar-maven-plugin:sonar --settings .github/.m2/settings.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
