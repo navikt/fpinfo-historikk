@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.http.filter;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CONSUMER_ID;
-import static no.nav.foreldrepenger.historikk.util.MDCUtil.toMDC;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CONSUMER_ID;
+import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
 
 import java.io.IOException;
 

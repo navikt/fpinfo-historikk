@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import static no.nav.foreldrepenger.common.util.StringUtil.limitLast;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,8 +16,6 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Versjon;
 import no.nav.foreldrepenger.historikk.tjenester.felles.Hendelse;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-
-import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
 
 @Valid
 public class InntektsmeldingHendelse extends Hendelse {

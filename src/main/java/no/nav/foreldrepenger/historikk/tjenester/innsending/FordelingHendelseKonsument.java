@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 
 import javax.validation.Valid;
 
@@ -12,7 +12,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
+import no.nav.foreldrepenger.common.util.MDCUtil;
 
 @Service
 @ConditionalOnProperty(name = "historikk.innsending.fordeling.enabled")

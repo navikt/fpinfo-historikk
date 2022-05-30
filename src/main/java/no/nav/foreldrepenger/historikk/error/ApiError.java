@@ -3,9 +3,8 @@ package no.nav.foreldrepenger.historikk.error;
 import static com.fasterxml.jackson.annotation.JsonFormat.Feature.WRITE_SINGLE_ELEM_ARRAYS_UNWRAPPED;
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
-import static no.nav.foreldrepenger.historikk.util.MDCUtil.callId;
-import static no.nav.foreldrepenger.historikk.util.StreamUtil.safeStream;
+import static no.nav.foreldrepenger.common.util.MDCUtil.callId;
+import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static org.springframework.core.NestedExceptionUtils.getMostSpecificCause;
 
 import java.time.LocalDateTime;
@@ -70,7 +69,7 @@ public class ApiError {
         return safeStream(messages)
                 .filter(Objects::nonNull)
                 .map(Object::toString)
-                .collect(toList());
+                .toList();
     }
 
     @Override

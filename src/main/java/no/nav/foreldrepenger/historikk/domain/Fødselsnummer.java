@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.domain;
 
-import static no.nav.foreldrepenger.historikk.util.StringUtil.mask;
+import static no.nav.foreldrepenger.common.util.StringUtil.mask;
 
 import java.util.Objects;
 

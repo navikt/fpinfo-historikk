@@ -1,7 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.util.MDCUtil.toMDC;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
 
 import javax.validation.Valid;
 

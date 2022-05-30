@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static no.nav.foreldrepenger.historikk.config.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 
 import javax.validation.Valid;
 
@@ -12,10 +12,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import no.nav.foreldrepenger.common.util.MDCUtil;
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
-import no.nav.foreldrepenger.historikk.util.MDCUtil;
 
 @Service
 @ConditionalOnProperty(name = "historikk.innsending.søknad.enabled")
@@ -61,7 +61,7 @@ public class InnsendingHendelseKonsument {
         try {
             var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             LOG.info("Vedleggsinfo {}", info);
-            info.getInnsendte().stream().forEach(dittNav::avsluttOppgave);
+            info.getInnsendte().forEach(dittNav::avsluttOppgave);
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
                 dittNav.opprettOppgave(h,

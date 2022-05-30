@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
-import static no.nav.foreldrepenger.historikk.util.StringUtil.limitLast;
+import static no.nav.foreldrepenger.common.util.StringUtil.limitLast;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
