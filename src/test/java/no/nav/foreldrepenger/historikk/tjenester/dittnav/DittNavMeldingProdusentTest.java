@@ -39,7 +39,9 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 import no.nav.security.token.support.client.core.context.JwtBearerTokenResolver;
 import no.nav.security.token.support.client.core.http.OAuth2HttpClient;
+import no.nav.security.token.support.client.spring.ClientConfigurationProperties;
 import no.nav.security.token.support.client.spring.oauth2.OAuth2ClientConfiguration;
+import no.nav.security.token.support.spring.MultiIssuerProperties;
 
 
 @DataJpaTest
@@ -60,15 +62,20 @@ class DittNavMeldingProdusentTest {
         List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
     private final String DUMMY_TEKST = "Dummy beskjed";
 
-    // TODO: Finnes det en bedre måte slik at vi slipper å trekke inn disse 4?
+    // TODO: Finnes det en bedre måte slik at vi slipper å trekke inn disse 6 avhengighetene?
     @MockBean
-    private OAuth2ClientConfiguration sd;
+    private OAuth2ClientConfiguration oAuth2ClientConfiguration;
     @MockBean
-    private OAuth2HttpClient asdassd;
+    private ClientConfigurationProperties clientConfigurationProperties;
     @MockBean
-    private JwtBearerTokenResolver ssaasd;
+    private OAuth2HttpClient oAuth2HttpClient;
     @MockBean
-    private RestTemplateBuilder sasdasdd;
+    private JwtBearerTokenResolver jwtBearerTokenResolver;
+    @MockBean
+    private RestTemplateBuilder restTemplateBuilder;
+    @MockBean
+    private MultiIssuerProperties multiIssuerProperties;
+
 
     @MockBean
     private KafkaOperations<NokkelInput, Object> kafkaOperations;
