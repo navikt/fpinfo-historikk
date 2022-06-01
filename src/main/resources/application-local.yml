@@ -13,6 +13,9 @@ admin:
 server:
   port: 9003
 spring:
+  cloud:
+    vault:
+      enabled: false
   datasource:
     url: jdbc:postgresql://postgres:5432/fpinfohistorikk
     hikari:
@@ -25,6 +28,7 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
+    baselineOnMigrate: false
     enabled: false
   mvc:
     log-request-details: true

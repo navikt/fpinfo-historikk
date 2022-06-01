@@ -25,6 +25,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.util.concurrent.SettableListenableFuture;
 
 import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
@@ -52,6 +53,7 @@ import no.nav.security.token.support.spring.MultiIssuerProperties;
     JpaTxConfiguration.class,
     TestJpaTransactionManager.class
 })
+@ActiveProfiles(value = "local")
 class DittNavMeldingProdusentTest {
 
     private final Fødselsnummer fnr = Fødselsnummer.valueOf("12345678901");

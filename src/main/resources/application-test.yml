@@ -13,6 +13,9 @@ admin:
 server:
   port: 9003
 spring:
+  cloud:
+    vault:
+      enabled: false
   datasource:
     url: ${defaultds.url}
     hikari:
