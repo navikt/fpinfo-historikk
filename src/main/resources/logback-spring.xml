@@ -1,35 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<appender name="stdout"
-		class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder" />
-	</appender>
-
-    <appender name="secureLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/secure-logs/secure.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>/secure-logs/secure.log.%i</fileNamePattern>
-            <minIndex>1</minIndex>
-            <maxIndex>1</maxIndex>
-        </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>50MB</maxFileSize>
-        </triggeringPolicy>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-	<springProfile name="local">
-		<appender name="stdout"
-			class="ch.qos.logback.core.ConsoleAppender">
-			<layout class="ch.qos.logback.classic.PatternLayout">
-				<Pattern>
-					%d{yyyy-MM-dd HH:mm:ss} %X{Nav-CallId} [%thread] %-5level %logger{70} - %msg%n
-				</Pattern>
-			</layout>
-		</appender>
-	</springProfile>
+    <springProfile name="prod | dev">
+        <appender name="secureLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/secure-logs/secure.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <fileNamePattern>/secure-logs/secure.log.%i</fileNamePattern>
+                <minIndex>1</minIndex>
+                <maxIndex>1</maxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <maxFileSize>50MB</maxFileSize>
+            </triggeringPolicy>
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        </appender>
+    </springProfile>
 
-    <springProfile name="prod">
+    <springProfile name="local | test">
+        <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %X{X-Nav-CallId} [%thread] %-5level %logger{70} - %msg%n</Pattern>
+            </layout>
+        </appender>
+        <appender name="secureLogger" class="ch.qos.logback.core.ConsoleAppender">
+            <layout class="ch.qos.logback.classic.PatternLayout">
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} %X{X-Nav-CallId} [%thread] %-5level %logger{70} - %msg%n</Pattern>
+            </layout>
+        </appender>
+    </springProfile>
+
+    <springProfile name="prod | test">
 		<turboFilter
 			class="ch.qos.logback.classic.turbo.MarkerFilter">
 			<Name>CONFIDENTIAL_FILTER</Name>
@@ -38,14 +41,15 @@
 		</turboFilter>
 	</springProfile>
 
-	<springProfile name="dev-fss,local">
+	<springProfile name="dev | test | local">
 		<logger name="no.nav.foreldrepenger" level="trace" />
+		<logger name="org.apache.kafka" level="WARN" />
+		<logger name="org.springframework.kafka" level="WARN" />
 	</springProfile>
 
     <logger name="secureLogger" level="INFO" additivity="false">
         <appender-ref ref="secureLogger" />
     </logger>
-
     <root level="info">
         <appender-ref ref="stdout" />
     </root>

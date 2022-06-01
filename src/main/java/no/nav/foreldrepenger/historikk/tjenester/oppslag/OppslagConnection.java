@@ -27,7 +27,7 @@ public class OppslagConnection extends AbstractRestConnection {
 
     @Override
     public URI pingEndpoint() {
-        return cfg.pingURI();
+        return cfg.pingEndpoint();
     }
 
     public AktørId hentAktørId() {

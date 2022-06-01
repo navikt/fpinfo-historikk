@@ -7,33 +7,17 @@ management:
     health:
       show-details: always
 
-historikk:
-  dittnav:
-    enabled: false
-  inntektsmelding:
-    enabled: false
-  oppslag:
-    enabled: false
-  søknad:
-    innsending:
-      enabled: false
-    fordeling:
-      enabled: false
-  tilbakekreving:
-    enabled: false
+admin:
+  username: vtp
+  password: vtp
 server:
-  port: 9001
+  port: 9003
 spring:
-  output:
-    ansi:
-      enabled: always
-  application:
-    admin:
-      enabled: true
   datasource:
+    url: jdbc:postgresql://postgres:5432/fpinfohistorikk
     hikari:
-      connection-test-query: SELECT 1 FROM INFORMATION_SCHEMA.SYSTEM_USERS
-    url: jdbc:hsqldb:mem:testdb
+      username: fpinfohistorikk
+      password: fpinfohistorikk
   jpa:
     show-sql: false
     properties:
@@ -43,14 +27,51 @@ spring:
   flyway:
     enabled: false
   mvc:
-    log-request-details: false
-  kafka:
-    properties:
-      security:
-        protocol: PLAINTEXT
-    consumer:
-      bootstrap-servers: localhost:9092
-    producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    log-request-details: true
+kafka:
+  aiven:
+    bootstrap-servers: localhost:9093
+  onprem:
+    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=vtp password=vtp;
+    bootstrap-servers: localhost:9093
+
+no.nav:
+  security:
+    jwt:
+      client:
+        registration:
+          fpsoknad-mottak:
+            well-known-url: http://localhost:8060/rest/tokenx/.well-known/oauth-authorization-server
+            token-exchange:
+              audience: local:teamforeldrepenger:fpsoknad-oppslag
+            authentication:
+              client-id: fpinfo-historikk
+              client-jwk: src/test/resources/tokenx/jwk.json
+          localhost:
+            well-known-url: http://localhost:8060/rest/tokenx/.well-known/oauth-authorization-server
+            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+            token-exchange:
+              audience: lokal
+            authentication:
+              client-id: fpinfo-historikk
+              client-jwk: src/test/resources/tokenx/jwk.json
+              client-auth-method: private_key_jwt
+      issuer:
+        tokenx:
+          discovery-url: http://localhost:8060/rest/tokenx/.well-known/oauth-authorization-server
+          accepted-audience: lokal
+
+historikk:
+  dittnav:
+    enabled: false
+  inntektsmelding:
+    enabled: false
+  oppslag:
+    enabled: false
+  innsending:
+    søknad:
+      enabled: false
+    fordeling:
+      enabled: false
+  tilbakekreving:
+    enabled: false

@@ -2,49 +2,34 @@ package no.nav.foreldrepenger.historikk.http;
 
 import java.net.URI;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.util.UriComponentsBuilder;
+import no.nav.foreldrepenger.historikk.util.URIUtil;
 
 public abstract class AbstractConfig {
 
+    private final URI baseUri;
+    private final String pingPath;
     private final boolean enabled;
 
-    public AbstractConfig(boolean enabled) {
+    public AbstractConfig(URI baseUri, String pingPath, boolean enabled) {
+        this.baseUri = baseUri;
+        this.pingPath = pingPath;
         this.enabled = enabled;
     }
 
-    protected abstract URI pingURI();
+    public URI pingEndpoint() {
+        return URIUtil.uri(baseUri, pingPath);
+    }
 
     public boolean isEnabled() {
         return enabled;
     }
 
-    protected URI uri(String base, String path) {
-        return uri(URI.create(base), path);
-
+    public URI getBaseUri() {
+        return baseUri;
     }
 
-    protected URI uri(URI base, String path) {
-        return uri(base, path, null);
-    }
-
-    protected URI uri(URI base, String path, HttpHeaders queryParams) {
-        return builder(base, path, queryParams)
-                .build()
-                .toUri();
-    }
-
-    protected HttpHeaders queryParams(String key, String value) {
-        var queryParams = new HttpHeaders();
-        queryParams.add(key, value);
-        return queryParams;
-    }
-
-    private static UriComponentsBuilder builder(URI base, String path, HttpHeaders queryParams) {
-        return UriComponentsBuilder
-                .fromUri(base)
-                .pathSegment(path)
-                .queryParams(queryParams);
+    public String name() {
+        return baseUri.getHost();
     }
 
 }

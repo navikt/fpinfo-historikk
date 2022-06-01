@@ -1,0 +1,60 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+admin:
+  username: ${systembruker.username}
+  password: ${systembruker.password}
+server:
+  port: 9003
+spring:
+  datasource:
+    url: ${defaultds.url}
+    hikari:
+      username: ${defaultds.username}
+      password: ${defaultds.password}
+  jpa:
+    show-sql: false
+    properties:
+      hibernate: format_sql=true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
+  mvc:
+    log-request-details: true
+kafka:
+  aiven:
+    bootstrap-servers: ${kafka.brokers}
+  onprem:
+    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
+    bootstrap-servers: ${kafka.brokers}
+    auto-offset-reset: earliest
+
+no.nav:
+  security:
+    jwt:
+      client:
+        registration:
+          fpsoknad-mottak:
+            token-exchange:
+              audience: lokal
+
+historikk:
+  dittnav:
+    enabled: false
+  inntektsmelding:
+    enabled: false
+  oppslag:
+    base-uri: ${fpsoknad.mottak.url}
+  innsending:
+    søknad:
+      enabled: false
+  tilbakekreving:
+    enabled: false
+    topic: privat-tilbakekreving-brukerdialog-local

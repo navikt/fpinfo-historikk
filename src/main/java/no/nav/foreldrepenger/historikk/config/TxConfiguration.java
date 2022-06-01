@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.config;
 
+import java.time.Duration;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +20,6 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.time.Duration;
 
 @Configuration
 public class TxConfiguration implements KafkaListenerConfigurer {
