@@ -4,7 +4,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <springProfile name="prod | dev">
+    <springProfile name="prod-fss | dev-fss">
         <appender name="secureLogger" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <file>/secure-logs/secure.log</file>
             <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
@@ -32,7 +32,7 @@
         </appender>
     </springProfile>
 
-    <springProfile name="prod | test">
+    <springProfile name="prod-fss | test">
 		<turboFilter
 			class="ch.qos.logback.classic.turbo.MarkerFilter">
 			<Name>CONFIDENTIAL_FILTER</Name>
