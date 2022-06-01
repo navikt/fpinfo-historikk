@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Import;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
@@ -36,7 +37,9 @@ import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-
+import no.nav.security.token.support.client.core.context.JwtBearerTokenResolver;
+import no.nav.security.token.support.client.core.http.OAuth2HttpClient;
+import no.nav.security.token.support.client.spring.oauth2.OAuth2ClientConfiguration;
 
 
 @DataJpaTest
@@ -57,14 +60,15 @@ class DittNavMeldingProdusentTest {
         List.of(), List.of(), LocalDate.now(), LocalDateTime.now());
     private final String DUMMY_TEKST = "Dummy beskjed";
 
-//    @MockBean
-//    private OAuth2ClientConfiguration sd;
-//    @MockBean
-//    private OAuth2HttpClient asdassd;
-//    @MockBean
-//    private JwtBearerTokenResolver ssaasd;
-//    @MockBean
-//    private RestTemplateBuilder sasdasdd;
+    // TODO: Finnes det en bedre måte slik at vi slipper å trekke inn disse 4?
+    @MockBean
+    private OAuth2ClientConfiguration sd;
+    @MockBean
+    private OAuth2HttpClient asdassd;
+    @MockBean
+    private JwtBearerTokenResolver ssaasd;
+    @MockBean
+    private RestTemplateBuilder sasdasdd;
 
     @MockBean
     private KafkaOperations<NokkelInput, Object> kafkaOperations;
