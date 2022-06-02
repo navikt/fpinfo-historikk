@@ -16,8 +16,12 @@ spring:
   cloud:
     vault:
       enabled: false
+    database:
+      role: fpinfohistorikk
   datasource:
     url: ${defaultds.url}
+    username: fpinfohistorikk
+    password: fpinfohistorikk
     hikari:
       username: ${defaultds.username}
       password: ${defaultds.password}
@@ -28,12 +32,16 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
-    enabled: false
+    baselineOnMigrate: true
+    enabled: true
   mvc:
     log-request-details: true
 kafka:
   aiven:
     bootstrap-servers: ${kafka.brokers}
+    truststore-path: ${kafka.truststore.path}
+    keystore-path: ${kafka.keystore.path}
+    credstore-password: ${kafka.credstore.password}
   onprem:
     jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
     bootstrap-servers: ${kafka.brokers}
