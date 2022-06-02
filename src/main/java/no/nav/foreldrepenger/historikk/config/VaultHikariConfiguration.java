@@ -1,9 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static org.springframework.vault.core.lease.LeaseEndpoints.SysLeases;
-import static org.springframework.vault.core.lease.domain.RequestedSecret.rotating;
-
-import java.util.Map;
+import static no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +9,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
-import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
 
 import com.zaxxer.hikari.HikariDataSource;
+
+import no.nav.vault.jdbc.hikaricp.VaultError;
 
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.enabled")
@@ -23,6 +21,7 @@ public class VaultHikariConfiguration implements InitializingBean {
     private final SecretLeaseContainer container;
     private final HikariDataSource ds;
     private final VaultDatabaseProperties props;
+
 
     public VaultHikariConfiguration(SecretLeaseContainer container, HikariDataSource ds,
             VaultDatabaseProperties props) {
@@ -33,24 +32,11 @@ public class VaultHikariConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        container.setLeaseEndpoints(SysLeases);
-        String path = props.getBackend() + "/creds/" + props.getRole();
-        LOG.info("Henter hemmelighet fra {}", path);
-        var secret = rotating(path);
-        container.addLeaseListener(leaseEvent -> {
-            if ((leaseEvent.getSource() == secret) && (leaseEvent instanceof SecretLeaseCreatedEvent event)) {
-                LOG.info("Roterer brukernavn/passord for : {}", leaseEvent.getSource().getPath());
-                var secrets = event.getSecrets();
-                ds.setUsername(get("username", secrets));
-                ds.setPassword(get("password", secrets));
-                ds.getHikariPoolMXBean().softEvictConnections();
-            }
-        });
-        container.addRequestedSecret(secret);
-    }
-
-    private static String get(String key, Map<String, Object> secrets) {
-        return secrets.get(key).toString();
+        try {
+            createHikariDataSourceWithVaultIntegration(ds, props.getBackend(), props.getRole());
+        } catch (VaultError vaultError) {
+            throw new RuntimeException("Vault feil ved opprettelse av databaseforbindelse", vaultError);
+        }
     }
 
     @Override
