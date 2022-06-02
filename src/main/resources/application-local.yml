@@ -10,14 +10,24 @@ management:
 admin:
   username: vtp
   password: vtp
+system:
+  username: vtp
+  password: vtp
 server:
   port: 9003
 spring:
+  cloud:
+    vault:
+      enabled: false
+      database:
+        role: fpinfohistorikk
   datasource:
     url: jdbc:postgresql://postgres:5432/fpinfohistorikk
     hikari:
       username: fpinfohistorikk
       password: fpinfohistorikk
+    username: fpinfohistorikk
+    password: fpinfohistorikk
   jpa:
     show-sql: false
     properties:
@@ -25,15 +35,14 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
-    enabled: false
+    baselineOnMigrate: true
+    enabled: true
   mvc:
     log-request-details: true
 kafka:
-  aiven:
-    bootstrap-servers: localhost:9093
   onprem:
-    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=vtp password=vtp;
     bootstrap-servers: localhost:9093
+    transactional-id-prefix: local
 
 no.nav:
   security:

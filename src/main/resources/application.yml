@@ -7,8 +7,6 @@ no.nav:
           fpsoknad-mottak:
             well-known-url: ${token.x.well.known.url}
             grant-type: urn:ietf:params:oauth:grant-type:token-exchange
-            token-exchange:
-              audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
             authentication:
               client-id: ${token.x.client.id}
               client-jwk: ${token.x.private.jwk}

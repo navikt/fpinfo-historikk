@@ -1,0 +1,31 @@
+no.nav:
+  security:
+    jwt:
+      client:
+        registration:
+          fpsoknad-mottak:
+            token-exchange:
+              audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
+
+spring:
+  config:
+    import: vault://
+  cloud:
+    vault:
+      reactive:
+        enabled: false
+      enabled: true
+      uri: https://vault.adeo.no
+      authentication: KUBERNETES
+      database:
+        enabled: true
+        role: fpinfo-historikk-prod-admin
+        backend: postgresql/prod-fss
+      kubernetes:
+        role: fpinfo-historikk
+        kubernetes-path: kubernetes/prod/fss
+      kv:
+        enabled: true
+        backend: kv/prod/fss
+        application-name: fpinfo-historikk/teamforeldrepenger
+        default-context: fpinfo-historikk/teamforeldrepenger

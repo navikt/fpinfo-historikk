@@ -41,7 +41,7 @@
 		</turboFilter>
 	</springProfile>
 
-	<springProfile name="dev | test | local">
+	<springProfile name="dev-fss | test | local">
 		<logger name="no.nav.foreldrepenger" level="trace" />
 		<logger name="org.apache.kafka" level="WARN" />
 		<logger name="org.springframework.kafka" level="WARN" />
