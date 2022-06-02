@@ -1,10 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConfigurationProperties("kafka.aiven")
-@ConstructorBinding
 public record DittNavProducerConfig(
     String bootstrapServers,
     String ca,
