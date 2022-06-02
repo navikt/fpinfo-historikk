@@ -1,46 +1,37 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import static no.nav.vault.jdbc.hikaricp.HikariCPVaultUtil.createHikariDataSourceWithVaultIntegration;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.vault.core.lease.SecretLeaseContainer;
 
 import com.zaxxer.hikari.HikariDataSource;
-
-import no.nav.vault.jdbc.hikaricp.VaultError;
 
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.enabled")
 public class VaultHikariConfiguration implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(VaultHikariConfiguration.class);
-    private final SecretLeaseContainer container;
     private final HikariDataSource ds;
-    private final VaultDatabaseProperties props;
 
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
 
-    public VaultHikariConfiguration(SecretLeaseContainer container, HikariDataSource ds,
-            VaultDatabaseProperties props) {
-        this.container = container;
+    public VaultHikariConfiguration(HikariDataSource ds) {
         this.ds = ds;
-        this.props = props;
     }
 
     @Override
     public void afterPropertiesSet() {
-        try {
-            createHikariDataSourceWithVaultIntegration(ds, props.getBackend(), props.getRole());
-        } catch (VaultError vaultError) {
-            throw new RuntimeException("Vault feil ved opprettelse av databaseforbindelse", vaultError);
+        LOG.info("Brukernavnet er {},", username);
+        if (password == null) {
+            LOG.warn("Passord er ikke satt.");
         }
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + " [container=" + container + ", ds=" + ds + ", props=" + props + "]";
+        ds.setUsername(username);
+        ds.setPassword(password);
+        ds.getHikariPoolMXBean().softEvictConnections();
     }
 }
