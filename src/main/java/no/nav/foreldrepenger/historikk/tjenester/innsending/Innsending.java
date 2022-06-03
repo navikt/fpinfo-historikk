@@ -43,40 +43,35 @@ public class Innsending {
     public void lagreEllerOppdater(InnsendingHendelse h) {
         var eksisterende = dao.findByReferanseId(h.getReferanseId());
         if (eksisterende != null) {
-            LOG.info("Fant et eksisterende innsendingsinnslag i innsending {}", eksisterende);
-            LOG.info("Oppdaterer eksisterende innsendingsinnslag i innsending fra {}", h);
-            JPAInnsendingInnslag oppdatert = oppdaterFra(h, eksisterende);
-            LOG.info("Oppdaterer innsendingsinnslag  i innsending er {}", oppdatert);
+            LOG.debug("Fant et eksisterende innsendingsinnslag i innsending {}", eksisterende);
+            var oppdatert = oppdaterFra(h, eksisterende);
             dao.save(oppdatert);
-            LOG.info("Oppdaterte innsendingsinnslag OK");
+            LOG.debug("Oppdaterte innsendingsinnslag OK");
         } else {
-            LOG.info("Ingenting å oppdatere fra innsendingshendelse, insert istedet");
-            JPAInnsendingInnslag ny = nyFra(h);
-            LOG.info("Nytt innsendingsinnslag  i innsending er {}", ny);
+            LOG.debug("Ingenting å oppdatere fra innsendingshendelse, insert istedet");
+            var ny = nyFra(h);
             dao.save(ny);
-            LOG.info("Insert fra innsendingshendelse OK");
+            LOG.debug("Insert fra innsendingshendelse OK");
         }
     }
 
     public void lagreEllerOppdater(InnsendingFordeltOgJournalførtHendelse h) {
         var eksisterende = dao.findByReferanseId(h.getForsendelseId());
         if (eksisterende != null) {
-            LOG.info("fant et eksisterende innsendingsinnslag {}", eksisterende);
+            LOG.debug("Fant et eksisterende innsendingsinnslag {}", eksisterende);
             if (eksisterende.getSaksnr() == null && eksisterende.getJournalpostId() == null) {
-                LOG.info("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
-                JPAInnsendingInnslag oppdatert = oppdaterFra(h, eksisterende);
-                LOG.info("Oppdaterer innsendingsinnslag i fordeling er {}", oppdatert);
+                LOG.debug("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
+                var oppdatert = oppdaterFra(h, eksisterende);
                 dao.save(oppdatert);
-                LOG.info("Oppdaterer fra fordelingshendelse OK");
+                LOG.debug("Oppdaterer fra fordelingshendelse OK");
             } else {
-                LOG.info("Eksisterende innslag er allerede komplett");
+                LOG.debug("Eksisterende innslag er allerede komplett");
             }
         } else {
-            LOG.info("Ingenting å oppdatere fra fordelingshendelse, insert istedet");
-            JPAInnsendingInnslag ny = nyFra(h);
-            LOG.info("Nytt innsendingsinnslag  i fordeling er {}", ny);
+            LOG.debug("Ingenting å oppdatere fra fordelingshendelse, insert istedet");
+            var ny = nyFra(h);
             dao.save(ny);
-            LOG.info("Insert fra hendelse OK");
+            LOG.debug("Insert fra hendelse OK");
         }
     }
 

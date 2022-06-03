@@ -12,7 +12,6 @@ public final class TilbakekrevingMapper {
     }
 
     static JPATilbakekrevingInnslag fraHendelse(TilbakekrevingHendelse m) {
-        LOG.info("Mapper fra {}", m);
         var dialog = new JPATilbakekrevingInnslag();
         dialog.setYtelseType(m.getYtelseType());
         dialog.setInnsendt(m.getOpprettet());
@@ -25,12 +24,10 @@ public final class TilbakekrevingMapper {
         dialog.setHendelse(m.getHendelse());
         dialog.setDialogId(m.getDialogId());
         dialog.setJournalpostId(m.getJournalpostId());
-        LOG.info("Mappet til {}", dialog);
         return dialog;
     }
 
     static TilbakekrevingInnslag tilInnslag(JPATilbakekrevingInnslag i) {
-        LOG.info("Mapper fra innslag {}", i);
         var innslag = new TilbakekrevingInnslag(i.getHendelse(), i.getGyldigTil(), i.getTekst(), i.getYtelseType());
         innslag.setAktørId(i.getAktørId());
         innslag.setFnr(i.getFnr());
@@ -39,9 +36,7 @@ public final class TilbakekrevingMapper {
         innslag.setAktiv(i.isAktiv());
         innslag.setDialogId(i.getDialogId());
         innslag.setInnsendt(i.getInnsendt());
-
         innslag.setJournalpostId(i.getJournalpostId());
-        LOG.info("Mappet til innslag {}", innslag);
         return innslag;
     }
 

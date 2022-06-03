@@ -41,14 +41,14 @@ public class Tilbakekreving {
 
     private void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
-        LOG.info("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
+        LOG.debug("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
                 fnr, dialogId);
 
     }
 
     public void avsluttOppgave(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
-        LOG.info("Deaktiverte {} tilbakekrevingsdialoger{} for aktør {} og  dialogId {}", n, flertall(n),
+        LOG.debug("Deaktiverte {} tilbakekrevingsdialoger{} for aktør {} og  dialogId {}", n, flertall(n),
                 aktørId, dialogId);
     }
 

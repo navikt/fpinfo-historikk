@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.domain;
 
+import static no.nav.foreldrepenger.common.util.StringUtil.mask;
+
 import java.util.Objects;
 
 import javax.persistence.Embeddable;
@@ -59,6 +61,6 @@ public class AktørId {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [aktørId=" + aktørId + "]";
+        return getClass().getSimpleName() + " [aktørId=" + mask(aktørId) + "]";
     }
 }

@@ -31,7 +31,7 @@ public class FordelingHendelseKonsument {
     public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
         LOG.info("Mottok fordelingshendelse {}", h);
-        // innsending.lagreEllerOppdater(h);
+        // innsending.lagreEllerOppdater(h); // TODO: Finn ut hva som må gjøres for å fullføre dette. Hvis det ikke lar seg fullføre, fjern.
     }
 
     @Override

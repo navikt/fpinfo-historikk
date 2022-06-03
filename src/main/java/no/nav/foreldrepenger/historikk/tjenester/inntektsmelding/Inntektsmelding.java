@@ -37,12 +37,12 @@ public class Inntektsmelding {
 
     public boolean lagre(InntektsmeldingHendelse hendelse) {
         if (!erAlleredeLagret(hendelse.getReferanseId())) {
-            LOG.info("Lagrer inntektsmeldinginnslag fra hendelse {}", hendelse);
+            LOG.debug("Lagrer inntektsmeldinginnslag fra hendelse {}", hendelse);
             dao.save(fraHendelse(hendelse));
-            LOG.info("Lagret inntektsmeldinginnslag OK");
+            LOG.debug("Lagret inntektsmeldinginnslag OK");
             return true;
         }
-        LOG.info("inntektsmeldinginnslag fra hendelse {} er allerede lagret", hendelse);
+        LOG.debug("inntektsmeldinginnslag fra hendelse {} er allerede lagret", hendelse);
         return false;
     }
 
@@ -53,15 +53,15 @@ public class Inntektsmelding {
 
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger(AktørId id) {
-        LOG.info("Henter inntektsmeldinghistorikk for {}", id);
+        LOG.debug("Henter inntektsmeldinghistorikk for {}", id);
         List<InntektsmeldingInnslag> innslag = mapper
                 .tilInnslag(dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC));
-        LOG.info("Hentet inntektsmeldinghistorikk {}", innslag);
+        LOG.debug("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
 
     public boolean erAlleredeLagret(String referanseId) {
-        LOG.info("Sjekker referanse {}", referanseId);
+        LOG.debug("Sjekker referanse {}", referanseId);
         if (INGEN_REFERANSE.equals(referanseId)) {
             return false;
         }

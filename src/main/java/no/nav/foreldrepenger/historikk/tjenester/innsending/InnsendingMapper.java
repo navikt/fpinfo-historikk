@@ -44,6 +44,7 @@ public final class InnsendingMapper {
             JPAInnsendingInnslag innslag) {
         innslag.setSaksnr(h.getSaksnr());
         innslag.setJournalpostId(h.getJournalpostId());
+        LOG.debug("Nytt innsendingsinnslag  i fordeling er {}", innslag);
         return innslag;
     }
 
@@ -66,7 +67,7 @@ public final class InnsendingMapper {
         safeStream(hendelse.getIkkeOpplastedeVedlegg())
                 .map(v -> fraVedlegg(v, SEND_SENERE))
                 .forEach(innslag::addVedlegg);
-        LOG.info("trace til innslag {}", innslag);
+        LOG.debug("Oppdatert innsendingsinnslag i innsending er {}", innslag);
         return innslag;
     }
 
