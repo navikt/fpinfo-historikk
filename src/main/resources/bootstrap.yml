@@ -1,0 +1,16 @@
+spring:
+  profiles:
+    active: ${nais.cluster.name-:local}
+  cloud:
+    vault:
+      enabled: true
+      uri: https://vault.adeo.no
+      authentication: KUBERNETES
+      kubernetes:
+        role: fpinfo-historikk
+      database:
+        enabled: true
+      kv:
+        enabled: true
+        application-name: fpinfo-historikk/teamforeldrepenger
+        default-context: fpinfo-historikk/teamforeldrepenger
