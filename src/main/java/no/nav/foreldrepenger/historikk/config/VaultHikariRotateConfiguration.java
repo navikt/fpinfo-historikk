@@ -5,10 +5,9 @@ import static org.springframework.vault.core.lease.domain.RequestedSecret.rotati
 
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.vault.config.databases.VaultDatabaseProperties;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,7 +19,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @ConditionalOnProperty(value = "spring.cloud.vault.database.enabled")
-class VaultHikariRotateConfiguration {
+class VaultHikariRotateConfiguration implements InitializingBean {
     private static final Logger LOG = LoggerFactory.getLogger(VaultHikariRotateConfiguration.class);
     private final ConfigurableApplicationContext applicationContext;
     private final SecretLeaseContainer container;
@@ -38,8 +37,8 @@ class VaultHikariRotateConfiguration {
         this.ds = ds;
     }
 
-    @PostConstruct
-    private void rotererBrukernavnOgPassordForPostgresNårLeaseErUtgått() {
+    @Override // Roterer brukernavn og passord for postgres når lease er gått ut
+    public void afterPropertiesSet() {
         var pathTilVaultDBSecrets = props.getBackend() + "/creds/" + props.getRole();
         container.addLeaseListener(leaseEvent -> {
             if (leaseEvent.getSource().equals(renewable(pathTilVaultDBSecrets))) { // Når lease for DB credetial er utgått
