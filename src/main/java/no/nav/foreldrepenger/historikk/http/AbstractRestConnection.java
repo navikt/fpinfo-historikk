@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.http;
 
-import static no.nav.foreldrepenger.boot.conditionals.EnvUtil.CONFIDENTIAL;
+import static no.nav.boot.conditionals.EnvUtil.CONFIDENTIAL;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 

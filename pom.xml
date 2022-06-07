@@ -25,11 +25,14 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <confluent.version>6.2.0</confluent.version>
+
+        <mottak-felles.version>0.8.9</mottak-felles.version>
+        <boot-conditionals.version>3.0.1</boot-conditionals.version>
         <token-validation-version>2.0.21</token-validation-version>
+
+        <confluent.version>6.2.0</confluent.version>
         <springdoc.version>1.6.9</springdoc.version>
         <spring-cloud.version>3.0.5</spring-cloud.version>
-        <mottak-felles.version>0.8.9</mottak-felles.version>
     </properties>
     <scm>
         <connection>scm:git:https://github.com/navikt/fpinfo-historikk.git</connection>
@@ -275,9 +278,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>no.nav.foreldrepenger</groupId>
+            <groupId>no.nav.boot</groupId>
             <artifactId>boot-conditionals</artifactId>
-            <version>2.0.9</version>
+            <version>${boot-conditionals.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
