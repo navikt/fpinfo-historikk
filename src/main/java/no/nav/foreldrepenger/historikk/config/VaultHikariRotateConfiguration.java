@@ -40,14 +40,12 @@ class VaultHikariRotateConfiguration {
 
     @PostConstruct
     private void rotererBrukernavnOgPassordForPostgresNårLeaseErUtgått() {
-        var path = props.getBackend() + "/creds/" + props.getRole();
-        LOG.info("Henter hemmelighet fra {}", path);
-        var secret = rotating(path);
+        var pathTilVaultDBSecrets = props.getBackend() + "/creds/" + props.getRole();
         container.addLeaseListener(leaseEvent -> {
-            if (leaseEvent.getSource().equals(renewable(path))) {
-                container.requestRotatingSecret(path);
+            if (leaseEvent.getSource().equals(renewable(pathTilVaultDBSecrets))) { // Når lease for DB credetial er utgått
+                container.requestRotatingSecret(pathTilVaultDBSecrets);
             }
-            if (leaseEvent.getSource().equals(rotating(path)) && leaseEvent instanceof SecretLeaseCreatedEvent event) {
+            if (leaseEvent.getSource().equals(rotating(pathTilVaultDBSecrets)) && leaseEvent instanceof SecretLeaseCreatedEvent event) {
                 LOG.info("Roterer brukernavn/passord for : {}", event.getSource().getPath());
                 var secrets = event.getSecrets();
                 if (secrets.isEmpty()) {
@@ -60,7 +58,6 @@ class VaultHikariRotateConfiguration {
                 oppdaterDataSource(username, password);
             }
         });
-        container.addRequestedSecret(secret);
     }
 
     private void oppdaterDBProperties(String username, String password) {
