@@ -61,11 +61,11 @@ public class InnsendingHendelseKonsument {
         try {
             var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
             LOG.info("Vedleggsinfo {}", info);
-            info.getInnsendte().forEach(dittNav::avsluttOppgave);
+            info.innsendte().forEach(dittNav::avsluttOppgave);
             if (info.manglerVedlegg()) {
-                LOG.info("Det mangler vedlegg {} for sak {}", info.getManglende(), h.getSaksnummer());
+                LOG.info("Det mangler vedlegg {} for sak {}", info.manglende(), h.getSaksnummer());
                 dittNav.opprettOppgave(h,
-                        String.format("Det mangler %s vedlegg i søknaden din om %s", info.getManglende().size(), sak(h.getHendelse())));
+                        String.format("Det mangler %s vedlegg i søknaden din om %s", info.manglende().size(), sak(h.getHendelse())));
             } else {
                 LOG.info("Det mangler ingen vedlegg for sak {}", h.getSaksnummer());
 

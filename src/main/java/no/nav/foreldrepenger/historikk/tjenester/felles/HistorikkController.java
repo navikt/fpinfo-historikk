@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class HistorikkController {
     @GetMapping("/me/manglendevedlegg")
     public List<String> manglendeVedlegg(@RequestParam(name = "saksnummer") String saksnummer) {
         LOG.info("Henter manglende vedlegg for pålogget bruker");
-        return innsending.vedleggsInfo(saksnummer).getManglende();
+        return innsending.vedleggsInfo(saksnummer).manglende();
     }
 
     @GetMapping("/me/inntektsmeldinger")
@@ -70,7 +69,7 @@ public class HistorikkController {
         return concat(tilbakekrevinger(false).stream(),
                 concat(inntektsmeldinger().stream(), søknader().stream()))
                         .sorted()
-                        .collect(toList());
+                        .toList();
     }
 
     @Override

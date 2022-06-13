@@ -29,14 +29,11 @@ public class InntektsmeldingDevController {
 
     InntektsmeldingDevController(Inntektsmelding inntektsmelding) {
         this.inntektsmelding = inntektsmelding;
-
     }
 
     @PostMapping("/lagreInntektsmelding")
     public ResponseEntity<?> lagre(@RequestBody @Valid InntektsmeldingHendelse hendelse) {
-        boolean lagret = inntektsmelding.lagre(hendelse);
-        ResponseEntity<Object> created = status(CREATED).build();
-        return lagret ? created : conflict(hendelse.getReferanseId());
+        return inntektsmelding.lagre(hendelse) ? status(CREATED).build() : conflict(hendelse.getReferanseId());
     }
 
     @GetMapping("/inntektsmeldinger")

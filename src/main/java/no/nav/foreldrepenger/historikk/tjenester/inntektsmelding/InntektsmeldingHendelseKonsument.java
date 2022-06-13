@@ -33,7 +33,7 @@ public class InntektsmeldingHendelseKonsument {
         toMDC(NAV_CALL_ID, callId);
         LOG.info("Mottok inntektsmeldinghendelse {}", h);
         inntektsmelding.lagre(h);
-        LOG.info("Inntektsmeldinghendelse for {} med referanse {} er lagret", h.getAktørId(), h.getReferanseId());
+        LOG.info("Inntektsmeldinghendelse med referanse {} er lagret", h.getReferanseId());
     }
 
     @Override

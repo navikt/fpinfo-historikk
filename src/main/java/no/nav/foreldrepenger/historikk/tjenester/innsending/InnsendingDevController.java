@@ -30,7 +30,7 @@ public class InnsendingDevController {
     }
 
     @PostMapping("/lagre")
-    public ResponseEntity<?> lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
+    public ResponseEntity<Object> lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
         innsending.lagreEllerOppdater(hendelse);
         return status(CREATED).build();
     }
@@ -48,7 +48,7 @@ public class InnsendingDevController {
     @GetMapping("/manglendevedlegg")
     public List<String> vedlegg(@RequestParam("saksnummer") String saksnummer,
             @RequestParam("fnr") Fødselsnummer fnr) {
-        return innsending.vedleggsInfo(fnr, saksnummer).getManglende();
+        return innsending.vedleggsInfo(fnr, saksnummer).manglende();
     }
 
     @Override

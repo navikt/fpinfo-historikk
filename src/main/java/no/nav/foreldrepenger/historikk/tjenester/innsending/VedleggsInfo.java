@@ -3,53 +3,18 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 import static java.util.Collections.emptyList;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-public class VedleggsInfo {
-
-    private static final int MAX_LENGDE = 500;
+public record VedleggsInfo(List<String> innsendte, List<String> manglende) {
 
     public static final VedleggsInfo NONE = new VedleggsInfo(emptyList(), emptyList());
-    private final List<String> innsendte;
-    private final List<String> manglende;
 
     public VedleggsInfo(List<String> innsendte, List<String> manglende) {
-        this.innsendte = innsendte;
-        this.manglende = manglende;
-    }
-
-    public List<String> getInnsendte() {
-        return innsendte;
-    }
-
-    public List<String> getManglende() {
-        return manglende;
+        this.innsendte = Optional.ofNullable(innsendte).orElse(emptyList());
+        this.manglende = Optional.ofNullable(manglende).orElse(emptyList());
     }
 
     public boolean manglerVedlegg() {
         return !manglende.isEmpty();
     }
-
-    public String manglendeVedleggTekst() {
-        var intro = "Vi mangler " + manglende.size() + " vedlegg";
-        var tekst = intro + ": " + beskrivelseFor(manglende);
-        return tekst.length() >= MAX_LENGDE ? intro : tekst;
-
-    }
-
-    private static String beskrivelseFor(List<String> dokumentIds) {
-        return dokumentIds.stream()
-                .map(VedleggsInfo::beskrivelseFor)
-                .collect(Collectors.joining(", "));
-    }
-
-    private static String beskrivelseFor(String dokumentId) {
-        return DokumentType.valueOf(dokumentId).getBeskrivelse();
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[innsendte=" + innsendte + ", manglende=" + manglende + "]";
-    }
-
 }

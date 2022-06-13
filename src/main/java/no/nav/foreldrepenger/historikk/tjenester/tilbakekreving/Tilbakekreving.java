@@ -41,15 +41,13 @@ public class Tilbakekreving {
 
     private void avsluttOppgave(Fødselsnummer fnr, String dialogId) {
         int n = dao.deaktiver(fnr, dialogId);
-        LOG.debug("Deaktiverte {} tilbakekreving{} for fnr {} og  dialogId {}", n, flertall(n),
-                fnr, dialogId);
+        LOG.debug("Deaktiverte {} tilbakekreving{} for dialogId {}", n, flertall(n), dialogId);
 
     }
 
     public void avsluttOppgave(AktørId aktørId, String dialogId) {
         int n = dao.deaktiver(aktørId, dialogId);
-        LOG.debug("Deaktiverte {} tilbakekrevingsdialoger{} for aktør {} og  dialogId {}", n, flertall(n),
-                aktørId, dialogId);
+        LOG.debug("Deaktiverte {} tilbakekrevingsdialoger{} for dialogId {}", n, flertall(n), dialogId);
     }
 
     public void opprettOppgave(TilbakekrevingHendelse h) {
@@ -70,7 +68,7 @@ public class Tilbakekreving {
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
-        LOG.info("Henter tilbakekrevingsdialoger for {} og activeOnly={}", aktørId, activeOnly);
+        LOG.info("Henter tilbakekrevingsdialoger hvor activeOnly={}", activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
     }
 
@@ -81,9 +79,8 @@ public class Tilbakekreving {
 
     @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> aktive(AktørId aktørId) {
-        LOG.info("Henter aktive tilbakekrevingsdialoger for {}", aktørId);
-        return tilInnslag(
-                dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
+        LOG.info("Henter aktive tilbakekrevingsdialoger");
+        return tilInnslag(dao.findAll(where(spec(aktørId, true).and(erSpørsmål())), SORT_OPPRETTET_ASC));
     }
 
     private static List<TilbakekrevingInnslag> tilInnslag(List<JPATilbakekrevingInnslag> innslag) {

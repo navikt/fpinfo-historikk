@@ -27,7 +27,7 @@ final class InntektsmeldingMapper {
     }
 
     public static JPAInntektsmeldingInnslag fraHendelse(InntektsmeldingHendelse hendelse) {
-        LOG.info("Mapper fra hendelse {}", hendelse);
+        LOG.debug("Mapper fra hendelse {}", hendelse);
         var im = new JPAInntektsmeldingInnslag();
         im.setReferanseId(hendelse.getReferanseId());
         im.setAktørId(hendelse.getAktørId());
@@ -38,7 +38,7 @@ final class InntektsmeldingMapper {
         im.setInnsendt(hendelse.getOpprettet());
         im.setStartDato(hendelse.getStartDato());
         im.setType(hendelse.getHendelse().equals(INNTEKTSMELDING_NY) ? NY : ENDRING);
-        LOG.info("Mappet til inntektsmelding {}", im);
+        LOG.debug("Mappet til inntektsmelding {}", im);
         return im;
     }
 
