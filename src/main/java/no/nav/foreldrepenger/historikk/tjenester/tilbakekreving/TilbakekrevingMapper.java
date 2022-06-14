@@ -1,14 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public final class TilbakekrevingMapper {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TilbakekrevingMapper.class);
-
     private TilbakekrevingMapper() {
-
     }
 
     static JPATilbakekrevingInnslag fraHendelse(TilbakekrevingHendelse m) {

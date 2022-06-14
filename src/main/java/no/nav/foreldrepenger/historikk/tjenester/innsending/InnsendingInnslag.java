@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
-import static java.util.stream.Collectors.toList;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.LASTET_OPP;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingType.SEND_SENERE;
 
@@ -37,21 +36,21 @@ public class InnsendingInnslag extends HistorikkInnslag {
     public List<String> getVedlegg() {
         return vedlegg.stream()
                 .map(Pair::getLeft)
-                .collect(toList());
+                .toList();
     }
 
     public List<String> getOpplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> LASTET_OPP.equals(v.getRight()))
                 .map(Pair::getLeft)
-                .collect(toList());
+                .toList();
     }
 
     public List<String> getIkkeOpplastedeVedlegg() {
         return vedlegg.stream()
                 .filter(v -> SEND_SENERE.equals(v.getRight()))
                 .map(Pair::getLeft)
-                .collect(toList());
+                .toList();
     }
 
     public void setVedlegg(List<Pair<String, InnsendingType>> vedlegg) {

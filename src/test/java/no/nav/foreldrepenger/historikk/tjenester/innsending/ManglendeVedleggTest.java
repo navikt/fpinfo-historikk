@@ -10,7 +10,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingTyp
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -63,52 +62,52 @@ public class ManglendeVedleggTest {
 
     @Test
     public void testMangler1() {
-        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(SAKSNR), eq(FNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(SAKSNR, FNR))
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
         var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
-        assertEquals(1, info.getManglende().size());
-        assertEquals(info.getManglende().get(0), I000001.name());
+        assertEquals(1, info.manglende().size());
+        assertEquals(info.manglende().get(0), I000001.name());
     }
 
     @Test
     public void testSisteInitielleOverskriverGamle() {
-        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(SAKSNR), eq(FNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(SAKSNR, FNR))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000002, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE)));
         var info = innsending.vedleggsInfo(FNR, SAKSNR);
         assertTrue(info.manglerVedlegg());
-        assertEquals(1, info.getManglende().size());
-        assertEquals(info.getManglende().get(0), I000002.name());
+        assertEquals(1, info.manglende().size());
+        assertEquals(info.manglende().get(0), I000002.name());
     }
 
     @Test
     public void testInnsendingAvManglende() {
-        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(SAKSNR), eq(FNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(SAKSNR, FNR))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
         var info = innsending.vedleggsInfo(SAKSNR);
         assertFalse(info.manglerVedlegg());
-        assertTrue(info.getManglende().isEmpty());
+        assertTrue(info.manglende().isEmpty());
     }
 
     @Test
     public void testInnsendingAvManglende1() {
-        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(SAKSNR), eq(FNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(SAKSNR, FNR))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP)));
         var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
-        assertEquals(1, info.getManglende().size());
-        assertEquals(info.getManglende().get(0), I000001.name());
+        assertEquals(1, info.manglende().size());
+        assertEquals(info.manglende().get(0), I000001.name());
     }
 
     @Test
     public void testInnsendingAvManglende2() {
-        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(eq(SAKSNR), eq(FNR)))
+        when(dao.findBySaksnrAndFnrOrderByOpprettetAsc(SAKSNR, FNR))
                 .thenReturn(List.of(
                         innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, SEND_SENERE, SEND_SENERE),
                         innslag(I000001, ETTERSENDING_FORELDREPENGER, SAKSNR, LASTET_OPP),
@@ -117,9 +116,9 @@ public class ManglendeVedleggTest {
                 .thenReturn(List.of(innslag(I000001, INITIELL_FORELDREPENGER, SAKSNR, LASTET_OPP)));
         var info = innsending.vedleggsInfo(SAKSNR);
         assertTrue(info.manglerVedlegg());
-        assertEquals(2, info.getManglende().size());
-        assertEquals(info.getManglende().get(0), I000002.name());
-        assertEquals(info.getManglende().get(1), I000002.name());
+        assertEquals(2, info.manglende().size());
+        assertEquals(info.manglende().get(0), I000002.name());
+        assertEquals(info.manglende().get(1), I000002.name());
         assertFalse(innsending.vedleggsInfo(SAKSNR).manglerVedlegg());
     }
 

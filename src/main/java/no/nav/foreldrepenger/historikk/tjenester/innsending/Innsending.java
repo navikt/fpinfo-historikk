@@ -122,7 +122,9 @@ public class Innsending {
                 hendelse.getOpplastedeVedlegg().forEach(manglende::remove);
                 LOG.trace("Ikke-opplastede etter fjerning er {}", manglende);
             }
-            LOG.info("Ikke-opplastede vedlegg  er {}", manglende);
+            if (!manglende.isEmpty()) {
+                LOG.info("Ikke-opplastede vedlegg er {}", manglende);
+            }
             return new VedleggsInfo(innsendte, manglende);
         } catch (Exception e) {
             LOG.warn("Kunne ikke hente tidligere innsendinger", e);

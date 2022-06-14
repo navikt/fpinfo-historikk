@@ -1,8 +1,8 @@
 package no.nav.foreldrepenger.historikk.config;
 
-import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
-import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavProducerConfig;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.kafka.clients.CommonClientConfigs;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -12,10 +12,16 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.*;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavProducerConfig;
 
 @Configuration
 public class KafkaTemplatesConfiguration {
@@ -69,9 +75,9 @@ public class KafkaTemplatesConfiguration {
         props.put(ProducerConfig.CLIENT_ID_CONFIG, CLIENT_ID);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, config.keySerializer());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, config.valueSerializer());
-        props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, config.schemaRegistryUri());
-        props.put(KafkaAvroSerializerConfig.BASIC_AUTH_CREDENTIALS_SOURCE, CREDENTIALS_SOURCE);
-        props.put(KafkaAvroSerializerConfig.USER_INFO_CONFIG, config.schemaRegistryUserInfo());
+        props.put(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, config.schemaRegistryUri());
+        props.put(AbstractKafkaSchemaSerDeConfig.BASIC_AUTH_CREDENTIALS_SOURCE, CREDENTIALS_SOURCE);
+        props.put(AbstractKafkaSchemaSerDeConfig.USER_INFO_CONFIG, config.schemaRegistryUserInfo());
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocol());
         props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
         props.put(SslConfigs.SSL_TRUSTSTORE_TYPE_CONFIG, config.trustStoreType());

@@ -56,10 +56,6 @@ public class TilbakekrevingInnslag extends HistorikkInnslag {
         return hendelse;
     }
 
-    public boolean isAktiv() {
-        return aktiv;
-    }
-
     public void setAktiv(Boolean aktiv) {
         this.aktiv = aktiv;
     }

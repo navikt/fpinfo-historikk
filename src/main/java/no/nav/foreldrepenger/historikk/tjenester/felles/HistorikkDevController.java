@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Stream.concat;
 
 import java.util.List;
@@ -37,11 +36,11 @@ public class HistorikkDevController {
         return concat(tilbakekreving.tilbakekrevinger(id, false).stream(),
                 concat(inntektsmelding.inntektsmeldinger(id).stream(), søknad.innsendinger(id).stream()))
                         .sorted()
-                        .collect(toList());
+                        .toList();
     }
 
     @GetMapping("/vedlegg")
     public List<String> vedlegg(@RequestParam("fnr") Fødselsnummer fnr, @RequestParam("saksnummer") String saksnummer) {
-        return innsending.vedleggsInfo(fnr, saksnummer).getManglende();
+        return innsending.vedleggsInfo(fnr, saksnummer).manglende();
     }
 }
