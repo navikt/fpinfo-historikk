@@ -59,7 +59,7 @@ management:
   endpoint:
     health:
       group:
-        liveiness:
+        liveness:
           include: db
       show-details: never
 server:
