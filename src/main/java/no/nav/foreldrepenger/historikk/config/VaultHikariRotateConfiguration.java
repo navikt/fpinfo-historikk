@@ -45,16 +45,18 @@ class VaultHikariRotateConfiguration implements InitializingBean {
                 container.requestRotatingSecret(pathTilVaultDBSecrets);
             }
             if (leaseEvent.getSource().equals(rotating(pathTilVaultDBSecrets)) && leaseEvent instanceof SecretLeaseCreatedEvent event) {
-                LOG.info("Roterer brukernavn/passord for : {}", event.getSource().getPath());
+                var pathOfLeaseEvent = event.getSource().getPath();
+                LOG.info("Roterer brukernavn/passord for {}", pathOfLeaseEvent);
                 var secrets = event.getSecrets();
                 if (secrets.isEmpty()) {
-                    LOG.warn("Klarte ikke å rotere brukernavn/passord for : {}. Restarter applikasjonen!", event.getSource().getPath());
+                    LOG.warn("Klarte ikke å rotere brukernavn/passord for : {}. Restarter applikasjonen!", pathOfLeaseEvent);
                     applicationContext.close();
                 }
                 var username = get("username", secrets);
                 var password = get("password", secrets);
                 oppdaterDBProperties(username, password);
                 oppdaterDataSource(username, password);
+                LOG.info("Rotasjon av brukernavn/passord av {} var vellykket!", pathOfLeaseEvent);
             }
         });
     }
