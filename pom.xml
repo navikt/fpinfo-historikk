@@ -30,7 +30,7 @@
         <boot-conditionals.version>3.0.1</boot-conditionals.version>
         <token-validation-version>2.0.21</token-validation-version>
 
-        <confluent.version>6.2.0</confluent.version>
+        <confluent.version>7.1.2</confluent.version>
         <springdoc.version>1.6.9</springdoc.version>
         <spring-cloud.version>3.0.5</spring-cloud.version>
     </properties>
