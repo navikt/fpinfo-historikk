@@ -56,7 +56,7 @@ class VaultHikariRotateConfiguration implements InitializingBean {
                 var password = get("password", secrets);
                 oppdaterDBProperties(username, password);
                 oppdaterDataSource(username, password);
-                LOG.info("Rotasjon av brukernavn/passord av {} var vellykket!", pathTilVaultDBSecrets);
+                LOG.info("Rotasjon av brukernavn/passord av {} var vellykket!", pathOfLeaseEvent);
             }
         });
     }
