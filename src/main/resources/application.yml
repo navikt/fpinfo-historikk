@@ -83,7 +83,8 @@ spring:
     url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
     hikari:
       connection-test-query: SELECT 1
-      maximum-pool-size: 2
+      minimum-idle: 1
+      maximum-pool-size: 4
   flyway:
     baselineOnMigrate: false
     enabled: true
