@@ -1,12 +1,14 @@
 {
-  "cluster_foreldrepengesoknad-api": "dev-gcp",
-  "kafkaPool": "nav-dev",
-  "ingresses": [
-      "https://fpinfo-historikk.dev.adeo.no",
-      "https://fpinfo-historikk.dev.intern.nav.no",
-      "https://fpinfo-historikk.dev-fss-pub.nais.io"
-  ],
-  "env": {
-    "APPDYNAMICS_AGENT_ACCOUNT_NAME": "NON-PROD"
-  }
+    "cluster_foreldrepengesoknad-api": "dev-gcp",
+    "kafkaPool": "nav-dev",
+    "minReplicas": "2",
+    "maxReplicas": "3",
+    "ingresses": [
+        "https://fpinfo-historikk.dev.adeo.no",
+        "https://fpinfo-historikk.dev.intern.nav.no",
+        "https://fpinfo-historikk.dev-fss-pub.nais.io"
+    ],
+    "env": {
+        "APPDYNAMICS_AGENT_ACCOUNT_NAME": "NON-PROD"
+    }
 }

@@ -19,8 +19,8 @@ spec:
   image: {{image}}
   port: 8080
   replicas:
-    min: 2
-    max: 2
+    min: {{minReplicas}}
+    max: {{maxReplicas}}
   liveness:
     path: api/actuator/health/liveness
     initialDelay: 60
