@@ -21,6 +21,7 @@ spring:
       enabled: false
       database:
         role: fpinfohistorikk
+        enabled: false
   datasource:
     url: jdbc:postgresql://postgres:5432/fpinfohistorikk
     hikari:

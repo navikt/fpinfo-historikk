@@ -78,6 +78,18 @@ spring:
       client:
         health-indicator:
           enabled: false
+    vault:
+      enabled: true
+      uri: https://vault.adeo.no
+      authentication: KUBERNETES
+      kubernetes:
+        role: fpinfo-historikk
+      database:
+        enabled: true
+      kv:
+        enabled: true
+        application-name: fpinfo-historikk/teamforeldrepenger
+        default-context: fpinfo-historikk/teamforeldrepenger
   datasource:
     validation-query: SELECT 1
     url: jdbc:postgresql://A01DBVL010.adeo.no:5432/fpinfo-historikk-prod
