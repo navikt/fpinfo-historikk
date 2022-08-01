@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.13</version>
+        <version>2.7.2</version>
         <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -28,11 +28,10 @@
 
         <mottak-felles.version>0.8.13</mottak-felles.version>
         <boot-conditionals.version>3.0.1</boot-conditionals.version>
-        <token-validation-version>2.0.21</token-validation-version>
-
-        <confluent.version>6.2.0</confluent.version>
+        <token-validation-version>2.1.2</token-validation-version>
+        <confluent.version>7.2.1</confluent.version>
         <springdoc.version>1.6.9</springdoc.version>
-        <spring-cloud.version>3.0.5</spring-cloud.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
     </properties>
     <scm>
         <connection>scm:git:https://github.com/navikt/fpinfo-historikk.git</connection>
@@ -120,7 +119,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-vault-dependencies</artifactId>
+                <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
