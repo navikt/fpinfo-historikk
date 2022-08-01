@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.common.util.StringUtil.flertall;
-import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.erSpørsmål;
 import static no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.JPATilbakekrevingSpec.spec;
@@ -21,7 +20,6 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
-@Transactional(JPA_TM)
 public class Tilbakekreving {
 
     private static final Logger LOG = LoggerFactory.getLogger(Tilbakekreving.class);

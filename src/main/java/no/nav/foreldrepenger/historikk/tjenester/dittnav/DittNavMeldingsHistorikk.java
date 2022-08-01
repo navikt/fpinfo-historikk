@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.BESKJED;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.OPPGAVE;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.*;
@@ -17,7 +16,6 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import java.util.Optional;
 
 @Service
-@Transactional(JPA_TM)
 public class DittNavMeldingsHistorikk {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingsHistorikk.class);

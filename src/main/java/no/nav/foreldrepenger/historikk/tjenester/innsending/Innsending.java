@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static java.util.Collections.emptyList;
-import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag.SORT_OPPRETTET_ASC;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.nyFra;
 import static no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingMapper.oppdaterFra;
@@ -25,7 +24,6 @@ import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
-@Transactional(JPA_TM)
 public class Innsending {
 
     private static final Logger LOG = LoggerFactory.getLogger(Innsending.class);
