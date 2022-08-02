@@ -20,15 +20,6 @@ management:
     health:
       show-details: always
 spring:
-  cloud:
-    vault:
-      database:
-        role: fpinfo-historikk-preprod-admin
-        backend: postgresql/preprod-fss
-      kubernetes:
-        kubernetes-path: kubernetes/preprod/fss
-      kv:
-        backend: kv/preprod/fss
   datasource:
     url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
   mvc:

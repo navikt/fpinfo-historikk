@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    vault:
+      database:
+        role: fpinfo-historikk-preprod-admin
+        backend: postgresql/preprod-fss
+      kubernetes:
+        kubernetes-path: kubernetes/preprod/fss
+      kv:
+        backend: kv/preprod/fss
