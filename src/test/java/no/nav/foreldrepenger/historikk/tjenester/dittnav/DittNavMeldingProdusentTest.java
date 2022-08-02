@@ -33,8 +33,6 @@ import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
 import no.nav.brukernotifikasjon.schemas.input.DoneInput;
 import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
-import no.nav.foreldrepenger.historikk.config.JpaTxConfiguration;
-import no.nav.foreldrepenger.historikk.config.TestJpaTransactionManager;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
@@ -51,9 +49,7 @@ import no.nav.security.token.support.spring.MultiIssuerProperties;
 @EnableConfigurationProperties({DittNavConfig.class})
 @Import(value = {
     DittNavMeldingProdusent.class,
-    DittNavMeldingsHistorikk.class,
-    JpaTxConfiguration.class,
-    TestJpaTransactionManager.class
+    DittNavMeldingsHistorikk.class
 })
 class DittNavMeldingProdusentTest {
 

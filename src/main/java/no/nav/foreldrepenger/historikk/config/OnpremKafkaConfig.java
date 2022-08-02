@@ -7,11 +7,9 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties("kafka.onprem")
 public record OnpremKafkaConfig(
     String bootstrapServers,
-    boolean consumerEnableAutoCommit,
     String autoOffsetReset,
     String securityProtocolConfig,
     String saslMechanism,
-    String jaasConfig,
-    String transactionalIdPrefix
+    String jaasConfig
 ) {
 }

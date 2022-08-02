@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static no.nav.foreldrepenger.historikk.config.JpaTxConfiguration.JPA_TM;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.BESKJED;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.NotifikasjonType.OPPGAVE;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgaverSpec.*;
@@ -10,14 +9,12 @@ import no.nav.foreldrepenger.historikk.tjenester.dittnav.JPADittNavOppgave.Notif
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 import java.util.Optional;
 
 @Service
-@Transactional(JPA_TM)
 public class DittNavMeldingsHistorikk {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingsHistorikk.class);
