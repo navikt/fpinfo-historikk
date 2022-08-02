@@ -129,10 +129,8 @@ kafka:
     sasl-mechanism: PLAIN
     security-protocol-config: SASL_SSL
     jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
-    consumer-enable-auto-commit: false
     bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
     auto-offset-reset: none
-    transactional-id-prefix: ${hostname}
 springdoc:
   packages-to-scan: no.nav.foreldrepenger.historikk
   swagger-ui:

@@ -36,7 +36,6 @@ public class KafkaTemplatesConfiguration {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getCanonicalName());
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.bootstrapServers());
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, config.consumerEnableAutoCommit());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, config.autoOffsetReset());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, DEFAULT_GROUP_ID);
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocolConfig());
@@ -56,7 +55,6 @@ public class KafkaTemplatesConfiguration {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.bootstrapServers());
-        //props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, config.transactionalIdPrefix());
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocolConfig());
         props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
         props.put(SaslConfigs.SASL_JAAS_CONFIG, config.jaasConfig());
