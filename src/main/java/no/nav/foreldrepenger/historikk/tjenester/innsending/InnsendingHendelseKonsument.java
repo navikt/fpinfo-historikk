@@ -15,6 +15,7 @@ import no.nav.foreldrepenger.common.util.MDCUtil;
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @ConditionalOnProperty(name = "historikk.innsending.søknad.enabled")
@@ -33,6 +34,7 @@ public class InnsendingHendelseKonsument {
         this.dittNav = dittNav;
     }
 
+    @Transactional
     @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${historikk.innsending.søknad.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());

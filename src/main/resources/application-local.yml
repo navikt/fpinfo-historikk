@@ -42,8 +42,13 @@ spring:
     log-request-details: true
 kafka:
   onprem:
-    bootstrap-servers: localhost:9093
+    bootstrap-servers: localhost:9092
     transactional-id-prefix: local
+    security-enabled: true
+    security-protocol-config: SASL_SSL
+    sasl-mechanism: PLAIN
+    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${system.username}" password="${system.password}";
+    auto-offset-reset: earliest
 
 no.nav:
   security:
@@ -80,7 +85,7 @@ historikk:
     enabled: false
   innsending:
     søknad:
-      enabled: false
+      enabled: true
     fordeling:
       enabled: false
   tilbakekreving:

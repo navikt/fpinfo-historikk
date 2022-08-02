@@ -56,10 +56,10 @@ public class KafkaTemplatesConfiguration {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getCanonicalName());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.bootstrapServers());
+        //props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, config.transactionalIdPrefix());
         props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.securityProtocolConfig());
         props.put(SaslConfigs.SASL_MECHANISM, config.saslMechanism());
         props.put(SaslConfigs.SASL_JAAS_CONFIG, config.jaasConfig());
-        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, config.transactionalIdPrefix());
         return new DefaultKafkaProducerFactory<>(props);
     }
 
