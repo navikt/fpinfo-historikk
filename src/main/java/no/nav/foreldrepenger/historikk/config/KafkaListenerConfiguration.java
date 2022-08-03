@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.kafka.common.errors.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +17,11 @@ import org.springframework.kafka.listener.CommonDelegatingErrorHandler;
 import org.springframework.kafka.listener.CommonErrorHandler;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.kafka.support.converter.ConversionException;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import javax.naming.AuthenticationException;
 import java.time.Duration;
 
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
@@ -56,7 +57,9 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
             SECURE_LOG.warn("Konsum av melding fra topic {} feilet. Melding: {}", record.topic(), record);
         }, new FixedBackOff(1000L, 9L));
         var delegatingHandler = new CommonDelegatingErrorHandler(defaultHandler);
-        delegatingHandler.addDelegate(AuthenticationException.class, new CommonContainerStoppingErrorHandler());
+        var containerStoppingHandler = new CommonContainerStoppingErrorHandler();
+        delegatingHandler.addDelegate(AuthenticationException.class, containerStoppingHandler);
+        delegatingHandler.addDelegate(ConversionException.class, containerStoppingHandler);
         delegatingHandler.setAckAfterHandle(false);
         return delegatingHandler;
     }
