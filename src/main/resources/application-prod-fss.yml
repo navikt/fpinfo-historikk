@@ -6,3 +6,8 @@ no.nav:
           fpsoknad-mottak:
             token-exchange:
               audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
+
+vault:
+  database-backend: postgresql/prod-fss
+  database-role: fpinfo-historikk-prod-user
+  database-admin-role: fpinfo-historikk-prod-admin
