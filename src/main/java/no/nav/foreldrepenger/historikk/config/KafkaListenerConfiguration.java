@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.kafka.common.errors.AuthenticationException;
@@ -24,7 +23,6 @@ import org.springframework.util.backoff.FixedBackOff;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.time.Duration;
-import java.util.Properties;
 
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
 
@@ -50,10 +48,6 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
         factory.getContainerProperties().setAuthExceptionRetryInterval(Duration.ofSeconds(5L));
         factory.getContainerProperties().setAckMode(MANUAL_IMMEDIATE);
         factory.setCommonErrorHandler(errorHandler());
-
-        var offsetProp = new Properties();
-        offsetProp.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        factory.getContainerProperties().setKafkaConsumerProperties(offsetProp);
         return factory;
     }
 
