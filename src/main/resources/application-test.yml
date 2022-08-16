@@ -12,6 +12,8 @@ admin:
   password: ${systembruker.password}
 server:
   port: 9003
+vault:
+  enabled: false
 spring:
   cloud:
     vault:
