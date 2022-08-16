@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
 
 import javax.validation.Valid;
 
@@ -9,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +30,8 @@ public class TilbakekrevingHendelseKonsument {
 
     @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}", groupId = "#{'${historikk.tilbakekreving.group-id}'}")
     @Transactional
-    public void listen(@Payload @Valid TilbakekrevingHendelse h,
-                       @Header(KafkaHeaders.OFFSET) long offset,
-                       @Header(KafkaHeaders.TOPIC) String topic) {
+    public void listen(@Payload @Valid TilbakekrevingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
-        LOG.info("Kafkamelding {} med offset {}", topic, offset);
         LOG.info("Mottok tilbakekrevingshendelse {}", h);
         switch (h.getHendelse()) {
             case TILBAKEKREVING_SPM -> opprettOppgave(h);
