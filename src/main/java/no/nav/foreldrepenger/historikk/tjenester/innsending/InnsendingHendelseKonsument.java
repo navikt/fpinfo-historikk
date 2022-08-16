@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +38,11 @@ public class InnsendingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${historikk.innsending.søknad.group-id}'}")
-    public void behandle(@Payload @Valid InnsendingHendelse h) {
+    public void behandle(@Payload @Valid InnsendingHendelse h,
+                         @Header(KafkaHeaders.OFFSET) long offset,
+                         @Header(KafkaHeaders.TOPIC) String topic) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
+        LOG.info("Kafkamelding {} med offset {}", topic, offset);
         LOG.info("Mottok innsendingshendelse {}", h);
         innsending.lagreEllerOppdater(h);
         sjekkMangledeVedlegg(h);

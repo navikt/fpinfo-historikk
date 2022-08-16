@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
 
 import javax.validation.Valid;
 
@@ -8,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +31,11 @@ public class FordelingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.innsending.fordeling.topic}'}", groupId = "#{'${historikk.innsending.fordeling.group-id}'}")
-    public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h) {
+    public void behandle(@Payload @Valid InnsendingFordeltOgJournalførtHendelse h,
+                         @Header(KafkaHeaders.OFFSET) long offset,
+                         @Header(KafkaHeaders.TOPIC) String topic) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getForsendelseId());
+        LOG.info("Kafkamelding {} med offset {}", topic, offset);
         LOG.info("Mottok fordelingshendelse {}", h);
         // innsending.lagreEllerOppdater(h); // TODO: Finn ut hva som må gjøres for å fullføre dette. Hvis det ikke lar seg fullføre, fjern.
     }
