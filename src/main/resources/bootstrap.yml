@@ -3,7 +3,7 @@ spring:
     active: ${nais.cluster.name-:local}
   cloud:
     vault:
-      enabled: false
+      enabled: true
       uri: https://vault.adeo.no
       authentication: KUBERNETES
       kubernetes:
