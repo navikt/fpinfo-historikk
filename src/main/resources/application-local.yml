@@ -85,7 +85,5 @@ historikk:
   innsending:
     søknad:
       enabled: true
-    fordeling:
-      enabled: false
   tilbakekreving:
     enabled: false

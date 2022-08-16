@@ -32,10 +32,6 @@ historikk:
       enabled: true
       topic: fpsoknad-mottak
       group-id: group_id
-    fordeling:
-      enabled: true
-      topic: privat-foreldrepenger-historikk-fordeling
-      group-id: fordeling
   tilbakekreving:
     enabled: true
     topic: privat-tilbakekreving-brukerdialog-p

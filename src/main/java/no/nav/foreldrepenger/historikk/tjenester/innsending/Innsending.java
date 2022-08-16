@@ -53,26 +53,6 @@ public class Innsending {
         }
     }
 
-    public void lagreEllerOppdater(InnsendingFordeltOgJournalførtHendelse h) {
-        var eksisterende = dao.findByReferanseId(h.getForsendelseId());
-        if (eksisterende != null) {
-            LOG.debug("Fant et eksisterende innsendingsinnslag {}", eksisterende);
-            if (eksisterende.getSaksnr() == null && eksisterende.getJournalpostId() == null) {
-                LOG.debug("Oppdaterer innsendingsinnslag med saksnr og journalpostid");
-                var oppdatert = oppdaterFra(h, eksisterende);
-                dao.save(oppdatert);
-                LOG.debug("Oppdaterer fra fordelingshendelse OK");
-            } else {
-                LOG.debug("Eksisterende innslag er allerede komplett");
-            }
-        } else {
-            LOG.debug("Ingenting å oppdatere fra fordelingshendelse, insert istedet");
-            var ny = nyFra(h);
-            dao.save(ny);
-            LOG.debug("Insert fra hendelse OK");
-        }
-    }
-
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> innsendinger() {
         return innsendinger(oppslag.aktørId());
