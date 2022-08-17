@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -30,11 +29,8 @@ public class InntektsmeldingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}", groupId = "#{'${historikk.inntektsmelding.group-id}'}")
     public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
-                         @Header(name = NAV_CALL_ID, required = false) String callId,
-                         @Header(KafkaHeaders.OFFSET) long offset,
-                         @Header(KafkaHeaders.TOPIC) String topic) {
+            @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);
-        LOG.info("Kafkamelding {} med offset {}", topic, offset);
         LOG.info("Mottok inntektsmeldinghendelse {}", h);
         inntektsmelding.lagre(h);
         LOG.info("Inntektsmeldinghendelse med referanse {} er lagret", h.getReferanseId());
