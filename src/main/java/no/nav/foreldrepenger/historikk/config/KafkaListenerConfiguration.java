@@ -1,9 +1,10 @@
 package no.nav.foreldrepenger.historikk.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.clients.consumer.MockConsumer;
+import org.apache.kafka.clients.consumer.OffsetResetStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.kafka.common.errors.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,17 +13,13 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
 import org.springframework.kafka.core.ConsumerFactory;
-import org.springframework.kafka.listener.CommonContainerStoppingErrorHandler;
-import org.springframework.kafka.listener.CommonDelegatingErrorHandler;
-import org.springframework.kafka.listener.CommonErrorHandler;
-import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.DefaultErrorHandler;
-import org.springframework.kafka.support.converter.ConversionException;
+import org.springframework.kafka.listener.*;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
-import org.springframework.util.backoff.FixedBackOff;
+import org.springframework.util.backoff.ExponentialBackOff;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
 
@@ -47,21 +44,27 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setAuthExceptionRetryInterval(Duration.ofSeconds(5L));
         factory.getContainerProperties().setAckMode(MANUAL_IMMEDIATE);
-        factory.setCommonErrorHandler(errorHandler());
+        factory.setContainerCustomizer(container -> {
+            final var containerStoppingErrorHandler = new CommonContainerStoppingErrorHandler();
+            container.setCommonErrorHandler(new DefaultErrorHandler((record, exception) -> {
+                LOG.warn("Kafkakonsumer avsluttet, må følges opp! Konsum av melding fra topic {} feilet, se secure log for detaljer.",
+                    record.topic(), exception);
+                SECURE_LOG.warn("Konsum av melding fra topic {} feilet. Melding: {}", record.topic(), record);
+                containerStoppingErrorHandler.handleRemaining(exception, List.of(),
+                    new MockConsumer<>(OffsetResetStrategy.NONE), container
+                );
+            }, exponentialBackoff()));
+        });
         return factory;
     }
 
-    private static CommonErrorHandler errorHandler() {
-        var defaultHandler = new DefaultErrorHandler((record, exception) -> {
-            LOG.warn("Konsum av melding fra topic {} feilet, se secure log for detaljer.", record.topic(), exception);
-            SECURE_LOG.warn("Konsum av melding fra topic {} feilet. Melding: {}", record.topic(), record);
-        }, new FixedBackOff(1000L, 9L));
-        var delegatingHandler = new CommonDelegatingErrorHandler(defaultHandler);
-        var containerStoppingHandler = new CommonContainerStoppingErrorHandler();
-        delegatingHandler.addDelegate(AuthenticationException.class, containerStoppingHandler);
-        delegatingHandler.addDelegate(ConversionException.class, containerStoppingHandler);
-        delegatingHandler.setAckAfterHandle(false);
-        return delegatingHandler;
+    private static ExponentialBackOff exponentialBackoff() {
+        final var backoff = new ExponentialBackOff();
+        backoff.setInitialInterval(300);
+        backoff.setMultiplier(2);
+        backoff.setMaxInterval(2_000);
+        backoff.setMaxElapsedTime(25_000);
+        return backoff;
     }
 
 }
