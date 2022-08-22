@@ -21,7 +21,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import java.time.Duration;
 import java.util.List;
 
-import static org.springframework.kafka.listener.ContainerProperties.AckMode.MANUAL_IMMEDIATE;
+import static org.springframework.kafka.listener.ContainerProperties.AckMode.BATCH;
 
 @Configuration
 public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
@@ -43,7 +43,7 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
         factory.setConsumerFactory(cf);
         factory.setMessageConverter(new StringJsonMessageConverter(mapper));
         factory.getContainerProperties().setAuthExceptionRetryInterval(Duration.ofSeconds(5L));
-        factory.getContainerProperties().setAckMode(MANUAL_IMMEDIATE);
+        factory.getContainerProperties().setAckMode(BATCH);
         factory.setContainerCustomizer(container -> {
             final var containerStoppingErrorHandler = new CommonContainerStoppingErrorHandler();
             container.setCommonErrorHandler(new DefaultErrorHandler((record, exception) -> {
