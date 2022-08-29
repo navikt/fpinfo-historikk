@@ -81,11 +81,15 @@ class DittNavMeldingProdusentTest {
     @Autowired
     private DittNavConfig dittNavConfig;
     @Autowired
+    private DittNavMeldingsHistorikk dittNavMeldingsHistorikk;
+
+    // Hvis vi autowired denne så får test/lokal versjonen
     private DittNavMeldingProdusent dittNav;
 
 
     @BeforeEach
     public void setUp() {
+        dittNav = new DittNavMeldingProdusent(dittNavConfig, dittNavMeldingsHistorikk, kafkaOperations);
         var future = new SettableListenableFuture<SendResult<NokkelInput, Object>>();
         future.setException(new IllegalStateException("Ooops"));
         when(kafkaOperations.send((ProducerRecord<NokkelInput, Object>) any())).thenReturn(future);

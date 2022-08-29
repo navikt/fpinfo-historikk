@@ -16,10 +16,12 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import no.nav.boot.conditionals.ConditionalOnFSS;
 import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
+@ConditionalOnFSS
 public class DittNavMeldingProdusent implements DittNav {
 
     private static final Logger LOG = LoggerFactory.getLogger(DittNavMeldingProdusent.class);

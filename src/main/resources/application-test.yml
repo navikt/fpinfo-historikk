@@ -19,14 +19,15 @@ spring:
     vault:
       enabled: false
     database:
-      role: fpinfohistorikk
+      role: ${defaultds.username}
+      enabled: false
   datasource:
     url: ${defaultds.url}
-    username: fpinfohistorikk
-    password: fpinfohistorikk
     hikari:
       username: ${defaultds.username}
       password: ${defaultds.password}
+    username: ${defaultds.username}
+    password: ${defaultds.username}
   jpa:
     show-sql: false
     properties:
@@ -39,13 +40,8 @@ spring:
   mvc:
     log-request-details: true
 kafka:
-  aiven:
-    bootstrap-servers: ${kafka.brokers}
-    truststore-path: ${kafka.truststore.path}
-    keystore-path: ${kafka.keystore.path}
-    credstore-password: ${kafka.credstore.password}
   onprem:
-    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka.username} password=${kafka.password};
+    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${systembruker.username} password=${systembruker.password};
     bootstrap-servers: ${kafka.brokers}
     auto-offset-reset: earliest
 
@@ -67,7 +63,7 @@ historikk:
     base-uri: ${fpsoknad.mottak.url}
   innsending:
     søknad:
-      enabled: false
+      enabled: true
+      topic: ${kafka.innsendinghendelse.topic}
   tilbakekreving:
     enabled: false
-    topic: privat-tilbakekreving-brukerdialog-local
