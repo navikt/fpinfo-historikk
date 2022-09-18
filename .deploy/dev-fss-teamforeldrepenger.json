@@ -1,10 +1,9 @@
 {
     "cluster_foreldrepengesoknad-api": "dev-gcp",
     "kafkaPool": "nav-dev",
-    "minReplicas": "2",
-    "maxReplicas": "3",
+    "minReplicas": "1",
+    "maxReplicas": "2",
     "ingresses": [
-        "https://fpinfo-historikk.dev.adeo.no",
         "https://fpinfo-historikk.dev.intern.nav.no",
         "https://fpinfo-historikk.dev-fss-pub.nais.io"
     ],

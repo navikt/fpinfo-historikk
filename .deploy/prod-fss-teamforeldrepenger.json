@@ -4,9 +4,7 @@
     "minReplicas": "2",
     "maxReplicas": "4",
     "ingresses": [
-        "https://fpinfo-historikk.adeo.no",
         "https://fpinfo-historikk.intern.nav.no",
-        "https://fpinfo-historikk.nais.adeo.no",
         "https://fpinfo-historikk.prod-fss-pub.nais.io"
     ],
     "env": {
