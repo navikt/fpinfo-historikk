@@ -31,7 +31,7 @@
         <token-validation-version>2.1.4</token-validation-version>
         <confluent.version>7.2.1</confluent.version>
         <springdoc.version>1.6.11</springdoc.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud.version>2021.0.4</spring-cloud.version>
     </properties>
     <scm>
         <connection>scm:git:https://github.com/navikt/fpinfo-historikk.git</connection>
