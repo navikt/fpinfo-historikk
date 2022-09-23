@@ -60,7 +60,7 @@ historikk:
   inntektsmelding:
     enabled: false
   oppslag:
-    base-uri: ${fpsoknad.mottak.url}
+    base-uri: ${fpsoknad-mottak.override.url}
   innsending:
     søknad:
       enabled: true
