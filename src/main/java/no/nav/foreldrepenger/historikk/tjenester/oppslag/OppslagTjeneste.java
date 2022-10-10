@@ -1,10 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 
 @Service
 public class OppslagTjeneste implements Oppslag {
@@ -21,14 +19,8 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Override
-    public Fødselsnummer fnr(AktørId aktørId) {
-        return connection.hentFnr(aktørId);
-    }
-
-    @Override
     public String personNavn(AktørId aktørId) {
         return connection.hentNavn(aktørId);
-
     }
 
     @Override

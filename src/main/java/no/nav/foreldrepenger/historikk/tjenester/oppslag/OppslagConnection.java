@@ -1,19 +1,17 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-import java.net.URI;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
+import java.net.URI;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class OppslagConnection extends AbstractRestConnection {
@@ -34,26 +32,16 @@ public class OppslagConnection extends AbstractRestConnection {
         return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
-    @Cacheable(cacheNames = "fnr")
-    public Fødselsnummer hentFnr(AktørId aktørId) {
-        return getForObject(cfg.fnrURI(aktørId), Fødselsnummer.class, true);
-    }
-
     @Cacheable(cacheNames = "aktør")
     public String hentNavn(AktørId aktørId) {
-        return hentNavn(hentFnr(aktørId));
-    }
-
-    @Cacheable(cacheNames = "fnr")
-    private String hentNavn(Fødselsnummer fnr) {
-        var navn = getForObject(cfg.personNavnURI(fnr), Navn.class, false);
+        var navn = getForObject(cfg.personNavnURI(aktørId), Navn.class, false);
         return Stream.of(navn.fornavn(), navn.mellomnavn(), navn.etternavn())
-                .filter(Objects::nonNull)
-                .collect(Collectors.joining(" "));
+            .filter(Objects::nonNull)
+            .collect(Collectors.joining(" "));
     }
 
     @Cacheable(cacheNames = "organisasjon")
-    String orgNavn(String orgnr) {
+    public String orgNavn(String orgnr) {
         return getForObject(cfg.orgNavnURI(orgnr));
     }
 

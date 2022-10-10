@@ -1,11 +1,9 @@
 package no.nav.foreldrepenger.historikk.tjenester;
 
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Service
 @Primary
@@ -24,11 +22,6 @@ public class OppslagTjenesteStub implements Oppslag {
     @Override
     public String personNavn(AktørId id) {
         return "Ole Olsen";
-    }
-
-    @Override
-    public Fødselsnummer fnr(AktørId aktørId) {
-        return Fødselsnummer.valueOf("11111111111");
     }
 
 }
