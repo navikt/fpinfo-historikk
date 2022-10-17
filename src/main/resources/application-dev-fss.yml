@@ -6,11 +6,22 @@ no.nav:
           fpsoknad-mottak:
             token-exchange:
               audience: dev-fss:teamforeldrepenger:fpsoknad-mottak
+          safselvbetjening-q1:
+            token-exchange:
+              audience: dev-fss:teamdokumenthandtering:safselvbetjening-q1
+            well-known-url: ${token.x.well.known.url}
+            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+            authentication:
+              client-id: ${token.x.client.id}
+              client-jwk: ${token.x.private.jwk}
+              client-auth-method: private_key_jwt
 historikk:
   dittnav:
     base-uri: https://foreldrepenger.dev.nav.no
   tilbakekreving:
     topic: privat-tilbakekreving-brukerdialog-q1
+  saf:
+    base-uri: https://safselvbetjening-q1.dev.intern.nav.no
 management:
   endpoints:
     web:
