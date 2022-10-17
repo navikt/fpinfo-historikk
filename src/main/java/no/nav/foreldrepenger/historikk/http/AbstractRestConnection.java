@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
 
@@ -44,7 +45,9 @@ public abstract class AbstractRestConnection implements RetryAware, PingEndpoint
     }
 
     public <T> T postForEntity(URI uri, Object payload, Class<T> responseType) {
-        return postForEntity(uri, new HttpEntity<>(payload), responseType);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return postForEntity(uri, new HttpEntity<>(payload, headers), responseType);
     }
 
     public <T> T getForObject(URI uri, Class<T> responseType, boolean doThrow) {
