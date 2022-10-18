@@ -1,11 +1,14 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import no.nav.boot.conditionals.ConditionalOnNotProd;
+import no.nav.foreldrepenger.historikk.config.JacksonConfiguration;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import java.net.URI;
+import java.util.Map;
 
 @ConditionalOnNotProd
 @Component
@@ -33,38 +36,42 @@ public class ArkivConnection extends AbstractRestConnection {
         if (ident == null) {
             throw new IllegalArgumentException("Mangler ident");
         }
-        return postForEntity(cfg.dokumenter(), query(ident), ArkivOppslagJournalposter.class);
+        var requestBody = new Query(query(), Map.of("ident", ident));
+        return postForEntity(cfg.dokumenter(), requestBody, ArkivOppslagJournalposter.class);
     }
 
-    private static String query(String ident) {
-        return String.format("""
-          dokumentoversiktSelvbetjening(ident: %s, tema: [FOR]) {
-            journalposter {
-              journalpostId
-              journalposttype
-              journalstatus
-              tittel
-              eksternReferanseId
-              relevanteDatoer {
-                dato
-                datotype
-              }
-              sak {
-                fagsakId
-                fagsaksystem
-                sakstype
-              }
-              dokumenter {
-                dokumentInfoId
-                brevkode
-                tittel
-                dokumentvarianter {
-                  variantformat
-                  filtype
-                  brukerHarTilgang
+    private static String query() {
+        return """
+            query dokumentoversiktSelvbetjening($ident: String!) {
+              dokumentoversiktSelvbetjening(ident: $ident, tema: [FOR]) {
+                journalposter {
+                  journalpostId
+                  journalposttype
+                  journalstatus
+                  tittel
+                  eksternReferanseId
+                  relevanteDatoer {
+                    dato
+                    datotype
+                  }
+                  sak {
+                    fagsakId
+                    fagsaksystem
+                    sakstype
+                  }
+                  dokumenter {
+                    dokumentInfoId
+                    brevkode
+                    tittel
+                    dokumentvarianter {
+                      variantformat
+                      filtype
+                      brukerHarTilgang
+                    }
+                  }
                 }
               }
-            }
-          }""", ident);
+            }""".stripIndent();
     }
+    private record Query(String query, Map<String, String> variables) { }
 }
