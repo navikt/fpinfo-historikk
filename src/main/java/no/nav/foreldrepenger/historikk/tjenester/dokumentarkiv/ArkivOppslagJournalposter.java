@@ -10,7 +10,7 @@ public record ArkivOppslagJournalposter(List<ArkivOppslagJournalpost> journalpos
                                    ArkivOppslagJournalpostType journalpostType,
                                    ArkivOppslagJournalStatus journalStatus,
                                    Optional<String> tittel,
-                                   Optional<UUID> eksternReferanseId,
+                                   Optional<String> eksternReferanseId,
                                    List<ArkivOppslagRelevantDato> relevanteDatoer,
                                    Optional<ArkivOppslagSak> sak,
                                    List<ArkivOppslagDokumentInfo> dokumenter) {
