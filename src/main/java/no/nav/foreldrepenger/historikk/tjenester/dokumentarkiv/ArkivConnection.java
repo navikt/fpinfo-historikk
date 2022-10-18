@@ -1,5 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.config.JacksonConfiguration;
@@ -37,7 +39,8 @@ public class ArkivConnection extends AbstractRestConnection {
             throw new IllegalArgumentException("Mangler ident");
         }
         var requestBody = new Query(query(), Map.of("ident", ident));
-        return postForEntity(cfg.dokumenter(), requestBody, ArkivOppslagJournalposter.class);
+        var wrappedResponse = postForEntity(cfg.dokumenter(), requestBody, DataWrapped.class);
+        return wrappedResponse.data().journalposter();
     }
 
     private static String query() {
@@ -74,4 +77,7 @@ public class ArkivConnection extends AbstractRestConnection {
             }""".stripIndent();
     }
     private record Query(String query, Map<String, String> variables) { }
+    private record DataWrapped(Wrapped data) { };
+    private record Wrapped(@JsonAlias("dokumentOversiktselvbetjening") ArkivOppslagJournalposter journalposter) { }
+
 }
