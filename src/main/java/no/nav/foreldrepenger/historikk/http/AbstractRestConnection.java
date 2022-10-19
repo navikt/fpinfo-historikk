@@ -57,7 +57,7 @@ public abstract class AbstractRestConnection implements RetryAware, PingEndpoint
         }
         try {
             var respons = restOperations.getForObject(uri, responseType);
-            if (respons != null) {
+            if (respons != null && responseType != byte[].class) {
                 LOG.trace(CONFIDENTIAL, RESPONS, respons);
             }
             return respons;
