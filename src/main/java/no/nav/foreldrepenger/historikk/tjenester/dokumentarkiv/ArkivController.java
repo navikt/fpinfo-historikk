@@ -22,7 +22,14 @@ public class ArkivController {
         value ="/hent-dokument",
         produces = MediaType.APPLICATION_PDF_VALUE)
     public @ResponseBody byte[] hent(@RequestParam(name = "dokumentId") String dokumentId) {
-        return arkiv.hentDokument(dokumentId);
+        return arkiv.hentPdf(dokumentId);
+    }
+
+    @GetMapping(
+        value = "/alle",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ArkivOppslagJournalposter hentDokumentoversikt() {
+        return arkiv.hentDokumentoversikt();
     }
 
 }

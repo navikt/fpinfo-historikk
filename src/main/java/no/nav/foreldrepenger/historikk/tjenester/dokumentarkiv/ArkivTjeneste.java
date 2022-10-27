@@ -17,7 +17,12 @@ public class ArkivTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public byte[] hentDokument(String journalpostId) {
+    public ArkivOppslagJournalposter hentDokumentoversikt() {
+        var ident = tokenUtil.getSubject();
+        return connection.journalposter(ident);
+    }
+
+    public byte[] hentPdf(String journalpostId) {
         var arkiv = connection.journalposter(tokenUtil.getSubject());
         // vi tar første dokument på journalpost
         return arkiv.journalposter().stream()
