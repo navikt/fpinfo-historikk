@@ -1,5 +1,5 @@
 FROM ghcr.io/navikt/fp-baseimages/java:17-appdynamics
-LABEL org.opencontainers.image.source=https://github.com/navikt/fpsoknad-mottak
+LABEL org.opencontainers.image.source=https://github.com/navikt/fpinfo-historikk
 COPY target/*.jar app.jar
 ENV APPD_ENABLED=true
 ENV APP_NAME=fpinfo-historikk
