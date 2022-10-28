@@ -120,5 +120,5 @@ kafka:
     auto-offset-reset: none
 springdoc:
   packages-to-scan: no.nav.foreldrepenger.historikk
-  swagger-ui:
-    disable-swagger-default-url: true
+  paths-to-match: /**/
+  show-actuator: false
