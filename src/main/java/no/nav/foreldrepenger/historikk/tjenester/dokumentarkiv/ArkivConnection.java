@@ -68,7 +68,7 @@ public class ArkivConnection extends AbstractRestConnection {
     private static URI url(String journalpostId, String dokumentId) {
         return UriComponentsBuilder
             .fromUriString("https://foreldrepengesoknad-api.dev.nav.no/rest")
-            .pathSegment("arkiv", "hent-dokument", journalpostId, dokumentId)
+            .pathSegment("dokument", "hent-dokument", journalpostId, dokumentId)
             .build().toUri();
     }
 
