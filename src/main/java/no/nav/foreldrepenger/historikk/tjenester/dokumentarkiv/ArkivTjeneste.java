@@ -4,6 +4,8 @@ import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.common.util.TokenUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @ConditionalOnNotProd
 public class ArkivTjeneste {
@@ -17,20 +19,12 @@ public class ArkivTjeneste {
         this.tokenUtil = tokenUtil;
     }
 
-    public ArkivOppslagJournalposter hentDokumentoversikt() {
+    public List<ArkivDokument> hentDokumentoversikt() {
         var ident = tokenUtil.getSubject();
         return connection.journalposter(ident);
     }
 
-    public byte[] hentPdf(String journalpostId) {
-        var arkiv = connection.journalposter(tokenUtil.getSubject());
-        // vi tar første dokument på journalpost
-        return arkiv.journalposter().stream()
-            .filter(jp -> jp.journalpostId().equals(journalpostId))
-            .findFirst()
-            .flatMap(o -> o.dokumenter().stream().findFirst())
-            .map(ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo::dokumentInfoId)
-            .map(jp -> connection.hentDok(journalpostId, jp))
-            .orElse(null);
+    public byte[] hentPdf(String journalpostId, String dokumentId) {
+        return connection.hentDok(journalpostId, dokumentId);
     }
 }
