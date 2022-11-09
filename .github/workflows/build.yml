@@ -32,7 +32,7 @@ jobs:
     secrets: inherit
 
   promote:
-    name: Deploy til dev
+    name: Deploy til dev-fss
     if: github.ref_name == 'master'
     needs: [ build-app, create-issue ]
     uses: navikt/fp-gha-workflows/.github/workflows/promote.yml@main
