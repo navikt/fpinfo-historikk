@@ -13,7 +13,7 @@ import no.nav.foreldrepenger.historikk.http.ProtectedRestController;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
+import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding. InntektsmeldingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.TilbakekrevingInnslag;
 
