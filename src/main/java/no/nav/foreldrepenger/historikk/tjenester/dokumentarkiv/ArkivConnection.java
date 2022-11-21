@@ -60,6 +60,7 @@ public class ArkivConnection extends AbstractRestConnection {
                     opprettetDato(jp.relevanteDatoer()),
                     jp.sak().flatMap(s -> s.fagsakId()).orElse(null),
                     dok.tittel().orElse("Uten tittel"),
+                    jp.journalpostId(),
                     url(jp.journalpostId(), dok.dokumentInfoId()))
                 ))
             .collect(Collectors.toList());

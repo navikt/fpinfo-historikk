@@ -2,13 +2,10 @@ package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.jackson.Jacksonized;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument;
 
 import java.time.LocalDateTime;
@@ -32,19 +29,12 @@ public abstract class TidslinjeHendelse {
     private LocalDateTime opprettet;
     private AktørType aktørType;
     private TidslinjeHendelseType tidslinjeHendelseType;
+    private List<ArkivDokument> dokumenter;
+
+    public List<ArkivDokument> getDokumenter() {
+        return dokumenter == null ? List.of() : dokumenter;
+    }
 }
-
-enum AktørType { BRUKER, NAV, ARBEIDSGIVER }
-
-enum TidslinjeHendelseType {
-    FØRSTEGANGSSØKNAD,
-    ENDRINGSSØKNAD,
-    INNTEKTSMELDING,
-    VEDTAK_FØRSTEGANG,
-    VEDTAK_ENDRING,
-    VEDTAK_TILBAKEKREVING,
-    VENTER_INNTEKTSMELDING,
-    ETTERSENDING,}
 
 record TidslinjeHendelse2(AktørType aktørType,
                           TidslinjeHendelseType tidslinjeHendelseType,
@@ -56,7 +46,7 @@ record TidslinjeHendelse2(AktørType aktørType,
                           // - inntektsmelding med arbeidsgiver
                           // - søknadstype med vedlegg
                           // - vedtak med vedlegg
-                          // - ettersending
+                          // - ettersending OK
                           // - venter på..
 ) {
 
