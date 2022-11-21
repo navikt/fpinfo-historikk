@@ -7,5 +7,5 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class EttersendingHendelse extends TidslinjeHendelse {
+public class EttersendingHendelse extends VedleggskrevendeTidslinjeHendelse {
 }

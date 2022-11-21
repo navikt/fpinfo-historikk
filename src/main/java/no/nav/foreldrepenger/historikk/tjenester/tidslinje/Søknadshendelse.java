@@ -11,8 +11,6 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @ToString(callSuper = true)
 @EqualsAndHashCode
-public class Søknadshendelse extends TidslinjeHendelse {
-
-    private String eksempelfelt;
+public class Søknadshendelse extends VedleggskrevendeTidslinjeHendelse {
 
 }

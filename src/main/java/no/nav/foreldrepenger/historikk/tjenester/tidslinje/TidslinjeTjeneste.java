@@ -101,7 +101,7 @@ public class TidslinjeTjeneste {
     private TidslinjeHendelse søknad(InnsendingInnslag h,
                                      List<ArkivDokument> dokumenter) {
         return Søknadshendelse.builder()
-            .eksempelfelt("HUHEI")
+            .manglendeVedlegg(h.getIkkeOpplastedeVedlegg())
             .aktørType(AktørType.BRUKER)
             .dokumenter(dokumenter)
             .opprettet(h.getInnsendt())
@@ -111,7 +111,7 @@ public class TidslinjeTjeneste {
 
     private TidslinjeHendelse ettersending(InnsendingInnslag h,
                                            List<ArkivDokument> dokumenter) {
-        if (h.getJournalpostId() == null) {
+        if (dokumenter.isEmpty()) {
             throw new IllegalStateException("Fant ikke journalpost på ettersending");
         }
         return EttersendingHendelse.builder()

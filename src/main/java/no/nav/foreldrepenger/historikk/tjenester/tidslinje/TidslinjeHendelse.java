@@ -35,20 +35,3 @@ public abstract class TidslinjeHendelse {
         return dokumenter == null ? List.of() : dokumenter;
     }
 }
-
-record TidslinjeHendelse2(AktørType aktørType,
-                          TidslinjeHendelseType tidslinjeHendelseType,
-                          List<ArkivDokument> vedlegg, // ny versjon som kombinerer joark  + manglende vedlegg
-                          // + innsendte vedlegg
-                          LocalDateTime tidspunkt
-
-                          // typer:
-                          // - inntektsmelding med arbeidsgiver
-                          // - søknadstype med vedlegg
-                          // - vedtak med vedlegg
-                          // - ettersending OK
-                          // - venter på..
-) {
-
-
-}
