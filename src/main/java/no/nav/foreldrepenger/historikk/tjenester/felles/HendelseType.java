@@ -40,6 +40,17 @@ public enum HendelseType {
         return erEngangsstønad() || erForeldrepenger() || erSvangerskapspenger();
     }
 
+    public boolean erInitiellSøknad() {
+        return this.equals(INITIELL_ENGANGSSTØNAD) ||
+            this.equals(INITIELL_FORELDREPENGER) ||
+            this.equals(INITIELL_SVANGERSKAPSPENGER);
+    }
+
+    public boolean erEndringssøknad() {
+        return this.equals(ENDRING_FORELDREPENGER) ||
+            this.equals(ENDRING_SVANGERSKAPSPENGER);
+    }
+
     public boolean erEttersending() {
         return this.equals(ETTERSENDING_ENGANGSSTØNAD) ||
                 this.equals(ETTERSENDING_FORELDREPENGER) ||

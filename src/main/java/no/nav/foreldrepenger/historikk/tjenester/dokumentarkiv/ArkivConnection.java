@@ -3,7 +3,11 @@ package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagSak;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -49,20 +53,34 @@ public class ArkivConnection extends AbstractRestConnection {
 
     private static List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
         return journalposter.journalposter().stream()
+//            .filter(jp -> {
+//                // Sjekker om journalpost er opprettet av fpsak med venner
+//                return jp.sak()
+//                    .flatMap(ArkivOppslagSak::fagsaksystem)
+//                    .map("FS36"::equals)
+//                    .orElse(false);
+//            })
             .flatMap(jp -> jp.dokumenter().stream()
                 .filter(dok -> dok.dokumentVarianter().stream()
                     .filter(dv -> dv.filtype().equals(PDF))
                     .findFirst()
                     .map(ArkivOppslagDokumentVariant::brukerHarTilgang)
                     .orElse(false))
-                .map(dok -> new ArkivDokument(
-                    fra(jp.journalpostType()),
-                    opprettetDato(jp.relevanteDatoer()),
-                    jp.sak().flatMap(s -> s.fagsakId()).orElse(null),
-                    dok.tittel().orElse("Uten tittel"),
-                    url(jp.journalpostId(), dok.dokumentInfoId()))
+                .map(dok -> tilArkivDokument(jp, dok)
                 ))
             .collect(Collectors.toList());
+    }
+
+    @NotNull
+    private static ArkivDokument tilArkivDokument(ArkivOppslagJournalpost jp, ArkivOppslagDokumentInfo dok) {
+        var saksnummer = jp.sak().flatMap(ArkivOppslagSak::fagsakId).orElse(null);
+        return new ArkivDokument(
+            dokumentType(jp.journalpostType()),
+            opprettetDato(jp.relevanteDatoer()),
+            saksnummer,
+            dok.tittel().orElse("Uten tittel"),
+            jp.journalpostId(),
+            url(jp.journalpostId(), dok.dokumentInfoId()));
     }
 
     private static URI url(String journalpostId, String dokumentId) {
@@ -72,14 +90,14 @@ public class ArkivConnection extends AbstractRestConnection {
             .build().toUri();
     }
 
-    private static LocalDateTime opprettetDato(List<ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagRelevantDato> datoer) {
+    private static LocalDateTime opprettetDato(List<ArkivOppslagJournalpost.ArkivOppslagRelevantDato> datoer) {
         return datoer.stream()
-            .filter(d -> d.datoType() == ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagRelevantDato.ArkivOppslagDatoType.DATO_OPPRETTET)
-            .map(ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagRelevantDato::dato)
+            .filter(d -> d.datoType() == ArkivOppslagJournalpost.ArkivOppslagRelevantDato.ArkivOppslagDatoType.DATO_OPPRETTET)
+            .map(ArkivOppslagJournalpost.ArkivOppslagRelevantDato::dato)
             .findFirst().orElseThrow();
     }
 
-    private static ArkivDokument.DokumentType fra(ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagJournalpostType type) {
+    private static ArkivDokument.DokumentType dokumentType(ArkivOppslagJournalpost.ArkivOppslagJournalpostType type) {
         return switch (type) {
             case U -> ArkivDokument.DokumentType.UTGÅENDE_DOKUMENT;
             case I -> ArkivDokument.DokumentType.INNGÅENDE_DOKUMENT;

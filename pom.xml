@@ -87,6 +87,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <release>${java.version}</release>
+                    <compilerArgs>--enable-preview</compilerArgs>
                     <encoding>UTF-8</encoding>
                     <parameters>true</parameters>
                 </configuration>
