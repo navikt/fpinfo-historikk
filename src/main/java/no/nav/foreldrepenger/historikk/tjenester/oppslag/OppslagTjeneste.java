@@ -19,11 +19,6 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Override
-    public String personNavn(AktørId aktørId) {
-        return connection.hentNavn(aktørId);
-    }
-
-    @Override
     public String orgNavn(String orgnr) {
         try {
             return connection.orgNavn(orgnr);

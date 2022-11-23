@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestOperations;
 
 import java.net.URI;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class OppslagConnection extends AbstractRestConnection {
@@ -30,14 +27,6 @@ public class OppslagConnection extends AbstractRestConnection {
 
     public AktørId hentAktørId() {
         return getForObject(cfg.aktørURI(), AktørId.class, true);
-    }
-
-    @Cacheable(cacheNames = "aktør")
-    public String hentNavn(AktørId aktørId) {
-        var navn = getForObject(cfg.personNavnURI(aktørId), Navn.class, false);
-        return Stream.of(navn.fornavn(), navn.mellomnavn(), navn.etternavn())
-            .filter(Objects::nonNull)
-            .collect(Collectors.joining(" "));
     }
 
     @Cacheable(cacheNames = "organisasjon")

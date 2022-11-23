@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
@@ -17,7 +16,6 @@ public class OppslagConfig extends AbstractConfig {
     private static final String DEFAULT_PING_PATH = "/actuator/info";
 
     private static final String AKTØR = "/oppslag/aktoer";
-    private static final String NAVN = "/oppslag/navn";
     private static final String ORGNAVN = "/innsyn/orgnavn";
 
     @ConstructorBinding
@@ -25,10 +23,6 @@ public class OppslagConfig extends AbstractConfig {
                          @DefaultValue(DEFAULT_PING_PATH) String pingPath,
                          @DefaultValue("true") boolean enabled) {
         super(baseUri, pingPath, enabled);
-    }
-
-    public URI personNavnURI(AktørId aktørId) {
-        return uri(getBaseUri(), NAVN, queryParams("aktorId", aktørId.getAktørId()));
     }
 
     public URI orgNavnURI(String orgnr) {
