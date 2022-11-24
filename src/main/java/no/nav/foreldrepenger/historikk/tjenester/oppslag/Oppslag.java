@@ -9,6 +9,4 @@ public interface Oppslag extends RetryAware {
 
     String orgNavn(String arbeidsgiver);
 
-    String personNavn(AktørId aktørId);
-
 }

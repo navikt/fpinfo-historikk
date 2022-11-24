@@ -1,20 +1,18 @@
 package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Optional;
+
 import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_ENDRING;
 import static no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType.INNTEKTSMELDING_NY;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.ENDRING;
 import static no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingType.NY;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 
 @Component
 final class InntektsmeldingMapper {
@@ -77,7 +75,7 @@ final class InntektsmeldingMapper {
         return Optional.ofNullable(arbeidsgiver)
                 .map(a -> switch (a.length()) {
                 case 9 -> oppslag.orgNavn(a);
-                case 13 -> oppslag.personNavn(AktørId.valueOf(a));
+                case 13 -> "Privatperson";
                 default -> {
                 LOG.warn("Arbeidsgiver {} kan ikke håndteres", a);
                 yield null;

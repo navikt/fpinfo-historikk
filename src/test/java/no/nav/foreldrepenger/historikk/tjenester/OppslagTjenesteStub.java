@@ -19,9 +19,4 @@ public class OppslagTjenesteStub implements Oppslag {
         return "NAV";
     }
 
-    @Override
-    public String personNavn(AktørId id) {
-        return "Ole Olsen";
-    }
-
 }
