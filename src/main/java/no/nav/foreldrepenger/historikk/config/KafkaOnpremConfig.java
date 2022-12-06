@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConstructorBinding
 @ConfigurationProperties("kafka.onprem")
-public record OnpremKafkaConfig(
+public record KafkaOnpremConfig(
     String bootstrapServers,
     String autoOffsetReset,
     String securityProtocolConfig,

@@ -21,10 +21,10 @@ import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 public abstract class AbstractHendelseProdusent<T extends Hendelse> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractHendelseProdusent.class);
     private final String topic;
-    private final KafkaOperations<String, String> kafkaOperations;
+    private final KafkaOperations<Object, Object> kafkaOperations;
     private final ObjectMapperWrapper mapper;
 
-    protected AbstractHendelseProdusent(String topic, KafkaOperations<String, String> kafkaOperations,
+    protected AbstractHendelseProdusent(String topic, KafkaOperations<Object, Object> kafkaOperations,
             ObjectMapperWrapper mapper) {
         this.topic = topic;
         this.kafkaOperations = kafkaOperations;
@@ -52,7 +52,7 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
         kafkaOperations.send(message).addCallback(new ListenableFutureCallback<>() {
 
                     @Override
-                    public void onSuccess(SendResult<String, String> result) {
+                    public void onSuccess(SendResult<Object, Object> result) {
                         LOG.info("Sendte melding {} med offset {} på {}", message.getPayload(),
                             result.getRecordMetadata().offset(), topic);
                     }

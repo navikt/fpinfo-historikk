@@ -42,16 +42,13 @@ public class TilbakekrevingHendelseKonsument {
     }
 
     private void avsluttOppgave(TilbakekrevingHendelse h) {
-        LOG.info("Avslutter oppgave i selvbetjening og Ditt Nav grunnet hendelse {}", h);
+        LOG.info("Avslutter oppgave i selvbetjening grunnet hendelse {}", h);
         tilbakekreving.avsluttOppgave(h);
-        // dittNav.avsluttOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId());
     }
 
     private void opprettOppgave(TilbakekrevingHendelse h) {
-        LOG.info("Oppretter oppgave i selvbetjening og Ditt Nav grunnet hendelse {}", h);
+        LOG.info("Oppretter oppgave i selvbetjening for hendelse {}", h);
         tilbakekreving.opprettOppgave(h);
-        // dittNav.opprettOppgave(h.getFnr(), h.getSaksnummer(), h.getDialogId(),
-        // "Tilbakekrevingssak", h.getHendelse());
     }
 
     @Override
