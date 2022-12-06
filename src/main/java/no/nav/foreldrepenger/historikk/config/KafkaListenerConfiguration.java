@@ -37,7 +37,7 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> kafkaListenerContainerFactory(
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> onpremKafkaListenerContainerFactory(
         ConsumerFactory<Object, Object> cf, ObjectMapper mapper) {
         var factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
