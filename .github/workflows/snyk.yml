@@ -1,4 +1,5 @@
 name: Snyk vulnerabilities scanning of dependencies
+
 on:
   schedule:
     - cron:  '0 0 * * *'
