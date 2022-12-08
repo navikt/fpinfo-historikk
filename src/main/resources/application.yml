@@ -37,7 +37,7 @@ historikk:
     topic: privat-tilbakekreving-brukerdialog-p
     group-id: group_id
   tilbakekreving-aiven:
-    topic: tilbakekreving-brukerdialog-v1
+    topic: teamforeldrepenger.tilbakekreving-brukerdialog-v1
     group-id: fpinfo-historikk-tilbakebetaling
 
 management:
