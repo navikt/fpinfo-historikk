@@ -32,6 +32,8 @@ historikk:
       enabled: true
       topic: fpsoknad-mottak
       group-id: group_id
+      topic-aiven: teamforeldrepenger.selvbetjening-innsendinghendelse-v1
+      group-id-aiven: fpinfo-historikk-innsending
   tilbakekreving:
     enabled: true
     topic: privat-tilbakekreving-brukerdialog-p
