@@ -46,7 +46,6 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
     }
 
     @Bean
-    @Primary
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> aivenKafkaListenerContainerFactory(
        KafkaProperties kafkaProperties, ObjectMapper mapper) {
         var cf = new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties());

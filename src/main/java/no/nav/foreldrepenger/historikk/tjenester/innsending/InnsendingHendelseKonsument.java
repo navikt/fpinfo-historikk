@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
-import static no.nav.foreldrepenger.historikk.config.KafkaOnpremListenerConfiguration.CFONPREM;
 
 import javax.validation.Valid;
 
@@ -42,27 +41,11 @@ public class InnsendingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}",
                    groupId = "#{'${historikk.innsending.søknad.group-id}'}",
-                   containerFactory = CFONPREM)
-    public void behandle(@Payload @Valid InnsendingHendelse h) {
-        MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
-        LOG.info("Mottok innsendingshendelse {}", h);
-        innsending.lagreEllerOppdater(h);
-        sjekkMangledeVedlegg(h);
-        if (h.erEttersending() && (h.getDialogId() != null)) {
-            LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
-            avsluttOppgave(h);
-        }
-        dittNav.opprettBeskjed(h, "Vi mottok en " + h.getHendelse().beskrivelse);
-    }
-
-    @Transactional
-    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic-aiven}'}",
-                   groupId = "#{'${historikk.innsending.søknad.group-id-aiven}'}",
                    containerFactory = AIVEN)
-    public void aivenBehandle(@Payload @Valid InnsendingHendelse h,
-                            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,
-                            @Header(KafkaHeaders.OFFSET) int offset) {
+    public void behandle(@Payload @Valid InnsendingHendelse h,
+                         @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,
+                         @Header(KafkaHeaders.OFFSET) int offset) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse fra {}, partition {}, offset {}, {}", topic, offset, partitionId, h);
         innsending.lagreEllerOppdater(h);
