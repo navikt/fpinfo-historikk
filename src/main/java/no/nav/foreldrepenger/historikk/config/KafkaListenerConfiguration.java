@@ -6,14 +6,15 @@ import org.apache.kafka.clients.consumer.OffsetResetStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.kafka.annotation.KafkaListenerConfigurer;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar;
-import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.*;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.util.backoff.ExponentialBackOff;
@@ -25,18 +26,17 @@ import java.util.List;
 import static org.springframework.kafka.listener.ContainerProperties.AckMode.BATCH;
 
 @Configuration
-public class KafkaOnpremListenerConfiguration implements KafkaListenerConfigurer {
+public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KafkaOnpremListenerConfiguration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KafkaListenerConfiguration.class);
     private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
 
-    public static final String ONPREM = "onprem";
-    public static final String CFONPREM = "onpremKafkaListenerContainerFactory";
+    public static final String AIVEN = "aivenKafkaListenerContainerFactory";
 
     private LocalValidatorFactoryBean validator;
 
     @Autowired
-    public KafkaOnpremListenerConfiguration(LocalValidatorFactoryBean validator) {
+    public KafkaListenerConfiguration(LocalValidatorFactoryBean validator) {
         this.validator = validator;
     }
 
@@ -46,8 +46,10 @@ public class KafkaOnpremListenerConfiguration implements KafkaListenerConfigurer
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> onpremKafkaListenerContainerFactory(
-        @Qualifier(ONPREM) ConsumerFactory<Object, Object> cf, ObjectMapper mapper) {
+    @Primary
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Object, Object>> aivenKafkaListenerContainerFactory(
+       KafkaProperties kafkaProperties, ObjectMapper mapper) {
+        var cf = new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties());
         var factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(cf);
         factory.setConcurrency(1);
@@ -76,5 +78,7 @@ public class KafkaOnpremListenerConfiguration implements KafkaListenerConfigurer
         backoff.setMaxElapsedTime(25_000);
         return backoff;
     }
+
+
 
 }

@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.historikk.config.KafkaOnpremListenerConfiguration.CFONPREM;
 
 import javax.validation.Valid;
 
@@ -27,15 +28,18 @@ public class InnsendingHendelseKonsument {
     private final Tilbakekreving tilbakekreving;
     private final DittNav dittNav;
 
-    public InnsendingHendelseKonsument(Innsending innsending, Tilbakekreving tilbakekreving,
-            DittNav dittNav) {
+    public InnsendingHendelseKonsument(Innsending innsending,
+                                       Tilbakekreving tilbakekreving,
+                                       DittNav dittNav) {
         this.innsending = innsending;
         this.tilbakekreving = tilbakekreving;
         this.dittNav = dittNav;
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}", groupId = "#{'${historikk.innsending.søknad.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}",
+                   groupId = "#{'${historikk.innsending.søknad.group-id}'}",
+                   containerFactory = CFONPREM)
     public void behandle(@Payload @Valid InnsendingHendelse h) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse {}", h);
@@ -65,7 +69,8 @@ public class InnsendingHendelseKonsument {
             if (info.manglerVedlegg()) {
                 LOG.info("Det mangler vedlegg {} for sak {}", info.manglende(), h.getSaksnummer());
                 dittNav.opprettOppgave(h,
-                        String.format("Det mangler %s vedlegg i søknaden din om %s", info.manglende().size(), sak(h.getHendelse())));
+                    String.format("Det mangler %s vedlegg i søknaden din om %s", info.manglende().size(),
+                        sak(h.getHendelse())));
             } else {
                 LOG.info("Det mangler ingen vedlegg for sak {}", h.getSaksnummer());
 
@@ -91,7 +96,7 @@ public class InnsendingHendelseKonsument {
     @Override
     public String toString() {
         return getClass().getSimpleName() + "[innsending=" + innsending + ", dialog=" + tilbakekreving + ", dittNav="
-                + dittNav + "]";
+            + dittNav + "]";
     }
 
 }

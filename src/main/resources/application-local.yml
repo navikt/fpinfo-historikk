@@ -42,6 +42,20 @@ spring:
     enabled: true
   mvc:
     log-request-details: true
+  kafka:
+    bootstrap-servers: localhost:9093
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
 kafka:
   onprem:
     bootstrap-servers: localhost:9092
@@ -90,4 +104,4 @@ historikk:
       enabled: true
       topic: fpsoknad-mottak-innsendinghendelse
   tilbakekreving:
-    enabled: false
+    enabled: true

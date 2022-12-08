@@ -36,6 +36,10 @@ historikk:
     enabled: true
     topic: privat-tilbakekreving-brukerdialog-p
     group-id: group_id
+  tilbakekreving-aiven:
+    topic: tilbakekreving-brukerdialog-v1
+    group-id: fpinfo-historikk-tilbakebetaling
+
 management:
   metrics:
     web:
@@ -92,6 +96,15 @@ spring:
     open-in-view: true
   main:
     banner-mode: 'off'
+  kafka:
+    bootstrap-servers: ${kafka.brokers}
+    consumer:
+      properties:
+        isolation.level: read_committed
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
 kafka:
   aiven:
     bootstrap-servers: ${kafka.brokers}

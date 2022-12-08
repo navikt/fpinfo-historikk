@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
+import static no.nav.foreldrepenger.historikk.config.KafkaOnpremListenerConfiguration.CFONPREM;
 
 import javax.validation.Valid;
 
@@ -27,9 +28,11 @@ public class InntektsmeldingHendelseKonsument {
     }
 
     @Transactional
-    @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}", groupId = "#{'${historikk.inntektsmelding.group-id}'}")
+    @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}",
+                   groupId = "#{'${historikk.inntektsmelding.group-id}'}",
+                   containerFactory = CFONPREM)
     public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
-            @Header(name = NAV_CALL_ID, required = false) String callId) {
+                         @Header(name = NAV_CALL_ID, required = false) String callId) {
         toMDC(NAV_CALL_ID, callId);
         LOG.info("Mottok inntektsmeldinghendelse {}", h);
         inntektsmelding.lagre(h);

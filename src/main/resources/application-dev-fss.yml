@@ -39,6 +39,30 @@ spring:
     url: jdbc:postgresql://b27dbvl007.preprod.local:5432/fpinfo-historikk-preprod
   mvc:
     log-request-details: true
+  kafka:
+    properties:
+      basic:
+        auth:
+          user:
+            info: ${kafka.schema.registry.user}:${kafka.schema.registry.password}
+          credentials:
+            source: USER_INFO
+      schema:
+        registry:
+          url: ${kafka.schema.registry}
+      endpoint:
+        identification:
+          algorithm: ''
+    security:
+      protocol: SSL
+    ssl:
+      trust-store-location: file:${kafka.truststore.path}
+      trust-store-type: JKS
+      trust-store-password: ${kafka.credstore.password}
+      key-store-location: file:${kafka.keystore.path}
+      key-store-type: PKCS12
+      key-store-password: ${kafka.credstore.password}
+
 kafka:
   onprem:
     bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
