@@ -27,6 +27,9 @@ historikk:
     enabled: true
     topic: privat-foreldrepenger-brukerdialog-inntektsmelding
     group-id: group_id
+  inntektsmelding-aiven:
+    topic: teamforeldrepenger.inntektsmelding-innsendinghendelse-v1
+    group-id: fpinfo-historikk-inntektsmelding
   innsending:
     søknad:
       enabled: true
