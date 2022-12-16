@@ -55,7 +55,7 @@ public class TilbakekrevingHendelseKonsument {
                             @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,
                             @Header(KafkaHeaders.OFFSET) int offset) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
-        LOG.info("Mottok tilbakekrevingshendelse {}, partition {}, offset {}, {}", topic, offset, partitionId, h);
+        LOG.info("Mottok tilbakekrevingshendelse {}, partition {}, offset {}, {}", topic, partitionId, offset, h);
         switch (h.getHendelse()) {
             case TILBAKEKREVING_SPM -> opprettOppgave(h);
             case TILBAKEKREVING_FATTET_VEDTAK, TILBAKEKREVING_SPM_LUKKET, TILBAKEKREVING_HENLAGT -> avsluttOppgave(h);
