@@ -37,9 +37,6 @@ historikk:
       group-id: fpinfo-historikk-innsending
   tilbakekreving:
     enabled: true
-    topic: privat-tilbakekreving-brukerdialog-p
-    group-id: group_id
-  tilbakekreving-aiven:
     topic: teamforeldrepenger.tilbakekreving-brukerdialog-v1
     group-id: fpinfo-historikk-tilbakekreving
 

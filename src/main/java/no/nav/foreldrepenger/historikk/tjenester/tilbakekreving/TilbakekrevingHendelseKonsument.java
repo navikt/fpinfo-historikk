@@ -34,21 +34,7 @@ public class TilbakekrevingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}",
-        groupId = "#{'${historikk.tilbakekreving.group-id}'}",
-        containerFactory = CFONPREM)
-    public void listen(@Payload @Valid TilbakekrevingHendelse h) {
-        MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
-        LOG.info("Mottok tilbakekrevingshendelse {}", h);
-        switch (h.getHendelse()) {
-            case TILBAKEKREVING_SPM -> opprettOppgave(h);
-            case TILBAKEKREVING_FATTET_VEDTAK, TILBAKEKREVING_SPM_LUKKET, TILBAKEKREVING_HENLAGT -> avsluttOppgave(h);
-            default -> LOG.warn("Hendelsetype {} ikke støttet", h.getHendelse());
-        }
-    }
-
-    @Transactional
-    @KafkaListener(topics = "#{'${historikk.tilbakekreving-aiven.topic}'}",
-                   groupId = "#{'${historikk.tilbakekreving-aiven.group-id}'}",
+                   groupId = "#{'${historikk.tilbakekreving.group-id}'}",
                    containerFactory = AIVEN)
     public void aivenListen(@Payload @Valid TilbakekrevingHendelse h,
                             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,

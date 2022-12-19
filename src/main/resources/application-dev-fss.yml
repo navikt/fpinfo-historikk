@@ -18,8 +18,6 @@ no.nav:
 historikk:
   dittnav:
     base-uri: https://foreldrepenger.dev.nav.no
-  tilbakekreving:
-    topic: privat-tilbakekreving-brukerdialog-q1
   saf:
     base-uri: https://safselvbetjening-q1.dev.intern.nav.no
 management:
