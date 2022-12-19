@@ -31,18 +31,6 @@ public class InntektsmeldingHendelseKonsument {
     @Transactional
     @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}",
                    groupId = "#{'${historikk.inntektsmelding.group-id}'}",
-                   containerFactory = CFONPREM)
-    public void konsumer(@Payload @Valid InntektsmeldingHendelse h,
-                         @Header(name = NAV_CALL_ID, required = false) String callId) {
-        toMDC(NAV_CALL_ID, callId);
-        LOG.info("Mottok inntektsmeldinghendelse {}", h);
-        inntektsmelding.lagre(h);
-        LOG.info("Inntektsmeldinghendelse med referanse {} er lagret", h.getReferanseId());
-    }
-
-    @Transactional
-    @KafkaListener(topics = "#{'${historikk.inntektsmelding-aiven.topic}'}",
-                   groupId = "#{'${historikk.inntektsmelding-aiven.group-id}'}",
                    containerFactory = AIVEN)
     public void aivenKonsumer(@Payload @Valid InntektsmeldingHendelse h,
                               @Header(name = NAV_CALL_ID, required = false) String callId,
