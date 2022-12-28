@@ -4,10 +4,12 @@ import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Map;
 
-import static no.nav.foreldrepenger.historikk.util.URIUtil.queryParams;
+import static no.nav.foreldrepenger.common.util.StringUtil.taint;
 import static no.nav.foreldrepenger.historikk.util.URIUtil.uri;
 
 @ConfigurationProperties(prefix = "historikk.oppslag")
@@ -26,7 +28,12 @@ public class OppslagConfig extends AbstractConfig {
     }
 
     public URI orgNavnURI(String orgnr) {
-        return uri(getBaseUri(), ORGNAVN, queryParams("orgnr", orgnr));
+        return UriComponentsBuilder
+            .fromUri(getBaseUri())
+            .path(ORGNAVN)
+            .pathSegment("{orgnummer}")
+            .buildAndExpand(Map.of("orgnummer", taint(orgnr)))
+            .toUri();
     }
 
     public URI aktørURI() {
