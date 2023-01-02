@@ -22,22 +22,15 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkController;
 public class InnsendingDevController {
     static final String DEVPATH = HistorikkController.HISTORIKK + "/dev";
     private final Innsending innsending;
-    private final InnsendingHendelseProdusent produsent;
 
-    InnsendingDevController(Innsending innsending, InnsendingHendelseProdusent produsent) {
+    InnsendingDevController(Innsending innsending) {
         this.innsending = innsending;
-        this.produsent = produsent;
     }
 
     @PostMapping("/lagre")
     public ResponseEntity<Object> lagreSøknad(@RequestBody InnsendingHendelse hendelse) {
         innsending.lagreEllerOppdater(hendelse);
         return status(CREATED).build();
-    }
-
-    @PostMapping("/send")
-    public void produserSøknad(@RequestBody InnsendingHendelse hendelse) {
-        produsent.send(hendelse);
     }
 
     @GetMapping("/søknader")

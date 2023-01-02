@@ -1,8 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
-import static no.nav.foreldrepenger.historikk.config.KafkaOnpremListenerConfiguration.CFONPREM;
 
 import javax.validation.Valid;
 
@@ -34,8 +32,7 @@ public class TilbakekrevingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.tilbakekreving.topic}'}",
-                   groupId = "#{'${historikk.tilbakekreving.group-id}'}",
-                   containerFactory = AIVEN)
+                   groupId = "#{'${historikk.tilbakekreving.group-id}'}")
     public void aivenListen(@Payload @Valid TilbakekrevingHendelse h,
                             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                             @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,

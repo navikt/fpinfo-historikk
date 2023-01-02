@@ -47,7 +47,13 @@ spring:
       key-store-location: file:${kafka.keystore.path}
       key-store-type: PKCS12
       key-store-password: ${kafka.credstore.password}
-
-kafka:
-  onprem:
-    bootstrap-servers: b27apvl00045.preprod.local:8443,b27apvl00046.preprod.local:8443,b27apvl00046.preprod.local:8443
+    properties:
+      basic:
+        auth:
+          user:
+            info: ${kafka.schema.registry.user}:${kafka.schema.registry.password}
+          credentials:
+            source: USER_INFO
+      schema:
+        registry:
+          url: ${kafka.schema.registry}

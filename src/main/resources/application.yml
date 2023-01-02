@@ -101,33 +101,11 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: earliest
+    producer:
+      client-id: fpinfo-historikk
+      key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
 
-kafka:
-  aiven:
-    bootstrap-servers: ${kafka.brokers}
-    ca: ${kafka.ca}
-    ca-path: ${kafka.ca.path}
-    certificate: ${kafka.certificate}
-    certificate-path: ${kafka.certificate.path}
-    credstore-password: ${kafka.credstore.password}
-    keystore-path: ${kafka.keystore.path}
-    private-key: ${kafka.private.key}
-    private-key-path: ${kafka.private.key.path}
-    schema-registry-uri: ${kafka.schema.registry}
-    schema-registry-user-info: ${kafka.schema.registry.user}:${kafka.schema.registry.password}
-    truststore-path: ${kafka.truststore.path}
-    security-protocol: SSL
-    sasl-mechanism: PLAIN
-    key-store-type: PKCS12
-    truststore-type: jks
-    key-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-    value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-  onprem:
-    sasl-mechanism: PLAIN
-    security-protocol-config: SASL_SSL
-    jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${system.username} password=${system.password};
-    bootstrap-servers: a01apvl00145.adeo.no:8443,a01apvl00146.adeo.no:8443,a01apvl00147.adeo.no:8443
-    auto-offset-reset: none
 springdoc:
   packages-to-scan: no.nav.foreldrepenger.historikk
   paths-to-match: /**/

@@ -1,7 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.innsending;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
 
 import javax.validation.Valid;
 
@@ -40,8 +39,7 @@ public class InnsendingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.innsending.søknad.topic}'}",
-                   groupId = "#{'${historikk.innsending.søknad.group-id}'}",
-                   containerFactory = AIVEN)
+                   groupId = "#{'${historikk.innsending.søknad.group-id}'}")
     public void behandle(@Payload @Valid InnsendingHendelse h,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,
