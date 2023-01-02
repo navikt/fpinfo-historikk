@@ -31,7 +31,7 @@ public class OppslagConfig extends AbstractConfig {
         return UriComponentsBuilder
             .fromUri(getBaseUri())
             .path(ORGNAVN)
-            .pathSegment("{orgnummer}")
+            .queryParam("orgnr", "{orgnummer}")
             .buildAndExpand(Map.of("orgnummer", taint(orgnr)))
             .toUri();
     }
