@@ -90,7 +90,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    open-in-view: true
+    open-in-view: false
   main:
     banner-mode: 'off'
   kafka:
