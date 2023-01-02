@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.inntektsmelding;
 
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.common.util.MDCUtil.toMDC;
+import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
 
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -28,7 +29,8 @@ public class InntektsmeldingHendelseKonsument {
 
     @Transactional
     @KafkaListener(topics = "#{'${historikk.inntektsmelding.topic}'}",
-                   groupId = "#{'${historikk.inntektsmelding.group-id}'}")
+                   groupId = "#{'${historikk.inntektsmelding.group-id}'}",
+                   containerFactory = AIVEN)
     public void aivenKonsumer(@Payload @Valid InntektsmeldingHendelse h,
                               @Header(name = NAV_CALL_ID, required = false) String callId,
                               @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,

@@ -30,6 +30,8 @@ public class KafkaListenerConfiguration implements KafkaListenerConfigurer {
     private static final Logger LOG = LoggerFactory.getLogger(KafkaListenerConfiguration.class);
     private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
 
+    public static final String AIVEN = "aivenKafkaListenerContainerFactory";
+
     private LocalValidatorFactoryBean validator;
 
     @Autowired
