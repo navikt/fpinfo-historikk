@@ -29,6 +29,9 @@ spring:
     hikari:
       username: fpinfohistorikk
       password: fpinfohistorikk
+      connection-test-query: SELECT 1
+      minimum-idle: 1
+      maximum-pool-size: 2
     username: fpinfohistorikk
     password: fpinfohistorikk
   jpa:
@@ -37,6 +40,7 @@ spring:
       hibernate: format_sql=true
     hibernate:
       ddl-auto: update
+
   flyway:
     baselineOnMigrate: true
     enabled: true

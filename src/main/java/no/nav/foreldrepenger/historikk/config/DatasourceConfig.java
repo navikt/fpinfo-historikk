@@ -37,12 +37,13 @@ public class DatasourceConfig {
     static HikariConfig createHikariConfig(DataSourceProperties properties) {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(properties.getUrl());
-        config.setMaximumPoolSize(3);
+        config.setMinimumIdle(2);
+        config.setMaximumPoolSize(4);
         config.setConnectionTestQuery("select 1");
         config.setDriverClassName("org.postgresql.Driver");
         config.setMetricRegistry(Metrics.globalRegistry);
-        config.setIdleTimeout(MINUTES.toMillis(5));
-        config.setMaxLifetime(MINUTES.toMillis(9));
+        config.setIdleTimeout(10001);
+        config.setMaxLifetime(30001);
 
         var dsProperties = new Properties();
         dsProperties.setProperty("reWriteBatchedInserts", "true");
