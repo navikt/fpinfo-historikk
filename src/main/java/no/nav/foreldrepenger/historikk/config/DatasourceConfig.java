@@ -14,8 +14,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import java.util.Properties;
 
 @Slf4j
