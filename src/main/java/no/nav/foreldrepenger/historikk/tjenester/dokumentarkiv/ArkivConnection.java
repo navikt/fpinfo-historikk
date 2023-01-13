@@ -139,7 +139,9 @@ public class ArkivConnection extends AbstractRestConnection {
             }""".stripIndent();
     }
     private record Query(String query, Map<String, String> variables) { }
-    private record DataWrapped(Wrapped data) { };
+    private record DataWrapped(Wrapped data, Errors errors) { }
     private record Wrapped(@JsonAlias("dokumentOversiktselvbetjening") ArkivOppslagJournalposter journalposter) { }
+
+    private record Errors (String error) {}
 
 }

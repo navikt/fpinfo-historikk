@@ -95,7 +95,7 @@ historikk:
     enabled: false
   saf:
     base-uri: http://localhost:8060/rest/api/saf
-    enabled: false
+    enabled: true
   innsending:
     søknad:
       enabled: true

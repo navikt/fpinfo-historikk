@@ -67,6 +67,15 @@ no.nav:
           fpsoknad-mottak:
             token-exchange:
               audience: lokal
+          saf: # TODO: legg inn i application.yml
+            token-exchange:
+              audience: lokal
+            well-known-url: ${token.x.well.known.url}
+            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+            authentication:
+              client-id: ${token.x.client.id}
+              client-jwk: ${token.x.private.jwk}
+              client-auth-method: private_key_jwt
 
 historikk:
   dittnav:
@@ -81,3 +90,6 @@ historikk:
       topic: ${kafka.innsendinghendelse.topic}
   tilbakekreving:
     enabled: false
+  saf:
+    base-uri: http://vtp:8060/rest/api/saf
+    enabled: true
