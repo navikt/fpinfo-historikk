@@ -53,7 +53,6 @@ public class Innsending {
         }
     }
 
-    @Transactional(readOnly = true)
     public List<InnsendingInnslag> innsendinger() {
         return innsendinger(oppslag.aktørId());
     }
@@ -61,7 +60,8 @@ public class Innsending {
     @Transactional(readOnly = true)
     public List<InnsendingInnslag> innsendinger(AktørId id) {
         LOG.info("Henter innsendingsinnslag for {}", id);
-        var innslag = tilInnslag(dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC));
+        var jpaInnslag = dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC);
+        var innslag = tilInnslag(jpaInnslag);
         LOG.info("Hentet innsendingsinnslag {}", innslag);
         return innslag;
     }
