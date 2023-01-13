@@ -1,10 +1,12 @@
 package no.nav.foreldrepenger.historikk.domain;
 
+import static no.nav.foreldrepenger.common.domain.validation.InputValideringRegex.BARE_TALL;
 import static no.nav.foreldrepenger.common.util.StringUtil.mask;
 
 import java.util.Objects;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class AktørId {
 
     @JsonValue
+    @Pattern(regexp = BARE_TALL)
     private String aktørId;
 
     AktørId() {
@@ -29,7 +32,6 @@ public class AktørId {
         AktørId id = new AktørId();
         id.setAktørId(aktørId);
         return id;
-
     }
 
     @Override
@@ -48,15 +50,10 @@ public class AktørId {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AktørId other = (AktørId) obj;
+        var other = (AktørId) obj;
         if (aktørId == null) {
-            if (other.aktørId != null) {
-                return false;
-            }
-        } else if (!aktørId.equals(other.aktørId)) {
-            return false;
-        }
-        return true;
+            return other.aktørId == null;
+        } return aktørId.equals(other.aktørId);
     }
 
     @Override
