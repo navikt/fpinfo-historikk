@@ -44,6 +44,7 @@ public class Inntektsmelding {
         return false;
     }
 
+    @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger() {
         return inntektsmeldinger(oppslag.aktørId());
     }
@@ -51,7 +52,8 @@ public class Inntektsmelding {
     @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger(AktørId id) {
         LOG.debug("Henter inntektsmeldinghistorikk for {}", id);
-        var innslag = mapper.tilInnslag(dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC));
+        List<InntektsmeldingInnslag> innslag = mapper
+                .tilInnslag(dao.findAll(where(harAktørId(id)), SORT_OPPRETTET_ASC));
         LOG.debug("Hentet inntektsmeldinghistorikk {}", innslag);
         return innslag;
     }
