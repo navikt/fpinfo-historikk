@@ -35,16 +35,17 @@ public class TokenXExchangeFilterFunction implements ExchangeFilterFunction {
     @Override
     public Mono<ClientResponse> filter(ClientRequest req, ExchangeFunction next) {
         var url = req.url();
-        LOG.trace("Sjekker token exchange for {}", url);
+        var hostname = url.getHost();
+        LOG.trace("Sjekker token exchange for {}", hostname);
         var config = matcher.findProperties(configs, url);
         if (config.isPresent()) {
-            LOG.trace("Gjør token exchange for {} med konfig {}", url, config);
+            LOG.trace("Gjør token exchange for {} med konfig {}", hostname, config);
             var token = service.getAccessToken(config.get()).getAccessToken();
-            LOG.info("Token exchange for {} OK", url);
+            LOG.info("Token exchange for {} OK", hostname);
             return next.exchange(ClientRequest.from(req).header(AUTHORIZATION, BEARER + token)
                                               .build());
         }
-        LOG.trace("Ingen token exchange for {}", url);
+        LOG.trace("Ingen token exchange for {}", hostname);
         return next.exchange(ClientRequest.from(req).build());
     }
 
