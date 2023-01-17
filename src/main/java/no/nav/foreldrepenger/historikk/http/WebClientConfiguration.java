@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.http;
 
-import no.nav.boot.conditionals.ConditionalOnGCP;
+import no.nav.boot.conditionals.ConditionalOnFSS;
 import no.nav.boot.conditionals.ConditionalOnLocalOrTest;
 import no.nav.foreldrepenger.common.util.MDCUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +40,7 @@ public class WebClientConfiguration {
     }
 
     @Bean
-    @ConditionalOnGCP
+    @ConditionalOnFSS
     HttpClient clusterClient() {
         return HttpClient.create();
     }
