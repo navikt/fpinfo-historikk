@@ -28,7 +28,7 @@
 
         <mottak-felles.version>0.8.33</mottak-felles.version>
         <boot-conditionals.version>3.1.0</boot-conditionals.version>
-        <token-validation-version>2.1.4</token-validation-version>
+        <token-validation-version>2.1.9</token-validation-version>
         <confluent.version>7.2.2</confluent.version>
         <springdoc.version>1.6.13</springdoc.version>
         <swagger-annotations.version>2.2.7</swagger-annotations.version>
@@ -171,6 +171,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>

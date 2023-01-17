@@ -90,9 +90,10 @@ historikk:
   dittnav:
     enabled: true
   inntektsmelding:
-    enabled: false
+    enabled: true
   oppslag:
-    enabled: false
+    base-uri: http://localhost:9001/api
+    enabled: true
   saf:
     base-uri: http://localhost:8060/rest/api/saf
     enabled: true
