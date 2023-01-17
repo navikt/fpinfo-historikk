@@ -20,6 +20,9 @@ public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR = "/oppslag/aktoer";
     private static final String ORGNAVN = "/innsyn/orgnavn";
 
+    private static final String AKTØR_TEMPLATE = "/oppslag/aktoer";
+    private static final String ORGNAVN_TEMPLATE = "/innsyn/orgnavn?orgnr={orgnummer}";
+
     @ConstructorBinding
     public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI baseUri,
                          @DefaultValue(DEFAULT_PING_PATH) String pingPath,
@@ -38,5 +41,13 @@ public class OppslagConfig extends AbstractConfig {
 
     public URI aktørURI() {
         return uri(getBaseUri(), AKTØR);
+    }
+
+    public String aktørPath() {
+        return AKTØR_TEMPLATE;
+    }
+
+    public String orgnavnPathTemplate() {
+        return ORGNAVN_TEMPLATE;
     }
 }
