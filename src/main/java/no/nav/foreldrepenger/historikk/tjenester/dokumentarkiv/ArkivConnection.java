@@ -17,8 +17,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -63,12 +65,19 @@ public class ArkivConnection {
             .bodyToMono(Respons.class)
             .block();
         handleErrors(wrappedResponse);
-        return map(wrappedResponse.data().journalposter());
+        return Optional.ofNullable(wrappedResponse)
+            .map(Respons::data)
+            .map(JournalposterWrapper::journalposter)
+            .map(ArkivConnection::map)
+            .orElse(Collections.emptyList());
     }
 
     private void handleErrors(Respons wrappedResponse) {
-        if (wrappedResponse == null || wrappedResponse.errors() == null) return;
-        if (!wrappedResponse.errors().isEmpty()) {
+        if (wrappedResponse == null) {
+            LOG.warn("SAF respons er null, dette er uventet");
+            return;
+        }
+        if (wrappedResponse.errors() != null && !wrappedResponse.errors().isEmpty()) {
             var message = wrappedResponse.errors().get(0).message();
             throw new SafException("Feil mot Saf, med message: %s " + message);
         }
