@@ -13,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Stream.concat;
@@ -29,7 +33,9 @@ public class TidslinjeTjeneste {
 
     private final ArkivTjeneste arkivTjeneste;
 
-    public TidslinjeTjeneste(Innsending innsending, Inntektsmelding inntektsmelding, ArkivTjeneste arkivTjeneste) {
+    public TidslinjeTjeneste(Innsending innsending,
+                             Inntektsmelding inntektsmelding,
+                             ArkivTjeneste arkivTjeneste) {
         this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
         this.arkivTjeneste = arkivTjeneste;
@@ -47,8 +53,8 @@ public class TidslinjeTjeneste {
                 }
             })
             .filter(i -> saksnummer.equals(i.getSaksnr()))
-            .sorted()
             .map(hi -> mapTil(hi, docsByJournalpost))
+            .sorted()
             .collect(Collectors.toList());
     }
 
@@ -69,10 +75,18 @@ public class TidslinjeTjeneste {
             : Arbeidsgiver.ArbeidsgiverType.PRIVAT;
         var arbeidsgiver = new Arbeidsgiver(ims.getArbeidsgiver().getId(), arbeidsgiverType);
         return InntektsmeldingHendelse.builder()
-            .arbeidsgiver(arbeidsgiver)
-            .dokumenter(dokumenter)
-            .tidslinjeHendelseType(TidslinjeHendelseType.INNTEKTSMELDING)
-            .build();
+                  .arbeidsgiver(arbeidsgiver)
+                  .dokumenter(dokumenter)
+                  .opprettet(Optional.ofNullable(ims.getInnsendt()).orElse(ims.getOpprettet()))
+                  .tidslinjeHendelseType(TidslinjeHendelseType.INNTEKTSMELDING)
+                  .build();
+    }
+
+    private static LocalDateTime coalesce(LocalDateTime... localDateTimes) {
+        return Arrays.stream(localDateTimes)
+                     .filter(Objects::nonNull)
+                     .findFirst()
+                     .orElse(null);
     }
 
     private TidslinjeHendelse mapTil(InnsendingInnslag h,

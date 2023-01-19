@@ -20,6 +20,7 @@ historikk:
     base-uri: https://foreldrepenger.dev.nav.no
   saf:
     base-uri: https://safselvbetjening-q1.dev.intern.nav.no
+    api-base-uri: https://foreldrepengesoknad-api.dev.nav.no/rest
 management:
   endpoints:
     web:

@@ -68,7 +68,7 @@ public class ArkivConnection {
         return Optional.ofNullable(wrappedResponse)
             .map(Respons::data)
             .map(JournalposterWrapper::journalposter)
-            .map(ArkivConnection::map)
+            .map(this::map)
             .orElse(Collections.emptyList());
     }
 
@@ -86,7 +86,7 @@ public class ArkivConnection {
     private static RequestBody requestBody(String ident) {
         return new RequestBody(query(), Map.of("ident", ident));
     }
-    private static List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
+    private List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
         return journalposter.journalposter().stream()
 //            .filter(jp -> {
 //                // Sjekker om journalpost er opprettet av fpsak med venner
@@ -107,7 +107,7 @@ public class ArkivConnection {
     }
 
     @NotNull
-    private static ArkivDokument tilArkivDokument(ArkivOppslagJournalpost jp, ArkivOppslagDokumentInfo dok) {
+    private ArkivDokument tilArkivDokument(ArkivOppslagJournalpost jp, ArkivOppslagDokumentInfo dok) {
         var saksnummer = jp.sak().flatMap(ArkivOppslagSak::fagsakId).orElse(null);
         return new ArkivDokument(
             dokumentType(jp.journalpostType()),
@@ -118,9 +118,9 @@ public class ArkivConnection {
             url(jp.journalpostId(), dok.dokumentInfoId()));
     }
 
-    private static URI url(String journalpostId, String dokumentId) {
+    private URI url(String journalpostId, String dokumentId) {
         return UriComponentsBuilder
-            .fromUriString("https://foreldrepengesoknad-api.dev.nav.no/rest")
+            .fromUriString(cfg.getApiBaseUri())
             .pathSegment("dokument", "hent-dokument", journalpostId, dokumentId)
             .build().toUri();
     }

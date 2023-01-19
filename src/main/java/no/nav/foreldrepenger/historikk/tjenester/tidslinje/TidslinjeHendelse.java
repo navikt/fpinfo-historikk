@@ -25,7 +25,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 @Getter
 @ToString
 @EqualsAndHashCode
-public abstract class TidslinjeHendelse {
+public abstract class TidslinjeHendelse implements Comparable<TidslinjeHendelse> {
     private LocalDateTime opprettet;
     private AktørType aktørType;
     private TidslinjeHendelseType tidslinjeHendelseType;
@@ -34,4 +34,10 @@ public abstract class TidslinjeHendelse {
     public List<ArkivDokument> getDokumenter() {
         return dokumenter == null ? List.of() : dokumenter;
     }
+
+    @Override
+    public int compareTo(TidslinjeHendelse o) {
+        return opprettet.compareTo(o.opprettet);
+    }
+
 }
