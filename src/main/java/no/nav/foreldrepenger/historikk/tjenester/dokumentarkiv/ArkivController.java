@@ -23,7 +23,8 @@ public class ArkivController {
     @GetMapping(
         value ="/hent-dokument/{journalpostId}/{dokumentId}",
         produces = MediaType.APPLICATION_PDF_VALUE)
-    public @ResponseBody byte[] hent(@PathVariable(name = "journalpostId") String journalpostId, @PathVariable(name = "dokumentId") String dokumentId) {
+    public @ResponseBody byte[] hent(@PathVariable(name = "journalpostId") String journalpostId,
+                                     @PathVariable(name = "dokumentId") String dokumentId) {
         return arkiv.hentPdf(journalpostId, dokumentId);
     }
 

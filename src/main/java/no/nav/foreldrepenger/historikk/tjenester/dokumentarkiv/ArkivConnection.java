@@ -2,14 +2,17 @@ package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import no.nav.boot.conditionals.ConditionalOnNotProd;
-import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagSak;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestOperations;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -18,39 +21,61 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant.ArkivOppslagDokumentFiltype.*;
+import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant.ArkivOppslagDokumentVariantFormat.ARKIV;
 
 @ConditionalOnNotProd
 @Component
-public class ArkivConnection extends AbstractRestConnection {
+public class ArkivConnection {
+
+    public static final String SAF = "SAF";
+    private static final Logger LOG = LoggerFactory.getLogger(ArkivConnection.class);
+
 
     private final ArkivOppslagConfig cfg;
+    private final WebClient safClient;
 
 
-    protected ArkivConnection(RestOperations restOperations, ArkivOppslagConfig config) {
-        super(restOperations, config);
+    protected ArkivConnection(ArkivOppslagConfig config, @Qualifier("SAF") WebClient safClient) {
         this.cfg = config;
-    }
-
-    @Override
-    public URI pingEndpoint() {
-        return null;
+        this.safClient = safClient;
     }
 
     public byte[] hentDok(String journalpostId, String dokumentInfoId) {
         var uri = cfg.hentDokumentUri(journalpostId, dokumentInfoId);
-        return getForObject(uri, byte[].class);
+        return safClient.get()
+                        .uri(cfg.hentDokumentTemplate(), journalpostId, dokumentInfoId, ARKIV.name())
+                        .retrieve()
+                        .bodyToMono(byte[].class)
+                        .block();
     }
 
     public List<ArkivDokument> journalposter(String ident) {
         if (ident == null) {
             throw new IllegalArgumentException("Mangler ident");
         }
-        var requestBody = new Query(query(), Map.of("ident", ident));
-        var wrappedResponse = postForEntity(cfg.dokumenter(), requestBody, DataWrapped.class);
+        var requestBody = requestBody(ident);
+        var wrappedResponse = safClient.post()
+            .uri(cfg.graphqlPathTemplate())
+            .body(BodyInserters.fromValue(requestBody))
+            .retrieve()
+            .bodyToMono(Respons.class)
+            .block();
+        handleErrors(wrappedResponse);
         return map(wrappedResponse.data().journalposter());
     }
 
+    private void handleErrors(Respons wrappedResponse) {
+        if (wrappedResponse.errors() != null && !wrappedResponse.errors().isEmpty()) {
+            var message = wrappedResponse.errors.get(0).message();
+            throw new SafException("Feil mot Saf, med message: %s " + message);
+        }
+    }
+
+    private static RequestBody requestBody(String ident) {
+        return new RequestBody(query(), Map.of("ident", ident));
+    }
     private static List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
         return journalposter.journalposter().stream()
 //            .filter(jp -> {
@@ -138,10 +163,16 @@ public class ArkivConnection extends AbstractRestConnection {
               }
             }""".stripIndent();
     }
-    private record Query(String query, Map<String, String> variables) { }
-    private record DataWrapped(Wrapped data, Errors errors) { }
-    private record Wrapped(@JsonAlias("dokumentOversiktselvbetjening") ArkivOppslagJournalposter journalposter) { }
+    private record RequestBody(String query, Map<String, String> variables) { }
+    private record Respons(JournalposterWrapper data, List<Errors> errors) { }
+    private record JournalposterWrapper(@JsonAlias("dokumentOversiktselvbetjening") ArkivOppslagJournalposter journalposter) { }
 
-    private record Errors (String error) {}
+    private record Errors (String message) {}
+
+    class SafException extends RuntimeException {
+        SafException(String msg, Object... args) {
+            super(format(msg, args));
+        }
+    }
 
 }

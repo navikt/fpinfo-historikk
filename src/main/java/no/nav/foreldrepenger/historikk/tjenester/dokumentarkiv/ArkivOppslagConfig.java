@@ -16,6 +16,9 @@ public class ArkivOppslagConfig extends AbstractConfig {
     private static final String HENT_DOKUMENT_TMPL = "{baseUri}/rest/hentdokument/{journalpostId}/{dokumentInfoId}/{arkivType}";
     private static final String GRAPHQL_TMPL = "{baseUri}/graphql";
 
+    private static final String GRAPHQL_PATH_TMPL = "/graphql";
+    private static final String HENT_DOKUMENT_PATH_TMPL = "/rest/hentdokument/{journalpostId}/{dokumentInfoId}/{arkivType}";
+
     @ConstructorBinding
     public ArkivOppslagConfig(URI baseUri,
                               @DefaultValue(DEFAULT_PING_PATH) String pingPath,
@@ -33,6 +36,14 @@ public class ArkivOppslagConfig extends AbstractConfig {
         return UriComponentsBuilder.fromUriString(GRAPHQL_TMPL)
             .buildAndExpand(getBaseUri())
             .toUri();
+    }
+
+    public String hentDokumentTemplate() {
+        return HENT_DOKUMENT_PATH_TMPL;
+    }
+
+    public String graphqlPathTemplate() {
+        return GRAPHQL_PATH_TMPL;
     }
 
 
