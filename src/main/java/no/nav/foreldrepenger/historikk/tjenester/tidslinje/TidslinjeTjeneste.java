@@ -38,6 +38,7 @@ public class TidslinjeTjeneste {
     public List<TidslinjeHendelse> tidslinje(String saksnummer) {
         var docsByJournalpost = arkivTjeneste.hentDokumentoversikt()
             .stream()
+            .filter(dok -> saksnummer.equals(dok.saksnummer()))
             .collect(Collectors.groupingBy(ArkivDokument::journalpost));
         return concat(inntektsmelding.inntektsmeldinger().stream(), innsending.innsendinger().stream())
             .peek(h -> {
