@@ -12,8 +12,7 @@ import org.springframework.web.client.RestOperations;
 import java.net.URI;
 
 @Component
-@ConditionalOnProd
-public class OppslagConnectionRestTemplate extends AbstractRestConnection implements OppslagConnection {
+public class OppslagConnectionRestTemplate extends AbstractRestConnection {
     public static final Logger LOG = LoggerFactory.getLogger(OppslagConnectionRestTemplate.class);
     private final OppslagConfig cfg;
 

@@ -14,8 +14,7 @@ import static no.nav.boot.conditionals.EnvUtil.CONFIDENTIAL;
 import static no.nav.foreldrepenger.common.util.StringUtil.taint;
 
 @Component
-@ConditionalOnNotProd
-public class OppslagConnectionWebclient implements OppslagConnection, WebClientRetryAware {
+public class OppslagConnectionWebclient implements WebClientRetryAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(OppslagConnectionWebclient.class);
 
@@ -29,7 +28,6 @@ public class OppslagConnectionWebclient implements OppslagConnection, WebClientR
         this.cfg = oppslagConfig;
     }
 
-    @Override
     public AktørId hentAktørId() {
         return client.get()
             .uri(cfg.aktørPath())
@@ -41,7 +39,6 @@ public class OppslagConnectionWebclient implements OppslagConnection, WebClientR
             .block();
     }
 
-    @Override
     public String orgNavn(String orgnr) {
         return client.get()
             .uri(cfg.orgnavnPathTemplate(), taint(orgnr))
