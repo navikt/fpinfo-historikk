@@ -20,6 +20,7 @@ public class SafWebclient {
                         ArkivOppslagConfig oppslagConfig) {
         return builder.baseUrl(oppslagConfig.getBaseUri().toASCIIString())
                       .filter(tokenXExchangeFilterFunction)
+                      .codecs(c -> c.defaultCodecs().maxInMemorySize(1024 * 1024 * 100))
                       .build();
     }
 
