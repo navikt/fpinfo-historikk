@@ -112,7 +112,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <!-- Må ha @{argLine} ellers blir properties satt av jacoco-maven-plugin overkrevet -->
-                    <argLine>@{argLine}</argLine>
+                    <argLine>@{argLine} --enable-preview</argLine>
                 </configuration>
             </plugin>
         </plugins>
