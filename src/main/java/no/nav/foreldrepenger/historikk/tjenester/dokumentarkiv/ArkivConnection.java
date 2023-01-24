@@ -39,7 +39,7 @@ public class ArkivConnection {
     private final WebClient safClient;
 
 
-    protected ArkivConnection(ArkivOppslagConfig config, @Qualifier("SAF") WebClient safClient) {
+    protected ArkivConnection(ArkivOppslagConfig config, @Qualifier(SAF) WebClient safClient) {
         this.cfg = config;
         this.safClient = safClient;
     }

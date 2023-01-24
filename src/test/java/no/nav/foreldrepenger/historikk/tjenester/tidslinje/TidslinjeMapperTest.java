@@ -3,20 +3,12 @@ package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument;
-import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.ArbeidsgiverInnslag;
-import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,23 +18,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.DokumentType.INNGÅENDE_DOKUMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = TidslinjeTjeneste.class)
-class TidslinjeTjenesteTest {
+class TidslinjeMapperTest {
+
     private static final AtomicInteger teller = new AtomicInteger();
-
-    @MockBean
-    private Innsending innsending;
-    @MockBean
-    private Inntektsmelding inntektsmeldinger;
-    @MockBean
-    private ArkivTjeneste arkivTjeneste;
-
-    @Autowired
-    private TidslinjeTjeneste tidslinjeTjeneste;
 
     @Test
     public void innslagSkalMappesTilHendelser() {
@@ -50,9 +29,9 @@ class TidslinjeTjenesteTest {
         var endringssøknadInnslag = innsendingInnslag(HendelseType.ENDRING_FORELDREPENGER);
         var inntektsmeldingInnslag = im(HendelseType.INNTEKTSMELDING_NY);
 
-        when(innsending.innsendinger()).thenReturn(List.of(endringssøknadInnslag, førstegangssøknadInnslag));
-        when(inntektsmeldinger.inntektsmeldinger()).thenReturn(List.of(inntektsmeldingInnslag));
-        var tidslinje = tidslinjeTjeneste.tidslinje("1234");
+        var innslag = List.of(endringssøknadInnslag, førstegangssøknadInnslag, inntektsmeldingInnslag);
+
+        var tidslinje = TidslinjeMapper.map(innslag, List.of());
 
         assertThat(tidslinje.size()).isEqualTo(3);
         assertTrue(tidslinje.get(0) instanceof Søknadshendelse);
@@ -69,17 +48,29 @@ class TidslinjeTjenesteTest {
     public void hendelserSkalBerikesMedDokumenterFraArkiv() {
         var førstegangssøknadInnslag = innsendingInnslag(HendelseType.INITIELL_FORELDREPENGER);
         var endringssøknadInnslag = innsendingInnslag(HendelseType.ENDRING_FORELDREPENGER);
-        when(innsending.innsendinger()).thenReturn(List.of(endringssøknadInnslag, førstegangssøknadInnslag));
+
+        List<HistorikkInnslag> innslag = List.of(endringssøknadInnslag, førstegangssøknadInnslag);
+
         var relevantDokument = new ArkivDokument(INNGÅENDE_DOKUMENT, førstegangssøknadInnslag.getInnsendt(),
             førstegangssøknadInnslag.getSaksnr(), "Eksempeltittel", førstegangssøknadInnslag.getJournalpostId(), null);
         var irrelevantDokument = new ArkivDokument(INNGÅENDE_DOKUMENT, førstegangssøknadInnslag.getInnsendt(),
             førstegangssøknadInnslag.getSaksnr(), "Eksempeltittel", "-1", null);
-        when(arkivTjeneste.hentDokumentoversikt()).thenReturn(List.of(relevantDokument, irrelevantDokument));
 
-        var tidslinje = tidslinjeTjeneste.tidslinje("1234");
+        var tidslinje = TidslinjeMapper.map(innslag, List.of(relevantDokument, irrelevantDokument));
 
         assertThat(tidslinje.get(0).getDokumenter()).containsExactly(relevantDokument);
         assertThat(tidslinje.get(1).getDokumenter()).isEmpty();
+    }
+
+
+    @Test
+    public void nyFørstegangssøknadGirHendelseNyFørstegangssøknad() {
+        var innslagFørstegang0 = innsendingInnslag(HendelseType.INITIELL_FORELDREPENGER);
+        var innslagFørstegang1 = innsendingInnslag(HendelseType.INITIELL_FORELDREPENGER);
+        List<HistorikkInnslag> innslag = List.of(innslagFørstegang0, innslagFørstegang1);
+        var tidslinje = TidslinjeMapper.map(innslag, List.of());
+        assertThat(tidslinje.get(0).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD);
+        assertThat(tidslinje.get(1).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD_NY);
     }
 
     private static InntektsmeldingInnslag im(HendelseType type) {
@@ -103,11 +94,11 @@ class TidslinjeTjenesteTest {
         innsendingInnslag.setInnsendt(tidspunkt);
         innsendingInnslag.setOpprettet(tidspunkt);
         innsendingInnslag.setAktørId(AktørId.valueOf("42"));
+        innsendingInnslag.setVedlegg(List.of());
         innsendingInnslag.setFnr(Fødselsnummer.valueOf("42"));
         innsendingInnslag.setSaksnr("1234");
         innsendingInnslag.setJournalpostId(String.valueOf(verdi));
         return innsendingInnslag;
     }
-
 
 }
