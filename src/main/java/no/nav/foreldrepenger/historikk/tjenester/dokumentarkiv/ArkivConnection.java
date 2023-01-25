@@ -184,6 +184,10 @@ public class ArkivConnection {
     private record Errors (String message) {}
 
     class SafException extends RuntimeException {
+
+        SafException(String msg) {
+            super(msg);
+        }
         SafException(String msg, Object... args) {
             super(format(msg, args));
         }
