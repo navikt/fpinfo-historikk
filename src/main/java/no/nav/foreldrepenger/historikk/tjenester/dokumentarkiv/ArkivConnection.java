@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo;
@@ -11,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -60,7 +60,7 @@ public class ArkivConnection {
         var requestBody = requestBody(ident);
         var wrappedResponse = safClient.post()
             .uri(cfg.graphqlPathTemplate())
-            .body(BodyInserters.fromValue(requestBody))
+            .bodyValue(requestBody)
             .retrieve()
             .bodyToMono(Respons.class)
             .block();
@@ -173,10 +173,14 @@ public class ArkivConnection {
               }
             }""".stripIndent();
     }
+
+
     private record RequestBody(String query, Map<String, String> variables) { }
     private record Respons(JournalposterWrapper data, List<Errors> errors) { }
     private record JournalposterWrapper(@JsonAlias("dokumentOversiktselvbetjening") ArkivOppslagJournalposter journalposter) { }
 
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private record Errors (String message) {}
 
     class SafException extends RuntimeException {
