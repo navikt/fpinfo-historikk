@@ -9,6 +9,11 @@ import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.Inntektsmelding
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Stream.concat;
+import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.*;
+
 public class TidslinjeMapper {
 
     private TidslinjeMapper() {
@@ -16,12 +21,29 @@ public class TidslinjeMapper {
     }
 
     public static List<TidslinjeHendelse> map(List<HistorikkInnslag> innslag, List<ArkivDokument> dokumenter) {
-        var dokumenterPerJournalpost = dokumenter.stream().collect(Collectors.groupingBy(ArkivDokument::journalpost));
-        return innslag.stream()
-                      .map(h -> map(h, dokumenterPerJournalpost, innslag))
+        var dokumenterPerJournalpost = dokumenter.stream().collect(Collectors.groupingBy(ArkivDokument::getJournalpost));
+        var vedtakHendelser = vedtakHendelserFra(dokumenter);
+        var innslagHendelser = innslag.stream().map(h -> map(h, dokumenterPerJournalpost, innslag));
+        return concat(vedtakHendelser, innslagHendelser)
                       .sorted()
                       .collect(Collectors.toList());
 
+    }
+
+    private static Stream<TidslinjeHendelse> vedtakHendelserFra(List<ArkivDokument> dokumenter) {
+        return dokumenter.stream()
+                         .filter(dok -> dok.getType() == DokumentType.UTGÅENDE_DOKUMENT)
+                         .filter(dok -> dok.getBrevkode().erVedtaksbrev())
+                         .map(dok -> {
+                             var hendelse = VedtakHendelse.builder()
+                                                          .tidslinjeHendelseType(TidslinjeHendelseType.VEDTAK)
+                                                          .dokumenter(List.of(dok))
+                                                          .aktørType(AktørType.NAV)
+                                                          .opprettet(dok.getMottatt())
+                                                          .vedtakType(VedtakHendelse.VedtakType.INNVILGELSE) // TODO: sjekk type
+                                                          .build();
+                             return hendelse;
+                         });
     }
 
     public static TidslinjeHendelse map(HistorikkInnslag h,
@@ -61,7 +83,7 @@ public class TidslinjeMapper {
         } else if (h.getHendelse().erEttersending()) {
             return ettersending(h, dokumenter);
         } else {
-            throw new IllegalStateException("Nådde feil sted gitt");
+            throw new IllegalStateException("Innsendinginnslag ikke kjent");
         }
     }
 

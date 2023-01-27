@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.DokumentType.INNGÅENDE_DOKUMENT;
+import static java.util.Collections.emptyList;
+import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.DokumentType.UTGÅENDE_DOKUMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,12 +51,12 @@ class TidslinjeMapperTest {
         var endringssøknadInnslag = innsendingInnslag(HendelseType.ENDRING_FORELDREPENGER);
 
         List<HistorikkInnslag> innslag = List.of(endringssøknadInnslag, førstegangssøknadInnslag);
-
-        var relevantDokument = new ArkivDokument(INNGÅENDE_DOKUMENT, førstegangssøknadInnslag.getInnsendt(),
-            førstegangssøknadInnslag.getSaksnr(), "Eksempeltittel", førstegangssøknadInnslag.getJournalpostId(), null);
-        var irrelevantDokument = new ArkivDokument(INNGÅENDE_DOKUMENT, førstegangssøknadInnslag.getInnsendt(),
-            førstegangssøknadInnslag.getSaksnr(), "Eksempeltittel", "-1", null);
-
+        var relevantDokument = ArkivDokument.builder()
+            .journalpost(førstegangssøknadInnslag.getJournalpostId())
+                               .build();
+        var irrelevantDokument = ArkivDokument.builder()
+                               .journalpost("-1")
+                               .build();
         var tidslinje = TidslinjeMapper.map(innslag, List.of(relevantDokument, irrelevantDokument));
 
         assertThat(tidslinje.get(0).getDokumenter()).containsExactly(relevantDokument);
@@ -71,6 +72,30 @@ class TidslinjeMapperTest {
         var tidslinje = TidslinjeMapper.map(innslag, List.of());
         assertThat(tidslinje.get(0).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD);
         assertThat(tidslinje.get(1).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD_NY);
+    }
+
+    @Test
+    public void innvilgelsesbrevMappesTilVedtakshendelser() {
+        var dokBuilder = ArkivDokument.builder();
+        dokBuilder.type(UTGÅENDE_DOKUMENT);
+        dokBuilder.mottatt(LocalDateTime.now());
+        dokBuilder.saksnummer("42");
+        dokBuilder.tittel("Vedtak");
+        dokBuilder.journalpost("123");
+        dokBuilder.brevkode("INVFOR");
+        var tidslinje = TidslinjeMapper.map(emptyList(), List.of(dokBuilder.build()));
+        assertThat(tidslinje.size()).isEqualTo(1);
+        assertThat(tidslinje.get(0).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.VEDTAK);
+    }
+
+    @Test
+    public void innhentingsbrevSkalIkkeMappesTilVedtakshendelse() {
+        var builder = ArkivDokument.builder();
+        builder.type(UTGÅENDE_DOKUMENT);
+        builder.brevkode("XYZ");
+        builder.journalpost("123");
+        var tidslinje = TidslinjeMapper.map(emptyList(), List.of(builder.build()));
+        assertThat(tidslinje).size().isEqualTo(0);
     }
 
     private static InntektsmeldingInnslag im(HendelseType type) {

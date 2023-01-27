@@ -109,13 +109,15 @@ public class ArkivConnection {
     @NotNull
     private ArkivDokument tilArkivDokument(ArkivOppslagJournalpost jp, ArkivOppslagDokumentInfo dok) {
         var saksnummer = jp.sak().flatMap(ArkivOppslagSak::fagsakId).orElse(null);
-        return new ArkivDokument(
-            dokumentType(jp.journalpostType()),
-            opprettetDato(jp.relevanteDatoer()),
-            saksnummer,
-            dok.tittel().orElse("Uten tittel"),
-            jp.journalpostId(),
-            url(jp.journalpostId(), dok.dokumentInfoId()));
+        var builder = new ArkivDokument.ArkivDokumentBuilder();
+        builder.journalpost(jp.journalpostId());
+        builder.type(dokumentType(jp.journalpostType()));
+        builder.mottatt(opprettetDato(jp.relevanteDatoer()));
+        builder.saksnummer(saksnummer);
+        builder.tittel(dok.tittel().orElse("Uten tittel"));
+        builder.brevkode(dok.brevkode().orElse(null));
+        builder.url(url(jp.journalpostId(), dok.dokumentInfoId()));
+        return builder.build();
     }
 
     private URI url(String journalpostId, String dokumentId) {
