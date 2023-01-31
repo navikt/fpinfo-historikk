@@ -93,3 +93,4 @@ historikk:
   saf:
     base-uri: http://vtp:8060/rest/api/saf
     enabled: true
+    api-base-uri: http://localhost:9002/rest
