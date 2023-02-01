@@ -32,7 +32,9 @@ public class TidslinjeTjeneste {
     }
 
     public List<TidslinjeHendelse> tidslinje(String saksnummer) {
-        var dokumenter = arkivTjeneste.hentDokumentoversikt();
+        var dokumenter = arkivTjeneste.hentDokumentoversikt().stream()
+              .filter(ad -> saksnummer.equals(ad.getSaksnummer()))
+              .toList();
         var innslag = concat(inntektsmelding.inntektsmeldinger().stream(),
             innsending.innsendinger().stream())
             .peek(this::loggManglendeSaksnummer)
