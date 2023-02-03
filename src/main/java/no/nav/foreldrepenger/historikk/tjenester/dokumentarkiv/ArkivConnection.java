@@ -39,7 +39,8 @@ public class ArkivConnection {
     private final WebClient safClient;
 
 
-    protected ArkivConnection(ArkivOppslagConfig config, @Qualifier(SAF) WebClient safClient) {
+    protected ArkivConnection(ArkivOppslagConfig config,
+                              @Qualifier(SAF) WebClient safClient) {
         this.cfg = config;
         this.safClient = safClient;
     }
@@ -88,6 +89,13 @@ public class ArkivConnection {
     }
     private List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
         return journalposter.journalposter().stream()
+            .peek(jp -> {
+                var systemUliktFS36 = jp.sak().flatMap(ArkivOppslagSak::fagsaksystem)
+                    .stream().anyMatch(sys -> !"FS36".equalsIgnoreCase(sys));
+                if (systemUliktFS36) {
+                    LOG.info("ArkivConnection: får journalpost med system ulikt FS36");
+                }
+            })
 //            .filter(jp -> {
 //                // Sjekker om journalpost er opprettet av fpsak med venner
 //                return jp.sak()
