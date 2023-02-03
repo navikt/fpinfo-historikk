@@ -7,6 +7,7 @@ import lombok.Data;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -34,10 +35,15 @@ public class ArkivDokument {
         ANUFOR, // Annullering av Foreldrepenger
         AVSFOR, // Avslagsbrev Foreldrepenger
         OPPSVP, // Opphørsbrev svangerskapspenger
+        INNOPP, // Innhent opplysninger
         UKJENT;
 
         public boolean erVedtaksbrev() {
             return Set.of(ANUFOR, AVSFOR, OPPSVP, INNVES, AVSSVP, INVFOR, AVSLES, OPPFOR, INVSVP).contains(this);
+        }
+
+        public boolean erInnhentOpplysningerbrev() {
+            return INNOPP == this;
         }
     }
 

@@ -19,7 +19,8 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
     @JsonSubTypes.Type(value = Søknadshendelse.class, name = "søknad"),
     @JsonSubTypes.Type(value = InntektsmeldingHendelse.class, name = "inntektsmelding"),
     @JsonSubTypes.Type(value = VedtakHendelse.class, name = "vedtak"),
-    @JsonSubTypes.Type(value = EttersendingHendelse.class, name = "ettersending")
+    @JsonSubTypes.Type(value = EttersendingHendelse.class, name = "ettersending"),
+    @JsonSubTypes.Type(value = UtgåendeDokumentHendelse.class, name = "utgående")
 })
 @SuperBuilder
 @Getter

@@ -23,11 +23,23 @@ public class TidslinjeMapper {
     public static List<TidslinjeHendelse> map(List<HistorikkInnslag> innslag, List<ArkivDokument> dokumenter) {
         var dokumenterPerJournalpost = dokumenter.stream().collect(Collectors.groupingBy(ArkivDokument::getJournalpost));
         var vedtakHendelser = vedtakHendelserFra(dokumenter);
+        var dokumentHendelser = dokumentHendelserFra(dokumenter);
         var innslagHendelser = innslag.stream().map(h -> map(h, dokumenterPerJournalpost, innslag));
-        return concat(vedtakHendelser, innslagHendelser)
+        return concat(concat(vedtakHendelser, innslagHendelser), dokumentHendelser)
                       .sorted()
                       .collect(Collectors.toList());
 
+    }
+
+    private static Stream<TidslinjeHendelse> dokumentHendelserFra(List<ArkivDokument> dokumenter) {
+        return dokumenter.stream()
+            .filter(dok -> dok.getBrevkode() != null && dok.getBrevkode().erInnhentOpplysningerbrev())
+            .map(dok -> UtgåendeDokumentHendelse.builder()
+                                            .tidslinjeHendelseType(TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER)
+                                            .dokumenter(List.of(dok))
+                                            .aktørType(AktørType.NAV)
+                                            .opprettet(dok.getMottatt())
+                                            .build());
     }
 
     private static Stream<TidslinjeHendelse> vedtakHendelserFra(List<ArkivDokument> dokumenter) {

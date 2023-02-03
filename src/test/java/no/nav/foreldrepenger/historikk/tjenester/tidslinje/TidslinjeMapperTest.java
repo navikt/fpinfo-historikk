@@ -89,13 +89,25 @@ class TidslinjeMapperTest {
     }
 
     @Test
-    public void innhentingsbrevSkalIkkeMappesTilVedtakshendelse() {
+    public void utgåendeBrevSkalIkkeMappesTilVedtakshendelse() {
         var builder = ArkivDokument.builder();
         builder.type(UTGÅENDE_DOKUMENT);
         builder.brevkode("XYZ");
         builder.journalpost("123");
         var tidslinje = TidslinjeMapper.map(emptyList(), List.of(builder.build()));
         assertThat(tidslinje).size().isEqualTo(0);
+    }
+
+    @Test
+    public void innhentingsBrevSkalMappesTilUtgåendebrevhendelse() {
+        var builder = ArkivDokument.builder();
+        builder.type(UTGÅENDE_DOKUMENT);
+        builder.brevkode(ArkivDokument.Brevkode.INNOPP.name());
+        builder.journalpost("123");
+        var tidslinje = TidslinjeMapper.map(emptyList(), List.of(builder.build()));
+        assertThat(tidslinje).size().isEqualTo(1);
+        var hendelse = tidslinje.get(0);
+        assertThat(hendelse.getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER);
     }
 
     private static InntektsmeldingInnslag im(HendelseType type) {
