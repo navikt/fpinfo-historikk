@@ -46,7 +46,6 @@ public class ArkivConnection {
     }
 
     public byte[] hentDok(String journalpostId, String dokumentInfoId) {
-        var uri = cfg.hentDokumentUri(journalpostId, dokumentInfoId);
         return safClient.get()
                         .uri(cfg.hentDokumentTemplate(), journalpostId, dokumentInfoId, ARKIV.name())
                         .retrieve()

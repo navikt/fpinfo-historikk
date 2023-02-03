@@ -14,9 +14,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppsl
 public class ArkivOppslagConfig extends AbstractConfig {
 
     private static final String DEFAULT_PING_PATH = "/actuator/health/liveness";
-    private static final String HENT_DOKUMENT_TMPL = "{baseUri}/rest/hentdokument/{journalpostId}/{dokumentInfoId}/{arkivType}";
-    private static final String GRAPHQL_TMPL = "{baseUri}/graphql";
-
     private static final String GRAPHQL_PATH_TMPL = "/graphql";
     private static final String HENT_DOKUMENT_PATH_TMPL = "/rest/hentdokument/{journalpostId}/{dokumentInfoId}/{arkivType}";
     private final String apiBaseUri;
@@ -28,18 +25,6 @@ public class ArkivOppslagConfig extends AbstractConfig {
                               @DefaultValue("true") boolean enabled) {
         super(baseUri, pingPath, enabled);
         this.apiBaseUri = apiBaseUri;
-    }
-
-    public URI hentDokumentUri(String journalpostId, String dokumentInfoId) {
-        return UriComponentsBuilder.fromUriString(HENT_DOKUMENT_TMPL)
-            .buildAndExpand(getBaseUri(), journalpostId, dokumentInfoId, ARKIV.name())
-            .toUri();
-    }
-
-    public URI dokumenter() {
-        return UriComponentsBuilder.fromUriString(GRAPHQL_TMPL)
-            .buildAndExpand(getBaseUri())
-            .toUri();
     }
 
     public String hentDokumentTemplate() {
