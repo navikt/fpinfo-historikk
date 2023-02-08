@@ -32,7 +32,9 @@ public class Innsending {
     private final Oppslag oppslag;
     private final TokenUtil tokenUtil;
 
-    public Innsending(JPAInnsendingRepository dao, Oppslag oppslag, TokenUtil tokenUtil) {
+    public Innsending(JPAInnsendingRepository dao,
+                      Oppslag oppslag,
+                      TokenUtil tokenUtil) {
         this.dao = dao;
         this.oppslag = oppslag;
         this.tokenUtil = tokenUtil;
@@ -51,11 +53,6 @@ public class Innsending {
             dao.save(ny);
             LOG.debug("Insert fra innsendingshendelse OK");
         }
-    }
-
-    @Transactional(readOnly = true)
-    public List<InnsendingInnslag> innsendinger() {
-        return innsendinger(oppslag.aktørId());
     }
 
     @Transactional(readOnly = true)

@@ -10,14 +10,11 @@ import java.net.URI;
 import java.util.Map;
 
 import static no.nav.foreldrepenger.common.util.StringUtil.taint;
-import static no.nav.foreldrepenger.historikk.util.URIUtil.uri;
 
 @ConfigurationProperties(prefix = "historikk.oppslag")
 public class OppslagConfig extends AbstractConfig {
     private static final String DEFAULT_MOTTAK_BASE_URI = "http://fpsoknad-mottak/api";
     private static final String DEFAULT_PING_PATH = "/actuator/info";
-
-    private static final String AKTØR = "/oppslag/aktoer";
     private static final String ORGNAVN = "/innsyn/orgnavn";
 
     private static final String AKTØR_TEMPLATE = "/oppslag/aktoer";
@@ -37,10 +34,6 @@ public class OppslagConfig extends AbstractConfig {
             .queryParam("orgnr", "{orgnummer}")
             .buildAndExpand(Map.of("orgnummer", taint(orgnr)))
             .toUri();
-    }
-
-    public URI aktørURI() {
-        return uri(getBaseUri(), AKTØR);
     }
 
     public String aktørPath() {
