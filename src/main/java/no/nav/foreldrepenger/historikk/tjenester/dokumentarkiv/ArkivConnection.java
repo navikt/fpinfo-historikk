@@ -78,8 +78,8 @@ public class ArkivConnection {
             return;
         }
         if (wrappedResponse.errors() != null && !wrappedResponse.errors().isEmpty()) {
-            var message = wrappedResponse.errors().get(0).message();
-            throw new SafException("Feil mot Saf, med message: %s " + message);
+            var message = wrappedResponse.errors().stream().map(Errors::message).collect(Collectors.joining(","));
+            throw new SafException("Safselvbetjening feiler med message: %s " + message);
         }
     }
 
