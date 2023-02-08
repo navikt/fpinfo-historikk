@@ -12,6 +12,7 @@ import java.util.Objects;
 public class OppslagConnection {
 
     private static final Logger LOG = LoggerFactory.getLogger(OppslagConnection.class);
+    private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
 
     private final OppslagConnectionRestTemplate clientLegacy;
     private final OppslagConnectionWebclient webClient;
@@ -22,9 +23,7 @@ public class OppslagConnection {
         this.webClient = webclient;
     }
     public AktørId hentAktørId() {
-        var aktørId = clientLegacy.hentAktørId();
-        sjekkNy(aktørId);
-        return aktørId;
+        return webClient.hentAktørId();
     }
 
     public String orgNavn(String orgnr) {
@@ -33,21 +32,14 @@ public class OppslagConnection {
         return orgNavn;
     }
 
-    private void sjekkNy(AktørId aktørId) {
-        try {
-            var nyAktørId = webClient.hentAktørId();
-            var erLik = Objects.equals(nyAktørId, aktørId);
-            LOG.info("Sjekk gammel/ny aktørId gir samme resultat: {}", erLik);
-        } catch (Exception e) {
-            LOG.info("Sjekk gammel/ny aktørId ga exception", e);
-        }
-    }
-
     private void sjekkNy(String orgnr, String orgNavn) {
         try {
             var nyOrgnavn = webClient.orgNavn(orgnr);
             var erLik = Objects.equals(nyOrgnavn, orgNavn);
-            LOG.info("Sjekk gammel/ny orgnavn gir samme resultat: {}", erLik);
+            if (!erLik) {
+                SECURE_LOG.warn("AktørId-oppslag på orgnr {}, resultat avviker mellom resttemplate {} og webclient {}",
+                    orgnr, orgNavn, nyOrgnavn);
+            }
         } catch (Exception e) {
             LOG.info("Sjekk gammel/ny orgnavn ga exception", e);
         }
