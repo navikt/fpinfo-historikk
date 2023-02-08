@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -14,6 +15,7 @@ public class OppslagTjeneste implements Oppslag {
     }
 
     @Override
+    @Cacheable(cacheNames = "aktør", keyGenerator = "autentisertFnrKeyGenerator")
     public AktørId aktørId() {
         return connection.hentAktørId();
     }
