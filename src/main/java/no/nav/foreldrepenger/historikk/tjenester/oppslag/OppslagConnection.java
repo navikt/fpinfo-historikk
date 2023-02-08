@@ -37,7 +37,7 @@ public class OppslagConnection {
             var nyOrgnavn = webClient.orgNavn(orgnr);
             var erLik = Objects.equals(nyOrgnavn, orgNavn);
             if (!erLik) {
-                SECURE_LOG.warn("AktørId-oppslag på orgnr {}, resultat avviker mellom resttemplate {} og webclient {}",
+                SECURE_LOG.warn("Orgnavn-oppslag på orgnr {}, resultat avviker mellom resttemplate {} og webclient {}",
                     orgnr, orgNavn, nyOrgnavn);
             }
         } catch (Exception e) {
