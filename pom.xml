@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.7</version>
+        <version>2.7.8</version>
         <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -30,8 +30,8 @@
         <boot-conditionals.version>3.1.0</boot-conditionals.version>
         <token-validation-version>2.1.9</token-validation-version>
         <confluent.version>7.2.2</confluent.version>
-        <springdoc.version>1.6.13</springdoc.version>
-        <swagger-annotations.version>2.2.7</swagger-annotations.version>
+        <springdoc.version>1.6.14</springdoc.version>
+        <swagger-annotations.version>2.2.8</swagger-annotations.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
     <scm>
