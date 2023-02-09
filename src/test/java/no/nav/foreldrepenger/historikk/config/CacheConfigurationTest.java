@@ -42,7 +42,7 @@ class CacheConfigurationTest {
     CacheManager cacheManager;
 
     @Test
-    public void cacheBrukerFødselsnummerSomKey() {
+    void cacheBrukerFødselsnummerSomKey() {
         // fødselsnummer kall nummer to returnerer cachet verdi
         var fødselsnummer = new Fødselsnummer("111");
         mockReturnerer(fødselsnummer);
@@ -69,7 +69,7 @@ class CacheConfigurationTest {
     }
 
     @Test
-    public void cachePropagererExceptionFraTokenUtil() {
+    void cachePropagererExceptionFraTokenUtil() {
         when(tokenUtil.autentisertBrukerOrElseThrowException()).thenThrow(IllegalStateException.class);
         assertThrows(IllegalStateException.class, () -> testKlasse.cacheableMethod());
     }
