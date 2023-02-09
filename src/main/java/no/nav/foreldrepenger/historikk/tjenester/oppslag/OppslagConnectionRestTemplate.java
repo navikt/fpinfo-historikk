@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-import no.nav.boot.conditionals.ConditionalOnProd;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.http.AbstractRestConnection;
 import org.slf4j.Logger;
@@ -24,10 +23,6 @@ public class OppslagConnectionRestTemplate extends AbstractRestConnection {
     @Override
     public URI pingEndpoint() {
         return cfg.pingEndpoint();
-    }
-
-    public AktørId hentAktørId() {
-        return getForObject(cfg.aktørURI(), AktørId.class, true);
     }
 
     @Cacheable(cacheNames = "organisasjon")

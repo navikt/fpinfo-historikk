@@ -60,19 +60,9 @@ public class Tilbakekreving {
     }
 
     @Transactional(readOnly = true)
-    public List<TilbakekrevingInnslag> tilbakekrevinger(boolean activeOnly) {
-        return tilbakekrevinger(oppslag.aktørId(), activeOnly);
-    }
-
-    @Transactional(readOnly = true)
     public List<TilbakekrevingInnslag> tilbakekrevinger(AktørId aktørId, boolean activeOnly) {
         LOG.info("Henter tilbakekrevingsdialoger hvor activeOnly={}", activeOnly);
         return tilInnslag(dao.findAll(where(spec(aktørId, activeOnly)), SORT_OPPRETTET_ASC));
-    }
-
-    @Transactional(readOnly = true)
-    public List<TilbakekrevingInnslag> aktive() {
-        return aktive(oppslag.aktørId());
     }
 
     @Transactional(readOnly = true)

@@ -45,11 +45,6 @@ public class Inntektsmelding {
     }
 
     @Transactional(readOnly = true)
-    public List<InntektsmeldingInnslag> inntektsmeldinger() {
-        return inntektsmeldinger(oppslag.aktørId());
-    }
-
-    @Transactional(readOnly = true)
     public List<InntektsmeldingInnslag> inntektsmeldinger(AktørId id) {
         LOG.debug("Henter inntektsmeldinghistorikk for {}", id);
         List<InntektsmeldingInnslag> innslag = mapper

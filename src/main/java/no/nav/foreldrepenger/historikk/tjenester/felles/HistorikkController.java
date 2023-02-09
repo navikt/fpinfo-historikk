@@ -4,6 +4,7 @@ import static java.util.stream.Stream.concat;
 
 import java.util.List;
 
+import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,18 +26,23 @@ public class HistorikkController {
     private final Innsending innsending;
     private final Inntektsmelding inntektsmelding;
     private final Tilbakekreving tilbakekreving;
+    private final Oppslag oppslag;
 
-    HistorikkController(Innsending innsending, Inntektsmelding inntektsmelding,
-            Tilbakekreving tilbakekreving) {
+    HistorikkController(Innsending innsending,
+                        Inntektsmelding inntektsmelding,
+                        Tilbakekreving tilbakekreving,
+                        Oppslag oppslag) {
         this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
         this.tilbakekreving = tilbakekreving;
+        this.oppslag = oppslag;
     }
 
     @GetMapping("/me/søknader")
     public List<InnsendingInnslag> søknader() {
         LOG.info("Henter søknader for pålogget bruker");
-        return innsending.innsendinger();
+        var aktørId = oppslag.aktørId();
+        return innsending.innsendinger(aktørId);
     }
 
     @GetMapping("/me/manglendevedlegg")
@@ -48,19 +54,22 @@ public class HistorikkController {
     @GetMapping("/me/inntektsmeldinger")
     public List<InntektsmeldingInnslag> inntektsmeldinger() {
         LOG.info("Henter inntektsmeldinger for pålogget bruker");
-        return inntektsmelding.inntektsmeldinger();
+        var aktørId = oppslag.aktørId();
+        return inntektsmelding.inntektsmeldinger(aktørId);
     }
 
     @GetMapping("/me/minidialoger")
     public List<TilbakekrevingInnslag> tilbakekrevinger(@RequestParam(defaultValue = "true") boolean activeOnly) {
         LOG.info("Henter minidialoger for pålogget bruker");
-        return tilbakekreving.tilbakekrevinger(activeOnly);
+        var aktørId = oppslag.aktørId();
+        return tilbakekreving.tilbakekrevinger(aktørId, activeOnly);
     }
 
     @GetMapping("/me/minidialoger/spm")
     public List<TilbakekrevingInnslag> aktive() {
         LOG.info("Henter aktive minidialoger for pålogget bruker");
-        return tilbakekreving.aktive();
+        var aktørId = oppslag.aktørId();
+        return tilbakekreving.aktive(aktørId);
     }
 
     @GetMapping("/me/all")
