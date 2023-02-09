@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.web.client.RestTemplateBuilderConfigurer;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,9 +42,14 @@ public class RestClientConfiguration {
     public RestOperations customRestTemplate(RestTemplateBuilder b, ClientHttpRequestInterceptor... interceptors) {
         return b
             .interceptors(interceptors)
-            .setConnectTimeout(CONNECT_TIMEOUT)
-            .setReadTimeout(READ_TIMEOUT)
             .build();
+    }
+
+    @Bean
+    public RestTemplateBuilder restTemplateBuilderCustomizer(RestTemplateBuilderConfigurer configurer) {
+        return configurer.configure(new RestTemplateBuilder())
+                         .setConnectTimeout(CONNECT_TIMEOUT)
+                         .setReadTimeout(READ_TIMEOUT);
     }
 
     @Bean
