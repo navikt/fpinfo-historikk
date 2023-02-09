@@ -69,7 +69,7 @@ spring:
   application:
     name: fpinfo-historikk
   cache:
-    cache-names: aktør,sts,organisasjon,fnr
+    cache-names: aktør,organisasjon
     caffeine:
       spec: maximumSize=100,expireAfterAccess=3600s
   cloud:
