@@ -102,6 +102,5 @@ historikk:
   innsending:
     søknad:
       enabled: true
-      topic: fpsoknad-mottak-innsendinghendelse
   tilbakekreving:
     enabled: true
