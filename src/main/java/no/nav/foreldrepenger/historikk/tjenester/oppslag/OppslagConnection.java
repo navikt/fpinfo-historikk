@@ -1,48 +1,52 @@
 package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
-
 import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.http.WebClientRetryAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Objects;
+import static no.nav.boot.conditionals.EnvUtil.CONFIDENTIAL;
+import static no.nav.foreldrepenger.common.util.StringUtil.taint;
 
 @Component
-public class OppslagConnection {
+public class OppslagConnection implements WebClientRetryAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(OppslagConnection.class);
-    private static final Logger SECURE_LOG = LoggerFactory.getLogger("secureLogger");
 
-    private final OppslagConnectionRestTemplate clientLegacy;
-    private final OppslagConnectionWebclient webClient;
+    public static final String OPPSLAG = "OPPSLAG";
+    private final WebClient client;
+    private final OppslagConfig cfg;
 
-    public OppslagConnection(OppslagConnectionRestTemplate clientLegacy,
-                             OppslagConnectionWebclient webclient) {
-        this.clientLegacy = clientLegacy;
-        this.webClient = webclient;
+    public OppslagConnection(@Qualifier(OPPSLAG) WebClient client,
+                             OppslagConfig oppslagConfig) {
+        this.client = client;
+        this.cfg = oppslagConfig;
     }
+
     public AktørId hentAktørId() {
-        return webClient.hentAktørId();
+        return client.get()
+            .uri(cfg.aktørPath())
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(AktørId.class)
+            .doOnSuccess(s -> LOG.trace(CONFIDENTIAL, "Fikk aktørId {} fra mottak", s.getAktørId()))
+            .doOnError(s -> LOG.info("Feil i oppslag mot mottak"))
+            .block();
     }
 
     public String orgNavn(String orgnr) {
-        var orgNavn = clientLegacy.orgNavn(orgnr);
-        sjekkNy(orgnr, orgNavn);
-        return orgNavn;
-    }
-
-    private void sjekkNy(String orgnr, String orgNavn) {
-        try {
-            var nyOrgnavn = webClient.orgNavn(orgnr);
-            var erLik = Objects.equals(nyOrgnavn, orgNavn);
-            if (!erLik) {
-                SECURE_LOG.warn("Orgnavn-oppslag på orgnr {}, resultat avviker mellom resttemplate {} og webclient {}",
-                    orgnr, orgNavn, nyOrgnavn);
-            }
-        } catch (Exception e) {
-            LOG.info("Sjekk gammel/ny orgnavn ga exception", e);
-        }
+        return client.get()
+            .uri(cfg.orgnavnPathTemplate(), taint(orgnr))
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(String.class)
+            .doOnSuccess(s -> LOG.trace(CONFIDENTIAL, "Fikk orgnavn {} fra mottak for orgnummer {}", s, taint(orgnr)))
+            .doOnError(s -> LOG.info("Feil i oppslag mot mottak"))
+            .block();
     }
 
 }

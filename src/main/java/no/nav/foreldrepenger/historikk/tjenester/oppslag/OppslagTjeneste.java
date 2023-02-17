@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 public class OppslagTjeneste implements Oppslag {
@@ -22,11 +21,7 @@ public class OppslagTjeneste implements Oppslag {
 
     @Override
     public String orgNavn(String orgnr) {
-        try {
-            return connection.orgNavn(orgnr);
-        } catch (HttpClientErrorException.Unauthorized e) {
-            return null;
-        }
+        return connection.orgNavn(orgnr);
     }
 
     @Override
