@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import static no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagConnectionWebclient.OPPSLAG;
+import static no.nav.foreldrepenger.historikk.tjenester.oppslag.OppslagConnection.OPPSLAG;
 
 @Configuration
 public class OppslagWebclient {
