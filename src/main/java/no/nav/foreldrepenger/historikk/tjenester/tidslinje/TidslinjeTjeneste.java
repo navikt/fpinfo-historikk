@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 
-import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivTjeneste;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.Innsending;
@@ -11,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Stream.concat;
 
-@ConditionalOnNotProd
 @Service
 public class TidslinjeTjeneste {
     private static final Logger LOG = LoggerFactory.getLogger(TidslinjeTjeneste.class);
@@ -55,4 +54,15 @@ public class TidslinjeTjeneste {
     }
 
 
+    public void testTidslinje(String saksnummer) {
+        try {
+            var tidslinje = tidslinje(saksnummer).stream()
+                              .collect(Collectors.groupingBy(
+                                  TidslinjeHendelse::getTidslinjeHendelseType, Collectors.counting())
+                              );
+            LOG.info("Tidslinje: hentet uten feil {}", tidslinje);
+        } catch (Exception e) {
+            LOG.info("Tidslinje: feil", e);
+        }
+    }
 }
