@@ -11,15 +11,6 @@ no.nav:
               client-id: ${token.x.client.id}
               client-jwk: ${token.x.private.jwk}
               client-auth-method: private_key_jwt
-          safselvbetjening:
-            well-known-url: ${token.x.well.known.url}
-            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
-            token-exchange:
-              audience: prod-fss:teamdokumenthandtering:safselvbetjening
-            authentication:
-              client-id: ${token.x.client.id}
-              client-jwk: ${token.x.private.jwk}
-              client-auth-method: private_key_jwt
       issuer:
         tokenx:
           discovery-url: ${token.x.well.known.url}
@@ -45,9 +36,6 @@ historikk:
     enabled: true
     topic: teamforeldrepenger.tilbakekreving-brukerdialog-v1
     group-id: fpinfo-historikk-tilbakekreving
-  saf:
-    base-uri: https://safselvbetjening.intern.nav.no
-    api-base-uri: https://foreldrepengesoknad-api.nav.no/rest
 
 management:
   metrics:

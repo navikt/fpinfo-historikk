@@ -6,6 +6,19 @@ no.nav:
           fpsoknad-mottak:
             token-exchange:
               audience: prod-fss:teamforeldrepenger:fpsoknad-mottak
+          safselvbetjening:
+            well-known-url: ${token.x.well.known.url}
+            grant-type: urn:ietf:params:oauth:grant-type:token-exchange
+            token-exchange:
+              audience: prod-fss:teamdokumenthandtering:safselvbetjening
+            authentication:
+              client-id: ${token.x.client.id}
+              client-jwk: ${token.x.private.jwk}
+              client-auth-method: private_key_jwt
+historikk:
+  saf:
+    base-uri: https://safselvbetjening.intern.nav.no
+    api-base-uri: https://foreldrepengesoknad-api.nav.no/rest
 
 vault:
   database-backend: postgresql/prod-fss
