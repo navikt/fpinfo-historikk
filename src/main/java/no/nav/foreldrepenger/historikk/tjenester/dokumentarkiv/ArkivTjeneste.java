@@ -1,13 +1,11 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
-import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.common.util.TokenUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@ConditionalOnNotProd
 public class ArkivTjeneste {
 
     private final ArkivConnection connection;
