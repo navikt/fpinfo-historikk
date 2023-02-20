@@ -15,6 +15,7 @@ no.nav:
               client-id: ${token.x.client.id}
               client-jwk: ${token.x.private.jwk}
               client-auth-method: private_key_jwt
+
 historikk:
   dittnav:
     base-uri: https://foreldrepenger.dev.nav.no

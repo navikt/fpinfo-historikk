@@ -5,6 +5,7 @@ import static java.util.stream.Stream.concat;
 import java.util.List;
 
 import no.nav.foreldrepenger.historikk.tjenester.oppslag.Oppslag;
+import no.nav.foreldrepenger.historikk.tjenester.tidslinje.TidslinjeTjeneste;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,15 +28,18 @@ public class HistorikkController {
     private final Inntektsmelding inntektsmelding;
     private final Tilbakekreving tilbakekreving;
     private final Oppslag oppslag;
+    private final TidslinjeTjeneste tidslinjeTjeneste;
 
     HistorikkController(Innsending innsending,
                         Inntektsmelding inntektsmelding,
                         Tilbakekreving tilbakekreving,
-                        Oppslag oppslag) {
+                        Oppslag oppslag,
+                        TidslinjeTjeneste tidslinjeTjeneste) {
         this.innsending = innsending;
         this.inntektsmelding = inntektsmelding;
         this.tilbakekreving = tilbakekreving;
         this.oppslag = oppslag;
+        this.tidslinjeTjeneste = tidslinjeTjeneste;
     }
 
     @GetMapping("/me/søknader")
@@ -48,7 +52,9 @@ public class HistorikkController {
     @GetMapping("/me/manglendevedlegg")
     public List<String> manglendeVedlegg(@RequestParam(name = "saksnummer") String saksnummer) {
         LOG.info("Henter manglende vedlegg for pålogget bruker");
-        return innsending.vedleggsInfo(saksnummer).manglende();
+        var manglendeVedlegg = innsending.vedleggsInfo(saksnummer).manglende();
+        tidslinjeTjeneste.testTidslinje(saksnummer);
+        return manglendeVedlegg;
     }
 
     @GetMapping("/me/inntektsmeldinger")
