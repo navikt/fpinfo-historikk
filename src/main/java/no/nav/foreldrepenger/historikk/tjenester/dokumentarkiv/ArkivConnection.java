@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagJournalpostType;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagSak;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -100,6 +101,7 @@ public class ArkivConnection {
 //                    .map("FS36"::equals)
 //                    .orElse(false);
 //            })
+            .filter(jp -> jp.journalpostType() != ArkivOppslagJournalpostType.N)
             .flatMap(jp -> jp.dokumenter().stream()
                 .filter(dok -> dok.dokumentVarianter().stream()
                     .filter(dv -> dv.filtype().equals(PDF))
@@ -139,7 +141,7 @@ public class ArkivConnection {
             .findFirst().orElseThrow();
     }
 
-    private static ArkivDokument.DokumentType dokumentType(ArkivOppslagJournalpost.ArkivOppslagJournalpostType type) {
+    private static ArkivDokument.DokumentType dokumentType(ArkivOppslagJournalpostType type) {
         return switch (type) {
             case U -> ArkivDokument.DokumentType.UTGÅENDE_DOKUMENT;
             case I -> ArkivDokument.DokumentType.INNGÅENDE_DOKUMENT;
