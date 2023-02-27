@@ -42,7 +42,7 @@ class ArkivMapperTest {
 
 
     @Test
-    public void markerHoveddokument() {
+    void markerHoveddokument() {
         // Første dokumentet tilknyttet journalpost anses som hoveddokument
         var dok1 = new ArkivOppslagDokumentInfo("1", Optional.empty(), Optional.empty(), List.of(defaultVariant));
         var dok2 = new ArkivOppslagDokumentInfo("2", Optional.empty(), Optional.empty(), List.of(defaultVariant));
@@ -51,9 +51,9 @@ class ArkivMapperTest {
             Optional.empty(), defaultDatoer, Optional.empty(), List.of(dok1, dok2));
         var arkivDokumenter = mapper.map(new ArkivOppslagJournalposter(List.of(jp)));
         assertThat(arkivDokumenter).hasSize(2);
-        assertTrue(arkivDokumenter.get(0).erHovedDokument());
+        assertTrue(arkivDokumenter.get(0).isHovedDokument());
         assertEquals("1", arkivDokumenter.get(0).getDokumentId());
-        assertFalse(arkivDokumenter.get(1).erHovedDokument());
+        assertFalse(arkivDokumenter.get(1).isHovedDokument());
         assertEquals("2", arkivDokumenter.get(1).getDokumentId());
     }
 

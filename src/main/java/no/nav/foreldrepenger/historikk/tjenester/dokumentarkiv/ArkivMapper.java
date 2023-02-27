@@ -12,7 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant.ArkivOppslagDokumentFiltype.PDF;
 import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagJournalpostType.*;
@@ -54,7 +53,7 @@ public final class ArkivMapper {
                                                            .orElse(false))
                                          .map(dok -> tilArkivDokument(jp, dok, hovedDokument));
                             })
-                            .collect(Collectors.toList());
+                            .toList();
     }
 
     @NotNull
@@ -71,7 +70,7 @@ public final class ArkivMapper {
         builder.tittel(dok.tittel().orElse("Uten tittel"));
         builder.brevkode(dok.brevkode().orElse(null));
         builder.url(url(jp.journalpostId(), dok.dokumentInfoId()));
-        builder.erHovedDokument(hovedDokument.equals(dok));
+        builder.hovedDokument(hovedDokument.equals(dok));
         return builder.build();
     }
 
