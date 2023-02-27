@@ -3,11 +3,11 @@ package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -18,10 +18,12 @@ public class ArkivDokument {
     private String saksnummer;
     private String tittel;
     @JsonIgnore
-    private String journalpost;
-    @JsonIgnore
     private Brevkode brevkode;
     private URI url;
+    private String journalpost;
+    private String dokumentId;
+    @Accessors(fluent = true)
+    private boolean erHovedDokument;
 
     public enum DokumentType { UTGÅENDE_DOKUMENT, INNGÅENDE_DOKUMENT }
 
