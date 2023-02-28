@@ -111,6 +111,18 @@ class TidslinjeMapperTest {
         assertThat(hendelse.getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER);
     }
 
+    @Test
+    public void etterlyseInntektsmeldingSkalMappesTilUtgåendebrevhendelse() {
+        var dokument = ArkivDokument.builder()
+            .journalpost("123")
+            .brevkode(Brevkode.ELYSIM.name())
+            .type(UTGÅENDE_DOKUMENT)
+            .build();
+        var tidslinje = TidslinjeMapper.map(emptyList(), List.of(dokument));
+        assertThat(tidslinje).hasSize(1);
+        assertThat(tidslinje.get(0).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.UTGÅENDE_ETTERLYS_INNTEKTSMELDING);
+    }
+
     private static InntektsmeldingInnslag im(HendelseType type) {
         var verdi = teller.getAndIncrement();
         var nyIm = new InntektsmeldingInnslag();

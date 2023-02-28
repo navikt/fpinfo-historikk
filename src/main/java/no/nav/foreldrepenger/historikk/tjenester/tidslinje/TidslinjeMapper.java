@@ -33,9 +33,11 @@ public class TidslinjeMapper {
 
     private static Stream<TidslinjeHendelse> dokumentHendelserFra(List<ArkivDokument> dokumenter) {
         return dokumenter.stream()
-            .filter(dok -> dok.brevkode() != null && dok.brevkode().erInnhentOpplysningerbrev())
+            .filter(dok -> dok.brevkode() != null && (dok.brevkode().erInnhentOpplysningerbrev() || dok.brevkode().erEtterlysInntektsmeldingbrev()))
             .map(dok -> UtgåendeDokumentHendelse.builder()
-                                            .tidslinjeHendelseType(TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER)
+                                            .tidslinjeHendelseType(dok.brevkode().erInnhentOpplysningerbrev()
+                                                ? TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER
+                                                : TidslinjeHendelseType.UTGÅENDE_ETTERLYS_INNTEKTSMELDING)
                                             .dokumenter(List.of(dok))
                                             .aktørType(AktørType.NAV)
                                             .opprettet(dok.mottatt())

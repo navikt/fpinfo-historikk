@@ -13,6 +13,7 @@ public enum Brevkode {
     AVSFOR, // Avslagsbrev Foreldrepenger
     OPPSVP, // Opphørsbrev svangerskapspenger
     INNOPP, // Innhent opplysninger
+    ELYSIM, // Etterlys inntektsmelding
     UKJENT;
 
     public boolean erVedtaksbrev() {
@@ -21,5 +22,9 @@ public enum Brevkode {
 
     public boolean erInnhentOpplysningerbrev() {
         return INNOPP == this;
+    }
+
+    public boolean erEtterlysInntektsmeldingbrev() {
+        return ELYSIM == this;
     }
 }
