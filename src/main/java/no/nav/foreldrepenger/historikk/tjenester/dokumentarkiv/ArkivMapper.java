@@ -3,7 +3,6 @@ package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagDokumentInfo;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivOppslagJournalposter.ArkivOppslagJournalpost.ArkivOppslagSak;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,11 @@ public final class ArkivMapper {
     public List<ArkivDokument> map(ArkivOppslagJournalposter journalposter) {
         return journalposter.journalposter().stream()
                             .peek(jp -> {
-                                var systemUliktFS36 = jp.sak().flatMap(ArkivOppslagSak::fagsaksystem)
-                                                        .stream().anyMatch(sys -> !"FS36".equalsIgnoreCase(sys));
-                                if (systemUliktFS36) {
-                                    LOG.info("ArkivConnection: får journalpost med system ulikt FS36");
+                                var systemUlikFS36 = jp.sak().flatMap(ArkivOppslagSak::fagsaksystem)
+                                                        .stream().filter(sys -> !"FS36".equalsIgnoreCase(sys))
+                                                        .toList();
+                                if (!systemUlikFS36.isEmpty()) {
+                                    LOG.info("ArkivConnection får journalpost med system ulikt FS36: {}", String.join(",", systemUlikFS36));
                                 }
                             })
 //            .filter(jp -> {
@@ -43,25 +43,24 @@ public final class ArkivMapper {
 //            })
                             .filter(jp -> List.of(I, U).contains(jp.journalpostType()))
                             .flatMap(jp -> {
-                                // første dokumentet er hoveddokument
-                                var hovedDokument = jp.dokumenter().get(0);
+                                // første dokumentet er erHoveddokument
+                                var hoveddokument = jp.dokumenter().get(0);
                                 return jp.dokumenter().stream()
                                          .filter(dok -> dok.dokumentVarianter().stream()
                                                            .filter(dv -> dv.filtype().equals(PDF))
                                                            .findFirst()
                                                            .map(ArkivOppslagDokumentInfo.ArkivOppslagDokumentVariant::brukerHarTilgang)
                                                            .orElse(false))
-                                         .map(dok -> tilArkivDokument(jp, dok, hovedDokument));
+                                         .map(dok -> tilArkivDokument(jp, dok, hoveddokument));
                             })
                             .toList();
     }
 
-    @NotNull
     private ArkivDokument tilArkivDokument(ArkivOppslagJournalpost jp,
                                            ArkivOppslagDokumentInfo dok,
-                                           ArkivOppslagDokumentInfo hovedDokument) {
+                                           ArkivOppslagDokumentInfo hoveddokument) {
         var saksnummer = jp.sak().flatMap(ArkivOppslagSak::fagsakId).orElse(null);
-        var builder = new ArkivDokument.ArkivDokumentBuilder();
+        var builder = ArkivDokument.builder();
         builder.journalpost(jp.journalpostId());
         builder.dokumentId(dok.dokumentInfoId());
         builder.type(dokumentType(jp.journalpostType()));
@@ -70,7 +69,7 @@ public final class ArkivMapper {
         builder.tittel(dok.tittel().orElse("Uten tittel"));
         builder.brevkode(dok.brevkode().orElse(null));
         builder.url(url(jp.journalpostId(), dok.dokumentInfoId()));
-        builder.hovedDokument(hovedDokument.equals(dok));
+        builder.erHoveddokument(hoveddokument.equals(dok));
         return builder.build();
     }
 
@@ -88,10 +87,10 @@ public final class ArkivMapper {
                      .findFirst().orElseThrow();
     }
 
-    private static ArkivDokument.DokumentType dokumentType(ArkivOppslagJournalpost.ArkivOppslagJournalpostType type) {
+    private static DokumentType dokumentType(ArkivOppslagJournalpost.ArkivOppslagJournalpostType type) {
         return switch (type) {
-            case U -> ArkivDokument.DokumentType.UTGÅENDE_DOKUMENT;
-            case I -> ArkivDokument.DokumentType.INNGÅENDE_DOKUMENT;
+            case U -> DokumentType.UTGÅENDE_DOKUMENT;
+            case I -> DokumentType.INNGÅENDE_DOKUMENT;
             default -> throw new IllegalArgumentException("Fikk uventet verdi " + type);
         };
     }

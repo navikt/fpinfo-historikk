@@ -37,7 +37,7 @@ public class TidslinjeTjeneste {
     public List<TidslinjeHendelse> tidslinje(String saksnummer) {
         var aktørId = oppslag.aktørId();
         var dokumenter = arkivTjeneste.hentDokumentoversikt().stream()
-              .filter(ad -> saksnummer.equals(ad.getSaksnummer()))
+              .filter(ad -> saksnummer.equals(ad.saksnummer()))
               .toList();
         var innslag = concat(inntektsmelding.inntektsmeldinger(aktørId).stream(),
             innsending.innsendinger(aktørId).stream())

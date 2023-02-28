@@ -3,6 +3,7 @@ package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 import no.nav.foreldrepenger.historikk.domain.AktørId;
 import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.Brevkode;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Collections.emptyList;
-import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.DokumentType.UTGÅENDE_DOKUMENT;
+import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.DokumentType.UTGÅENDE_DOKUMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,7 +103,7 @@ class TidslinjeMapperTest {
     public void innhentingsBrevSkalMappesTilUtgåendebrevhendelse() {
         var builder = ArkivDokument.builder();
         builder.type(UTGÅENDE_DOKUMENT);
-        builder.brevkode(ArkivDokument.Brevkode.INNOPP.name());
+        builder.brevkode(Brevkode.INNOPP.name());
         builder.journalpost("123");
         var tidslinje = TidslinjeMapper.map(emptyList(), List.of(builder.build()));
         assertThat(tidslinje).size().isEqualTo(1);

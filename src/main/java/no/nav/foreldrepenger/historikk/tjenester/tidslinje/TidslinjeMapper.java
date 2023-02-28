@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 
 import no.nav.foreldrepenger.common.innsyn.v2.Arbeidsgiver;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument;
+import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.DokumentType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
@@ -12,7 +13,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Stream.concat;
-import static no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument.*;
 
 public class TidslinjeMapper {
 
@@ -21,7 +21,7 @@ public class TidslinjeMapper {
     }
 
     public static List<TidslinjeHendelse> map(List<HistorikkInnslag> innslag, List<ArkivDokument> dokumenter) {
-        var dokumenterPerJournalpost = dokumenter.stream().collect(Collectors.groupingBy(ArkivDokument::getJournalpost));
+        var dokumenterPerJournalpost = dokumenter.stream().collect(Collectors.groupingBy(ArkivDokument::journalpost));
         var vedtakHendelser = vedtakHendelserFra(dokumenter);
         var dokumentHendelser = dokumentHendelserFra(dokumenter);
         var innslagHendelser = innslag.stream().map(h -> map(h, dokumenterPerJournalpost, innslag));
@@ -33,29 +33,26 @@ public class TidslinjeMapper {
 
     private static Stream<TidslinjeHendelse> dokumentHendelserFra(List<ArkivDokument> dokumenter) {
         return dokumenter.stream()
-            .filter(dok -> dok.getBrevkode() != null && dok.getBrevkode().erInnhentOpplysningerbrev())
+            .filter(dok -> dok.brevkode() != null && dok.brevkode().erInnhentOpplysningerbrev())
             .map(dok -> UtgåendeDokumentHendelse.builder()
                                             .tidslinjeHendelseType(TidslinjeHendelseType.UTGÅENDE_INNHENT_OPPLYSNINGER)
                                             .dokumenter(List.of(dok))
                                             .aktørType(AktørType.NAV)
-                                            .opprettet(dok.getMottatt())
+                                            .opprettet(dok.mottatt())
                                             .build());
     }
 
     private static Stream<TidslinjeHendelse> vedtakHendelserFra(List<ArkivDokument> dokumenter) {
         return dokumenter.stream()
-                         .filter(dok -> dok.getType() == DokumentType.UTGÅENDE_DOKUMENT)
-                         .filter(dok -> dok.getBrevkode().erVedtaksbrev())
-                         .map(dok -> {
-                             var hendelse = VedtakHendelse.builder()
-                                                          .tidslinjeHendelseType(TidslinjeHendelseType.VEDTAK)
-                                                          .dokumenter(List.of(dok))
-                                                          .aktørType(AktørType.NAV)
-                                                          .opprettet(dok.getMottatt())
-                                                          .vedtakType(VedtakHendelse.VedtakType.INNVILGELSE) // TODO: sjekk type
-                                                          .build();
-                             return hendelse;
-                         });
+                         .filter(dok -> dok.type() == DokumentType.UTGÅENDE_DOKUMENT)
+                         .filter(dok -> dok.brevkode().erVedtaksbrev())
+                         .map(dok -> VedtakHendelse.builder()
+                                               .tidslinjeHendelseType(TidslinjeHendelseType.VEDTAK)
+                                               .dokumenter(List.of(dok))
+                                               .aktørType(AktørType.NAV)
+                                               .opprettet(dok.mottatt())
+                                               .vedtakType(VedtakHendelse.VedtakType.INNVILGELSE) // TODO: sjekk type
+                                               .build());
     }
 
     public static TidslinjeHendelse map(HistorikkInnslag h,
