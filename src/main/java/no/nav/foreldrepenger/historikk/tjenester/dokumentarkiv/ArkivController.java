@@ -1,6 +1,5 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
-import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.foreldrepenger.historikk.http.ProtectedRestController;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +8,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@ConditionalOnNotProd
 @ProtectedRestController(ArkivController.Arkiv)
 public class ArkivController {
     public static final String Arkiv = "/arkiv";
 
-    private ArkivTjeneste arkiv;
+    private final ArkivTjeneste arkiv;
 
     public ArkivController(ArkivTjeneste arkiv) {
         this.arkiv = arkiv;
