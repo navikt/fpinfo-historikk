@@ -76,6 +76,17 @@ class TidslinjeMapperTest {
     }
 
     @Test
+    public void historiskeInnsendingerUtenInnsendtDatoSkalBrukeOpprettetDatoForSammenlikning() {
+        var innslagFørstegang0UtenInnsending = innsendingInnslag(HendelseType.INITIELL_FORELDREPENGER);
+        innslagFørstegang0UtenInnsending.setInnsendt(null);
+        var innslagFørstegang1 = innsendingInnslag(HendelseType.INITIELL_FORELDREPENGER);
+        List<HistorikkInnslag> innslag = List.of(innslagFørstegang0UtenInnsending, innslagFørstegang1);
+        var tidslinje = TidslinjeMapper.map(innslag, List.of());
+        assertThat(tidslinje.get(0).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD);
+        assertThat(tidslinje.get(1).getTidslinjeHendelseType()).isEqualTo(TidslinjeHendelseType.FØRSTEGANGSSØKNAD_NY);
+    }
+
+    @Test
     public void innvilgelsesbrevMappesTilVedtakshendelser() {
         var dokBuilder = ArkivDokument.builder();
         dokBuilder.type(UTGÅENDE_DOKUMENT);

@@ -7,6 +7,7 @@ import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,9 +27,8 @@ public class TidslinjeMapper {
         var dokumentHendelser = dokumentHendelserFra(dokumenter);
         var innslagHendelser = innslag.stream().map(h -> map(h, dokumenterPerJournalpost, innslag));
         return concat(concat(vedtakHendelser, innslagHendelser), dokumentHendelser)
-                      .sorted()
-                      .collect(Collectors.toList());
-
+            .sorted()
+            .collect(Collectors.toList());
     }
 
     private static Stream<TidslinjeHendelse> dokumentHendelserFra(List<ArkivDokument> dokumenter) {
@@ -119,7 +119,7 @@ public class TidslinjeMapper {
                               .manglendeVedlegg(h.getIkkeOpplastedeVedlegg())
                               .aktørType(AktørType.BRUKER)
                               .dokumenter(dokumenter)
-                              .opprettet(h.getInnsendt())
+                              .opprettet(firstNonNull(h.getInnsendt(), h.getOpprettet()))
                               .tidslinjeHendelseType(hendelseType)
                               .build();
     }
@@ -127,7 +127,11 @@ public class TidslinjeMapper {
     private static boolean nyførstegang(List<HistorikkInnslag> innslag, InnsendingInnslag h) {
         return innslag.stream()
             .filter(hi -> hi instanceof InnsendingInnslag)
-                      .filter(i -> i.getInnsendt().isBefore(h.getInnsendt()))
+            .filter(i -> {
+                var timestampKandidatTidligereInnsending = firstNonNull(i.getInnsendt(), i.getOpprettet());
+                var timestampInnsending = firstNonNull(h.getInnsendt(), h.getOpprettet());
+                return timestampKandidatTidligereInnsending.isBefore(timestampInnsending);
+            })
             .anyMatch(hi -> ((InnsendingInnslag) hi).getHendelse().erInitiell());
     }
 
@@ -137,12 +141,15 @@ public class TidslinjeMapper {
             throw new IllegalStateException("Fant ikke journalpost på ettersending");
         }
         return EttersendingHendelse.builder()
-                                   .dokumenter(List.of())
                                    .aktørType(AktørType.BRUKER)
                                    .dokumenter(dokumenter)
-                                   .opprettet(h.getInnsendt())
+                                   .opprettet(firstNonNull(h.getInnsendt(), h.getOpprettet()))
                                    .tidslinjeHendelseType(TidslinjeHendelseType.ETTERSENDING)
                                    .build();
+    }
+
+    private static LocalDateTime firstNonNull(LocalDateTime a, LocalDateTime b) {
+        return a != null ? a : b;
     }
 
 }
