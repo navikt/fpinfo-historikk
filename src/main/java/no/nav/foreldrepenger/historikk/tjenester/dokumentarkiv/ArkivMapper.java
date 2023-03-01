@@ -28,10 +28,12 @@ public final class ArkivMapper {
         return journalposter.journalposter().stream()
                             .peek(jp -> {
                                 var systemUlikFS36 = jp.sak().flatMap(ArkivOppslagSak::fagsaksystem)
-                                                        .stream().filter(sys -> !"FS36".equalsIgnoreCase(sys))
-                                                        .toList();
-                                if (!systemUlikFS36.isEmpty()) {
-                                    LOG.info("ArkivConnection får journalpost med system ulikt FS36: {}", String.join(",", systemUlikFS36));
+                                                        .stream().anyMatch(sys -> !"FS36".equalsIgnoreCase(sys));
+                                if (systemUlikFS36) {
+                                    var saksnummerLiknerFpsakSaksnummer = jp.sak()
+                                                                                .flatMap(ArkivOppslagSak::fagsakId)
+                                                                                .filter(fagsakId -> fagsakId.length() == 9);
+                                    saksnummerLiknerFpsakSaksnummer.ifPresent(fps -> LOG.info("ArkivConnection får journalpost med system ulikt FS36: {}", jp.sak()));
                                 }
                             })
 //            .filter(jp -> {
