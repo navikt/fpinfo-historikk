@@ -74,11 +74,10 @@ public class TidslinjeMapper {
             ? Arbeidsgiver.ArbeidsgiverType.ORGANISASJON
             : Arbeidsgiver.ArbeidsgiverType.PRIVAT;
         var arbeidsgiver = new Arbeidsgiver(ims.getArbeidsgiver().getId(), arbeidsgiverType);
-        var aktuellDato = ims.getInnsendt() != null ? ims.getInnsendt() : ims.getOpprettet();
         return InntektsmeldingHendelse.builder()
                                       .arbeidsgiver(arbeidsgiver)
                                       .dokumenter(dokumenter)
-                                      .opprettet(aktuellDato)
+                                      .opprettet(firstNonNull(ims.getInnsendt(), ims.getOpprettet()))
                                       .tidslinjeHendelseType(TidslinjeHendelseType.INNTEKTSMELDING)
                                       .build();
     }
@@ -104,7 +103,7 @@ public class TidslinjeMapper {
                               .tidslinjeHendelseType(TidslinjeHendelseType.ENDRINGSSØKNAD)
                               .aktørType(AktørType.BRUKER)
                               .dokumenter(dokumenter)
-                              .opprettet(h.getInnsendt())
+                              .opprettet(firstNonNull(h.getInnsendt(), h.getOpprettet()))
                               .build();
     }
 
