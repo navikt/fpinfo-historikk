@@ -6,6 +6,8 @@ import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.DokumentType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingInnslag;
 import no.nav.foreldrepenger.historikk.tjenester.inntektsmelding.InntektsmeldingInnslag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.stream.Stream;
 import static java.util.stream.Stream.concat;
 
 public class TidslinjeMapper {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TidslinjeMapper.class);
 
     private TidslinjeMapper() {
 
@@ -136,8 +140,8 @@ public class TidslinjeMapper {
 
     private static TidslinjeHendelse ettersending(InnsendingInnslag h,
                                                   List<ArkivDokument> dokumenter) {
-        if (dokumenter.isEmpty()) {
-            throw new IllegalStateException("Fant ikke journalpost på ettersending");
+        if (dokumenter == null || dokumenter.isEmpty()) {
+            LOG.warn("Fant ikke dokumenter tilknyttet journalpostId {} for ettersending, fortsetter uten dokumenter", h.getJournalpostId());
         }
         return EttersendingHendelse.builder()
                                    .aktørType(AktørType.BRUKER)
