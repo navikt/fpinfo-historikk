@@ -141,7 +141,7 @@ public class TidslinjeMapper {
     private static TidslinjeHendelse ettersending(InnsendingInnslag h,
                                                   List<ArkivDokument> dokumenter) {
         if (dokumenter == null || dokumenter.isEmpty()) {
-            LOG.warn("Fant ikke dokumenter tilknyttet journalpostId {} for ettersending, fortsetter uten dokumenter", h.getJournalpostId());
+            LOG.info("Fant ikke dokumenter tilknyttet journalpostId {} for ettersending, fortsetter uten dokumenter", h.getJournalpostId());
         }
         return EttersendingHendelse.builder()
                                    .aktørType(AktørType.BRUKER)
