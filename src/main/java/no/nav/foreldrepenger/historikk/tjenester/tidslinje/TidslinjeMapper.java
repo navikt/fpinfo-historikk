@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -51,6 +52,7 @@ public class TidslinjeMapper {
     private static Stream<TidslinjeHendelse> vedtakHendelserFra(List<ArkivDokument> dokumenter) {
         return dokumenter.stream()
                          .filter(dok -> dok.type() == DokumentType.UTGÅENDE_DOKUMENT)
+                         .filter(dok -> !Objects.isNull(dok.brevkode()))
                          .filter(dok -> dok.brevkode().erVedtaksbrev())
                          .map(dok -> VedtakHendelse.builder()
                                                .tidslinjeHendelseType(TidslinjeHendelseType.VEDTAK)
