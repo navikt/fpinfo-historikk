@@ -1,6 +1,6 @@
 package no.nav.foreldrepenger.historikk.tjenester.tidslinje;
 
-import no.nav.foreldrepenger.common.innsyn.v2.Arbeidsgiver;
+import no.nav.foreldrepenger.common.innsyn.Arbeidsgiver;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.ArkivDokument;
 import no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv.DokumentType;
 import no.nav.foreldrepenger.historikk.tjenester.felles.HistorikkInnslag;
