@@ -29,7 +29,7 @@
         <mottak-felles.version>1.0.1</mottak-felles.version>
         <boot-conditionals.version>3.1.0</boot-conditionals.version>
         <token-validation-version>2.1.9</token-validation-version>
-        <confluent.version>7.2.2</confluent.version>
+        <confluent.version>7.3.2</confluent.version>
         <springdoc.version>1.6.14</springdoc.version>
         <swagger-annotations.version>2.2.9</swagger-annotations.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
@@ -216,7 +216,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>7.2</version>
+            <version>7.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -256,6 +256,12 @@
             <groupId>no.nav.foreldrepenger</groupId>
             <artifactId>fpsoknad-felles</artifactId>
             <version>${mottak-felles.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>no.nav.security</groupId>
