@@ -30,7 +30,7 @@
         <boot-conditionals.version>3.1.0</boot-conditionals.version>
         <token-validation-version>2.1.9</token-validation-version>
         <confluent.version>7.3.3</confluent.version>
-        <springdoc.version>1.6.15</springdoc.version>
+        <springdoc.version>1.7.0</springdoc.version>
         <swagger-annotations.version>2.2.9</swagger-annotations.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
