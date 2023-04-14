@@ -26,7 +26,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
-        <mottak-felles.version>2.0.0</mottak-felles.version>
+        <mottak-felles.version>2.0.1</mottak-felles.version>
         <boot-conditionals.version>5.0.6</boot-conditionals.version>
         <token-validation-version>3.0.10</token-validation-version>
         <brukernotifikasjon-schemas.version>2.5.2</brukernotifikasjon-schemas.version>
