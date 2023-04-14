@@ -36,7 +36,7 @@
         <confluent.version>7.3.3</confluent.version>
         <springdoc.version>1.7.0</springdoc.version>
         <swagger-annotations.version>2.2.9</swagger-annotations.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
         <logstash-logback-encoder.version>7.3</logstash-logback-encoder.version>
     </properties>
     <scm>
