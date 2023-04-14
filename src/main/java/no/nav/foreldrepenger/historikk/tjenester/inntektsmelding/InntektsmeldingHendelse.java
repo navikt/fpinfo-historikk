@@ -5,7 +5,7 @@ import static no.nav.foreldrepenger.common.util.StringUtil.limitLast;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonCreator;

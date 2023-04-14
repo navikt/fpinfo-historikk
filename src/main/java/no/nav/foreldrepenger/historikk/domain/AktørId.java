@@ -5,8 +5,8 @@ import static no.nav.foreldrepenger.common.util.StringUtil.mask;
 
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.validation.constraints.Pattern;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
