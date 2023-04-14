@@ -2,7 +2,6 @@ package no.nav.foreldrepenger.historikk.tjenester.oppslag;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,7 +19,6 @@ public class OppslagConfig extends AbstractConfig {
     private static final String AKTØR_TEMPLATE = "/oppslag/aktoer";
     private static final String ORGNAVN_TEMPLATE = "/innsyn/orgnavn?orgnr={orgnummer}";
 
-    @ConstructorBinding
     public OppslagConfig(@DefaultValue(DEFAULT_MOTTAK_BASE_URI) URI baseUri,
                          @DefaultValue(DEFAULT_PING_PATH) String pingPath,
                          @DefaultValue("true") boolean enabled) {

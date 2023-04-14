@@ -1,19 +1,14 @@
 package no.nav.foreldrepenger.historikk.error;
 
-import static java.util.Arrays.asList;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-
-import java.util.List;
-import java.util.Optional;
-
+import no.nav.foreldrepenger.common.util.StringUtil;
+import no.nav.foreldrepenger.common.util.TokenUtil;
+import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
+import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -25,10 +20,14 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import no.nav.foreldrepenger.common.util.StringUtil;
-import no.nav.foreldrepenger.common.util.TokenUtil;
-import no.nav.security.token.support.core.exceptions.JwtTokenValidatorException;
-import no.nav.security.token.support.spring.validation.interceptor.JwtTokenUnauthorizedException;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.Arrays.asList;
+import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @ControllerAdvice
 public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
@@ -46,14 +45,12 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e,
-            HttpHeaders headers, HttpStatus status, WebRequest req) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatusCode status, WebRequest req) {
         return logAndHandle(UNPROCESSABLE_ENTITY, e, req, headers, validationErrors(e));
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e,
-            HttpHeaders headers, HttpStatus status, WebRequest req) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException e, HttpHeaders headers, HttpStatusCode status, WebRequest req) {
         return logAndHandle(UNPROCESSABLE_ENTITY, e, req, headers);
     }
 
@@ -77,16 +74,16 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
         return logAndHandle(INTERNAL_SERVER_ERROR, e, req);
     }
 
-    private ResponseEntity<Object> logAndHandle(HttpStatus status, Exception e, WebRequest req, Object... messages) {
+    private ResponseEntity<Object> logAndHandle(HttpStatusCode status, Exception e, WebRequest req, Object... messages) {
         return logAndHandle(status, e, req, new HttpHeaders(), messages);
     }
 
-    private ResponseEntity<Object> logAndHandle(HttpStatus status, Exception e, WebRequest req, HttpHeaders headers,
+    private ResponseEntity<Object> logAndHandle(HttpStatusCode status, Exception e, WebRequest req, HttpHeaders headers,
             Object... messages) {
         return logAndHandle(status, e, req, headers, asList(messages));
     }
 
-    private ResponseEntity<Object> logAndHandle(HttpStatus status, Exception e, WebRequest req, HttpHeaders headers,
+    private ResponseEntity<Object> logAndHandle(HttpStatusCode status, Exception e, WebRequest req, HttpHeaders headers,
             List<Object> messages) {
         var apiError = apiErrorFra(status, e, messages);
         LOG.warn("({}) {} {} ({})", maskertSubject(), status, apiError.getMessages(), status.value(), e);
@@ -99,7 +96,7 @@ public class HistorikkExceptionHandler extends ResponseEntityExceptionHandler {
             .orElse("Uautentisert");
     }
 
-    private static ApiError apiErrorFra(HttpStatus status, Exception e, List<Object> messages) {
+    private static ApiError apiErrorFra(HttpStatusCode status, Exception e, List<Object> messages) {
         return new ApiError(status, e, messages);
     }
 

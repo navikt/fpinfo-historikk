@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.domain;
 
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

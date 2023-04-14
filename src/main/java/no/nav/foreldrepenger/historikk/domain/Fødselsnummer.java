@@ -4,8 +4,8 @@ import static no.nav.foreldrepenger.common.util.StringUtil.mask;
 
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Transient;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;

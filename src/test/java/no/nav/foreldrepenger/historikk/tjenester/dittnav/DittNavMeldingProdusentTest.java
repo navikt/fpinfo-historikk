@@ -1,18 +1,18 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
+import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
+import no.nav.brukernotifikasjon.schemas.input.DoneInput;
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
+import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
+import no.nav.foreldrepenger.historikk.domain.AktørId;
+import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
+import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
+import no.nav.security.token.support.client.core.context.JwtBearerTokenResolver;
+import no.nav.security.token.support.client.core.http.OAuth2HttpClient;
+import no.nav.security.token.support.client.spring.ClientConfigurationProperties;
+import no.nav.security.token.support.client.spring.oauth2.OAuth2ClientConfiguration;
+import no.nav.security.token.support.spring.MultiIssuerProperties;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,21 +27,20 @@ import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.util.concurrent.SettableListenableFuture;
 
-import no.nav.brukernotifikasjon.schemas.input.BeskjedInput;
-import no.nav.brukernotifikasjon.schemas.input.DoneInput;
-import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
-import no.nav.brukernotifikasjon.schemas.input.OppgaveInput;
-import no.nav.foreldrepenger.historikk.domain.AktørId;
-import no.nav.foreldrepenger.historikk.domain.Fødselsnummer;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import no.nav.security.token.support.client.core.context.JwtBearerTokenResolver;
-import no.nav.security.token.support.client.core.http.OAuth2HttpClient;
-import no.nav.security.token.support.client.spring.ClientConfigurationProperties;
-import no.nav.security.token.support.client.spring.oauth2.OAuth2ClientConfiguration;
-import no.nav.security.token.support.spring.MultiIssuerProperties;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @ActiveProfiles(value = "local")
@@ -90,8 +89,8 @@ class DittNavMeldingProdusentTest {
     @BeforeEach
     public void setUp() {
         dittNav = new DittNavMeldingProdusent(dittNavConfig, dittNavMeldingsHistorikk, kafkaOperations);
-        var future = new SettableListenableFuture<SendResult<NokkelInput, Object>>();
-        future.setException(new IllegalStateException("Ooops"));
+        var future = new CompletableFuture<SendResult<NokkelInput, Object>>();
+        future.whenComplete((result, ex) -> new IllegalStateException("Ooops"));
         when(kafkaOperations.send((ProducerRecord<NokkelInput, Object>) any())).thenReturn(future);
     }
 
