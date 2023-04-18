@@ -1,11 +1,13 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import no.nav.foreldrepenger.historikk.http.AbstractConfig;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.bind.DefaultValue;
-
 import java.net.URI;
 import java.time.Duration;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
+import no.nav.foreldrepenger.historikk.http.AbstractConfig;
 
 @ConfigurationProperties(prefix = "historikk.dittnav")
 public class DittNavConfig extends AbstractConfig {
@@ -15,6 +17,7 @@ public class DittNavConfig extends AbstractConfig {
     private final Duration beskjedVarighet;
     private final Duration oppgaveVarighet;
 
+    @ConstructorBinding
     public DittNavConfig(@DefaultValue(DEFAULT_BASE_PATH) URI baseUri,
                          @DefaultValue("true") boolean enabled,
                          @DefaultValue("90d") Duration beskjedVarighet,

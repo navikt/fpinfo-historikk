@@ -1,21 +1,24 @@
 package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
-import no.nav.boot.conditionals.ConditionalOnFSS;
-import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
-import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.kafka.core.KafkaOperations;
-import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avslutt;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avsluttNøkkel;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.nøkkel;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
+
+import java.util.UUID;
+
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import no.nav.boot.conditionals.ConditionalOnFSS;
+import no.nav.brukernotifikasjon.schemas.input.NokkelInput;
+import no.nav.foreldrepenger.historikk.tjenester.innsending.InnsendingHendelse;
 
 @Service
 @ConditionalOnFSS
@@ -76,13 +79,18 @@ public class DittNavMeldingProdusent implements DittNav {
     private void send(Object msg, NokkelInput key, String topic) {
         var melding = new ProducerRecord<>(topic, key, msg);
         LOG.info("Sender melding med id {} på {}", key.getEventId(), topic);
-        kafkaOperations.send(melding).whenComplete((input, exception) -> {
-            if (exception != null) {
-                LOG.warn("Kunne ikke sende kafkamelding. Må følges opp, se secure logg for detaljer.");
-                SECURE_LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, exception);
-            } else {
+        kafkaOperations.send(melding).addCallback(new ListenableFutureCallback<>() {
+
+            @Override
+            public void onSuccess(SendResult<NokkelInput, Object> result) {
                 LOG.info("Sendte melding med id {} og offset {} på {}", key.getEventId(),
-                    input.getRecordMetadata().offset(), topic);
+                    result.getRecordMetadata().offset(), topic);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+                LOG.warn("Kunne ikke sende kafkamelding. Må følges opp, se secure logg for detaljer.");
+                SECURE_LOG.warn("Kunne ikke sende melding {} med id {} på {}", msg, key.getEventId(), topic, e);
             }
         });
     }

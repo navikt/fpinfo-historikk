@@ -38,6 +38,12 @@ historikk:
     group-id: fpinfo-historikk-tilbakekreving
 
 management:
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
   endpoints:
     web:
       exposure:

@@ -2,7 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.felles;
 
 import java.time.LocalDateTime;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

@@ -1,8 +1,10 @@
 package no.nav.foreldrepenger.historikk.tjenester.tilbakekreving;
 
-import jakarta.validation.Valid;
-import no.nav.foreldrepenger.common.util.MDCUtil;
-import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
+import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
+import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,8 +15,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
-import static no.nav.foreldrepenger.historikk.config.KafkaListenerConfiguration.AIVEN;
+import no.nav.foreldrepenger.common.util.MDCUtil;
+import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
 
 @Service
 @ConditionalOnProperty(name = "historikk.tilbakekreving.enabled")
@@ -35,7 +37,7 @@ public class TilbakekrevingHendelseKonsument {
                    containerFactory = AIVEN)
     public void aivenListen(@Payload @Valid TilbakekrevingHendelse h,
                             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                            @Header(KafkaHeaders.RECEIVED_PARTITION) int partitionId,
+                            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partitionId,
                             @Header(KafkaHeaders.OFFSET) int offset) {
         MDCUtil.toMDC(NAV_CALL_ID, h.getDialogId());
         LOG.info("Mottok tilbakekrevingshendelse {}, partition {}, offset {}, {}", topic, partitionId, offset, h);

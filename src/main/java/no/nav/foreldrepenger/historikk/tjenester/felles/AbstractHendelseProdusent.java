@@ -1,19 +1,22 @@
 package no.nav.foreldrepenger.historikk.tjenester.felles;
 
-import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.kafka.core.KafkaOperations;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
 import static no.nav.foreldrepenger.common.util.Constants.NAV_CALL_ID;
 import static no.nav.foreldrepenger.common.util.MDCUtil.callIdOrNew;
 import static no.nav.foreldrepenger.common.util.StreamUtil.safeStream;
 import static org.springframework.kafka.support.KafkaHeaders.TOPIC;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaOperations;
+import org.springframework.kafka.support.SendResult;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.concurrent.ListenableFutureCallback;
+
+import no.nav.foreldrepenger.historikk.util.ObjectMapperWrapper;
 
 public abstract class AbstractHendelseProdusent<T extends Hendelse> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractHendelseProdusent.class);
@@ -46,14 +49,19 @@ public abstract class AbstractHendelseProdusent<T extends Hendelse> {
 
     private void send(Message<String> message) {
         LOG.info("Sender melding {} på {}", message.getPayload(), topic);
-        kafkaOperations.send(message).whenComplete((input, exception) -> {
-            if (exception != null) {
-                LOG.warn("Kunne ikke sende melding {} på {}", message.getPayload(), topic, exception);
-            } else {
-                LOG.info("Sendte melding {} med offset {} på {}", message.getPayload(),
-                    input.getRecordMetadata().offset(), topic);
-            }
-        });
+        kafkaOperations.send(message).addCallback(new ListenableFutureCallback<>() {
+
+                    @Override
+                    public void onSuccess(SendResult<Object, Object> result) {
+                        LOG.info("Sendte melding {} med offset {} på {}", message.getPayload(),
+                            result.getRecordMetadata().offset(), topic);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                        LOG.warn("Kunne ikke sende melding {} på {}", message.getPayload(), topic, e);
+                    }
+                });
     }
 
     @Override
