@@ -14,17 +14,26 @@ public enum Brevkode {
     OPPSVP, // Opphørsbrev svangerskapspenger
     INNOPP, // Innhent opplysninger
     ELYSIM, // Etterlys inntektsmelding
+    AVSLAG, // avslagsbrev
+    OPPHOR, // opphør
+    INNSVP, // innvilgelse svp
+    AVSLFP, // avslag foreldrepenger
+
+    INNVFP,
+    POSVED,
+    INNLYS, // etterlys im fritekst
+    INNHEN, // innhent dokumentasjon
     UKJENT;
 
     public boolean erVedtaksbrev() {
-        return Set.of(ANUFOR, AVSFOR, OPPSVP, INNVES, AVSSVP, INVFOR, AVSLES, OPPFOR, INVSVP).contains(this);
+        return Set.of(ANUFOR, OPPFOR, AVSFOR, INNVES, OPPSVP, AVSLAG, INNSVP, OPPHOR, INVFOR, INNVFP, INVSVP, AVSLFP, POSVED, AVSSVP, AVSLES).contains(this);
     }
 
     public boolean erInnhentOpplysningerbrev() {
-        return INNOPP == this;
+        return Set.of(INNOPP, INNHEN).contains(this);
     }
 
     public boolean erEtterlysInntektsmeldingbrev() {
-        return ELYSIM == this;
+        return Set.of(INNLYS, ELYSIM).contains(this);
     }
 }
