@@ -1,6 +1,7 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
 import no.nav.foreldrepenger.common.util.TokenUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +25,9 @@ public class ArkivTjeneste {
 
     public byte[] hentPdf(String journalpostId, String dokumentId) {
         return connection.hentDok(journalpostId, dokumentId);
+    }
+
+    public ResponseEntity<byte[]> hentPdfRespons(String journalpostId, String dokumentId) {
+        return connection.hentDokRespons(journalpostId, dokumentId);
     }
 }

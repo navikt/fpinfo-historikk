@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -43,6 +44,14 @@ public class ArkivConnection {
                         .retrieve()
                         .bodyToMono(byte[].class)
                         .block();
+    }
+
+    public ResponseEntity<byte[]> hentDokRespons(String journalpostId, String dokumentInfoId) {
+        return safClient.get()
+            .uri(cfg.hentDokumentTemplate(), journalpostId, dokumentInfoId, ARKIV.name())
+            .retrieve()
+            .toEntity(byte[].class)
+            .block();
     }
 
     public List<ArkivDokument> journalposter(String ident) {

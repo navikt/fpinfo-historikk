@@ -2,6 +2,7 @@ package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
 import no.nav.foreldrepenger.historikk.http.ProtectedRestController;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +25,13 @@ public class ArkivController {
     public @ResponseBody byte[] hent(@PathVariable(name = "journalpostId") String journalpostId,
                                      @PathVariable(name = "dokumentId") String dokumentId) {
         return arkiv.hentPdf(journalpostId, dokumentId);
+    }
+
+
+    @GetMapping(value ="/hent-dokument/v2/{journalpostId}/{dokumentId}")
+    public ResponseEntity<byte[]> hentDokumentEntitet(@PathVariable(name = "journalpostId") String journalpostId,
+                                       @PathVariable(name = "dokumentId") String dokumentId) {
+        return arkiv.hentPdfRespons(journalpostId, dokumentId);
     }
 
     @GetMapping(
