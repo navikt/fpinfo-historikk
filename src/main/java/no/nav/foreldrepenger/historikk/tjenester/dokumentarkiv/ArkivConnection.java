@@ -25,7 +25,8 @@ public class ArkivConnection {
 
     public static final String SAF = "SAF";
     private static final Logger LOG = LoggerFactory.getLogger(ArkivConnection.class);
-
+    private static final String DEFAULT_CONTENT_DISPOSITION_SAF = "inline; filename=innhold.pdf";;
+    private static final String DEFAULT_CONTENT_TYPE_SAF = MediaType.APPLICATION_PDF_VALUE;
 
     private final ArkivOppslagConfig cfg;
     private final WebClient safClient;
@@ -56,8 +57,8 @@ public class ArkivConnection {
             .block();
 
         var headers = response.getHeaders();
-        var contentType = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_TYPE)).orElse(MediaType.APPLICATION_PDF_VALUE);
-        var contentDisp = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_DISPOSITION)).orElse("inline; filename=innhold.pdf");
+        var contentType = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_TYPE)).orElse(DEFAULT_CONTENT_TYPE_SAF);
+        var contentDisp = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_DISPOSITION)).orElse(DEFAULT_CONTENT_DISPOSITION_SAF);
         return ResponseEntity
             .accepted()
             .header(HttpHeaders.CONTENT_TYPE, contentType)
