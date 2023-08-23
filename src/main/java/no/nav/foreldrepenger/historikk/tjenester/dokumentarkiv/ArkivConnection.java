@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -47,11 +49,20 @@ public class ArkivConnection {
     }
 
     public ResponseEntity<byte[]> hentDokRespons(String journalpostId, String dokumentInfoId) {
-        return safClient.get()
+        var response = safClient.get()
             .uri(cfg.hentDokumentTemplate(), journalpostId, dokumentInfoId, ARKIV.name())
             .retrieve()
             .toEntity(byte[].class)
             .block();
+
+        var headers = response.getHeaders();
+        var contentType = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_TYPE)).orElse(MediaType.APPLICATION_PDF_VALUE);
+        var contentDisp = Optional.ofNullable(headers.getFirst(HttpHeaders.CONTENT_DISPOSITION)).orElse("inline; filename=innhold.pdf");
+        return ResponseEntity
+            .accepted()
+            .header(HttpHeaders.CONTENT_TYPE, contentType)
+            .header(HttpHeaders.CONTENT_DISPOSITION, contentDisp)
+            .body(response.getBody());
     }
 
     public List<ArkivDokument> journalposter(String ident) {
