@@ -48,7 +48,7 @@ public record ArkivOppslagJournalposter(List<ArkivOppslagJournalpost> journalpos
                 }
 
                 public enum ArkivOppslagDokumentFiltype {
-                    PDF, JPG, PNG
+                    PDF, JPEG, PNG
                 }
             }
         }
