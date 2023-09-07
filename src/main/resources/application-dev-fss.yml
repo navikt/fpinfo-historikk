@@ -6,9 +6,9 @@ no.nav:
           fpsoknad-mottak:
             token-exchange:
               audience: dev-fss:teamforeldrepenger:fpsoknad-mottak
-          safselvbetjening-q1:
+          safselvbetjening:
             token-exchange:
-              audience: dev-fss:teamdokumenthandtering:safselvbetjening-q1
+              audience: dev-fss:teamdokumenthandtering:safselvbetjening
             well-known-url: ${token.x.well.known.url}
             grant-type: urn:ietf:params:oauth:grant-type:token-exchange
             authentication:
@@ -20,8 +20,8 @@ historikk:
   dittnav:
     base-uri: https://foreldrepenger.dev.nav.no
   saf:
-    base-uri: https://safselvbetjening-q1.dev.intern.nav.no
-    api-base-uri: https://foreldrepengesoknad-api.dev.nav.no/rest
+    base-uri: https://safselvbetjening.dev.intern.nav.no
+    api-base-uri: https://foreldrepengesoknad-api.intern.dev.nav.no/rest
 management:
   endpoints:
     web:
