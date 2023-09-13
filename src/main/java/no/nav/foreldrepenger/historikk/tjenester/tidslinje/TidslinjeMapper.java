@@ -82,6 +82,7 @@ public class TidslinjeMapper {
         var arbeidsgiver = new Arbeidsgiver(ims.getArbeidsgiver().getId(), arbeidsgiverType);
         return InntektsmeldingHendelse.builder()
                                       .arbeidsgiver(arbeidsgiver)
+                                      .aktørType(AktørType.ARBEIDSGIVER)
                                       .dokumenter(dokumenter)
                                       .opprettet(firstNonNull(ims.getInnsendt(), ims.getOpprettet()))
                                       .tidslinjeHendelseType(TidslinjeHendelseType.INNTEKTSMELDING)
