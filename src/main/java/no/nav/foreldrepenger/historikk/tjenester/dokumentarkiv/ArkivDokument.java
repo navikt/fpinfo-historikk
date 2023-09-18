@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 
 public record ArkivDokument(DokumentType type,
@@ -57,10 +56,7 @@ public record ArkivDokument(DokumentType type,
             if (brevkode == null) {
                 return this;
             }
-            this.brevkode = Arrays.stream(Brevkode.values())
-                                  .filter(kode -> kode.name().equals(brevkode))
-                                  .findFirst()
-                                  .orElse(Brevkode.UKJENT);
+            this.brevkode = Brevkode.fraKode(brevkode);
             return this;
         }
 

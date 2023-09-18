@@ -1,30 +1,73 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
+import java.util.Arrays;
 import java.util.Set;
 
 public enum Brevkode {
-    INNVES, // Vedtak om innvilgelse av engangsstønad
-    AVSSVP, // Avslagsbrev svangerskapspenger
-    INVFOR, // Innvilgelsesbrev Foreldrepenger
-    AVSLES, // Avslag engangsstønad
-    OPPFOR, // Opphør Foreldrepenger
-    INVSVP, // Innvilgelsesbrev svangerskapspenger
-    ANUFOR, // Annullering av Foreldrepenger
-    AVSFOR, // Avslagsbrev Foreldrepenger
-    OPPSVP, // Opphørsbrev svangerskapspenger
-    INNOPP, // Innhent opplysninger
-    ELYSIM, // Etterlys inntektsmelding
-    UKJENT;
+    FORELDREPENGER_ANNULLERT("ANUFOR"),
+    FORELDREPENGER_AVSLAG("AVSFOR"),
+    SVANGERSKAPSPENGER_OPPHØR("OPPSVP"),
+    ENGANGSSTØNAD_INNVILGELSE("INNVES"),
+    SVANGERSKAPSPENGER_AVSLAG("AVSSVP"),
+    FORELDREPENGER_INNVILGELSE("INVFOR"),
+    ENGANGSSTØNAD_AVSLAG("AVSLES"),
+    FORELDREPENGER_OPPHØR("OPPFOR"),
+    SVANGERSKAPSPENGER_INNVILGELSE("INVSVP"),
+    INNHENTE_OPPLYSNINGER("INNOPP"),
+    ETTERLYS_INNTEKTSMELDING("ELYSIM"),
+    FRITEKSTBREV("FRITEK"),
+
+    // Gamle/utdaterte brevkoder funnet i Joark
+    VEDTAK_POSITIVT_OLD("000048"),
+    VEDTAK_AVSLAG_OLD("000051"),
+    VEDTAK_FORELDREPENGER_OLD("000061"),
+    VEDTAK_AVSLAG_FORELDREPENGER_OLD("000080"),
+    INNHENTE_OPPLYSNINGER_OLD("000049"),
+    ETTERLYS_INNTEKTSMELDING_OLD("000096"),
+
+    UKJENT("UKJENT");
+
+    private String kode;
+
+    Brevkode(String kode) {
+        this.kode = kode;
+    }
+
+    public String kode() {
+        return kode;
+    }
+
+    public static Brevkode fraKode(String kode) {
+        return Arrays.stream(values())
+            .filter(brevkode -> brevkode.kode().equals(kode))
+            .findFirst()
+            .orElse(UKJENT);
+    }
 
     public boolean erVedtaksbrev() {
-        return Set.of(ANUFOR, AVSFOR, OPPSVP, INNVES, AVSSVP, INVFOR, AVSLES, OPPFOR, INVSVP).contains(this);
+        return Set.of(
+                FORELDREPENGER_ANNULLERT,
+                FORELDREPENGER_AVSLAG,
+                SVANGERSKAPSPENGER_OPPHØR,
+                ENGANGSSTØNAD_INNVILGELSE,
+                SVANGERSKAPSPENGER_AVSLAG,
+                FORELDREPENGER_INNVILGELSE,
+                ENGANGSSTØNAD_AVSLAG,
+                FORELDREPENGER_OPPHØR,
+                SVANGERSKAPSPENGER_INNVILGELSE,
+                VEDTAK_POSITIVT_OLD,
+                VEDTAK_AVSLAG_OLD,
+                VEDTAK_FORELDREPENGER_OLD,
+                VEDTAK_AVSLAG_FORELDREPENGER_OLD
+            )
+            .contains(this);
     }
 
     public boolean erInnhentOpplysningerbrev() {
-        return INNOPP == this;
+        return Set.of(INNHENTE_OPPLYSNINGER, INNHENTE_OPPLYSNINGER_OLD).contains(this);
     }
 
     public boolean erEtterlysInntektsmeldingbrev() {
-        return ELYSIM == this;
+        return Set.of(ETTERLYS_INNTEKTSMELDING, ETTERLYS_INNTEKTSMELDING_OLD).contains(this);
     }
 }

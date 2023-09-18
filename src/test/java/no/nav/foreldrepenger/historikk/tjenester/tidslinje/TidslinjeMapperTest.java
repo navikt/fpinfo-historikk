@@ -114,7 +114,7 @@ class TidslinjeMapperTest {
     public void innhentingsBrevSkalMappesTilUtgåendebrevhendelse() {
         var builder = ArkivDokument.builder();
         builder.type(UTGÅENDE_DOKUMENT);
-        builder.brevkode(Brevkode.INNOPP.name());
+        builder.brevkode(Brevkode.INNHENTE_OPPLYSNINGER.kode());
         builder.journalpost("123");
         var tidslinje = TidslinjeMapper.map(emptyList(), List.of(builder.build()));
         assertThat(tidslinje).size().isEqualTo(1);
@@ -126,7 +126,7 @@ class TidslinjeMapperTest {
     public void etterlyseInntektsmeldingSkalMappesTilUtgåendebrevhendelse() {
         var dokument = ArkivDokument.builder()
             .journalpost("123")
-            .brevkode(Brevkode.ELYSIM.name())
+            .brevkode(Brevkode.ETTERLYS_INNTEKTSMELDING.kode())
             .type(UTGÅENDE_DOKUMENT)
             .build();
         var tidslinje = TidslinjeMapper.map(emptyList(), List.of(dokument));
