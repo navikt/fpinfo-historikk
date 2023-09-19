@@ -52,6 +52,7 @@ public class TidslinjeMapper {
     private static Stream<TidslinjeHendelse> vedtakHendelserFra(List<ArkivDokument> dokumenter) {
         return dokumenter.stream()
                          .filter(dok -> dok.type() == DokumentType.UTGÅENDE_DOKUMENT)
+                         .peek(dok -> LOG.info("Utgående dokument: {}", dok))
                          .filter(dok -> !Objects.isNull(dok.brevkode()))
                          .filter(dok -> dok.brevkode().erVedtaksbrev())
                          .map(dok -> VedtakHendelse.builder()
