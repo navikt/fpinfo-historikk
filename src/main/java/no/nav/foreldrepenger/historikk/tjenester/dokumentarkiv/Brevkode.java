@@ -25,6 +25,14 @@ public enum Brevkode {
     INNHENTE_OPPLYSNINGER_OLD("000049"),
     ETTERLYS_INNTEKTSMELDING_OLD("000096"),
 
+    // Gamle/utdaterte brevkoder funnet i Joark
+    VEDTAK_POSITIVT_OLD_MF("MF_000048"),
+    VEDTAK_AVSLAG_OLD_MF("MF_000051"),
+    VEDTAK_FORELDREPENGER_OLD_MF("MF_000061"),
+    VEDTAK_AVSLAG_FORELDREPENGER_OLD_MF("MF_000080"),
+    INNHENTE_OPPLYSNINGER_OLD_MF("MF_000049"),
+    ETTERLYS_INNTEKTSMELDING_OLD_MF("MF_000096"),
+
     UKJENT("UKJENT");
 
     private String kode;
@@ -56,18 +64,22 @@ public enum Brevkode {
                 FORELDREPENGER_OPPHØR,
                 SVANGERSKAPSPENGER_INNVILGELSE,
                 VEDTAK_POSITIVT_OLD,
+                VEDTAK_POSITIVT_OLD_MF,
                 VEDTAK_AVSLAG_OLD,
+                VEDTAK_AVSLAG_OLD_MF,
                 VEDTAK_FORELDREPENGER_OLD,
-                VEDTAK_AVSLAG_FORELDREPENGER_OLD
+                VEDTAK_FORELDREPENGER_OLD_MF,
+                VEDTAK_AVSLAG_FORELDREPENGER_OLD,
+                VEDTAK_AVSLAG_FORELDREPENGER_OLD_MF
             )
             .contains(this);
     }
 
     public boolean erInnhentOpplysningerbrev() {
-        return Set.of(INNHENTE_OPPLYSNINGER, INNHENTE_OPPLYSNINGER_OLD).contains(this);
+        return Set.of(INNHENTE_OPPLYSNINGER, INNHENTE_OPPLYSNINGER_OLD, INNHENTE_OPPLYSNINGER_OLD_MF).contains(this);
     }
 
     public boolean erEtterlysInntektsmeldingbrev() {
-        return Set.of(ETTERLYS_INNTEKTSMELDING, ETTERLYS_INNTEKTSMELDING_OLD).contains(this);
+        return Set.of(ETTERLYS_INNTEKTSMELDING, ETTERLYS_INNTEKTSMELDING_OLD, ETTERLYS_INNTEKTSMELDING_OLD_MF).contains(this);
     }
 }
