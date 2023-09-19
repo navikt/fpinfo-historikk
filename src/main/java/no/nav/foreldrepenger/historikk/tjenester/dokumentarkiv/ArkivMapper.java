@@ -69,7 +69,13 @@ public final class ArkivMapper {
         builder.mottatt(opprettetDato(jp.relevanteDatoer()));
         builder.saksnummer(saksnummer);
         builder.tittel(dok.tittel().orElse("Uten tittel"));
-        builder.brevkode(dok.brevkode().orElse(null));
+        try {
+            builder.brevkode(dok.brevkode().orElse(null));
+        } catch (Exception e) {
+            LOG.info("Ukjent brevkode {}", dok.brevkode().get());
+            builder.brevkode(Brevkode.UKJENT.kode());
+        }
+
         builder.url(url(jp.journalpostId(), dok.dokumentInfoId()));
         builder.erHoveddokument(hoveddokument.equals(dok));
         return builder.build();

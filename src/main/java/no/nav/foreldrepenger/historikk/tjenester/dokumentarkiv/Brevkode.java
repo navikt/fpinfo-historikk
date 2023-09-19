@@ -41,7 +41,7 @@ public enum Brevkode {
         return Arrays.stream(values())
             .filter(brevkode -> brevkode.kode().equals(kode))
             .findFirst()
-            .orElse(UKJENT);
+            .orElseThrow();
     }
 
     public boolean erVedtaksbrev() {
