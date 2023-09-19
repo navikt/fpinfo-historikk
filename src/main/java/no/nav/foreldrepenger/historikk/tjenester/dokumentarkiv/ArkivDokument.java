@@ -1,6 +1,8 @@
 package no.nav.foreldrepenger.historikk.tjenester.dokumentarkiv;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ public record ArkivDokument(DokumentType type,
                             String journalpost,
                             String dokumentId,
                             boolean erHoveddokument) {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ArkivDokument.class);
 
     public static Builder builder() {
         return new Builder();
@@ -56,7 +60,12 @@ public record ArkivDokument(DokumentType type,
             if (brevkode == null) {
                 return this;
             }
-            this.brevkode = Brevkode.fraKode(brevkode);
+            try {
+                this.brevkode = Brevkode.fraKode(brevkode);
+            } catch (Exception e) {
+                LOG.info("Ukjent brevkode {}", brevkode);
+                this.brevkode = Brevkode.UKJENT;
+            }
             return this;
         }
 
