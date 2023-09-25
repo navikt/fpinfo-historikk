@@ -17,15 +17,14 @@ public interface JPADittNavOppgaverRepository
     boolean existsByInternReferanseIdIgnoreCaseAndType(String referanseId, NotifikasjonType type);
 
     @Query(value = """
-            select o.intern_referanse_id
+            select distinct o.intern_referanse_id
             from dittnavoppgaver o
             where o.ekstern_referanse_id is not null
             and o.intern_referanse_id is not null
             and o.grupperings_id is not null
             and o.sendt_done = false
-            and o.opprettet < :terskel
+            and o.opprettet >= :terskel
             and o.type = 'OPPGAVE'
-            group by 1
             limit :noOfRows
             """, nativeQuery = true)
     List<String> ikkeAvsluttedeOppgaver(@Param("terskel") LocalDateTime terskel, @Param("noOfRows") int noOfRows);

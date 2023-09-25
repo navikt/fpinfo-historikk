@@ -2,12 +2,15 @@ package no.nav.foreldrepenger.historikk.tjenester.dittnav;
 
 import java.net.URI;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import no.nav.foreldrepenger.historikk.http.AbstractConfig;
+
+import static java.time.ZoneOffset.UTC;
 
 @ConfigurationProperties(prefix = "historikk.dittnav")
 public class DittNavConfig extends AbstractConfig {
@@ -27,6 +30,10 @@ public class DittNavConfig extends AbstractConfig {
         this.topics = topics;
         this.beskjedVarighet = beskjedVarighet;
         this.oppgaveVarighet = oppgaveVarighet;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(LocalDateTime.now(UTC).minus(Duration.ofDays(28)));
     }
 
     Duration getBeskjedVarighet() {
