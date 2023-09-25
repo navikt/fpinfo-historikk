@@ -4,7 +4,6 @@ import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.av
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.avsluttNøkkel;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.beskjed;
 import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.nøkkel;
-import static no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNavMapper.oppgave;
 
 import java.util.UUID;
 
@@ -65,15 +64,7 @@ public class DittNavMeldingProdusent implements DittNav {
 
     @Override
     public void opprettOppgave(InnsendingHendelse h, String tekst) {
-        if (!lager.erOpprettetOppgave(h.getReferanseId())) {
-            var key = nøkkel(h.getFnr(), UUID.randomUUID().toString(), h.getSaksnummer());
-            LOG.info("Oppretter oppgave med eventId: {}, saksnummer: {}, tekst: {} i Ditt Nav",
-                key.getEventId(), h.getSaksnummer(), tekst);
-            send(oppgave(tekst, config.getBaseUri(), config.getOppgaveVarighet()), key, config.getOppgave());
-            lager.opprettOppgave(h.getFnr(), key.getGrupperingsId(), h.getReferanseId(), key.getEventId());
-        } else {
-            LOG.info("Det er allerede opprettet en oppgave for referanseId {} ", h.getReferanseId());
-        }
+        LOG.info("Oppretter ikke oppgave for {}, overlater til fp-oversikt", h.getReferanseId());
     }
 
     private void send(Object msg, NokkelInput key, String topic) {
