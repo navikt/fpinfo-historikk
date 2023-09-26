@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import no.nav.foreldrepenger.common.util.MDCUtil;
 import no.nav.foreldrepenger.historikk.tjenester.dittnav.DittNav;
-import no.nav.foreldrepenger.historikk.tjenester.felles.HendelseType;
 import no.nav.foreldrepenger.historikk.tjenester.tilbakekreving.Tilbakekreving;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +48,6 @@ public class InnsendingHendelseKonsument {
         MDCUtil.toMDC(NAV_CALL_ID, h.getReferanseId());
         LOG.info("Mottok innsendingshendelse fra {}, partition {}, offset {}, {}", topic, offset, partitionId, h);
         innsending.lagreEllerOppdater(h);
-        sjekkMangledeVedlegg(h);
         if (h.erEttersending() && (h.getDialogId() != null)) {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
@@ -60,42 +58,6 @@ public class InnsendingHendelseKonsument {
     private void avsluttOppgave(InnsendingHendelse h) {
         tilbakekreving.avsluttOppgave(h.getAktørId(), h.getDialogId());
         dittNav.avsluttOppgave(h.getDialogId());
-    }
-
-    private void sjekkMangledeVedlegg(InnsendingHendelse h) {
-        if (h.getSaksnummer() == null) {
-            LOG.info("Søknaden har intet saksnummer");
-            return;
-        }
-        try {
-            var info = innsending.vedleggsInfo(h.getFnr(), h.getSaksnummer(), h.getReferanseId());
-            LOG.info("Vedleggsinfo {}", info);
-            info.innsendte().forEach(dittNav::avsluttOppgave);
-            if (info.manglerVedlegg()) {
-                LOG.info("Det mangler vedlegg {} for sak {}", info.manglende(), h.getSaksnummer());
-                dittNav.opprettOppgave(h,
-                    String.format("Det mangler %s vedlegg i søknaden din om %s", info.manglende().size(),
-                        sak(h.getHendelse())));
-            } else {
-                LOG.info("Det mangler ingen vedlegg for sak {}", h.getSaksnummer());
-
-            }
-        } catch (Exception e) {
-            LOG.warn("Kunne ikke hente tidligere innsendinger", e);
-        }
-    }
-
-    private static String sak(HendelseType hendelse) {
-        if (hendelse.erEngangsstønad()) {
-            return "engangsstønad";
-        }
-        if (hendelse.erForeldrepenger()) {
-            return "foreldrepenger";
-        }
-        if (hendelse.erSvangerskapspenger()) {
-            return "svangerskapspenger";
-        }
-        return "foreldrepenger";
     }
 
     @Override
