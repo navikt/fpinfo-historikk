@@ -12,14 +12,12 @@ import org.springframework.core.annotation.AliasFor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import no.nav.boot.conditionals.ConditionalOnNotProd;
 import no.nav.security.token.support.core.api.Unprotected;
 
 @RestController
 @RequestMapping
 @Unprotected
 @Documented
-@ConditionalOnNotProd
 @Target(TYPE)
 @Retention(RUNTIME)
 public @interface UnprotectedRestController {
