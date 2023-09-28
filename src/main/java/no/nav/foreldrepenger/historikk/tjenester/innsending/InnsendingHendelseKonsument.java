@@ -52,7 +52,6 @@ public class InnsendingHendelseKonsument {
             LOG.info("Dette er en ettersending fra en tilbakekrevingsdialog med dialogId {}", h.getDialogId());
             avsluttOppgave(h);
         }
-        dittNav.opprettBeskjed(h, "Vi mottok en " + h.getHendelse().beskrivelse);
     }
 
     private void avsluttOppgave(InnsendingHendelse h) {
